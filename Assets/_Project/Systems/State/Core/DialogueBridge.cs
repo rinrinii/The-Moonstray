@@ -1,33 +1,17 @@
 using UnityEngine;
 
-/// <summary>
-/// DialogueBridge acts as a temporary connector between the state system
-/// and the actual dialogue system.
-///
-/// Right now it only logs dialogue IDs.
-/// Later, this will call the real DialogueManager.
-/// </summary>
 public static class DialogueBridge
 {
     public static void Show(string dialogueID)
     {
-        // temporary: debug output for testing
-        Debug.Log("[DIALOGUE] " + dialogueID);
-
-        /*
-         * for future integration:
-         * replace the line above with actual dialogue system call.
-         *
-         * ex. (depending on their implementation):
-         *
-         * DialogueManager.Instance.StartDialogue(dialogueID);
-         *
-         * OR:
-         * DialogueSystem.Play(dialogueID);
-         *
-         * IMPORTANT:
-         * - dialogueID should match entries in their dialogue database
-         * - DO NOT change how this method is called elsewhere
-         */
+        string[] parts = dialogueID.Split('.');
+        if (parts.Length == 2)
+        {
+            DialogueManager.Instance.StartDialogue(parts[0], parts[1]);
+        }
+        else
+        {
+            Debug.LogError($"Dialogue ID {dialogueID} must be format 'Chapter.Part'");
+        }
     }
 }
