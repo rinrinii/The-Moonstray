@@ -646,6 +646,18 @@ MonoBehaviour:
   message: You inspected an object.
   targetObject: {fileID: 0}
   activeColor: {r: 0, g: 1, b: 0, a: 1}
+  useStateSystem: 1
+  objectID: NPC_01
+  stateActions:
+  - state: 0
+    dialogueID: npc.intro
+    nextState: 1
+  - state: 1
+    dialogueID: npc.quest
+    nextState: 2
+  - state: 2
+    dialogueID: npc.complete
+    nextState: 3
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +885,9 @@ MonoBehaviour:
   message: 
   targetObject: {fileID: 0}
   activeColor: {r: 1, g: 0, b: 1, a: 1}
+  useStateSystem: 0
+  objectID: 
+  stateActions: []
 --- !u!1001 &1206974529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1071,6 +1086,9 @@ MonoBehaviour:
   message: 
   targetObject: {fileID: 1299887075}
   activeColor: {r: 0, g: 1, b: 0, a: 1}
+  useStateSystem: 0
+  objectID: DOOR_02
+  stateActions: []
 --- !u!1 &1344291198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,6 +1218,9 @@ MonoBehaviour:
   message: 
   targetObject: {fileID: 0}
   activeColor: {r: 0, g: 1, b: 0, a: 1}
+  useStateSystem: 0
+  objectID: DOOR_01
+  stateActions: []
 --- !u!1 &1419684309
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,6 +1270,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1715018534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1715018535}
+  m_Layer: 0
+  m_Name: ===== MANAGERS =====
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1715018535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715018534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.25578, y: -0, z: -0.35486}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2097503059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2097503061}
+  - component: {fileID: 2097503060}
+  m_Layer: 0
+  m_Name: GameStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2097503060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097503059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16b33f9e5d58d846b3f459473fe0ae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameStateManager
+--- !u!4 &2097503061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097503059}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.25578, y: -0, z: -0.35486}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1264,3 +1360,5 @@ SceneRoots:
   - {fileID: 1344291203}
   - {fileID: 1299887080}
   - {fileID: 1049938333}
+  - {fileID: 1715018535}
+  - {fileID: 2097503061}
