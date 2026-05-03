@@ -5,20 +5,23 @@ public class InteractableObject : MonoBehaviour, IInteractable, IHighlightable
     [Header("Interaction Type")]
     public InteractionType interactionType;
 
-    [Header("Inspect")]
+    [Header("Basic Interaction")]
     public string message;
-
-    [Header("Toggle")]
     public GameObject targetObject;
 
-    [Header("State")]
+    [Header("Visuals")]
     public Color activeColor = Color.green;
+
+    [Header("State System")]
+    public bool useStateSystem = false;
+    public string objectID;
+
+    public StateAction[] stateActions;
 
     private Renderer rend;
     private Color originalColor;
     private bool state;
 
-    // Optional custom logic hook
     private ICustomInteractable customLogic;
 
     void Awake()
@@ -30,20 +33,49 @@ public class InteractableObject : MonoBehaviour, IInteractable, IHighlightable
         customLogic = GetComponent<ICustomInteractable>();
     }
 
+    // MAIN INTERACTION ENTRY
     public void Interact()
+    {
+        if (useStateSystem)
+        {
+            if (string.IsNullOrEmpty(objectID))
+            {
+                Debug.LogWarning("State system enabled but objectID is missing!");
+                return;
+            }
+
+            HandleStateInteraction();
+        }
+        else
+        {
+            HandleBasicInteraction();
+        }
+    }
+
+    // BASIC (ENUM-DRIVEN)
+    void HandleBasicInteraction()
     {
         switch (interactionType)
         {
             case InteractionType.Inspect:
-                HandleInspect();
+                Debug.Log(message);
                 break;
 
             case InteractionType.Toggle:
-                HandleToggle();
+                if (targetObject != null)
+                {
+                    targetObject.SetActive(!targetObject.activeSelf);
+                    Debug.Log("Toggled " + targetObject.name);
+                }
                 break;
 
             case InteractionType.StateChange:
-                HandleStateChange();
+                state = !state;
+
+                if (rend != null)
+                    rend.material.color = state ? activeColor : originalColor;
+
+                Debug.Log("State: " + state);
                 break;
 
             case InteractionType.Custom:
@@ -52,30 +84,70 @@ public class InteractableObject : MonoBehaviour, IInteractable, IHighlightable
         }
     }
 
-    void HandleInspect()
+    // STATE-DRIVEN (DATA-DRIVEN)
+    void HandleStateInteraction()
     {
-        Debug.Log(message);
-    }
+        int currentState = GameStateManager.Instance.GetState(objectID);
 
-    void HandleToggle()
-    {
-        if (targetObject != null)
+        Debug.Log($"[INTERACT] {objectID} state: {currentState}");
+
+        if (GameStateManager.Instance == null)
         {
-            targetObject.SetActive(!targetObject.activeSelf);
-            Debug.Log("Toggled: " + targetObject.name);
+            Debug.LogError("GameStateManager not found in scene!");
+            return;
         }
+
+        foreach (var action in stateActions)
+        {
+            if (action.state == currentState)
+            {
+                // DIALOGUE TRIGGER POINT
+                if (!string.IsNullOrEmpty(action.dialogueID))
+                {
+                    /*
+                     * This is where dialogue is triggered.
+                     *
+                     * The system does NOT know how dialogue works.
+                     * It only passes a dialogueID.
+                     *
+                     * DialogueBridge will handle calling the real system.
+                     * 
+                     * need to implement a DialogueManager (to look up dialogueID through xml loader); format as entity.dialogue
+                     * 
+                     * example in dialogue manager, using dialogueID.split
+                        string[] parts = dialogueID.Split('.');
+                        string entityID = parts[0];
+                        string dialogueKey = parts[1];
+                     * 
+                     * example in xml:
+                     * <Dialogues>
+                            <Entity id="npc01">
+                                <Dialogue id="intro">
+                                    <Line>Hello traveler...</Line>
+                                </Dialogue>
+
+                                <Dialogue id="quest">
+                                    <Line>Can you find my item?</Line>
+                                </Dialogue>
+                            </Entity>
+                        </Dialogues>
+                     * 
+                     * 
+                     */
+                    DialogueBridge.Show(action.dialogueID);
+                }
+
+                // STATE TRANSITION
+                GameStateManager.Instance.SetState(objectID, action.nextState);
+
+                return;
+            }
+        }
+
+        Debug.Log("No state action defined for state: " + currentState);
     }
 
-    void HandleStateChange()
-    {
-        state = !state;
-
-        if (rend != null)
-            rend.material.color = state ? activeColor : originalColor;
-
-        Debug.Log("State changed: " + state);
-    }
-
+    // HIGHLIGHT
     public void Highlight()
     {
         if (rend != null)
@@ -85,6 +157,11 @@ public class InteractableObject : MonoBehaviour, IInteractable, IHighlightable
     public void Unhighlight()
     {
         if (rend != null)
-            rend.material.color = state ? activeColor : originalColor;
+        {
+            if (state)
+                rend.material.color = activeColor;
+            else
+                rend.material.color = originalColor;
+        }
     }
 }
