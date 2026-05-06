@@ -2,7 +2,23 @@ using UnityEngine;
 
 public class ToggleBehaviour : MonoBehaviour, IObjectBehaviour
 {
+    [Header("Target")]
     [SerializeField] private GameObject targetObject;
+
+    [Header("Toggle State")]
+    [SerializeField] private bool startActive = true;
+
+    private bool currentState;
+
+    private void Awake()
+    {
+        currentState = startActive;
+
+        if (targetObject != null)
+        {
+            targetObject.SetActive(currentState);
+        }
+    }
 
     public void Execute()
     {
@@ -12,8 +28,11 @@ public class ToggleBehaviour : MonoBehaviour, IObjectBehaviour
             return;
         }
 
-        targetObject.SetActive(false);
+        // temporarily set to inactive to simulate state change
+        currentState = !currentState;
 
-        Debug.Log($"{targetObject.name} picked up (set inactive).");
+        targetObject.SetActive(currentState);
+
+        Debug.Log($"{targetObject.name} toggled: {currentState}");
     }
 }
