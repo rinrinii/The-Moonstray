@@ -18,33 +18,23 @@ public class DialogueDatabase : MonoBehaviour
     {
         List<DialogueLine> result = new List<DialogueLine>();
 
-        string[] parts = dialogueID.Split('.');
-        if (parts.Length != 2)
-        {
-            Debug.LogWarning("Invalid dialogue ID format.");
-            return result;
-        }
-
-        string chapterID = parts[0];
-        string partID = parts[1];
-
-        XmlNode node = xmlDoc.SelectSingleNode(
-            $"/dialogues/chapter[@id='{chapterID}']/part[@id='{partID}']"
+        XmlNode dialogueNode = xmlDoc.SelectSingleNode(
+            $"/GameDialogue/Dialogue[@id='{dialogueID}']"
         );
 
-        if (node == null)
+        if (dialogueNode == null)
         {
             Debug.LogWarning($"Dialogue not found: {dialogueID}");
             return result;
         }
 
-        foreach (XmlNode lineNode in node.SelectNodes("line"))
+        foreach (XmlNode lineNode in dialogueNode.SelectNodes("Line"))
         {
             DialogueLine line = new DialogueLine
             {
-                speaker = lineNode.Attributes["speaker"]?.Value,
-                text = lineNode.InnerText,
-                portrait = lineNode.Attributes["portrait"]?.Value
+                speaker = lineNode.Attributes["speaker"]?.Value ?? "",
+                text = lineNode.InnerText.Trim(),
+                portrait = lineNode.Attributes["portrait"]?.Value ?? ""
             };
 
             result.Add(line);

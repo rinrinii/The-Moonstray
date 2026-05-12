@@ -24,17 +24,17 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string dialogueID)
     {
-        var dialogueLines = database.GetDialogue(dialogueID);
+        List<DialogueLine> dialogueLines = database.GetDialogue(dialogueID);
 
         if (dialogueLines == null || dialogueLines.Count == 0)
         {
-            Debug.LogWarning("No dialogue lines found.");
+            Debug.LogWarning($"No dialogue lines found for ID: {dialogueID}");
             return;
         }
 
         lines.Clear();
 
-        foreach (var line in dialogueLines)
+        foreach (DialogueLine line in dialogueLines)
         {
             lines.Enqueue(line);
         }
@@ -47,7 +47,8 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextLine()
     {
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
         if (lines.Count == 0)
         {
@@ -68,5 +69,18 @@ public class DialogueManager : MonoBehaviour
     public bool IsDialogueActive()
     {
         return isActive;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartDialogue("intro.prologue");
+        }
+
+        if (isActive && Input.GetKeyDown(KeyCode.Space))
+        {
+            DisplayNextLine();
+        }
     }
 }

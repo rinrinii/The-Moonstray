@@ -1,14 +1,31 @@
 <GameDialogue>
-    <Chapter id="1">
-        <Part id="Prologue">
-            <Line speaker="" portrait="">A wolf was seen limping near the school grounds and the student rushes to help it.</Line>
-            <Line speaker="Student" portrait="Student">A wolf! Oh, it seems to be injured. I need to help them.</Line>
-            <Line speaker="" portrait="">When the wolf wakes, it suddenly transforms into a human which made the student shocked.</Line>
-        </Part>
-        <Part id="Student">
-            <Line speaker="Student" portrait="Student">Wait... Where did the wolf go? You- were you the wolf from earlier?</Line>
-            <Line speaker="Student" portrait="Student">But that's impossible... You are one of those creatures that can transform, huh?</Line>
-            <Line speaker="Student" portrait="Student">Don't worry, you're safe here. Do you remember where you came from?</Line>
-        </Part>
-    </Chapter>
+
+	<Dialogue id="intro.prologue">
+		<Line speaker="" portrait="">
+			A wolf was seen limping near the school grounds and the student rushes to help it.
+		</Line>
+
+		<Line speaker="Student" portrait="Student">
+			A wolf! Oh, it seems to be injured. I need to help them.
+		</Line>
+
+		<Line speaker="" portrait="">
+			When the wolf wakes, it suddenly transforms into a human which made the student shocked.
+		</Line>
+	</Dialogue>
+
+	<Dialogue id="intro.studentReaction">
+		<Line speaker="Student" portrait="Student">
+			Wait... Where did the wolf go? You- were you the wolf from earlier?
+		</Line>
+
+		<Line speaker="Student" portrait="Student">
+			But that's impossible... You are one of those creatures that can transform, huh?
+		</Line>
+
+		<Line speaker="Student" portrait="Student">
+			Don't worry, you're safe here. Do you remember where you came from?
+		</Line>
+	</Dialogue>
+
 </GameDialogue>

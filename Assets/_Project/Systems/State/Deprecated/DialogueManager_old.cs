@@ -5,9 +5,9 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Collections;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager_old : MonoBehaviour
 {
-    public static DialogueManager Instance;
+    public static DialogueManager_old Instance;
 
     [Header("UI Components")]
     public GameObject uiParent; // The container for your dialogue UI
