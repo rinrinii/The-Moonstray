@@ -12,12 +12,12 @@ public class DialogueInteraction : MonoBehaviour, IInteractionResponse
             return;
         }
 
-        TryStartDialogue();
-    }
+        if (DialogueManager.Instance == null)
+        {
+            Debug.LogWarning("DialogueManager missing.");
+            return;
+        }
 
-    private void TryStartDialogue()
-    {
-        // since dialogue system is not available in this branch
-        Debug.Log($"[DialogueInteraction] Trigger: {dialogueID}");
+        DialogueManager.Instance.StartDialogue(dialogueID);
     }
 }

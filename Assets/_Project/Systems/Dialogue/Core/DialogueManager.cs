@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
     private Queue<DialogueLine> lines = new Queue<DialogueLine>();
     private bool isActive = false;
 
+    [Header("References")]
     [SerializeField] private DialogueUI dialogueUI;
     [SerializeField] private DialogueDatabase database;
 
@@ -24,6 +25,13 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string dialogueID)
     {
+        // prevent overlapping dialogues
+        if (isActive)
+        {
+            Debug.LogWarning("Dialogue already active.");
+            return;
+        }
+
         List<DialogueLine> dialogueLines = database.GetDialogue(dialogueID);
 
         if (dialogueLines == null || dialogueLines.Count == 0)
@@ -40,6 +48,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         isActive = true;
+
         dialogueUI.Show();
 
         DisplayNextLine();
@@ -57,12 +66,14 @@ public class DialogueManager : MonoBehaviour
         }
 
         DialogueLine line = lines.Dequeue();
+
         dialogueUI.Display(line);
     }
 
     public void EndDialogue()
     {
         isActive = false;
+
         dialogueUI.Hide();
     }
 
@@ -73,12 +84,10 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartDialogue("intro.prologue");
-        }
+        if (!isActive)
+            return;
 
-        if (isActive && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             DisplayNextLine();
         }

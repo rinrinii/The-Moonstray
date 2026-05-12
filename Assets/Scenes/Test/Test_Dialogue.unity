@@ -1054,6 +1054,7 @@ GameObject:
   - component: {fileID: 1063357069}
   - component: {fileID: 1063357068}
   - component: {fileID: 1063357067}
+  - component: {fileID: 1063357072}
   - component: {fileID: 1063357071}
   m_Layer: 3
   m_Name: StudentNPC
@@ -1164,10 +1165,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1063357064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f36544e78541d40bce10d332d7262d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e8ff085a7c21ef468b1febd65dc65cf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueRunner
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueInteraction
   dialogueID: intro.prologue
+--- !u!114 &1063357072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063357064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f8b661a1da4ce4ab1cf43863c7395b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
+  isInteractable: 1
 --- !u!1001 &1206974529
 PrefabInstance:
   m_ObjectHideFlags: 0
