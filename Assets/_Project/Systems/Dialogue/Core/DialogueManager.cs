@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
     private bool isActive = false;
 
     [Header("References")]
-    [SerializeField] private DialogueUI dialogueUI;
+    [SerializeField] private DialogueUIDocument dialogueUI;
     [SerializeField] private DialogueDatabase database;
 
     private void Awake()
