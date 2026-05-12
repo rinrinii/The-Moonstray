@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2942201574391705179
+--- !u!1 &1719899244482875437
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7676010690939812799}
-  - component: {fileID: 5993989353377498375}
-  - component: {fileID: 7821378956611931157}
+  - component: {fileID: 6555010792335726146}
+  - component: {fileID: 1568417385519404512}
+  - component: {fileID: 8723620515664230405}
+  - component: {fileID: 1374576365843771195}
   m_Layer: 3
   m_Name: FixedModel
   m_TagString: Untagged
@@ -18,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &7676010690939812799
+--- !u!4 &6555010792335726146
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2942201574391705179}
+  m_GameObject: {fileID: 1719899244482875437}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
@@ -33,21 +34,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7148915779256529907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5993989353377498375
+--- !u!33 &1568417385519404512
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2942201574391705179}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7821378956611931157
+  m_GameObject: {fileID: 1719899244482875437}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8723620515664230405
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2942201574391705179}
+  m_GameObject: {fileID: 1719899244482875437}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -90,6 +91,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &1374576365843771195
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719899244482875437}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1160474828969192886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,7 +185,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8299246476928261701, guid: 98825e9531954e94db99508e18667355, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 7676010690939812799}
+      addedObject: {fileID: 6555010792335726146}
     - targetCorrespondingSourceObject: {fileID: 1265105398423125765, guid: 98825e9531954e94db99508e18667355, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8602936945612406768}
@@ -195,11 +217,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RestoreBehaviour
   targetObject: {fileID: 3541167046249581643}
-  brokenVersion: {fileID: 0}
-  fixedVersion: {fileID: 0}
+  highlightMarker: {fileID: 0}
+  brokenVersion: {fileID: 8218409996191499321}
+  fixedVersion: {fileID: 1719899244482875437}
 --- !u!4 &7148915779256529907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8299246476928261701, guid: 98825e9531954e94db99508e18667355, type: 3}
+  m_PrefabInstance: {fileID: 1160474828969192886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8218409996191499321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7068256594474969487, guid: 98825e9531954e94db99508e18667355, type: 3}
   m_PrefabInstance: {fileID: 1160474828969192886}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1845737173958442445
