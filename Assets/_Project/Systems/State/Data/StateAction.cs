@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Defines what happens at a specific state.
-/// This is configured in the Unity Inspector.
-/// </summary>
 [System.Serializable]
 public class StateAction
 {
@@ -18,11 +14,25 @@ public class StateAction
     [Tooltip("State to move to after this action is executed")]
     public int nextState;
 
-    /*
-     * FUTURE EXPANSION
-     * this can be expanded with:
-     * - required flags (e.g., needs item)
-     * - rewards
-     * - animations
-     */
+    public void Execute(string objectID)
+    {
+        // Check current state
+        int currentState = GameStateManager.Instance.GetState(objectID);
+
+        if (currentState != state)
+        {
+            Debug.Log($"[STATE] Condition not met for {objectID}");
+            return;
+        }
+
+        // Trigger dialogue if exists
+        if (!string.IsNullOrEmpty(dialogueID))
+        {
+            // DialogueManager.Instance.StartDialogue(dialogueID);
+            Debug.Log($"Trigger dialogue: {dialogueID}");
+        }
+
+        //  Move to next state
+        GameStateManager.Instance.SetState(objectID, nextState);
+    }
 }

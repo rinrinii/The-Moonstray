@@ -1,0 +1,74 @@
+:root {
+}
+
+.header {
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-Regular.ttf?fileID=12800000&guid=42c3b3180726c754d92ed9a1f6c5a726&type=3#Quicksand-Regular");
+    font-size: 40px;
+}
+
+.button {
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Solander/solander%20demo.ttf?fileID=12800000&guid=ef76212c595460c43b2f0f7f020c38d2&type=3#solander demo");
+    color: rgb(255, 255, 255);
+    font-size: 400%;
+    width: 300px;
+    height: 88px;
+    justify-content: center;
+    align-items: flex-start;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    background-color: rgba(255, 255, 255, 0);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin-bottom: 0;
+    margin-top: 10px;
+    align-self: auto;
+    -unity-text-align: middle-left;
+    text-shadow: 0 0 0 rgb(255, 255, 255);
+    -unity-background-scale-mode: stretch-to-fill;
+    background-position-x: left 0;
+    padding-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
+.label1 {
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-Medium.ttf?fileID=12800000&guid=c75ef448adfa7da4a9b656cf84b413c5&type=3#Quicksand-Medium");
+    color: rgb(255, 255, 255);
+    font-size: 25px;
+    -unity-text-align: lower-right;
+    -unity-font-style: normal;
+}
+
+.button:hover {
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url("project://database/Assets/_Project/UI/Icons/button-bg.png?fileID=2800000&guid=2464c6cc2deb8d443adbacee7273e331&type=3#button-bg");
+    background-position-x: left 0;
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    text-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
+    transition-property: all;
+    transition-duration: 0s;
+    opacity: 1;
+    font-size: 14%;
+    padding-left: 60px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    margin-top: 0%;
+    margin-right: 0%;
+    margin-bottom: 0%;
+    margin-left: 0%;
+}
