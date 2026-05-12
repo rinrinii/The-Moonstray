@@ -6,6 +6,12 @@ public class DialogueRunner : MonoBehaviour
 
     public void Run()
     {
+        if (DialogueManager.Instance == null)
+        {
+            Debug.LogWarning("DialogueManager missing.");
+            return;
+        }
+
         DialogueManager.Instance.StartDialogue(dialogueID);
     }
 }

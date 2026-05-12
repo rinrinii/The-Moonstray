@@ -1,0 +1,20 @@
+VisualElement {
+}
+
+.dialogue-box {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    flex-direction: row;
+}

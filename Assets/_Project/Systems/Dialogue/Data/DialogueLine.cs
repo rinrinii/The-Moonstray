@@ -1,7 +1,12 @@
+using UnityEngine;
+
 [System.Serializable]
 public class DialogueLine
 {
     public string speaker;
     public string text;
-    public string portrait;
+
+    public Sprite portrait;
+
+    public bool isNarration;
 }

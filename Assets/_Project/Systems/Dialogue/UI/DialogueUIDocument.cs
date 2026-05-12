@@ -3,51 +3,102 @@ using UnityEngine.UIElements;
 
 public class DialogueUIDocument : MonoBehaviour
 {
-    private VisualElement root;
-    private VisualElement dialogueBox;
+    private UIDocument uiDocument;
+
+    private VisualElement dialogueBackground;
+    private VisualElement portraitImage;
+    private VisualElement nextArrow;
+    private VisualElement nameBox;
+
     private Label speakerName;
     private Label dialogueText;
-    private VisualElement portraitImage;
 
     private void Awake()
     {
-        UIDocument document = GetComponent<UIDocument>();
+        uiDocument =
+            GetComponent<UIDocument>();
 
-        root = document.rootVisualElement;
+        VisualElement root =
+            uiDocument.rootVisualElement;
 
-        dialogueBox = root.Q<VisualElement>("dialogue-box");
-        speakerName = root.Q<Label>("speaker-name");
-        dialogueText = root.Q<Label>("dialogue-text");
-        portraitImage = root.Q<VisualElement>("portrait-image");
+        dialogueBackground =
+            root.Q<VisualElement>("dialogue-root");
 
-        Hide();
+        portraitImage =
+            root.Q<VisualElement>("portrait-image");
+
+        nextArrow =
+            root.Q<VisualElement>("next-arrow");
+
+        nameBox =
+            root.Q<VisualElement>("name-box");
+
+        speakerName =
+            root.Q<Label>("speaker-name");
+
+        dialogueText =
+            root.Q<Label>("dialogue-text");
+
+        HideDialogueUI();
     }
 
-    public void Display(DialogueLine line)
+    public void DisplayLine(DialogueLine line)
     {
-        speakerName.text = line.speaker;
-        dialogueText.text = line.text;
+        dialogueText.text =
+            line.text;
 
-        if (!string.IsNullOrEmpty(line.portrait))
+        if (line.isNarration)
         {
-            Texture2D portraitTexture =
-                Resources.Load<Texture2D>($"Portraits/{line.portrait}");
+            speakerName.text = "";
 
-            if (portraitTexture != null)
+            nameBox.style.display =
+                DisplayStyle.None;
+
+            portraitImage.style.display =
+                DisplayStyle.None;
+
+            dialogueText.style.unityFontStyleAndWeight =
+                FontStyle.Italic;
+        }
+        else
+        {
+            speakerName.text =
+                line.speaker;
+
+            nameBox.style.display =
+                DisplayStyle.Flex;
+
+            portraitImage.style.display =
+                DisplayStyle.Flex;
+
+            dialogueText.style.unityFontStyleAndWeight =
+                FontStyle.Normal;
+
+            if (line.portrait != null)
             {
                 portraitImage.style.backgroundImage =
-                    new StyleBackground(portraitTexture);
+                    new StyleBackground(line.portrait);
             }
         }
     }
 
-    public void Show()
+    public void ShowDialogueUI()
     {
-        dialogueBox.style.display = DisplayStyle.Flex;
+        dialogueBackground.style.display =
+            DisplayStyle.Flex;
     }
 
-    public void Hide()
+    public void HideDialogueUI()
     {
-        dialogueBox.style.display = DisplayStyle.None;
+        dialogueBackground.style.display =
+            DisplayStyle.None;
+    }
+
+    public void ShowNextArrow(bool show)
+    {
+        nextArrow.style.display =
+            show
+            ? DisplayStyle.Flex
+            : DisplayStyle.None;
     }
 }

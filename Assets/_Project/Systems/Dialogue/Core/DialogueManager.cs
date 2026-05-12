@@ -5,7 +5,9 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
-    private Queue<DialogueLine> lines = new Queue<DialogueLine>();
+    private Queue<DialogueLine> lines =
+        new Queue<DialogueLine>();
+
     private bool isActive = false;
 
     [Header("References")]
@@ -25,18 +27,22 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(string dialogueID)
     {
-        // prevent overlapping dialogues
         if (isActive)
         {
             Debug.LogWarning("Dialogue already active.");
             return;
         }
 
-        List<DialogueLine> dialogueLines = database.GetDialogue(dialogueID);
+        List<DialogueLine> dialogueLines =
+            database.GetDialogue(dialogueID);
 
-        if (dialogueLines == null || dialogueLines.Count == 0)
+        if (dialogueLines == null ||
+            dialogueLines.Count == 0)
         {
-            Debug.LogWarning($"No dialogue lines found for ID: {dialogueID}");
+            Debug.LogWarning(
+                $"No dialogue found for ID: {dialogueID}"
+            );
+
             return;
         }
 
@@ -49,7 +55,7 @@ public class DialogueManager : MonoBehaviour
 
         isActive = true;
 
-        dialogueUI.Show();
+        dialogueUI.ShowDialogueUI();
 
         DisplayNextLine();
     }
@@ -67,14 +73,16 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine line = lines.Dequeue();
 
-        dialogueUI.Display(line);
+        dialogueUI.DisplayLine(line);
+
+        dialogueUI.ShowNextArrow(lines.Count > 0);
     }
 
     public void EndDialogue()
     {
         isActive = false;
 
-        dialogueUI.Hide();
+        dialogueUI.HideDialogueUI();
     }
 
     public bool IsDialogueActive()
