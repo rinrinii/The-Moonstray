@@ -28,6 +28,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Disable movement during pause
+        if (PauseMenuController.Instance != null &&
+            PauseMenuController.Instance.IsPaused())
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+            }
+
+            return;
+        }
+
         // Disable movement during dialogue
         if (DialogueManager.Instance != null &&
             DialogueManager.Instance.IsDialogueActive())
