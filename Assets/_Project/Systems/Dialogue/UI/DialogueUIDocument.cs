@@ -22,7 +22,7 @@ public class DialogueUIDocument : MonoBehaviour
             uiDocument.rootVisualElement;
 
         dialogueBackground =
-            root.Q<VisualElement>("dialogue-root");
+            root.Q<VisualElement>("DialogueContainer");
 
         portraitImage =
             root.Q<VisualElement>("portrait-image");

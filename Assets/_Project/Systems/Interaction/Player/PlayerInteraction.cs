@@ -17,6 +17,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenuController.Instance != null &&
+        PauseMenuController.Instance.IsPaused())
+        {
+            ClearCurrent();
+            return;
+        }
+
         UpdateTarget();
 
         if (Input.GetKeyDown(KeyCode.E))
