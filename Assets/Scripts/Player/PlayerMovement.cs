@@ -28,6 +28,20 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Disable movement during dialogue
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsDialogueActive())
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+            }
+
+            ApplyGravity();
+            return;
+        }
+
+        // Disable movement during transformation states
         if (!transformation.CanMove())
         {
             if (currentAnim != null)
@@ -45,22 +59,40 @@ public class PlayerMovement : MonoBehaviour
 
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
+
         Vector3 direction = new Vector3(x, 0f, z).normalized;
 
         if (direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            float targetAngle =
+                Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+                cam.eulerAngles.y;
+
+            float angle = Mathf.SmoothDampAngle(
+                transform.eulerAngles.y,
+                targetAngle,
+                ref turnSmoothVelocity,
+                turnSmoothTime
+            );
+
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            Vector3 moveDir =
+                Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
             controller.Move(moveDir * currentSpeed * Time.deltaTime);
         }
 
         if (currentAnim != null)
         {
             float speedPercent = direction.magnitude * currentSpeed;
-            currentAnim.SetFloat("Speed", speedPercent, 0.15f, Time.deltaTime);
+
+            currentAnim.SetFloat(
+                "Speed",
+                speedPercent,
+                0.15f,
+                Time.deltaTime
+            );
         }
 
         ApplyGravity();
@@ -74,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         velocity.y += gravity * Time.deltaTime;
+
         controller.Move(velocity * Time.deltaTime);
     }
 }
