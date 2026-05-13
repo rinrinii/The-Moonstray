@@ -8,6 +8,7 @@ public class PauseMenuController : MonoBehaviour
     private UIDocument uiDocument;
 
     private VisualElement pauseContainer;
+    private VisualElement hudContainer;
 
     private bool isPaused = false;
 
@@ -23,12 +24,18 @@ public class PauseMenuController : MonoBehaviour
 
         uiDocument = GetComponent<UIDocument>();
 
-        VisualElement root = uiDocument.rootVisualElement;
+        VisualElement root =
+            uiDocument.rootVisualElement;
 
-        pauseContainer = root.Q<VisualElement>("PauseContainer");
+        pauseContainer =
+            root.Q<VisualElement>("PauseContainer");
+
+        hudContainer =
+            root.Q<VisualElement>("HUDContainer");
 
         // Hide pause menu on start
-        pauseContainer.style.display = DisplayStyle.None;
+        pauseContainer.style.display =
+            DisplayStyle.None;
     }
 
     private void Update()
@@ -55,14 +62,32 @@ public class PauseMenuController : MonoBehaviour
 
     private void PauseGame()
     {
-        pauseContainer.style.display = DisplayStyle.Flex;
+        // Show pause menu
+        pauseContainer.style.display =
+            DisplayStyle.Flex;
+
+        // Hide HUD
+        if (hudContainer != null)
+        {
+            hudContainer.style.display =
+                DisplayStyle.None;
+        }
 
         Time.timeScale = 0f;
     }
 
     private void ResumeGame()
     {
-        pauseContainer.style.display = DisplayStyle.None;
+        // Hide pause menu
+        pauseContainer.style.display =
+            DisplayStyle.None;
+
+        // Show HUD again
+        if (hudContainer != null)
+        {
+            hudContainer.style.display =
+                DisplayStyle.Flex;
+        }
 
         Time.timeScale = 1f;
     }

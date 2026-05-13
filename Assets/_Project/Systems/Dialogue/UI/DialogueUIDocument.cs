@@ -10,6 +10,9 @@ public class DialogueUIDocument : MonoBehaviour
     private VisualElement nextArrow;
     private VisualElement nameBox;
 
+    // HUD reference
+    private VisualElement hudContainer;
+
     private Label speakerName;
     private Label dialogueText;
 
@@ -32,6 +35,10 @@ public class DialogueUIDocument : MonoBehaviour
 
         nameBox =
             root.Q<VisualElement>("name-box");
+
+        // HUD Container
+        hudContainer =
+            root.Q<VisualElement>("HUDContainer");
 
         speakerName =
             root.Q<Label>("speaker-name");
@@ -84,14 +91,30 @@ public class DialogueUIDocument : MonoBehaviour
 
     public void ShowDialogueUI()
     {
+        // Show dialogue UI
         dialogueBackground.style.display =
             DisplayStyle.Flex;
+
+        // Hide HUD during dialogue
+        if (hudContainer != null)
+        {
+            hudContainer.style.display =
+                DisplayStyle.None;
+        }
     }
 
     public void HideDialogueUI()
     {
+        // Hide dialogue UI
         dialogueBackground.style.display =
             DisplayStyle.None;
+
+        // Show HUD again
+        if (hudContainer != null)
+        {
+            hudContainer.style.display =
+                DisplayStyle.Flex;
+        }
     }
 
     public void ShowNextArrow(bool show)
