@@ -390,6 +390,11 @@ MonoBehaviour:
   target: {fileID: 219057468}
   offset: {x: 8, y: 8, z: -8}
   smoothSpeed: 5
+--- !u!95 &366960094 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1731873517796482274, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+  m_PrefabInstance: {fileID: 1206974529}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +571,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &952958054 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2335394167229873854, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+  m_PrefabInstance: {fileID: 1206974529}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &973625700
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +677,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Serin
       objectReference: {fileID: 0}
+    - target: {fileID: 2335394167229873854, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4c4ed87bb078738419b5e8ac4d4a3a2b, type: 2}
     - target: {fileID: 2535593712800099155, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
       propertyPath: dayVol
       value: 
@@ -679,6 +693,30 @@ PrefabInstance:
       propertyPath: sunLight
       value: 
       objectReference: {fileID: 410087040}
+    - target: {fileID: 2535593712800099155, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: currentForm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2535593712800099155, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: WolfAnimator
+      value: 
+      objectReference: {fileID: 366960094}
+    - target: {fileID: 2535593712800099155, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: HumanAnimator
+      value: 
+      objectReference: {fileID: 952958054}
+    - target: {fileID: 4418376043601971768, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988115347298601720, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c50491ff48784a7408949e588df0f9fb, type: 2}
+    - target: {fileID: 7299721409093355969, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
