@@ -82,8 +82,8 @@ MonoBehaviour:
   currentForm: 0
   humanModel: {fileID: 9062087868336111230}
   wolfModel: {fileID: 4418376043601971768}
-  HumanAnimator: {fileID: 0}
-  WolfAnimator: {fileID: 0}
+  HumanAnimator: {fileID: 2335394167229873854}
+  WolfAnimator: {fileID: 1731873517796482274}
   humanSpeed: 5
   wolfSpeed: 5
   humanHeight: 1.8
@@ -114,6 +114,7 @@ MonoBehaviour:
   turnSmoothTime: 0.1
   gravity: -9.81
   sprintMultiplier: 2
+  jumpHeight: 2
 --- !u!114 &3353697142576561209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5464,11 +5465,20 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 4c4ed87bb078738419b5e8ac4d4a3a2b, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}
+--- !u!95 &2335394167229873854 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}
+  m_PrefabInstance: {fileID: 8143186760638251823}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8541305716554376388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}

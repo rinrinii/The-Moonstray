@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float turnSmoothTime = 0.1f;
+    public float turnSmoothTime = 0.03f;
     public float gravity = -9.81f;
     public float sprintMultiplier = 1.5f;
+
+    [Header("Jump")]
+    public float jumpHeight = 2f;
 
     private CharacterController controller;
     private PlayerTransformation transformation;
@@ -90,11 +93,27 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir =
-                Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
             controller.Move(moveDir * currentSpeed * Time.deltaTime);
         }
 
+        // =========================
+        // JUMP
+        // =========================
+        if (controller.isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            if (currentAnim != null)
+            {
+                currentAnim.SetTrigger("Jump");
+            }
+        }
+
+        // =========================
+        // ANIMATOR PARAMETERS
+        // =========================
         if (currentAnim != null)
         {
             float speedPercent = direction.magnitude * currentSpeed;
@@ -104,6 +123,11 @@ public class PlayerMovement : MonoBehaviour
                 speedPercent,
                 0.15f,
                 Time.deltaTime
+            );
+
+            currentAnim.SetBool(
+                "IsGrounded",
+                controller.isGrounded
             );
         }
 
