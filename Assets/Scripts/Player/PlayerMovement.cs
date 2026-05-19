@@ -6,8 +6,15 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float sprintMultiplier = 1.5f;
 
-    [Header("Jump")]
-    public float jumpHeight = 2f;
+    [Header("Human Jump")]
+    public float humanJumpHeight = 2f;
+
+    [Header("Wolf Jump")]
+    public float wolfJumpHeight = 1.5f;
+
+    [Header("Gravity")]
+    public float humanGravity = -16f;
+    public float wolfGravity = -20f;
 
     private CharacterController controller;
     private PlayerTransformation transformation;
@@ -15,6 +22,11 @@ public class PlayerMovement : MonoBehaviour
     private Transform cam;
     private Vector3 velocity;
     private float turnSmoothVelocity;
+
+    private float currentJumpHeight;
+    private float currentGravity;
+    private float groundedRememberTime = 0.1f;
+    private float groundedRemember;
 
     void Start()
     {
@@ -68,6 +80,18 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        if (transformation.currentForm ==
+            PlayerTransformation.FormState.Human)
+        {
+            currentJumpHeight = humanJumpHeight;
+            currentGravity = humanGravity;
+        }
+        else
+        {
+            currentJumpHeight = wolfJumpHeight;
+            currentGravity = wolfGravity;
+        }
+
         float baseSpeed = transformation.GetSpeed();
         bool isSprinting = Input.GetKey(KeyCode.LeftShift);
         float currentSpeed = isSprinting ? baseSpeed * sprintMultiplier : baseSpeed;
@@ -98,12 +122,21 @@ public class PlayerMovement : MonoBehaviour
             controller.Move(moveDir * currentSpeed * Time.deltaTime);
         }
 
+        if (controller.isGrounded)
+        {
+            groundedRemember = groundedRememberTime;
+        }
+        else
+        {
+            groundedRemember -= Time.deltaTime;
+        }
+
         // =========================
         // JUMP
         // =========================
-        if (controller.isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && groundedRemember > 0)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            velocity.y = Mathf.Sqrt(currentJumpHeight * -2f * currentGravity);
 
             if (currentAnim != null)
             {
@@ -141,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += currentGravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
     }
