@@ -15,10 +15,18 @@ public class PlayerInteraction : MonoBehaviour
 
     private IInteractable lastLoggedInteractable;
 
+    private PlayerMovement playerMovement;
+
+    void Start()
+    {
+        playerMovement =
+            GetComponent<PlayerMovement>();
+    }
+
     void Update()
     {
         if (PauseMenuController.Instance != null &&
-        PauseMenuController.Instance.IsPaused())
+            PauseMenuController.Instance.IsPaused())
         {
             ClearCurrent();
             return;
@@ -26,9 +34,23 @@ public class PlayerInteraction : MonoBehaviour
 
         UpdateTarget();
 
-        if (Input.GetKeyDown(KeyCode.E))
+        // =========================================
+        // INTERACTION INPUT
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.E) &&
+            currentInteractable != null)
         {
-            currentInteractable?.Interact();
+            InteractableObject interactableObject =
+                currentInteractable as InteractableObject;
+
+            if (interactableObject != null)
+            {
+                playerMovement.PlayInteractionAnimation(
+                    interactableObject.interactionType
+                );
+            }
+
+            currentInteractable.Interact();
         }
     }
 
@@ -51,43 +73,78 @@ public class PlayerInteraction : MonoBehaviour
     Collider FindBestTarget()
     {
         Vector3 origin = interactionPoint.position;
-        Vector3 direction = (interactionPoint.forward + Vector3.down * 0.5f).normalized;
 
-        Debug.DrawRay(origin, direction * interactRange, Color.green);
+        Vector3 direction =
+            (interactionPoint.forward +
+            Vector3.down * 0.5f).normalized;
+
+        Debug.DrawRay(
+            origin,
+            direction * interactRange,
+            Color.green
+        );
 
         RaycastHit hit;
 
         // 1. SphereCast (forward)
-        if (Physics.SphereCast(origin, sphereRadius, direction, out hit, interactRange, interactLayer))
+        if (Physics.SphereCast(
+            origin,
+            sphereRadius,
+            direction,
+            out hit,
+            interactRange,
+            interactLayer))
         {
             return hit.collider;
         }
 
         // 2. OverlapSphere (fallback)
-        Collider[] nearby = Physics.OverlapSphere(origin, sphereRadius, interactLayer);
+        Collider[] nearby =
+            Physics.OverlapSphere(
+                origin,
+                sphereRadius,
+                interactLayer
+            );
 
         if (nearby.Length == 0)
             return null;
 
-        return GetBestCollider(nearby, origin, direction);
+        return GetBestCollider(
+            nearby,
+            origin,
+            direction
+        );
     }
 
     // SCORING SYSTEM
-    Collider GetBestCollider(Collider[] colliders, Vector3 origin, Vector3 forward)
+    Collider GetBestCollider(
+        Collider[] colliders,
+        Vector3 origin,
+        Vector3 forward)
     {
         Collider best = null;
         float bestScore = float.MinValue;
 
         foreach (var col in colliders)
         {
-            Vector3 toTarget = (col.bounds.center - origin).normalized;
+            Vector3 toTarget =
+                (col.bounds.center - origin)
+                .normalized;
 
-            float distance = Vector3.Distance(origin, col.bounds.center);
+            float distance =
+                Vector3.Distance(
+                    origin,
+                    col.bounds.center
+                );
+
             float distanceScore = -distance;
 
-            float directionScore = Vector3.Dot(forward, toTarget);
+            float directionScore =
+                Vector3.Dot(forward, toTarget);
 
-            float totalScore = directionScore * 2f + distanceScore;
+            float totalScore =
+                directionScore * 2f +
+                distanceScore;
 
             if (totalScore > bestScore)
             {
@@ -102,8 +159,11 @@ public class PlayerInteraction : MonoBehaviour
     // APPLY TARGET
     void ApplyTarget(Collider col)
     {
-        var interactable = col.GetComponentInParent<IInteractable>();
-        var highlightable = col.GetComponentInParent<IHighlightable>();
+        var interactable =
+            col.GetComponentInParent<IInteractable>();
+
+        var highlightable =
+            col.GetComponentInParent<IHighlightable>();
 
         currentInteractable = interactable;
 
@@ -111,14 +171,20 @@ public class PlayerInteraction : MonoBehaviour
         if (currentHighlight != highlightable)
         {
             currentHighlight?.Unhighlight();
+
             currentHighlight = highlightable;
+
             currentHighlight?.Highlight();
         }
 
         // Log only when changed
-        if (interactable != null && interactable != lastLoggedInteractable)
+        if (interactable != null &&
+            interactable != lastLoggedInteractable)
         {
-            Debug.Log("Interactable detected: " + col.name);
+            Debug.Log(
+                "Interactable detected: " + col.name
+            );
+
             lastLoggedInteractable = interactable;
         }
     }

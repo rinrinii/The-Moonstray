@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float currentJumpHeight;
     private float currentGravity;
+
     private float groundedRememberTime = 0.1f;
     private float groundedRemember;
 
@@ -33,12 +34,36 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         transformation = GetComponent<PlayerTransformation>();
         cam = Camera.main.transform;
+
         UpdateAnimator();
     }
 
     public void UpdateAnimator()
     {
         currentAnim = GetComponentInChildren<Animator>();
+    }
+
+    // =========================================
+    // INTERACTION ANIMATIONS
+    // =========================================
+    public void PlayInteractionAnimation(
+        InteractionType type)
+    {
+        if (currentAnim == null) return;
+
+        if (type == InteractionType.None)
+        {
+            return;
+        }
+
+        if (type == InteractionType.Kneel)
+        {
+            currentAnim.SetTrigger("InteractKneel");
+        }
+        else
+        {
+            currentAnim.SetTrigger("InteractStand");
+        }
     }
 
     void Update()
@@ -49,7 +74,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (currentAnim != null)
             {
-                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
             }
 
             return;
@@ -61,25 +91,38 @@ public class PlayerMovement : MonoBehaviour
         {
             if (currentAnim != null)
             {
-                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
             }
 
             ApplyGravity();
             return;
         }
 
-        // Disable movement during transformation states
+        // Disable movement during transformation
         if (!transformation.CanMove())
         {
             if (currentAnim != null)
             {
-                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
             }
 
             ApplyGravity();
             return;
         }
 
+        // =========================================
+        // CURRENT FORM VALUES
+        // =========================================
         if (transformation.currentForm ==
             PlayerTransformation.FormState.Human)
         {
@@ -93,18 +136,29 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float baseSpeed = transformation.GetSpeed();
-        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
-        float currentSpeed = isSprinting ? baseSpeed * sprintMultiplier : baseSpeed;
+
+        bool isSprinting =
+            Input.GetKey(KeyCode.LeftShift);
+
+        float currentSpeed =
+            isSprinting
+            ? baseSpeed * sprintMultiplier
+            : baseSpeed;
 
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        Vector3 direction = new Vector3(x, 0f, z).normalized;
+        Vector3 direction =
+            new Vector3(x, 0f, z).normalized;
 
+        // =========================================
+        // MOVEMENT
+        // =========================================
         if (direction.magnitude >= 0.1f)
         {
             float targetAngle =
-                Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+                Mathf.Atan2(direction.x, direction.z)
+                * Mathf.Rad2Deg +
                 cam.eulerAngles.y;
 
             float angle = Mathf.SmoothDampAngle(
@@ -114,14 +168,21 @@ public class PlayerMovement : MonoBehaviour
                 turnSmoothTime
             );
 
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            transform.rotation =
+                Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir =
-                Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
+                Quaternion.Euler(0f, angle, 0f)
+                * Vector3.forward;
 
-            controller.Move(moveDir * currentSpeed * Time.deltaTime);
+            controller.Move(
+                moveDir * currentSpeed * Time.deltaTime
+            );
         }
 
+        // =========================================
+        // COYOTE TIME
+        // =========================================
         if (controller.isGrounded)
         {
             groundedRemember = groundedRememberTime;
@@ -131,12 +192,18 @@ public class PlayerMovement : MonoBehaviour
             groundedRemember -= Time.deltaTime;
         }
 
-        // =========================
+        // =========================================
         // JUMP
-        // =========================
-        if (Input.GetKeyDown(KeyCode.Space) && groundedRemember > 0)
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.Space) &&
+            groundedRemember > 0)
         {
-            velocity.y = Mathf.Sqrt(currentJumpHeight * -2f * currentGravity);
+            velocity.y =
+                Mathf.Sqrt(
+                    currentJumpHeight *
+                    -2f *
+                    currentGravity
+                );
 
             if (currentAnim != null)
             {
@@ -144,12 +211,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // =========================
+        // =========================================
         // ANIMATOR PARAMETERS
-        // =========================
+        // =========================================
         if (currentAnim != null)
         {
-            float speedPercent = direction.magnitude * currentSpeed;
+            float speedPercent =
+                direction.magnitude * currentSpeed;
 
             currentAnim.SetFloat(
                 "Speed",
@@ -169,13 +237,17 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyGravity()
     {
-        if (controller.isGrounded && velocity.y < 0)
+        if (controller.isGrounded &&
+            velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        velocity.y += currentGravity * Time.deltaTime;
+        velocity.y +=
+            currentGravity * Time.deltaTime;
 
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(
+            velocity * Time.deltaTime
+        );
     }
 }

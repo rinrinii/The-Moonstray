@@ -435,7 +435,7 @@ Camera:
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -904,6 +904,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7548353319689300146, guid: 2f047cda54826304a8b2b3ce63a33065, type: 3}
+      propertyPath: interactionType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1008,6 +1012,10 @@ PrefabInstance:
     - target: {fileID: 1647739408870404250, guid: 3daabd62bfeea854fa70c193916e5312, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101734191503535067, guid: 3daabd62bfeea854fa70c193916e5312, type: 3}
+      propertyPath: interactionType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4958252013740773154, guid: 3daabd62bfeea854fa70c193916e5312, type: 3}
       propertyPath: m_Name
@@ -1165,6 +1173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  interactionType: 0
 --- !u!1001 &1206974529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1360,6 +1369,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 342159449938277200, guid: 66d50c3b4ccaf804fb02a19c7f4b4bf1, type: 3}
+      propertyPath: interactionType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1101330680826079249, guid: 66d50c3b4ccaf804fb02a19c7f4b4bf1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
