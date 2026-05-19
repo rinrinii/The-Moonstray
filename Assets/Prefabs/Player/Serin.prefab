@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5913640423102889239}
   - component: {fileID: 3353697142576561209}
   - component: {fileID: 4376306007494442022}
+  - component: {fileID: 2383102513475922643}
   m_Layer: 0
   m_Name: Serin
   m_TagString: Untagged
@@ -86,6 +87,10 @@ MonoBehaviour:
   WolfAnimator: {fileID: 1731873517796482274}
   humanSpeed: 5
   wolfSpeed: 5
+  humanJumpHeight: 2
+  wolfJumpHeight: 1.5
+  humanGravity: -16
+  wolfGravity: -20
   humanHeight: 1.8
   wolfHeight: 1
   sunLight: {fileID: 0}
@@ -112,9 +117,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   turnSmoothTime: 0.1
-  gravity: -9.81
   sprintMultiplier: 2
-  jumpHeight: 2
+  howlCooldown: 1
+  dashSpeed: 20
+  dashDuration: 0.3
+  dashCooldown: 1.5
 --- !u!114 &3353697142576561209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +193,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   interactionPoint: {fileID: 2570544728441977358}
+--- !u!114 &2383102513475922643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085696353375262294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48074739aeea9f04fa6618b4f2d4533a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerClimbing
+  climbCheck: {fileID: 2570544728441977358}
+  climbCheckRadius: 0.5
+  climbLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0

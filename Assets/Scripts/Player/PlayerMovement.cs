@@ -22,8 +22,11 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private PlayerTransformation transformation;
+    private PlayerClimbing climbing;
+
     private Animator currentAnim;
     private Transform cam;
+
     private Vector3 velocity;
     private float turnSmoothVelocity;
 
@@ -33,7 +36,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        transformation = GetComponent<PlayerTransformation>();
+
+        transformation =
+            GetComponent<PlayerTransformation>();
+
+        climbing =
+            GetComponent<PlayerClimbing>();
+
         cam = Camera.main.transform;
 
         UpdateAnimator();
@@ -42,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
     public void UpdateAnimator()
     {
         currentAnim = GetComponentInChildren<Animator>();
+
+        if (climbing != null)
+        {
+            climbing.UpdateAnimator();
+        }
     }
 
     // =========================================
@@ -108,7 +122,6 @@ public class PlayerMovement : MonoBehaviour
         AnimatorStateInfo state =
             currentAnim.GetCurrentAnimatorStateInfo(0);
 
-        // Block during jump states
         if (state.IsName("Jump-Start") ||
             state.IsName("Jump-Air") ||
             state.IsName("Jump-End"))
@@ -116,14 +129,12 @@ public class PlayerMovement : MonoBehaviour
             return false;
         }
 
-        // Block during interaction states
         if (state.IsName("Interact-Kneel") ||
             state.IsName("Interact-Stand"))
         {
             return false;
         }
 
-        // Block during howl itself
         if (state.IsName("Howl"))
         {
             return false;
@@ -158,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
         AnimatorStateInfo state =
             currentAnim.GetCurrentAnimatorStateInfo(0);
 
-        // Prevent dash during other actions
         if (state.IsName("Howl") ||
             state.IsName("Interact-Kneel") ||
             state.IsName("Interact-Stand"))
@@ -184,13 +194,37 @@ public class PlayerMovement : MonoBehaviour
         dashTime = dashDuration;
         nextDashTime = Time.time + dashCooldown;
 
-        Debug.Log("Dash Triggered");
+        groundedRemember = 0;
+
+        currentAnim.SetBool("IsDashing", true);
         currentAnim.SetTrigger("Dash");
     }
 
     void Update()
     {
-        // Disable movement during pause
+        // =========================================
+        // CLIMBING
+        // =========================================
+        if (climbing != null && climbing.IsClimbing())
+        {
+            velocity.y = 0f;
+
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
+            }
+
+            return;
+        }
+
+        // =========================================
+        // PAUSE
+        // =========================================
         if (PauseMenuController.Instance != null &&
             PauseMenuController.Instance.IsPaused())
         {
@@ -207,7 +241,9 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Disable movement during dialogue
+        // =========================================
+        // DIALOGUE
+        // =========================================
         if (DialogueManager.Instance != null &&
             DialogueManager.Instance.IsDialogueActive())
         {
@@ -225,7 +261,9 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Disable movement during transformation
+        // =========================================
+        // TRANSFORMATION LOCK
+        // =========================================
         if (!transformation.CanMove())
         {
             if (currentAnim != null)
@@ -259,6 +297,14 @@ public class PlayerMovement : MonoBehaviour
             new Vector3(x, 0f, z).normalized;
 
         // =========================================
+        // DASH INPUT
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            TryDash(direction);
+        }
+
+        // =========================================
         // DASH MOVEMENT
         // =========================================
         if (isDashing)
@@ -274,6 +320,14 @@ public class PlayerMovement : MonoBehaviour
             if (dashTime <= 0)
             {
                 isDashing = false;
+
+                if (currentAnim != null)
+                {
+                    currentAnim.SetBool(
+                        "IsDashing",
+                        false
+                    );
+                }
             }
 
             ApplyGravity();
@@ -351,16 +405,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // =========================================
-        // DASH
-        // =========================================
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            TryDash(direction);
-            isDashing = true;
-            groundedRemember = 0;
-        }
-
-        // =========================================
         // ANIMATOR PARAMETERS
         // =========================================
         if (currentAnim != null)
@@ -393,7 +437,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         velocity.y +=
-            transformation.GetGravity() * Time.deltaTime;
+            transformation.GetGravity() *
+            Time.deltaTime;
 
         controller.Move(
             velocity * Time.deltaTime
