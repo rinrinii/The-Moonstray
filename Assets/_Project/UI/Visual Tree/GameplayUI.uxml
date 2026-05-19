@@ -1,6 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="QuestPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/QuestPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=64ed30d8e9fd693499744b55748b2edc&amp;type=3#QuestPanelTemplate"/>
+    <ui:Template name="AbilitiesPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/AbilitiesPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=6ab2e229754aa944e95c1ac5f84fa424&amp;type=3#AbilitiesPanelTemplate"/>
+    <ui:Template name="CharactersPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/CharactersPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=afbb907b3a149ab42961359bbe5de6b8&amp;type=3#CharactersPanelTemplate"/>
+    <ui:Template name="NotesPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/NotesPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=b4955e4a9abc2634ca29380c59ad5157&amp;type=3#NotesPanelTemplate"/>
+    <ui:Template name="QuestPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/QuestPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=64ed30d8e9fd693499744b55748b2edc&amp;type=3#QuestPanelTemplate"/>
     <Style src="project://database/Assets/_Project/UI/UIStyle.uss?fileID=7433441132597879392&amp;guid=5ca3eae8c523ede4fba5c0e3a3a2c1ba&amp;type=3#UIStyle"/>
+    <Style src="project://database/Assets/_Project/UI/Journal.uss?fileID=7433441132597879392&amp;guid=02759fd95776e284aad5abf09b9ad22c&amp;type=3#Journal"/>
     <ui:VisualElement name="Root" style="flex-grow: 1; display: flex;">
         <ui:VisualElement name="DialogueContainer" class="dialogue-root" style="flex-grow: 1; font-size: 24px; color: rgb(255, 255, 255); -unity-font-style: bold; margin-bottom: 0; align-items: center; align-self: auto; justify-content: flex-end; width: 100%; height: 100%; padding-bottom: 60px; margin-top: 0; margin-right: 0; margin-left: 0; display: none; background-color: rgba(0, 0, 0, 0.12);">
             <ui:Image name="dialogue-background" style="position: relative; bottom: auto; left: auto; right: auto; height: 250px; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Dialogue/dialogue-BG.png?fileID=21300000&amp;guid=bfb0cd7994f70614fa16dcca80ab5c93&amp;type=3#dialogue-BG&quot;); flex-direction: row; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; align-items: flex-end; width: 70%; max-width: 1600px; align-self: auto; min-width: 700px; display: flex;">
@@ -74,13 +78,18 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="JournalContainer" style="flex-grow: 1; position: relative; justify-content: center; top: 0; left: 0; right: 0; bottom: 0; align-items: center; display: flex; background-color: rgba(0, 0, 0, 0.86);">
-            <ui:VisualElement style="flex-grow: 1; position: absolute; width: 70%; height: 78%; align-items: center; justify-content: center; align-content: center; align-self: center; top: 13.5%; background-image: url(&quot;project://database/Assets/_Project/UI/Images/settings/settings-BG.png?fileID=21300000&amp;guid=2954843c77a0458419c61c73903be7e1&amp;type=3#settings-BG&quot;); visibility: visible; overflow: visible;"/>
             <ui:TabView name="TabView" style="align-items: flex-start; height: 82%; width: 68%; background-image: none;">
-                <ui:Tab label="Resources" name="ResourcesTab" style="height: 35px; display: none;"/>
-                <ui:Tab label="Abilities" name="AbilitiesTab"/>
-                <ui:Tab label="Notes" name="NotesTab"/>
-                <ui:Tab label="Quests" name="QuestsTab" style="display: flex;">
-                    <ui:Instance template="QuestPanelTemplate" style="height: 100%; width: 100%; flex-grow: 1; flex-wrap: nowrap; flex-direction: column; overflow: visible; visibility: visible; display: flex;"/>
+                <ui:Tab label="Abilities" name="AbilitiesTab">
+                    <ui:Instance template="AbilitiesPanelTemplate" style="height: auto;"/>
+                </ui:Tab>
+                <ui:Tab label="Notes" name="NotesTab">
+                    <ui:Instance template="NotesPanelTemplate"/>
+                </ui:Tab>
+                <ui:Tab label="Characters" name="CharactersTab">
+                    <ui:Instance template="CharactersPanelTemplate"/>
+                </ui:Tab>
+                <ui:Tab label="Quests" name="QuestsTab" style="height: 100%;">
+                    <ui:Instance template="QuestPanelTemplate" style="position: absolute; width: 100%; height: 629px; flex-grow: 0;"/>
                 </ui:Tab>
             </ui:TabView>
         </ui:VisualElement>
