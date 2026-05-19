@@ -5,6 +5,21 @@ public class PlayerMovement : MonoBehaviour
     public float turnSmoothTime = 0.03f;
     public float sprintMultiplier = 1.5f;
 
+    [Header("Howl")]
+    public float howlCooldown = 1f;
+    private float nextHowlTime;
+
+    [Header("Dash")]
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.3f;
+    public float dashCooldown = 1.5f;
+
+    private bool isDashing;
+    private float dashTime;
+    private float nextDashTime;
+    private Vector3 dashDirection;
+    private Vector3 currentMoveDirection;
+
     private CharacterController controller;
     private PlayerTransformation transformation;
     private Animator currentAnim;
@@ -14,10 +29,6 @@ public class PlayerMovement : MonoBehaviour
 
     private float groundedRememberTime = 0.1f;
     private float groundedRemember;
-
-    [Header("Howl")]
-    public float howlCooldown = 1f;
-    private float nextHowlTime;
 
     void Start()
     {
@@ -56,6 +67,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // =========================================
+    // HOWL
+    // =========================================
     public void PlayHowl()
     {
         if (transformation.currentForm !=
@@ -70,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         nextHowlTime = Time.time + howlCooldown;
+
         currentAnim.SetTrigger("Howl");
     }
 
@@ -85,6 +100,9 @@ public class PlayerMovement : MonoBehaviour
             return false;
 
         if (!transformation.CanMove())
+            return false;
+
+        if (isDashing)
             return false;
 
         AnimatorStateInfo state =
@@ -112,6 +130,62 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return true;
+    }
+
+    // =========================================
+    // DASH
+    // =========================================
+    void TryDash(Vector3 direction)
+    {
+        if (Time.time < nextDashTime)
+            return;
+
+        if (isDashing)
+            return;
+
+        if (transformation.currentForm !=
+            PlayerTransformation.FormState.Wolf)
+        {
+            return;
+        }
+
+        if (groundedRemember <= 0)
+            return;
+
+        if (currentAnim == null)
+            return;
+
+        AnimatorStateInfo state =
+            currentAnim.GetCurrentAnimatorStateInfo(0);
+
+        // Prevent dash during other actions
+        if (state.IsName("Howl") ||
+            state.IsName("Interact-Kneel") ||
+            state.IsName("Interact-Stand"))
+        {
+            return;
+        }
+
+        dashDirection = transform.forward;
+
+        if (direction.magnitude >= 0.1f)
+        {
+            float targetAngle =
+                Mathf.Atan2(direction.x, direction.z)
+                * Mathf.Rad2Deg +
+                cam.eulerAngles.y;
+
+            dashDirection =
+                Quaternion.Euler(0f, targetAngle, 0f)
+                * Vector3.forward;
+        }
+
+        isDashing = true;
+        dashTime = dashDuration;
+        nextDashTime = Time.time + dashCooldown;
+
+        Debug.Log("Dash Triggered");
+        currentAnim.SetTrigger("Dash");
     }
 
     void Update()
@@ -185,6 +259,28 @@ public class PlayerMovement : MonoBehaviour
             new Vector3(x, 0f, z).normalized;
 
         // =========================================
+        // DASH MOVEMENT
+        // =========================================
+        if (isDashing)
+        {
+            controller.Move(
+                dashDirection.normalized *
+                dashSpeed *
+                Time.deltaTime
+            );
+
+            dashTime -= Time.deltaTime;
+
+            if (dashTime <= 0)
+            {
+                isDashing = false;
+            }
+
+            ApplyGravity();
+            return;
+        }
+
+        // =========================================
         // MOVEMENT
         // =========================================
         if (direction.magnitude >= 0.1f)
@@ -204,12 +300,14 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation =
                 Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir =
+            currentMoveDirection =
                 Quaternion.Euler(0f, angle, 0f)
                 * Vector3.forward;
 
             controller.Move(
-                moveDir * currentSpeed * Time.deltaTime
+                currentMoveDirection *
+                currentSpeed *
+                Time.deltaTime
             );
         }
 
@@ -250,6 +348,16 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             PlayHowl();
+        }
+
+        // =========================================
+        // DASH
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            TryDash(direction);
+            isDashing = true;
+            groundedRemember = 0;
         }
 
         // =========================================
