@@ -19,6 +19,14 @@ public class PlayerTransformation : MonoBehaviour
     public float humanSpeed = 5f;
     public float wolfSpeed = 9f;
 
+    [Header("Jump")]
+    public float humanJumpHeight = 2f;
+    public float wolfJumpHeight = 1.5f;
+
+    [Header("Gravity")]
+    public float humanGravity = -16f;
+    public float wolfGravity = -20f;
+
     [Header("Collider Settings")]
     public float humanHeight = 1.8f;
     public float wolfHeight = 1.0f;
@@ -39,6 +47,10 @@ public class PlayerTransformation : MonoBehaviour
     public float maxSphereScale = 3f;
 
     private float currentSpeed;
+
+    private float currentJumpHeight;
+    private float currentGravity;
+
     private CharacterController controller;
     private bool isTransitioning = false;
 
@@ -186,6 +198,8 @@ public class PlayerTransformation : MonoBehaviour
         wolfModel.SetActive(false);
 
         currentSpeed = humanSpeed;
+        currentJumpHeight = humanJumpHeight;
+        currentGravity = humanGravity;
         controller.height = humanHeight;
         controller.center = new Vector3(0, humanHeight / 2f, 0);
     }
@@ -198,6 +212,8 @@ public class PlayerTransformation : MonoBehaviour
         wolfModel.SetActive(true);
 
         currentSpeed = wolfSpeed;
+        currentJumpHeight = wolfJumpHeight;
+        currentGravity = wolfGravity;
         controller.height = wolfHeight;
         controller.center = new Vector3(0, wolfHeight / 2f, 0);
     }
@@ -205,5 +221,15 @@ public class PlayerTransformation : MonoBehaviour
     public float GetSpeed()
     {
         return currentSpeed;
+    }
+
+    public float GetJumpHeight()
+    {
+        return currentJumpHeight;
+    }
+
+    public float GetGravity()
+    {
+        return currentGravity;
     }
 }

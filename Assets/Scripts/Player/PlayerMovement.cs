@@ -3,18 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSmoothTime = 0.03f;
-    public float gravity = -9.81f;
     public float sprintMultiplier = 1.5f;
-
-    [Header("Human Jump")]
-    public float humanJumpHeight = 2f;
-
-    [Header("Wolf Jump")]
-    public float wolfJumpHeight = 1.5f;
-
-    [Header("Gravity")]
-    public float humanGravity = -16f;
-    public float wolfGravity = -20f;
 
     private CharacterController controller;
     private PlayerTransformation transformation;
@@ -22,9 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private Transform cam;
     private Vector3 velocity;
     private float turnSmoothVelocity;
-
-    private float currentJumpHeight;
-    private float currentGravity;
 
     private float groundedRememberTime = 0.1f;
     private float groundedRemember;
@@ -182,21 +168,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // =========================================
-        // CURRENT FORM VALUES
-        // =========================================
-        if (transformation.currentForm ==
-            PlayerTransformation.FormState.Human)
-        {
-            currentJumpHeight = humanJumpHeight;
-            currentGravity = humanGravity;
-        }
-        else
-        {
-            currentJumpHeight = wolfJumpHeight;
-            currentGravity = wolfGravity;
-        }
-
         float baseSpeed = transformation.GetSpeed();
 
         bool isSprinting =
@@ -262,9 +233,9 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y =
                 Mathf.Sqrt(
-                    currentJumpHeight *
+                    transformation.GetJumpHeight() *
                     -2f *
-                    currentGravity
+                    transformation.GetGravity()
                 );
 
             if (currentAnim != null)
@@ -314,7 +285,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         velocity.y +=
-            currentGravity * Time.deltaTime;
+            transformation.GetGravity() * Time.deltaTime;
 
         controller.Move(
             velocity * Time.deltaTime
