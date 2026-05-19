@@ -29,6 +29,10 @@ public class PlayerMovement : MonoBehaviour
     private float groundedRememberTime = 0.1f;
     private float groundedRemember;
 
+    [Header("Howl")]
+    public float howlCooldown = 1f;
+    private float nextHowlTime;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -64,6 +68,64 @@ public class PlayerMovement : MonoBehaviour
         {
             currentAnim.SetTrigger("InteractStand");
         }
+    }
+
+    public void PlayHowl()
+    {
+        if (transformation.currentForm !=
+            PlayerTransformation.FormState.Wolf)
+        {
+            return;
+        }
+
+        if (!CanHowl())
+        {
+            return;
+        }
+
+        nextHowlTime = Time.time + howlCooldown;
+        currentAnim.SetTrigger("Howl");
+    }
+
+    bool CanHowl()
+    {
+        if (Time.time < nextHowlTime)
+            return false;
+
+        if (currentAnim == null)
+            return false;
+
+        if (!controller.isGrounded)
+            return false;
+
+        if (!transformation.CanMove())
+            return false;
+
+        AnimatorStateInfo state =
+            currentAnim.GetCurrentAnimatorStateInfo(0);
+
+        // Block during jump states
+        if (state.IsName("Jump-Start") ||
+            state.IsName("Jump-Air") ||
+            state.IsName("Jump-End"))
+        {
+            return false;
+        }
+
+        // Block during interaction states
+        if (state.IsName("Interact-Kneel") ||
+            state.IsName("Interact-Stand"))
+        {
+            return false;
+        }
+
+        // Block during howl itself
+        if (state.IsName("Howl"))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     void Update()
@@ -209,6 +271,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentAnim.SetTrigger("Jump");
             }
+        }
+
+        // =========================================
+        // HOWL
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayHowl();
         }
 
         // =========================================
