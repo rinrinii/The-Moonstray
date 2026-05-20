@@ -6,6 +6,10 @@ public class InteractableObject : MonoBehaviour, IInteractable
 
     [SerializeField] private bool isInteractable = true;
 
+    [Header("Interaction Animation")]
+    public InteractionType interactionType =
+        InteractionType.Stand;
+
     private void Awake()
     {
         responses = GetComponents<IInteractionResponse>();

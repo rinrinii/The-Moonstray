@@ -95,6 +95,12 @@ public class DialogueManager : MonoBehaviour
         if (!isActive)
             return;
 
+        if (PauseMenuController.Instance != null &&
+            PauseMenuController.Instance.IsPaused())
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             DisplayNextLine();
