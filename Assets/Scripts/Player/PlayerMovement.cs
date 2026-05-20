@@ -2,63 +2,278 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float turnSmoothTime = 0.1f;
-    public float gravity = -9.81f;
+    public float turnSmoothTime = 0.03f;
     public float sprintMultiplier = 1.5f;
+
+    [Header("Howl")]
+    public float howlCooldown = 1f;
+    private float nextHowlTime;
+
+    [Header("Dash")]
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.3f;
+    public float dashCooldown = 1.5f;
+
+    private bool isDashing;
+    private float dashTime;
+    private float nextDashTime;
+    private Vector3 dashDirection;
+    private Vector3 currentMoveDirection;
 
     private CharacterController controller;
     private PlayerTransformation transformation;
+    private PlayerClimbing climbing;
+
     private Animator currentAnim;
     private Transform cam;
+
     private Vector3 velocity;
     private float turnSmoothVelocity;
+
+    private float groundedRememberTime = 0.1f;
+    private float groundedRemember;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        transformation = GetComponent<PlayerTransformation>();
+
+        transformation =
+            GetComponent<PlayerTransformation>();
+
+        climbing =
+            GetComponent<PlayerClimbing>();
+
         cam = Camera.main.transform;
+
         UpdateAnimator();
     }
 
     public void UpdateAnimator()
     {
         currentAnim = GetComponentInChildren<Animator>();
+
+        if (climbing != null)
+        {
+            climbing.UpdateAnimator();
+        }
+    }
+
+    // =========================================
+    // INTERACTION ANIMATIONS
+    // =========================================
+    public void PlayInteractionAnimation(
+        InteractionType type)
+    {
+        if (currentAnim == null) return;
+
+        if (type == InteractionType.None)
+        {
+            return;
+        }
+
+        if (type == InteractionType.Kneel)
+        {
+            currentAnim.SetTrigger("InteractKneel");
+        }
+        else
+        {
+            currentAnim.SetTrigger("InteractStand");
+        }
+    }
+
+    // =========================================
+    // HOWL
+    // =========================================
+    public void PlayHowl()
+    {
+        if (transformation.currentForm !=
+            PlayerTransformation.FormState.Wolf)
+        {
+            return;
+        }
+
+        if (!CanHowl())
+        {
+            return;
+        }
+
+        nextHowlTime = Time.time + howlCooldown;
+
+        currentAnim.SetTrigger("Howl");
+    }
+
+    bool CanHowl()
+    {
+        if (Time.time < nextHowlTime)
+            return false;
+
+        if (currentAnim == null)
+            return false;
+
+        if (!controller.isGrounded)
+            return false;
+
+        if (!transformation.CanMove())
+            return false;
+
+        if (isDashing)
+            return false;
+
+        AnimatorStateInfo state =
+            currentAnim.GetCurrentAnimatorStateInfo(0);
+
+        if (state.IsName("Jump-Start") ||
+            state.IsName("Jump-Air") ||
+            state.IsName("Jump-End"))
+        {
+            return false;
+        }
+
+        if (state.IsName("Interact-Kneel") ||
+            state.IsName("Interact-Stand"))
+        {
+            return false;
+        }
+
+        if (state.IsName("Howl"))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    // =========================================
+    // DASH
+    // =========================================
+    void TryDash(Vector3 direction)
+    {
+        if (Time.time < nextDashTime)
+            return;
+
+        if (isDashing)
+            return;
+
+        if (transformation.currentForm !=
+            PlayerTransformation.FormState.Wolf)
+        {
+            return;
+        }
+
+        if (groundedRemember <= 0)
+            return;
+
+        if (currentAnim == null)
+            return;
+
+        AnimatorStateInfo state =
+            currentAnim.GetCurrentAnimatorStateInfo(0);
+
+        if (state.IsName("Howl") ||
+            state.IsName("Interact-Kneel") ||
+            state.IsName("Interact-Stand"))
+        {
+            return;
+        }
+
+        dashDirection = transform.forward;
+
+        if (direction.magnitude >= 0.1f)
+        {
+            float targetAngle =
+                Mathf.Atan2(direction.x, direction.z)
+                * Mathf.Rad2Deg +
+                cam.eulerAngles.y;
+
+            dashDirection =
+                Quaternion.Euler(0f, targetAngle, 0f)
+                * Vector3.forward;
+        }
+
+        isDashing = true;
+        dashTime = dashDuration;
+        nextDashTime = Time.time + dashCooldown;
+
+        groundedRemember = 0;
+
+        currentAnim.SetBool("IsDashing", true);
+        currentAnim.SetTrigger("Dash");
     }
 
     void Update()
     {
-        // Disable movement during pause
-        if (PauseMenuController.Instance != null &&
-            PauseMenuController.Instance.IsPaused())
+        // =========================================
+        // CLIMBING
+        // =========================================
+        if (climbing != null && climbing.IsClimbing())
         {
+            velocity.y = 0f;
+
             if (currentAnim != null)
             {
-                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
             }
 
             return;
         }
 
-        // Disable movement during dialogue
+        // =========================================
+        // PAUSE
+        // =========================================
+        if (PauseMenuController.Instance != null &&
+            PauseMenuController.Instance.IsPaused())
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
+            }
+
+            return;
+        }
+
+        // =========================================
+        // DIALOGUE
+        // =========================================
         if (DialogueManager.Instance != null &&
             DialogueManager.Instance.IsDialogueActive())
         {
             if (currentAnim != null)
             {
-                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
             }
 
             ApplyGravity();
             return;
         }
 
-        // Disable movement during transformation states
+        // =========================================
+        // TRANSFORMATION LOCK
+        // =========================================
         if (!transformation.CanMove())
         {
             if (currentAnim != null)
             {
-                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
             }
 
             ApplyGravity();
@@ -66,18 +281,67 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float baseSpeed = transformation.GetSpeed();
-        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
-        float currentSpeed = isSprinting ? baseSpeed * sprintMultiplier : baseSpeed;
+
+        bool isSprinting =
+            Input.GetKey(KeyCode.LeftShift);
+
+        float currentSpeed =
+            isSprinting
+            ? baseSpeed * sprintMultiplier
+            : baseSpeed;
 
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        Vector3 direction = new Vector3(x, 0f, z).normalized;
+        Vector3 direction =
+            new Vector3(x, 0f, z).normalized;
 
+        // =========================================
+        // DASH INPUT
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            TryDash(direction);
+        }
+
+        // =========================================
+        // DASH MOVEMENT
+        // =========================================
+        if (isDashing)
+        {
+            controller.Move(
+                dashDirection.normalized *
+                dashSpeed *
+                Time.deltaTime
+            );
+
+            dashTime -= Time.deltaTime;
+
+            if (dashTime <= 0)
+            {
+                isDashing = false;
+
+                if (currentAnim != null)
+                {
+                    currentAnim.SetBool(
+                        "IsDashing",
+                        false
+                    );
+                }
+            }
+
+            ApplyGravity();
+            return;
+        }
+
+        // =========================================
+        // MOVEMENT
+        // =========================================
         if (direction.magnitude >= 0.1f)
         {
             float targetAngle =
-                Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+                Mathf.Atan2(direction.x, direction.z)
+                * Mathf.Rad2Deg +
                 cam.eulerAngles.y;
 
             float angle = Mathf.SmoothDampAngle(
@@ -87,23 +351,77 @@ public class PlayerMovement : MonoBehaviour
                 turnSmoothTime
             );
 
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            transform.rotation =
+                Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir =
-                Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            currentMoveDirection =
+                Quaternion.Euler(0f, angle, 0f)
+                * Vector3.forward;
 
-            controller.Move(moveDir * currentSpeed * Time.deltaTime);
+            controller.Move(
+                currentMoveDirection *
+                currentSpeed *
+                Time.deltaTime
+            );
         }
 
+        // =========================================
+        // COYOTE TIME
+        // =========================================
+        if (controller.isGrounded)
+        {
+            groundedRemember = groundedRememberTime;
+        }
+        else
+        {
+            groundedRemember -= Time.deltaTime;
+        }
+
+        // =========================================
+        // JUMP
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.Space) &&
+            groundedRemember > 0)
+        {
+            velocity.y =
+                Mathf.Sqrt(
+                    transformation.GetJumpHeight() *
+                    -2f *
+                    transformation.GetGravity()
+                );
+
+            if (currentAnim != null)
+            {
+                currentAnim.SetTrigger("Jump");
+            }
+        }
+
+        // =========================================
+        // HOWL
+        // =========================================
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayHowl();
+        }
+
+        // =========================================
+        // ANIMATOR PARAMETERS
+        // =========================================
         if (currentAnim != null)
         {
-            float speedPercent = direction.magnitude * currentSpeed;
+            float speedPercent =
+                direction.magnitude * currentSpeed;
 
             currentAnim.SetFloat(
                 "Speed",
                 speedPercent,
                 0.15f,
                 Time.deltaTime
+            );
+
+            currentAnim.SetBool(
+                "IsGrounded",
+                controller.isGrounded
             );
         }
 
@@ -112,13 +430,18 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyGravity()
     {
-        if (controller.isGrounded && velocity.y < 0)
+        if (controller.isGrounded &&
+            velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y +=
+            transformation.GetGravity() *
+            Time.deltaTime;
 
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(
+            velocity * Time.deltaTime
+        );
     }
 }
