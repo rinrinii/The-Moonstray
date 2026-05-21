@@ -747,6 +747,7 @@ GameObject:
   - component: {fileID: 570348602}
   - component: {fileID: 570348603}
   - component: {fileID: 570348604}
+  - component: {fileID: 570348605}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -830,6 +831,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HUDController
   humanPortrait: {fileID: 21300000, guid: 3a3d350abe0798546b98337236567a86, type: 3}
   wolfPortrait: {fileID: 21300000, guid: b8c9d4b2ff68ce3469ce69776db17e04, type: 3}
+--- !u!114 &570348605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570348599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c303372396c3144a381254304e91ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JournalController
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
