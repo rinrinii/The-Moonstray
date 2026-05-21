@@ -3,9 +3,8 @@ using UnityEngine;
 public class FallDamage : MonoBehaviour
 {
     [Header("Fall Damage")]
-    [SerializeField] private float minimumFallDistance = 5f;
-
-    [SerializeField] private float damageMultiplier = 5f;
+    [SerializeField] private float minimumFallDistance = 15f;
+    [SerializeField] private float damageMultiplier = 3f;
 
     private CharacterController controller;
     private PlayerHealth playerHealth;
@@ -25,6 +24,10 @@ public class FallDamage : MonoBehaviour
 
         climbing =
             GetComponent<PlayerClimbing>();
+
+        // Initialize starting height
+        fallStartHeight =
+            transform.position.y;
     }
 
     private void Update()
@@ -39,13 +42,16 @@ public class FallDamage : MonoBehaviour
             climbing != null &&
             climbing.IsClimbing();
 
-        bool isGrounded = controller.isGrounded && !isClimbing;
+        bool isGrounded =
+            controller.isGrounded &&
+            !isClimbing;
 
         // =========================
-        // Started Falling
+        // Left Ground
         // =========================
 
-        if (!isGrounded && !isClimbing && wasGrounded)
+        if (!isGrounded &&
+            wasGrounded)
         {
             fallStartHeight =
                 transform.position.y;
@@ -55,7 +61,8 @@ public class FallDamage : MonoBehaviour
         // Landed
         // =========================
 
-        if (isGrounded && !isClimbing && !wasGrounded)
+        if (isGrounded &&
+            !wasGrounded)
         {
             float fallDistance =
                 fallStartHeight -
@@ -80,6 +87,10 @@ public class FallDamage : MonoBehaviour
                     $"Fall Damage: {damage}"
                 );
             }
+
+            // Reset after landing
+            fallStartHeight =
+                transform.position.y;
         }
 
         wasGrounded =
