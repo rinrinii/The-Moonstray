@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3353697142576561209}
   - component: {fileID: 4376306007494442022}
   - component: {fileID: 2383102513475922643}
+  - component: {fileID: 5053813675577486572}
   m_Layer: 0
   m_Name: Serin
   m_TagString: Untagged
@@ -86,7 +87,7 @@ MonoBehaviour:
   HumanAnimator: {fileID: 2335394167229873854}
   WolfAnimator: {fileID: 1731873517796482274}
   humanSpeed: 5
-  wolfSpeed: 5
+  wolfSpeed: 9
   humanJumpHeight: 2
   wolfJumpHeight: 1.5
   humanGravity: -16
@@ -116,8 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3458824f418220447baeb70fda749e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  turnSmoothTime: 0.1
+  turnSmoothTime: 0.03
   sprintMultiplier: 2
+  sprintStaminaDrain: 10
+  dashStaminaCost: 25
   howlCooldown: 1
   dashSpeed: 20
   dashDuration: 0.3
@@ -210,6 +213,20 @@ MonoBehaviour:
   climbLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &5053813675577486572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085696353375262294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc5318f5e13e3244bee7339e5b164cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
+  maxStamina: 100
+  regenRate: 5
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0
