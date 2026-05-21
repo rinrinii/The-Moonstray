@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSmoothTime = 0.03f;
-    public float sprintMultiplier = 1.5f;
+    public float sprintMultiplier = 1.2f;
 
     [Header("Howl")]
     public float howlCooldown = 1f;
@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerTransformation transformation;
     private PlayerClimbing climbing;
 
+    private PlayerStamina stamina;
+
     private Animator currentAnim;
     private Transform cam;
 
@@ -42,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
         climbing =
             GetComponent<PlayerClimbing>();
+
+        stamina =
+            GetComponent<PlayerStamina>();
 
         cam = Camera.main.transform;
 
@@ -163,6 +168,9 @@ public class PlayerMovement : MonoBehaviour
         if (groundedRemember <= 0)
             return;
 
+        if (!stamina.CanDash())
+            return;
+
         if (currentAnim == null)
             return;
 
@@ -190,6 +198,7 @@ public class PlayerMovement : MonoBehaviour
                 * Vector3.forward;
         }
 
+        stamina.UseDashStamina();
         isDashing = true;
         dashTime = dashDuration;
         nextDashTime = Time.time + dashCooldown;
@@ -282,8 +291,12 @@ public class PlayerMovement : MonoBehaviour
 
         float baseSpeed = transformation.GetSpeed();
 
-        bool isSprinting =
+        bool wantsToSprint =
             Input.GetKey(KeyCode.LeftShift);
+
+        bool isSprinting =
+            wantsToSprint &&
+            stamina.CanSprint();
 
         float currentSpeed =
             isSprinting
@@ -402,6 +415,20 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             PlayHowl();
+        }
+
+        // =========================================
+        // STAMINA DRAIN
+        // =========================================
+        if (isSprinting && direction.magnitude >= 0.1f)
+        {
+            stamina.BlockRegeneration();
+
+            stamina.UseSprintStamina();
+        }
+        else
+        {
+            stamina.AllowRegeneration();
         }
 
         // =========================================

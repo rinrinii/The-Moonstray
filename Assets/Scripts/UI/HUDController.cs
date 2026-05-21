@@ -11,7 +11,10 @@ public class HUDController : MonoBehaviour
 
     private VisualElement playerFormIcon;
 
+    private VisualElement staminaFill;
+
     private PlayerTransformation playerTransformation;
+    private PlayerStamina playerStamina;
 
     private void Awake()
     {
@@ -22,7 +25,14 @@ public class HUDController : MonoBehaviour
             uiDocument.rootVisualElement;
 
         playerFormIcon =
-            root.Q<VisualElement>("PlayerFormIcon");
+            root.Q<VisualElement>(
+                "PlayerFormIcon"
+            );
+
+        staminaFill =
+            root.Q<VisualElement>(
+                "StaminaFill"
+            );
     }
 
     private void Start()
@@ -30,13 +40,22 @@ public class HUDController : MonoBehaviour
         playerTransformation =
             FindObjectOfType<PlayerTransformation>();
 
+        playerStamina =
+            FindObjectOfType<PlayerStamina>();
+
         UpdatePortrait();
+        UpdateStaminaBar();
     }
 
     private void Update()
     {
         UpdatePortrait();
+        UpdateStaminaBar();
     }
+
+    // =========================================
+    // PORTRAIT
+    // =========================================
 
     private void UpdatePortrait()
     {
@@ -47,12 +66,37 @@ public class HUDController : MonoBehaviour
             PlayerTransformation.FormState.Human)
         {
             playerFormIcon.style.backgroundImage =
-                new StyleBackground(humanPortrait);
+                new StyleBackground(
+                    humanPortrait
+                );
         }
         else
         {
             playerFormIcon.style.backgroundImage =
-                new StyleBackground(wolfPortrait);
+                new StyleBackground(
+                    wolfPortrait
+                );
         }
+    }
+
+    // =========================================
+    // STAMINA BAR
+    // =========================================
+
+    private void UpdateStaminaBar()
+    {
+        if (playerStamina == null ||
+            staminaFill == null)
+        {
+            return;
+        }
+
+        float staminaPercent =
+            playerStamina.GetStaminaPercent();
+
+        staminaFill.style.width =
+            Length.Percent(
+                staminaPercent * 100f
+            );
     }
 }

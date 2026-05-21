@@ -11,6 +11,8 @@ public class PlayerClimbing : MonoBehaviour
 
     private CharacterController controller;
     private PlayerMovement movement;
+    private PlayerStamina stamina;
+
     private Animator currentAnim;
 
     private ClimbableObject currentClimbable;
@@ -19,15 +21,22 @@ public class PlayerClimbing : MonoBehaviour
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        movement = GetComponent<PlayerMovement>();
+        controller =
+            GetComponent<CharacterController>();
+
+        movement =
+            GetComponent<PlayerMovement>();
+
+        stamina =
+            GetComponent<PlayerStamina>();
 
         UpdateAnimator();
     }
 
     public void UpdateAnimator()
     {
-        currentAnim = GetComponentInChildren<Animator>();
+        currentAnim =
+            GetComponentInChildren<Animator>();
     }
 
     public bool IsClimbing()
@@ -43,11 +52,13 @@ public class PlayerClimbing : MonoBehaviour
         // ENTER CLIMB
         // =========================================
 
-        float vertical = Input.GetAxisRaw("Vertical");
+        float vertical =
+            Input.GetAxisRaw("Vertical");
 
         if (!isClimbing &&
             currentClimbable != null &&
-            vertical > 0.1f)
+            vertical > 0.1f &&
+            stamina.CanClimb())
         {
             StartClimbing();
         }
@@ -58,30 +69,52 @@ public class PlayerClimbing : MonoBehaviour
 
         if (isClimbing)
         {
+            stamina.BlockRegeneration();
+            // Stop climb if no stamina
+            if (!stamina.HasStamina())
+            {
+                StopClimbing();
+                return;
+            }
+
+            if (Mathf.Abs(vertical) > 0.1f)
+            {
+                stamina.UseClimbMoveStamina();
+            }
+            else
+            {
+                stamina.UseClimbIdleStamina();
+            }
+
             HandleClimbing();
         }
     }
 
     void DetectClimbable()
     {
-        Collider[] hits = Physics.OverlapSphere(
-            climbCheck.position,
-            climbCheckRadius,
-            climbLayer
-        );
+        Collider[] hits =
+            Physics.OverlapSphere(
+                climbCheck.position,
+                climbCheckRadius,
+                climbLayer
+            );
 
         currentClimbable = null;
 
         foreach (Collider hit in hits)
         {
-            Debug.Log("Detected: " + hit.name);
+            Debug.Log(
+                "Detected: " + hit.name
+            );
 
             ClimbableObject climbable =
                 hit.GetComponent<ClimbableObject>();
 
             if (climbable != null)
             {
-                Debug.Log("Climbable found!");
+                Debug.Log(
+                    "Climbable found!"
+                );
 
                 currentClimbable = climbable;
                 break;
@@ -105,12 +138,14 @@ public class PlayerClimbing : MonoBehaviour
                 0f
             );
         }
+
+        Debug.Log("Started Climbing");
     }
 
     void StopClimbing()
     {
         isClimbing = false;
-
+        stamina.AllowRegeneration();
         if (currentAnim != null)
         {
             currentAnim.SetBool(
@@ -123,6 +158,8 @@ public class PlayerClimbing : MonoBehaviour
                 0f
             );
         }
+
+        Debug.Log("Stopped Climbing");
     }
 
     void HandleClimbing()
