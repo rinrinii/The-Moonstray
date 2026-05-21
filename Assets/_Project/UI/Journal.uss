@@ -1,0 +1,68 @@
+:root {
+}
+
+.journalButton {
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&guid=1c68df65c086c5e4ab7422383dbcf6f7&type=3#AlegreyaSans-Medium");
+    font-size: 20%;
+    color: rgb(255, 255, 255);
+}
+
+.journalButton:hover {
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.51);
+}
+
+.unity-tab-view {
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Solander/solander%20demo.ttf?fileID=12800000&guid=ef76212c595460c43b2f0f7f020c38d2&type=3#solander demo");
+    font-size: 220%;
+}
+
+.unity-tab-view__content-container {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    background-color: rgba(164, 164, 164, 0);
+}
+
+.unity-tab-view__content-container {
+    flex-grow: 1;
+    display: flex;
+    background-color: rgb(125, 125, 125);
+    padding: 10px;
+    min-height: 200px;
+}
+
+.unity-tab-view__header-container {
+    flex-direction: row;
+    background-color: rgba(30, 30, 30, 0);
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(51, 51, 51);
+}
+
+.unity-tab__header {
+    padding: 8px 16px;
+    background-color: rgb(36, 36, 36);
+    color: rgb(187, 187, 187);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-right: 0;
+    align-content: flex-end;
+    translate: 0 73%;
+    margin-left: 15px;
+    padding-left: 13px;
+}
+
+.unity-tab__header:hover {
+    background-color: rgb(45, 45, 45);
+    color: rgb(255, 255, 255);
+    translate: 0 25%;
+    padding-bottom: 20%;
+}
+
+.unity-tab__header:checked {
+    background-color: rgb(42, 42, 42);
+    color: rgb(255, 255, 255);
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(56, 123, 255);
+    padding-bottom: 20%;
+    translate: 0 25%;
+}
