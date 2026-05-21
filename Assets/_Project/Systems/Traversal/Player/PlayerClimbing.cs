@@ -16,6 +16,7 @@ public class PlayerClimbing : MonoBehaviour
     private Animator currentAnim;
 
     private ClimbableObject currentClimbable;
+    private PlayerTransformation transformation;
 
     private bool isClimbing;
 
@@ -29,6 +30,9 @@ public class PlayerClimbing : MonoBehaviour
 
         stamina =
             GetComponent<PlayerStamina>();
+
+        transformation =
+            GetComponent<PlayerTransformation>();
 
         UpdateAnimator();
     }
@@ -58,7 +62,9 @@ public class PlayerClimbing : MonoBehaviour
         if (!isClimbing &&
             currentClimbable != null &&
             vertical > 0.1f &&
-            stamina.CanClimb())
+            stamina.CanClimb() &&
+            transformation.currentForm ==
+            PlayerTransformation.FormState.Human)
         {
             StartClimbing();
         }
