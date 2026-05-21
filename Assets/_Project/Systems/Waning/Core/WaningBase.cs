@@ -29,21 +29,15 @@ public abstract class WaningBase : MonoBehaviour
         OnPlayerExited(other.gameObject);
     }
 
-    private float logTimer;
-    [SerializeField] private float logInterval = 1f;
-
     protected virtual void ApplyDamage(GameObject player)
     {
         float damage = damagePerSecond * Time.deltaTime;
 
-        // Apply actual damage here later
+        PlayerHealth health = player.GetComponent<PlayerHealth>();
 
-        logTimer += Time.deltaTime;
-
-        if (logTimer >= logInterval)
+        if (health != null)
         {
-            Debug.Log($"Player is taking Waning damage.");
-            logTimer = 0f;
+            health.TakeDamage(damage);
         }
     }
 

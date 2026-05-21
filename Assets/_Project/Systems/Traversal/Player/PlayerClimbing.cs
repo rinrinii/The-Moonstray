@@ -16,9 +16,11 @@ public class PlayerClimbing : MonoBehaviour
     private Animator currentAnim;
 
     private ClimbableObject currentClimbable;
+    private ClimbableObject lastDetectedClimbable;
     private PlayerTransformation transformation;
 
     private bool isClimbing;
+
 
     void Start()
     {
@@ -109,22 +111,37 @@ public class PlayerClimbing : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            Debug.Log(
-                "Detected: " + hit.name
-            );
-
             ClimbableObject climbable =
                 hit.GetComponent<ClimbableObject>();
 
             if (climbable != null)
             {
-                Debug.Log(
-                    "Climbable found!"
-                );
-
                 currentClimbable = climbable;
                 break;
             }
+        }
+
+        // =========================================
+        // DEBUG LOGGING
+        // =========================================
+
+        if (currentClimbable != lastDetectedClimbable)
+        {
+            if (currentClimbable != null)
+            {
+                Debug.Log(
+                    $"Climbable detected: {currentClimbable.name}"
+                );
+            }
+            else
+            {
+                Debug.Log(
+                    "No climbable detected"
+                );
+            }
+
+            lastDetectedClimbable =
+                currentClimbable;
         }
     }
 

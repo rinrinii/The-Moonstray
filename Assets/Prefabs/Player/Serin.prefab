@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 2535593712800099155}
   - component: {fileID: 5913640423102889239}
   - component: {fileID: 3353697142576561209}
+  - component: {fileID: 7194546173592318543}
   - component: {fileID: 4376306007494442022}
   - component: {fileID: 2383102513475922643}
   - component: {fileID: 5053813675577486572}
+  - component: {fileID: 6191078474473040453}
   m_Layer: 0
   m_Name: Serin
   m_TagString: Untagged
@@ -119,8 +121,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   turnSmoothTime: 0.03
   sprintMultiplier: 2
-  sprintStaminaDrain: 10
-  dashStaminaCost: 25
   howlCooldown: 1
   dashSpeed: 20
   dashDuration: 0.3
@@ -178,6 +178,19 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: -1, z: 0}
+--- !u!114 &7194546173592318543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085696353375262294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2de25a9411a92745aac28174605ad13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
 --- !u!114 &4376306007494442022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +240,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStamina
   maxStamina: 100
   regenRate: 5
+  sprintDrainRate: 12
+  minimumSprintStamina: 5
+  dashCost: 25
+  climbMoveDrainRate: 18
+  climbIdleDrainRate: 6
+  minimumClimbStamina: 15
+--- !u!114 &6191078474473040453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085696353375262294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb7405ae2a226e41a17e8ddc75ae10a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FallDamage
+  minimumFallDistance: 15
+  damageMultiplier: 3
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0

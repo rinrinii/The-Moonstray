@@ -9,12 +9,24 @@ public class HUDController : MonoBehaviour
 
     private UIDocument uiDocument;
 
+    // =========================================
+    // UI References
+    // =========================================
+
     private VisualElement playerFormIcon;
 
     private VisualElement staminaFill;
+    private VisualElement healthFill;
+
+    private VisualElement gameOverContainer;
+
+    // =========================================
+    // Player References
+    // =========================================
 
     private PlayerTransformation playerTransformation;
     private PlayerStamina playerStamina;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
@@ -33,24 +45,39 @@ public class HUDController : MonoBehaviour
             root.Q<VisualElement>(
                 "StaminaFill"
             );
+
+        healthFill =
+            root.Q<VisualElement>(
+                "HealthFill"
+            );
+
+        gameOverContainer =
+            root.Q<VisualElement>(
+                "GameOverContainer"
+            );
     }
 
     private void Start()
     {
         playerTransformation =
-            FindObjectOfType<PlayerTransformation>();
+            FindFirstObjectByType<PlayerTransformation>();
 
         playerStamina =
-            FindObjectOfType<PlayerStamina>();
+            FindFirstObjectByType<PlayerStamina>();
+
+        playerHealth =
+            FindFirstObjectByType<PlayerHealth>();
 
         UpdatePortrait();
         UpdateStaminaBar();
+        UpdateHealthBar();
     }
 
     private void Update()
     {
         UpdatePortrait();
         UpdateStaminaBar();
+        UpdateHealthBar();
     }
 
     // =========================================
@@ -98,5 +125,40 @@ public class HUDController : MonoBehaviour
             Length.Percent(
                 staminaPercent * 100f
             );
+    }
+
+    // =========================================
+    // HEALTH BAR
+    // =========================================
+
+    private void UpdateHealthBar()
+    {
+        if (playerHealth == null ||
+            healthFill == null)
+        {
+            return;
+        }
+
+        float healthPercent =
+            playerHealth.CurrentHealth /
+            playerHealth.MaxHealth;
+
+        healthFill.style.width =
+            Length.Percent(
+                healthPercent * 100f
+            );
+    }
+
+    // =========================================
+    // GAME OVER
+    // =========================================
+
+    public void ShowGameOver()
+    {
+        if (gameOverContainer == null)
+            return;
+
+        gameOverContainer.style.display =
+            DisplayStyle.Flex;
     }
 }
