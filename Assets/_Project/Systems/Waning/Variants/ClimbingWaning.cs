@@ -1,64 +1,76 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class ClimbingWaning : WaningBase
 {
-    [Header("References")]
-    [Tooltip("The Box Collider on this object acting as the damage zone.")]
-    [SerializeField] private BoxCollider damageTrigger;
+    [Header("Climbing Damage")]
+    [SerializeField] private float climbingDamagePerSecond = 50f;
 
-    private BoxCollider climbTrigger;
+    private PlayerClimbing playerClimbing;
+    private ClimbableObject ownClimbable;
 
     protected virtual void Awake()
     {
-        if (damageTrigger == null)
-        {
-            damageTrigger = GetComponent<BoxCollider>();
-        }
+        playerClimbing =
+            FindFirstObjectByType<PlayerClimbing>();
 
-        if (transform.parent != null)
-        {
-            climbTrigger = transform.parent.GetComponentInChildren<ClimbableObject>()?.GetComponent<BoxCollider>();
-        }
+        ownClimbable =
+            GetComponent<ClimbableObject>();
 
-        if (damageTrigger == null)
+        if (ownClimbable == null)
         {
-            Debug.LogError("Damage Trigger (Box Collider) is missing from this GameObject.", this);
-        }
-
-        if (climbTrigger == null)
-        {
-            Debug.LogError("ClimbingWaning could not find a sibling ClimbTrigger with a Box Collider and ClimbableObject script under the parent.", this);
+            Debug.LogError(
+                "ClimbingWaning requires ClimbableObject.",
+                this
+            );
         }
     }
 
-    protected override void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (!other.CompareTag("Player"))
+        if (playerClimbing == null)
             return;
 
-        // Check if the player is actively touching the climbing zone
-        if (IsPlayerClimbing(other))
+        if (ownClimbable == null)
+            return;
+
+        if (!playerClimbing.IsClimbing())
+            return;
+
+        Collider[] hits =
+            Physics.OverlapSphere(
+                playerClimbing.climbCheck.position,
+                playerClimbing.climbCheckRadius,
+                playerClimbing.climbLayer
+            );
+
+        foreach (Collider hit in hits)
         {
-            ApplyDamage(other.gameObject);
+            ClimbableObject detected =
+                hit.GetComponent<ClimbableObject>();
+
+            if (detected == ownClimbable)
+            {
+                ApplyDamage(
+                    playerClimbing.gameObject
+                );
+
+                break;
+            }
         }
     }
 
-    private bool IsPlayerClimbing(Collider playerCollider)
+    protected override void ApplyDamage(GameObject player)
     {
-        if (climbTrigger == null) return false;
+        float damage =
+            climbingDamagePerSecond *
+            Time.deltaTime;
 
-        // Use Unity's precise penetration check to see if the colliders overlap at all.
-        // This is significantly more accurate than checking bounds.Intersects().
-        Vector3 direction;
-        float distance;
-        
-        bool isOverlapping = Physics.ComputePenetration(
-            playerCollider, playerCollider.transform.position, playerCollider.transform.rotation,
-            climbTrigger, climbTrigger.transform.position, climbTrigger.transform.rotation,
-            out direction, out distance
-        );
+        PlayerHealth health =
+            player.GetComponent<PlayerHealth>();
 
-        return isOverlapping;
+        if (health != null)
+        {
+            health.TakeDamage(damage);
+        }
     }
 }
