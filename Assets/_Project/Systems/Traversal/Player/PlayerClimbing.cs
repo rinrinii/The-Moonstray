@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerClimbing : MonoBehaviour
@@ -6,21 +7,30 @@ public class PlayerClimbing : MonoBehaviour
     public Transform climbCheck;
 
     [Header("Detection")]
-    public float climbCheckRadius = 0.5f;
+    public float climbCheckRadius = 0.2f;
     public LayerMask climbLayer;
+
+    [Header("Exit Settings")]
+    public float climbReEnterDelay = 0.3f;
+
+    [SerializeField]
+    private float climbFinishUpBoost = 1.1f;
+
+    [SerializeField]
+    private float climbFinishForwardBoost = 0.5f;
 
     private CharacterController controller;
     private PlayerMovement movement;
     private PlayerStamina stamina;
+    private PlayerTransformation transformation;
 
     private Animator currentAnim;
 
     private ClimbableObject currentClimbable;
     private ClimbableObject lastDetectedClimbable;
-    private PlayerTransformation transformation;
 
     private bool isClimbing;
-
+    private bool canStartClimb = true;
 
     void Start()
     {
@@ -54,14 +64,15 @@ public class PlayerClimbing : MonoBehaviour
     {
         DetectClimbable();
 
+        float vertical =
+            Input.GetAxisRaw("Vertical");
+
         // =========================================
         // ENTER CLIMB
         // =========================================
 
-        float vertical =
-            Input.GetAxisRaw("Vertical");
-
         if (!isClimbing &&
+            canStartClimb &&
             currentClimbable != null &&
             vertical > 0.1f &&
             stamina.CanClimb() &&
@@ -78,6 +89,7 @@ public class PlayerClimbing : MonoBehaviour
         if (isClimbing)
         {
             stamina.BlockRegeneration();
+
             // Stop climb if no stamina
             if (!stamina.HasStamina())
             {
@@ -149,6 +161,11 @@ public class PlayerClimbing : MonoBehaviour
     {
         isClimbing = true;
 
+        if (movement != null)
+        {
+            movement.ResetVerticalVelocity();
+        }
+
         if (currentAnim != null)
         {
             currentAnim.SetBool(
@@ -165,10 +182,12 @@ public class PlayerClimbing : MonoBehaviour
         Debug.Log("Started Climbing");
     }
 
-    void StopClimbing()
+    public void StopClimbing()
     {
         isClimbing = false;
+
         stamina.AllowRegeneration();
+
         if (currentAnim != null)
         {
             currentAnim.SetBool(
@@ -185,16 +204,42 @@ public class PlayerClimbing : MonoBehaviour
         Debug.Log("Stopped Climbing");
     }
 
+    IEnumerator EnableClimbAgain()
+    {
+        canStartClimb = false;
+
+        yield return new WaitForSeconds(
+            climbReEnterDelay
+        );
+
+        canStartClimb = true;
+    }
+
     void HandleClimbing()
     {
+        float vertical =
+            Input.GetAxisRaw("Vertical");
+
+        // =========================================
+        // REACHED TOP
+        // =========================================
+
+        if (currentClimbable == null &&
+            vertical > 0.1f)
+        {
+            FinishClimb();
+            return;
+        }
+
+        // =========================================
+        // FELL AWAY FROM WALL
+        // =========================================
+
         if (currentClimbable == null)
         {
             StopClimbing();
             return;
         }
-
-        float vertical =
-            Input.GetAxisRaw("Vertical");
 
         // =========================================
         // CLIMB MOVEMENT
@@ -222,14 +267,71 @@ public class PlayerClimbing : MonoBehaviour
         }
 
         // =========================================
-        // EXIT CLIMB
+        // MANUAL EXIT
         // =========================================
 
-        // Jump off wall
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StopClimbing();
         }
+    }
+
+    void FinishClimb()
+    {
+        Debug.Log("Finished Climb");
+
+        StopClimbing();
+
+        Vector3 finishPosition =
+            transform.position +
+            Vector3.up * climbFinishUpBoost +
+            transform.forward * climbFinishForwardBoost;
+
+        StartCoroutine(
+            SmoothClimbFinish(finishPosition)
+        );
+
+        StartCoroutine(
+            EnableClimbAgain()
+        );
+    }
+
+    IEnumerator SmoothClimbFinish(
+    Vector3 targetPosition)
+    {
+        controller.enabled = false;
+
+        Vector3 startPosition =
+            transform.position;
+
+        float duration = 0.18f;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t =
+                elapsed / duration;
+
+            // Smooth easing
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            transform.position =
+                Vector3.Lerp(
+                    startPosition,
+                    targetPosition,
+                    t
+                );
+
+            yield return null;
+        }
+
+        transform.position =
+            targetPosition;
+
+        controller.enabled = true;
     }
 
     void OnDrawGizmosSelected()

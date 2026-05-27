@@ -212,6 +212,13 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // =========================================
+        // CONTROLLER DISABLED
+        // =========================================
+        if (!controller.enabled)
+            return;
+
+
+        // =========================================
         // CLIMBING
         // =========================================
         if (climbing != null && climbing.IsClimbing())
@@ -453,6 +460,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ApplyGravity();
+    }
+
+    public void ResetVerticalVelocity()
+    {
+        velocity.y = 0f;
     }
 
     void ApplyGravity()

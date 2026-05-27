@@ -17,7 +17,7 @@ public class PlayerTransformation : MonoBehaviour
 
     [Header("Movement")]
     public float humanSpeed = 5f;
-    public float wolfSpeed = 9f;
+    public float wolfSpeed = 6.5f;
 
     [Header("Jump")]
     public float humanJumpHeight = 2f;
@@ -33,8 +33,6 @@ public class PlayerTransformation : MonoBehaviour
 
     [Header("World Effects")]
     public Light sunLight;
-    public Vector2 dayRotation = new Vector2(120f, 150f);
-    public Vector2 nightRotation = new Vector2(356f, 330f);
     public Volume dayVol;
     public Volume nightVol;
     public float transitionDuration = 1.5f;
@@ -47,7 +45,6 @@ public class PlayerTransformation : MonoBehaviour
     public float maxSphereScale = 3f;
 
     private float currentSpeed;
-
     private float currentJumpHeight;
     private float currentGravity;
 
@@ -68,7 +65,6 @@ public class PlayerTransformation : MonoBehaviour
         }
     }
 
-    // ✔ IMPORTANT: movement script uses this
     public bool CanMove()
     {
         return !isTransitioning;
@@ -77,21 +73,17 @@ public class PlayerTransformation : MonoBehaviour
     IEnumerator TransformationSequence()
     {
         isTransitioning = true;
+
         bool turningToWolf = (currentForm == FormState.Human);
 
         float time = 0f;
         bool swapped = false;
 
-        Quaternion startRot = sunLight.transform.rotation;
-        Vector2 targetV2 = turningToWolf ? nightRotation : dayRotation;
-        Quaternion endRot = Quaternion.Euler(targetV2.x, targetV2.y, 0f);
+        float spinAmount = 360f;
 
         float startDayWeight = dayVol.weight;
         float startNightWeight = nightVol.weight;
 
-        // ======================================================
-        // 1. START TRANSFORM (Locomotion → Rest)
-        // ======================================================
         if (turningToWolf)
             HumanAnimator.SetBool("IsTransforming", true);
         else
@@ -101,18 +93,22 @@ public class PlayerTransformation : MonoBehaviour
         {
             float t = time / transitionDuration;
 
-            // LIGHT
             if (sunLight)
-                sunLight.transform.rotation = Quaternion.Slerp(startRot, endRot, t);
+            {
+                sunLight.transform.Rotate(
+                    0f,
+                    (spinAmount / transitionDuration) * Time.deltaTime,
+                    0f,
+                    Space.World
+                );
+            }
 
-            // VOLUME
             if (dayVol)
                 dayVol.weight = Mathf.Lerp(startDayWeight, turningToWolf ? 0f : 1f, t);
 
             if (nightVol)
                 nightVol.weight = Mathf.Lerp(startNightWeight, turningToWolf ? 1f : 0f, t);
 
-            // VFX BURST
             float burstCurve = Mathf.Pow(Mathf.Sin(t * Mathf.PI), 10f);
 
             if (transformLight)
@@ -127,9 +123,6 @@ public class PlayerTransformation : MonoBehaviour
                 glowMat.SetColor("_EmissionColor", Color.white * (burstCurve * 50f));
             }
 
-            // ======================================================
-            // 2. SWAP (MID TRANSFORM)
-            // ======================================================
             if (!swapped && time >= transitionDuration / 2f)
             {
                 swapped = true;
@@ -137,23 +130,27 @@ public class PlayerTransformation : MonoBehaviour
                 if (turningToWolf)
                 {
                     ApplyWolfForm();
+
                     transformParticles?.Play();
 
                     GetComponent<PlayerMovement>().UpdateAnimator();
 
                     WolfAnimator.SetBool("IsTransforming", false);
                     WolfAnimator.Play("Rest–Reverse", 0, 0f);
+
                     StartCoroutine(ForceReturnToLocomotion(WolfAnimator));
                 }
                 else
                 {
                     ApplyHumanForm();
+
                     transformParticles?.Play();
 
                     GetComponent<PlayerMovement>().UpdateAnimator();
 
                     HumanAnimator.SetBool("IsTransforming", false);
                     HumanAnimator.Play("Rest–Reverse", 0, 0f);
+
                     StartCoroutine(ForceReturnToLocomotion(HumanAnimator));
                 }
             }
@@ -162,11 +159,6 @@ public class PlayerTransformation : MonoBehaviour
             yield return null;
         }
 
-        // ======================================================
-        // 3. CLEANUP
-        // ======================================================
-        if (sunLight)
-            sunLight.transform.rotation = endRot;
 
         if (transformLight)
             transformLight.intensity = 0f;
@@ -182,11 +174,9 @@ public class PlayerTransformation : MonoBehaviour
 
     IEnumerator ForceReturnToLocomotion(Animator anim)
     {
-        // wait for reverse animation timing (adjust if needed)
         yield return new WaitForSeconds(0.6f);
 
         anim.SetBool("IsTransforming", false);
-
         anim.CrossFade("Locomotion", 0.25f);
     }
 
@@ -200,6 +190,7 @@ public class PlayerTransformation : MonoBehaviour
         currentSpeed = humanSpeed;
         currentJumpHeight = humanJumpHeight;
         currentGravity = humanGravity;
+
         controller.height = humanHeight;
         controller.center = new Vector3(0, humanHeight / 2f, 0);
     }
@@ -214,6 +205,7 @@ public class PlayerTransformation : MonoBehaviour
         currentSpeed = wolfSpeed;
         currentJumpHeight = wolfJumpHeight;
         currentGravity = wolfGravity;
+
         controller.height = wolfHeight;
         controller.center = new Vector3(0, wolfHeight / 2f, 0);
     }
