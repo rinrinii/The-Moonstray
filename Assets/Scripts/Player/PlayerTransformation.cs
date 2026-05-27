@@ -17,7 +17,7 @@ public class PlayerTransformation : MonoBehaviour
 
     [Header("Movement")]
     public float humanSpeed = 5f;
-    public float wolfSpeed = 9f;
+    public float wolfSpeed = 6.5f;
 
     [Header("Jump")]
     public float humanJumpHeight = 2f;

@@ -97,8 +97,6 @@ MonoBehaviour:
   humanHeight: 1.8
   wolfHeight: 1
   sunLight: {fileID: 0}
-  dayRotation: {x: 120, y: 150}
-  nightRotation: {x: 356, y: 330}
   dayVol: {fileID: 0}
   nightVol: {fileID: 0}
   transitionDuration: 1.5
@@ -223,10 +221,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerClimbing
   climbCheck: {fileID: 2570544728441977358}
-  climbCheckRadius: 0.5
+  climbCheckRadius: 0.2
   climbLayer:
     serializedVersion: 2
     m_Bits: 64
+  climbReEnterDelay: 0.3
+  climbFinishUpBoost: 1.1
+  climbFinishForwardBoost: 0.5
 --- !u!114 &5053813675577486572
 MonoBehaviour:
   m_ObjectHideFlags: 0
