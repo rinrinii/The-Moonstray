@@ -3,8 +3,8 @@
     <ui:Template name="CharactersPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/CharactersPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=afbb907b3a149ab42961359bbe5de6b8&amp;type=3#CharactersPanelTemplate"/>
     <ui:Template name="NotesPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/NotesPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=b4955e4a9abc2634ca29380c59ad5157&amp;type=3#NotesPanelTemplate"/>
     <ui:Template name="QuestPanelTemplate" src="project://database/Assets/_Project/UI/Visual%20Tree/JournalTemplates/QuestPanelTemplate.uxml?fileID=9197481963319205126&amp;guid=64ed30d8e9fd693499744b55748b2edc&amp;type=3#QuestPanelTemplate"/>
-    <Style src="project://database/Assets/_Project/UI/UIStyle.uss?fileID=7433441132597879392&amp;guid=5ca3eae8c523ede4fba5c0e3a3a2c1ba&amp;type=3#UIStyle"/>
-    <Style src="project://database/Assets/_Project/UI/Journal.uss?fileID=7433441132597879392&amp;guid=02759fd95776e284aad5abf09b9ad22c&amp;type=3#Journal"/>
+    <Style src="project://database/Assets/_Project/UI/Stylesheets/UIStyle.uss?fileID=7433441132597879392&amp;guid=5ca3eae8c523ede4fba5c0e3a3a2c1ba&amp;type=3#UIStyle"/>
+    <Style src="project://database/Assets/_Project/UI/Stylesheets/Journal.uss?fileID=7433441132597879392&amp;guid=02759fd95776e284aad5abf09b9ad22c&amp;type=3#Journal"/>
     <ui:VisualElement name="Root" style="flex-grow: 1; display: flex;">
         <ui:VisualElement name="DialogueContainer" class="dialogue-root" style="flex-grow: 1; font-size: 24px; color: rgb(255, 255, 255); -unity-font-style: bold; margin-bottom: 0; align-items: center; align-self: auto; justify-content: flex-end; width: 100%; height: 100%; padding-bottom: 60px; margin-top: 0; margin-right: 0; margin-left: 0; display: none; background-color: rgba(0, 0, 0, 0.12);">
             <ui:Image name="dialogue-background" style="position: relative; bottom: auto; left: auto; right: auto; height: 250px; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Dialogue/dialogue-BG.png?fileID=21300000&amp;guid=bfb0cd7994f70614fa16dcca80ab5c93&amp;type=3#dialogue-BG&quot;); flex-direction: row; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; align-items: flex-end; width: 70%; max-width: 1600px; align-self: auto; min-width: 700px; display: flex;">
@@ -85,7 +85,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="JournalContainer" style="flex-grow: 1; position: relative; justify-content: center; top: 0; left: 0; right: 0; bottom: 0; align-items: center; display: flex; background-color: rgba(0, 0, 0, 0.74);">
+        <ui:VisualElement name="JournalContainer" style="flex-grow: 1; position: relative; justify-content: center; top: 0; left: 0; right: 0; bottom: 0; align-items: center; display: none; background-color: rgba(0, 0, 0, 0.74);">
             <ui:Image name="journal-bg" style="background-image: url(&quot;project://database/Assets/_Project/UI/Images/Journal/Journal-bg.png?fileID=2800000&amp;guid=ef72858706355754e8d2a0cf6400384e&amp;type=3#Journal-bg&quot;); position: absolute; width: 67%; height: 85%; bottom: 8%;"/>
             <ui:TabView name="TabView" reorderable="false" language-direction="Inherit" style="align-items: flex-start; height: 70%; width: 75%; background-image: none; flex-direction: row; justify-content: space-between; position: absolute; left: 12.4%;">
                 <ui:Tab label="Abilities" name="AbilitiesTab">
@@ -101,6 +101,33 @@
                     <ui:Instance template="QuestPanelTemplate" style="position: absolute; width: 1123px; height: 629px; flex-grow: 0; top: -1px; left: 0;"/>
                 </ui:Tab>
             </ui:TabView>
+        </ui:VisualElement>
+        <ui:VisualElement name="MapRoot" style="flex-grow: 1; position: absolute; justify-content: center; top: 0; left: 0; right: 0; bottom: 0; align-items: center; display: flex; background-color: rgba(0, 0, 0, 0.86);">
+            <ui:VisualElement name="MapPanel" style="flex-grow: 0; background-image: none; width: 80%; max-width: none; height: 77%; background-color: rgb(108, 108, 108);">
+                <ui:VisualElement name="MapImage" style="flex-grow: 1; width: 1137px; height: 100%;">
+                    <ui:Image name="PlayerIcon" style="background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/player-icon.png?fileID=2800000&amp;guid=8e0e1560d5445c8428024ca0559b1a0c&amp;type=3#player-icon&quot;); position: absolute; width: 82px; height: 66px;"/>
+                    <ui:Button text="World Map" name="WorldMap-Button" class="journalButton" style="position: absolute; bottom: 0%; margin-left: 1%; font-size: 37px; color: rgb(255, 255, 255); background-color: rgba(82, 82, 82, 0.79); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; margin-bottom: 2%;"/>
+                </ui:VisualElement>
+                <ui:Label text="Region Title" name="regionTitle-Label" style="top: 3%; -unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/Solander/solander%20demo.ttf?fileID=12800000&amp;guid=ef76212c595460c43b2f0f7f020c38d2&amp;type=3#solander demo&quot;); color: rgb(255, 255, 255); -unity-text-align: upper-center; font-size: 64px; position: absolute; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; padding-left: 25px; padding-top: 15px; padding-bottom: 15px; padding-right: 25px; align-self: center;"/>
+                <ui:GroupBox name="Legend-Group" style="width: 328px; height: 400px; left: auto; right: 2%; position: absolute; bottom: 4%; flex-direction: row;">
+                    <ui:VisualElement name="icon-column" style="flex-grow: 1; width: 10%; left: auto; position: relative; height: 100%; align-self: center; align-items: stretch;">
+                        <ui:Image name="player-icon" style="width: 100%; height: 57px; align-self: center; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/player-icon.png?fileID=2800000&amp;guid=8e0e1560d5445c8428024ca0559b1a0c&amp;type=3#player-icon&quot;); margin-bottom: 15px;"/>
+                        <ui:Image name="npc-icon" style="width: 100%; height: 57px; align-self: center; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/npc-icon.png?fileID=2800000&amp;guid=8e605f25b8306a54c869f8bbe91245c3&amp;type=3#npc-icon&quot;); margin-bottom: 15px; background-size: 75% 100%;"/>
+                        <ui:Image name="resource-icon" style="width: 100%; height: 57px; align-self: center; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/resource-icon.png?fileID=2800000&amp;guid=6e3b5776acebc0d4982b71f6d27caa63&amp;type=3#resource-icon&quot;); margin-bottom: 15px; background-size: 75% 100%;"/>
+                        <ui:Image name="quest-icon" style="width: 100%; height: 57px; align-self: center; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/quest-icon.png?fileID=2800000&amp;guid=8c787d0391e8e0c4b856f3059c66ca92&amp;type=3#quest-icon&quot;); margin-bottom: 15px; background-size: 75% 100%;"/>
+                        <ui:Image name="note-icon" style="width: 100%; height: 57px; align-self: center; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/note-icon.png?fileID=2800000&amp;guid=d4e7380aed7dc8044a6252937120a730&amp;type=3#note-icon&quot;); margin-bottom: 15px; background-size: 75% 85%;"/>
+                        <ui:Image name="blocked-icon" style="width: 100%; height: 57px; align-self: center; background-image: url(&quot;project://database/Assets/_Project/UI/Images/Map/blocked-icon.png?fileID=2800000&amp;guid=93269c589118d744e85fcf58b973b50c&amp;type=3#blocked-icon&quot;); margin-bottom: 15px; background-size: 80% 68%;"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="label-column" style="flex-grow: 1; width: 75%; padding-left: 20px;">
+                        <ui:Label text="Player" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 38%; margin-bottom: 15px;"/>
+                        <ui:Label text="NPC" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 38%; margin-bottom: 15px;"/>
+                        <ui:Label text="Resources" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 38%; margin-bottom: 15px;"/>
+                        <ui:Label text="Quest" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 38%; margin-bottom: 15px;"/>
+                        <ui:Label text="Note" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 38%; margin-bottom: 15px;"/>
+                        <ui:Label text="Blocked Path" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 38%; margin-bottom: 15px;"/>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
