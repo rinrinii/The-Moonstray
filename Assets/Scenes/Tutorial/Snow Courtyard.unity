@@ -2052,6 +2052,7 @@ GameObject:
   - component: {fileID: 570348603}
   - component: {fileID: 570348604}
   - component: {fileID: 570348605}
+  - component: {fileID: 570348606}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -2147,6 +2148,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c303372396c3144a381254304e91ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JournalController
+--- !u!114 &570348606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570348599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a41ae9eed937ce4f848589d1f17d8f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MapUI
+  worldMinXZ: {x: 0, y: 0}
+  worldMaxXZ: {x: 0, y: 0}
+  player: {fileID: 219057468}
 --- !u!1 &575368315
 GameObject:
   m_ObjectHideFlags: 0
