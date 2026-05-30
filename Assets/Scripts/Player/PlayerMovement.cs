@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Howl")]
     public float howlCooldown = 1f;
     private float nextHowlTime;
+    [SerializeField] private float howlHazardClearRadius = 15f; // Distance your howl clears fog
+    [SerializeField] private LayerMask WaningHazard;             // Select your 'Hazards' layer here
 
     [Header("Dash")]
     public float dashSpeed = 20f;
@@ -105,6 +107,21 @@ public class PlayerMovement : MonoBehaviour
         nextHowlTime = Time.time + howlCooldown;
 
         currentAnim.SetTrigger("Howl");
+
+        // --- FOOLPROOF TEST ---
+        // Change 'hazardLayer' to ~0 (this means check absolutely EVERYTHING in the world)
+        // This confirms if it's a layer mismatch problem.
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, howlHazardClearRadius, ~0);
+
+        foreach (Collider col in hitColliders)
+        {
+            StillnessWaning stillnessFog = col.GetComponent<StillnessWaning>();
+            if (stillnessFog != null)
+            {
+                Debug.Log("🎯 Found the fog! Dispersing now.");
+                stillnessFog.Disperse();
+            }
+        }
     }
 
     bool CanHowl()
