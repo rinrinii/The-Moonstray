@@ -5,10 +5,6 @@ public class PlayerMovement : MonoBehaviour
     public float turnSmoothTime = 0.03f;
     public float sprintMultiplier = 1.2f;
 
-    [Header("Howl")]
-    public float howlCooldown = 1f;
-    private float nextHowlTime;
-
     [Header("Dash")]
     public float dashSpeed = 20f;
     public float dashDuration = 0.3f;
@@ -20,11 +16,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 dashDirection;
     private Vector3 currentMoveDirection;
 
+    private PlayerHowl howl;
+
     private CharacterController controller;
     private PlayerTransformation transformation;
-    private PlayerClimbing climbing;
 
+    private PlayerClimbing climbing;
     private PlayerStamina stamina;
+
+    private float groundedRememberTime = 0.1f;
+    private float groundedRemember;
+
+    private PlayerLunarSense lunarSense;
 
     private Animator currentAnim;
     private Transform cam;
@@ -32,8 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private float turnSmoothVelocity;
 
-    private float groundedRememberTime = 0.1f;
-    private float groundedRemember;
+    
 
     void Start()
     {
@@ -47,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
 
         stamina =
             GetComponent<PlayerStamina>();
+
+        lunarSense =
+            GetComponent<PlayerLunarSense>();
+
+        howl =
+            GetComponent<PlayerHowl>();
 
         cam = Camera.main.transform;
 
@@ -84,68 +92,6 @@ public class PlayerMovement : MonoBehaviour
         {
             currentAnim.SetTrigger("InteractStand");
         }
-    }
-
-    // =========================================
-    // HOWL
-    // =========================================
-    public void PlayHowl()
-    {
-        if (transformation.currentForm !=
-            PlayerTransformation.FormState.Wolf)
-        {
-            return;
-        }
-
-        if (!CanHowl())
-        {
-            return;
-        }
-
-        nextHowlTime = Time.time + howlCooldown;
-
-        currentAnim.SetTrigger("Howl");
-    }
-
-    bool CanHowl()
-    {
-        if (Time.time < nextHowlTime)
-            return false;
-
-        if (currentAnim == null)
-            return false;
-
-        if (!controller.isGrounded)
-            return false;
-
-        if (!transformation.CanMove())
-            return false;
-
-        if (isDashing)
-            return false;
-
-        AnimatorStateInfo state =
-            currentAnim.GetCurrentAnimatorStateInfo(0);
-
-        if (state.IsName("Jump-Start") ||
-            state.IsName("Jump-Air") ||
-            state.IsName("Jump-End"))
-        {
-            return false;
-        }
-
-        if (state.IsName("Interact-Kneel") ||
-            state.IsName("Interact-Stand"))
-        {
-            return false;
-        }
-
-        if (state.IsName("Howl"))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     // =========================================
@@ -416,12 +362,24 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        //test for sense
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (lunarSense != null)
+            {
+                lunarSense.ActivateSense();
+            }
+        }
+
         // =========================================
         // HOWL
         // =========================================
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayHowl();
+            if (howl != null)
+            {
+                howl.ActivateHowl();
+            }
         }
 
         // =========================================
