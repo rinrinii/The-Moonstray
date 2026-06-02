@@ -3,43 +3,87 @@ using System.Collections;
 
 public class StillnessWaning : WaningBase
 {
+    // manually change damage to 20 in inspector
+
+    [Header("Visuals")]
+    [SerializeField] private ParticleSystem fogParticles;
+    [SerializeField] private Renderer frostDecal;
+
+    [Header("Disperse")]
+    [SerializeField] private float fadeDuration = 0.5f;
+
     private Collider zoneCollider;
-    private bool isDispersed = false;
+    private bool isDispersed;
+
+    private Material decalMaterial;
+    private Color decalColor;
 
     private void Awake()
     {
         zoneCollider = GetComponent<Collider>();
+
+        if (frostDecal != null)
+        {
+            decalMaterial = frostDecal.material;
+            decalColor = decalMaterial.color;
+        }
     }
 
     protected override void OnTriggerStay(Collider other)
     {
-        // Safety guard: Stop damage calculations immediately when dispersed flag is true
-        if (isDispersed) return;
+        if (isDispersed)
+            return;
 
-        base.OnTriggerStay(other); 
+        base.OnTriggerStay(other);
     }
 
-    /// <summary>
-    /// Called by the Player's Q Howl code to clear this fog.
-    /// </summary>
     public void Disperse()
     {
-        if (isDispersed) return;
+        if (isDispersed)
+            return;
+
         StartCoroutine(DisperseRoutine());
     }
 
     private IEnumerator DisperseRoutine()
     {
         isDispersed = true;
-        
-        // Disable the collider so OnTriggerStay completely stops firing instantly
+
+        // Stop damage instantly
         if (zoneCollider != null)
         {
-            zoneCollider.enabled = false; 
+            zoneCollider.enabled = false;
         }
 
-        // Without particles, we can just delete the object immediately
+        // Stop spawning new fog particles
+        if (fogParticles != null)
+        {
+            fogParticles.Stop();
+        }
+
+        float timer = 0f;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+
+            float t = timer / fadeDuration;
+
+            if (decalMaterial != null)
+            {
+                Color color = decalColor;
+                color.a = Mathf.Lerp(
+                    decalColor.a,
+                    0f,
+                    t
+                );
+
+                decalMaterial.color = color;
+            }
+
+            yield return null;
+        }
+
         Destroy(gameObject);
-        yield return null;
     }
 }

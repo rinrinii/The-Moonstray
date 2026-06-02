@@ -5,12 +5,6 @@ public class PlayerMovement : MonoBehaviour
     public float turnSmoothTime = 0.03f;
     public float sprintMultiplier = 1.2f;
 
-    [Header("Howl")]
-    public float howlCooldown = 1f;
-    private float nextHowlTime;
-    [SerializeField] private float howlHazardClearRadius = 15f; // Distance your howl clears fog
-    [SerializeField] private LayerMask WaningHazard;             // Select your 'Hazards' layer here
-
     [Header("Dash")]
     public float dashSpeed = 20f;
     public float dashDuration = 0.3f;
@@ -21,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private float nextDashTime;
     private Vector3 dashDirection;
     private Vector3 currentMoveDirection;
+
+    private PlayerHowl howl;
 
     private CharacterController controller;
     private PlayerTransformation transformation;
@@ -56,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
         lunarSense =
             GetComponent<PlayerLunarSense>();
+
+        howl =
+            GetComponent<PlayerHowl>();
 
         cam = Camera.main.transform;
 
@@ -93,83 +92,6 @@ public class PlayerMovement : MonoBehaviour
         {
             currentAnim.SetTrigger("InteractStand");
         }
-    }
-
-    // =========================================
-    // HOWL
-    // =========================================
-    public void PlayHowl()
-    {
-        if (transformation.currentForm !=
-            PlayerTransformation.FormState.Wolf)
-        {
-            return;
-        }
-
-        if (!CanHowl())
-        {
-            return;
-        }
-
-        nextHowlTime = Time.time + howlCooldown;
-
-        currentAnim.SetTrigger("Howl");
-
-        // --- FOOLPROOF TEST ---
-        // Change 'hazardLayer' to ~0 (this means check absolutely EVERYTHING in the world)
-        // This confirms if it's a layer mismatch problem.
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, howlHazardClearRadius, ~0);
-
-        foreach (Collider col in hitColliders)
-        {
-            StillnessWaning stillnessFog = col.GetComponent<StillnessWaning>();
-            if (stillnessFog != null)
-            {
-                Debug.Log("🎯 Found the fog! Dispersing now.");
-                stillnessFog.Disperse();
-            }
-        }
-    }
-
-    bool CanHowl()
-    {
-        if (Time.time < nextHowlTime)
-            return false;
-
-        if (currentAnim == null)
-            return false;
-
-        if (!controller.isGrounded)
-            return false;
-
-        if (!transformation.CanMove())
-            return false;
-
-        if (isDashing)
-            return false;
-
-        AnimatorStateInfo state =
-            currentAnim.GetCurrentAnimatorStateInfo(0);
-
-        if (state.IsName("Jump-Start") ||
-            state.IsName("Jump-Air") ||
-            state.IsName("Jump-End"))
-        {
-            return false;
-        }
-
-        if (state.IsName("Interact-Kneel") ||
-            state.IsName("Interact-Stand"))
-        {
-            return false;
-        }
-
-        if (state.IsName("Howl"))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     // =========================================
@@ -454,7 +376,10 @@ public class PlayerMovement : MonoBehaviour
         // =========================================
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayHowl();
+            if (howl != null)
+            {
+                howl.ActivateHowl();
+            }
         }
 
         // =========================================
