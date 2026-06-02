@@ -24,9 +24,14 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
     private PlayerTransformation transformation;
-    private PlayerClimbing climbing;
 
+    private PlayerClimbing climbing;
     private PlayerStamina stamina;
+
+    private float groundedRememberTime = 0.1f;
+    private float groundedRemember;
+
+    private PlayerLunarSense lunarSense;
 
     private Animator currentAnim;
     private Transform cam;
@@ -34,8 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private float turnSmoothVelocity;
 
-    private float groundedRememberTime = 0.1f;
-    private float groundedRemember;
+    
 
     void Start()
     {
@@ -49,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
 
         stamina =
             GetComponent<PlayerStamina>();
+
+        lunarSense =
+            GetComponent<PlayerLunarSense>();
 
         cam = Camera.main.transform;
 
@@ -430,6 +437,15 @@ public class PlayerMovement : MonoBehaviour
             if (currentAnim != null)
             {
                 currentAnim.SetTrigger("Jump");
+            }
+        }
+
+        //test for sense
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (lunarSense != null)
+            {
+                lunarSense.ActivateSense();
             }
         }
 

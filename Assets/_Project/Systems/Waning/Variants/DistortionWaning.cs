@@ -1,76 +1,83 @@
+using System.Collections;
 using UnityEngine;
 
-// Adding IObjectBehaviour lets ObjectStateAction talk to this script directly!
-public class DistortionWaning : MonoBehaviour, IObjectBehaviour
+public class DistortionWaning : MonoBehaviour
 {
-    [Header("Sibling Link")]
-    [Tooltip("Drag the 'HiddenMesh' GameObject (the sibling) here.")]
-    [SerializeField] private GameObject hiddenMesh;
+    [Header("Fade Settings")]
+    [SerializeField] private float fadeDuration = 0.4f;
 
-    [Header("Glow Visual Settings")]
-    [Tooltip("The color the hidden pathway will change to upon activation.")]
-    [SerializeField] private Color revealedColor = new Color(1f, 0.4f, 0f); // Vibrant Orange
-    [SerializeField] private float emissionIntensity = 2.0f;
+    private Renderer meshRenderer;
+    private Collider meshCollider;
 
-    private Renderer hiddenMeshRenderer;
-    private Renderer visualMeshRenderer;
-    private Collider visualMeshCollider;
+    private Material materialInstance;
+
+    private bool revealed;
 
     private void Awake()
     {
-        // Cache our own door components so we can hide them
-        visualMeshRenderer = GetComponent<Renderer>();
-        visualMeshCollider = GetComponent<Collider>();
+        meshRenderer = GetComponent<Renderer>();
+        meshCollider = GetComponent<Collider>();
 
-        // Cache the sibling pathway's renderer
-        if (hiddenMesh != null)
+        if (meshRenderer != null)
         {
-            hiddenMeshRenderer = hiddenMesh.GetComponent<Renderer>();
+            materialInstance = meshRenderer.material;
         }
     }
 
-    private void Start()
+    public void Reveal()
     {
-        // Ensure the hidden pathway starts completely invisible at launch
-        if (hiddenMesh != null)
-        {
-            hiddenMesh.SetActive(false);
-        }
+        if (revealed)
+            return;
+
+        revealed = true;
+
+        StartCoroutine(FadeOut());
     }
 
-    /// <summary>
-    /// This fulfills the IObjectBehaviour requirement. 
-    /// ObjectStateAction will call this automatically on interaction!
-    /// </summary>
-    public void Execute()
+    private IEnumerator FadeOut()
     {
-        // 1. Hide this VisualMesh door (turn off renderer and collider so the player can pass)
-        if (visualMeshRenderer != null) visualMeshRenderer.enabled = false;
-        if (visualMeshCollider != null) visualMeshCollider.enabled = false;
-
-        // 2. Reveal the sibling pathway
-        if (hiddenMesh != null)
+        if (meshCollider != null)
         {
-            hiddenMesh.SetActive(true);
+            meshCollider.enabled = false;
+        }
 
-            // 3. Turn it glowing orange
-            if (hiddenMeshRenderer != null)
+        if (materialInstance == null)
+        {
+            if (meshRenderer != null)
             {
-                Material matInstance = hiddenMeshRenderer.material;
-
-                if (matInstance.HasProperty("_Color"))
-                {
-                    matInstance.SetColor("_Color", revealedColor);
-                }
-
-                if (matInstance.HasProperty("_EmissionColor"))
-                {
-                    matInstance.EnableKeyword("_EMISSION");
-                    matInstance.SetColor("_EmissionColor", revealedColor * emissionIntensity);
-                }
+                meshRenderer.enabled = false;
             }
+
+            yield break;
         }
 
-        Debug.Log($"[{name}] ObjectStateAction executed! VisualMesh hidden, HiddenMesh path revealed glowing orange.");
+        Color startColor = materialInstance.color;
+
+        float timer = 0f;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+
+            float t = Mathf.Clamp01(
+                timer / fadeDuration
+            );
+
+            float fade =
+                1f - Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    t
+                );
+
+            Color color = startColor;
+            color.a = startColor.a * fade;
+
+            materialInstance.color = color;
+
+            yield return null;
+        }
+
+        meshRenderer.enabled = false;
     }
 }
