@@ -19,6 +19,13 @@ public class PlayerClimbing : MonoBehaviour
     [SerializeField]
     private float climbFinishForwardBoost = 0.5f;
 
+    [Header("Root Anchor")]
+    [SerializeField]
+    private float rootAnchorMoveMultiplier = 0.5f;
+
+    [SerializeField]
+    private float rootAnchorIdleMultiplier = 0.5f;
+
     private CharacterController controller;
     private PlayerMovement movement;
     private PlayerStamina stamina;
@@ -64,6 +71,11 @@ public class PlayerClimbing : MonoBehaviour
     {
         DetectClimbable();
 
+        if (!AbilityManager.Instance.IsUnlocked(AbilityType.Climb))
+        {
+            return;
+        }
+
         float vertical =
             Input.GetAxisRaw("Vertical");
 
@@ -97,13 +109,37 @@ public class PlayerClimbing : MonoBehaviour
                 return;
             }
 
+            bool hasRootAnchor =
+                UpgradeManager.Instance != null &&
+                UpgradeManager.Instance.IsUnlocked(
+                    UpgradeType.RootAnchor
+                );
+
             if (Mathf.Abs(vertical) > 0.1f)
             {
-                stamina.UseClimbMoveStamina();
+                if (hasRootAnchor)
+                {
+                    stamina.UseClimbMoveStamina(
+                        rootAnchorMoveMultiplier
+                    );
+                }
+                else
+                {
+                    stamina.UseClimbMoveStamina();
+                }
             }
             else
             {
-                stamina.UseClimbIdleStamina();
+                if (hasRootAnchor)
+                {
+                    stamina.UseClimbIdleStamina(
+                        rootAnchorIdleMultiplier
+                    );
+                }
+                else
+                {
+                    stamina.UseClimbIdleStamina();
+                }
             }
 
             HandleClimbing();

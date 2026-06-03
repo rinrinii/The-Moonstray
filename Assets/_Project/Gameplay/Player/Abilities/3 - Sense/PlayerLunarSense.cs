@@ -19,6 +19,11 @@ public class PlayerLunarSense : MonoBehaviour
 
     public void ActivateSense()
     {
+        if (!AbilityManager.Instance.IsUnlocked(AbilityType.LunarSense))
+        {
+            return;
+        }
+
         if (Time.time < nextSenseTime)
             return;
 
