@@ -36,6 +36,11 @@ public class PlayerHowl : MonoBehaviour
 
     public void ActivateHowl()
     {
+        if (!AbilityManager.Instance.IsUnlocked(AbilityType.PurgeHowl))
+        {
+            return;
+        }
+
         if (!CanHowl())
             return;
 

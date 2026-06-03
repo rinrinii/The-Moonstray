@@ -97,18 +97,22 @@ public class PlayerStamina : MonoBehaviour
         UseStamina(dashCost);
     }
 
-    public void UseClimbMoveStamina()
+    public void UseClimbMoveStamina(
+        float multiplier = 1f)
     {
         UseStamina(
             climbMoveDrainRate *
+            multiplier *
             Time.deltaTime
         );
     }
 
-    public void UseClimbIdleStamina()
+    public void UseClimbIdleStamina(
+        float multiplier = 1f)
     {
         UseStamina(
             climbIdleDrainRate *
+            multiplier *
             Time.deltaTime
         );
     }

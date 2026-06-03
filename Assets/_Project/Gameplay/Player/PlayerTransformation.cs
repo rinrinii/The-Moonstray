@@ -20,6 +20,9 @@ public class PlayerTransformation : MonoBehaviour
     public float humanSpeed = 5f;
     public float wolfSpeed = 6.5f;
 
+    private float speedModifier = 1f;
+    private bool ignoreSpeedModifiers;
+
     [Header("Jump")]
     public float humanJumpHeight = 2f;
     public float wolfJumpHeight = 1.5f;
@@ -126,7 +129,23 @@ public class PlayerTransformation : MonoBehaviour
 
     public float GetSpeed()
     {
-        return currentSpeed;
+        if (ignoreSpeedModifiers)
+        {
+            return currentSpeed;
+        }
+
+        return currentSpeed *
+               speedModifier;
+    }
+
+    public void SetSpeedModifier(float modifier)
+    {
+        speedModifier = modifier;
+    }
+
+    public void SetIgnoreSpeedModifiers(bool ignore)
+    {
+        ignoreSpeedModifiers = ignore;
     }
 
     public float GetJumpHeight()
