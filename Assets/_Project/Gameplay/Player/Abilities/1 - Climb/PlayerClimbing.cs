@@ -64,6 +64,11 @@ public class PlayerClimbing : MonoBehaviour
     {
         DetectClimbable();
 
+        if (!AbilityManager.Instance.IsUnlocked(AbilityType.Climb))
+        {
+            return;
+        }
+
         float vertical =
             Input.GetAxisRaw("Vertical");
 
