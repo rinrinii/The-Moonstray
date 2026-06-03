@@ -8690,6 +8690,14 @@ PrefabInstance:
       propertyPath: regenRate
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 5913640423102889239, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: sprintMultiplier
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5913640423102889239, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
+      propertyPath: doubleJumpMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 6191078474473040453, guid: 05534c631ec617e4da637f3e19c2066f, type: 3}
       propertyPath: minimumFallDistance
       value: 2
@@ -11009,9 +11017,10 @@ Transform:
   - {fileID: 1419684311}
   - {fileID: 973625702}
   - {fileID: 1715018535}
-  - {fileID: 1177558625}
   - {fileID: 2097503061}
   - {fileID: 1928443263}
+  - {fileID: 1177558625}
+  - {fileID: 1849185246}
   - {fileID: 1341701942}
   - {fileID: 1255233038}
   - {fileID: 482357751}
@@ -12917,6 +12926,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6629012687680074498, guid: 7e69ef7f84cb284498bad89d600fe040, type: 3}
   m_PrefabInstance: {fileID: 1842293352}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1849185245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1849185246}
+  - component: {fileID: 1849185247}
+  m_Layer: 0
+  m_Name: UpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1849185246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849185245}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.8621798, y: -1, z: 5.73069}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1502496791}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1849185247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849185245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 990928f35ba2eb4478779ce5c281a35b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeManager
+  unlockAllUpgrades: 0
 --- !u!1 &1851107419
 GameObject:
   m_ObjectHideFlags: 0

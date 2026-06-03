@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSmoothTime = 0.03f;
-    public float sprintMultiplier = 1.2f;
+    public float sprintMultiplier = 1.9f;
 
     private Vector3 currentMoveDirection;
 
@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerClimbing climbing;
     private PlayerStamina stamina;
+
+    private bool hasDoubleJumped;   // for double jump
+    [SerializeField]
+    private float doubleJumpMultiplier = 0.9f;
 
     private float groundedRememberTime = 0.1f;
     private float groundedRemember;
@@ -255,6 +259,8 @@ public class PlayerMovement : MonoBehaviour
         {
             groundedRemember =
                 groundedRememberTime;
+
+            hasDoubleJumped = false;
         }
         else
         {
@@ -265,23 +271,62 @@ public class PlayerMovement : MonoBehaviour
         // =========================================
         // JUMP
         // =========================================
-        if (Input.GetKeyDown(KeyCode.Space) &&
-            groundedRemember > 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            velocity.y =
-                Mathf.Sqrt(
-                    transformation.GetJumpHeight() *
-                    -2f *
-                    transformation.GetGravity()
+            bool normalJump =
+                groundedRemember > 0;
+
+            bool doubleJump =
+                !normalJump &&
+                !hasDoubleJumped &&
+                UpgradeManager.Instance != null &&
+                UpgradeManager.Instance.IsUnlocked(
+                    UpgradeType.DoubleJump
                 );
 
-            if (currentAnim != null)
+            if (normalJump || doubleJump)
             {
-                currentAnim.SetTrigger("Jump");
+                float jumpHeight = transformation.GetJumpHeight();
+
+                if (doubleJump)
+                {
+                    jumpHeight *=
+                        doubleJumpMultiplier;
+                }
+
+                velocity.y =
+                    Mathf.Sqrt(
+                        jumpHeight *
+                        -2f *
+                        transformation.GetGravity()
+                    );
+
+                if (doubleJump)
+                {
+                    hasDoubleJumped = true;
+                }
+
+                if (currentAnim != null)
+                {
+                    if (doubleJump)
+                    {
+                        currentAnim.SetTrigger(
+                            "DoubleJump"
+                        );
+                    }
+                    else
+                    {
+                        currentAnim.SetTrigger(
+                            "Jump"
+                        );
+                    }
+                }
             }
         }
 
-        //test for sense
+        // =========================================
+        // SENSE
+        // =========================================
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (lunarSense != null)

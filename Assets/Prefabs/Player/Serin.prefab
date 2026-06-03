@@ -228,10 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   turnSmoothTime: 0.03
-  sprintMultiplier: 2
-  dashSpeed: 20
-  dashDuration: 0.3
-  dashCooldown: 1.5
+  sprintMultiplier: 1.2
+  doubleJumpMultiplier: 0.9
 --- !u!114 &3353697142576561209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +413,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a88034caeb1ae74f9080c9715220d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashSpeed: 20
+  dashDuration: 0.3
+  dashCooldown: 1.5
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0
