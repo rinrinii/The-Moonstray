@@ -12,25 +12,27 @@ public class PlayerDash : MonoBehaviour
     [SerializeField]
     private float dashCooldown = 1.5f;
 
+    [Header("Cleanse Dash")]
+    [SerializeField]
+    private float cleanseRadius = 1f;
+
+    [Header("Chain Dash")]
+    private int currentDashCharges;
+    private int maxDashCharges;
+
     private bool isDashing;
-
     private float dashTime;
-
     private float nextDashTime;
 
     private Vector3 dashDirection;
 
     private CharacterController controller;
-
     private PlayerTransformation transformation;
-
     private PlayerStamina stamina;
+    private PlayerMovement movement;
 
     private Animator currentAnim;
-
     private Transform cam;
-
-    private PlayerMovement movement;
 
     private void Awake()
     {
@@ -48,6 +50,11 @@ public class PlayerDash : MonoBehaviour
 
         cam =
             Camera.main.transform;
+
+        UpdateDashCharges();
+
+        currentDashCharges =
+            maxDashCharges;
     }
 
     private Animator GetCurrentAnimator()
@@ -55,15 +62,16 @@ public class PlayerDash : MonoBehaviour
         return GetComponentInChildren<Animator>();
     }
 
-    public void TryDash(Vector3 direction)
+    public void TryDash(
+        Vector3 direction)
     {
         if (!AbilityManager.Instance.IsUnlocked(
-        AbilityType.Dash))
+            AbilityType.Dash))
         {
             return;
         }
 
-        if (Time.time < nextDashTime)
+        if (currentDashCharges <= 0)
             return;
 
         if (isDashing)
@@ -123,12 +131,28 @@ public class PlayerDash : MonoBehaviour
 
         isDashing = true;
 
+        transformation.SetIgnoreSpeedModifiers(
+            true
+        );
+
         dashTime =
             dashDuration;
 
-        nextDashTime =
-            Time.time +
-            dashCooldown;
+        currentDashCharges--;
+
+        Debug.Log(
+            $"Dash Charges: " +
+            currentDashCharges +
+            "/" +
+            maxDashCharges
+        );
+
+        if (currentDashCharges <= 0)
+        {
+            nextDashTime =
+                Time.time +
+                dashCooldown;
+        }
 
         currentAnim.SetBool(
             "IsDashing",
@@ -147,8 +171,56 @@ public class PlayerDash : MonoBehaviour
 
     public bool HandleDash()
     {
+        UpdateDashCharges();
+
+        if (currentDashCharges <= 0 &&
+            Time.time >= nextDashTime)
+        {
+            currentDashCharges =
+                maxDashCharges;
+
+            Debug.Log(
+                $"Dash Refilled: " +
+                currentDashCharges +
+                "/" +
+                maxDashCharges
+            );
+        }
+
         if (!isDashing)
             return false;
+
+        // =========================================
+        // CLEANSE DASH
+        // =========================================
+
+        if (UpgradeManager.Instance != null &&
+            UpgradeManager.Instance.IsUnlocked(
+                UpgradeType.CleanseDash
+            ))
+        {
+            Collider[] hits =
+                Physics.OverlapSphere(
+                    transform.position,
+                    cleanseRadius
+                );
+
+            foreach (Collider hit in hits)
+            {
+                ExpandingWaning waning =
+                    hit.GetComponent<
+                        ExpandingWaning>();
+
+                if (waning != null)
+                {
+                    waning.Cleanse();
+                }
+            }
+        }
+
+        // =========================================
+        // DASH MOVEMENT
+        // =========================================
 
         controller.Move(
             dashDirection.normalized *
@@ -161,6 +233,10 @@ public class PlayerDash : MonoBehaviour
         if (dashTime <= 0)
         {
             isDashing = false;
+
+            transformation.SetIgnoreSpeedModifiers(
+                false
+            );
 
             currentAnim =
                 GetCurrentAnimator();
@@ -175,5 +251,16 @@ public class PlayerDash : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void UpdateDashCharges()
+    {
+        maxDashCharges =
+            UpgradeManager.Instance != null &&
+            UpgradeManager.Instance.IsUnlocked(
+                UpgradeType.ChainDash
+            )
+            ? 2
+            : 1;
     }
 }
