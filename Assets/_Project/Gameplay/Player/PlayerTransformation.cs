@@ -32,8 +32,10 @@ public class PlayerTransformation : MonoBehaviour
     public float wolfGravity = -20f;
 
     [Header("Collider Settings")]
-    public float humanHeight = 1.8f;
-    public float wolfHeight = 1.0f;
+    public float humanHeight = 1.73f;
+    public float humanCenterY = 0.865f; // Added field (1.73 / 2)
+    public float wolfHeight = 0.83f;
+    public float wolfCenterY = 0.415f;  // Added field (0.83 / 2)
 
     [Header("World Effects")]
     public Light sunLight;
@@ -80,12 +82,9 @@ public class PlayerTransformation : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) &&
-            !isTransitioning)
+        if (Input.GetKeyDown(KeyCode.F) && !isTransitioning)
         {
-            StartCoroutine(
-                TransformationSequence()
-            );
+            StartCoroutine(TransformationSequence());
         }
     }
 
@@ -93,28 +92,22 @@ public class PlayerTransformation : MonoBehaviour
     // Scene References
     // =========================
 
-    private void OnSceneLoaded(
-        Scene scene,
-        LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshSceneReferences();
     }
 
     private void RefreshSceneReferences()
     {
-        GameObject sun =
-            GameObject.FindWithTag("Sun");
+        GameObject sun = GameObject.FindWithTag("Sun");
 
         if (sun != null)
         {
-            sunLight =
-                sun.GetComponent<Light>();
+            sunLight = sun.GetComponent<Light>();
         }
         else
         {
-            Debug.LogWarning(
-                $"No object with 'Sun' tag found in scene: {SceneManager.GetActiveScene().name}"
-            );
+            Debug.LogWarning($"No object with 'Sun' tag found in scene: {SceneManager.GetActiveScene().name}");
         }
     }
 
@@ -134,8 +127,7 @@ public class PlayerTransformation : MonoBehaviour
             return currentSpeed;
         }
 
-        return currentSpeed *
-               speedModifier;
+        return currentSpeed * speedModifier;
     }
 
     public void SetSpeedModifier(float modifier)
@@ -166,214 +158,100 @@ public class PlayerTransformation : MonoBehaviour
     {
         isTransitioning = true;
 
-        bool turningToWolf =
-            currentForm == FormState.Human;
+        bool turningToWolf = currentForm == FormState.Human;
 
         float time = 0f;
         bool swapped = false;
 
         float spinAmount = 360f;
 
-        float startDayWeight =
-            dayVol.weight;
-
-        float startNightWeight =
-            nightVol.weight;
+        float startDayWeight = dayVol.weight;
+        float startNightWeight = nightVol.weight;
 
         if (turningToWolf)
-            HumanAnimator.SetBool(
-                "IsTransforming",
-                true
-            );
+            HumanAnimator.SetBool("IsTransforming", true);
         else
-            WolfAnimator.SetBool(
-                "IsTransforming",
-                true
-            );
+            WolfAnimator.SetBool("IsTransforming", true);
 
         while (time < transitionDuration)
         {
-            float t =
-                time / transitionDuration;
+            float t = time / transitionDuration;
 
             if (sunLight)
             {
-                sunLight.transform.Rotate(
-                    0f,
-                    (spinAmount /
-                     transitionDuration) *
-                    Time.deltaTime,
-                    0f,
-                    Space.World
-                );
+                sunLight.transform.Rotate(0f, (spinAmount / transitionDuration) * Time.deltaTime, 0f, Space.World);
             }
 
             if (dayVol)
             {
-                dayVol.weight =
-                    Mathf.Lerp(
-                        startDayWeight,
-                        turningToWolf
-                            ? 0f
-                            : 1f,
-                        t
-                    );
+                dayVol.weight = Mathf.Lerp(startDayWeight, turningToWolf ? 0f : 1f, t);
             }
 
             if (nightVol)
             {
-                nightVol.weight =
-                    Mathf.Lerp(
-                        startNightWeight,
-                        turningToWolf
-                            ? 1f
-                            : 0f,
-                        t
-                    );
+                nightVol.weight = Mathf.Lerp(startNightWeight, turningToWolf ? 1f : 0f, t);
             }
 
-            float burstCurve =
-                Mathf.Pow(
-                    Mathf.Sin(t * Mathf.PI),
-                    10f
-                );
+            float burstCurve = Mathf.Pow(Mathf.Sin(t * Mathf.PI), 10f);
 
             if (transformLight)
             {
-                transformLight.intensity =
-                    burstCurve *
-                    maxLightIntensity;
+                transformLight.intensity = burstCurve * maxLightIntensity;
             }
 
             if (glowSphere)
             {
                 glowSphere.SetActive(true);
+                glowSphere.transform.localScale = Vector3.one * (burstCurve * maxSphereScale);
 
-                glowSphere.transform.localScale =
-                    Vector3.one *
-                    (
-                        burstCurve *
-                        maxSphereScale
-                    );
-
-                Material glowMat =
-                    glowSphere
-                        .GetComponent<MeshRenderer>()
-                        .material;
-
-                glowMat.SetColor(
-                    "_EmissionColor",
-                    Color.white *
-                    (
-                        burstCurve * 50f
-                    )
-                );
+                Material glowMat = glowSphere.GetComponent<MeshRenderer>().material;
+                glowMat.SetColor("_EmissionColor", Color.white * (burstCurve * 50f));
             }
 
-            if (!swapped &&
-                time >=
-                transitionDuration / 2f)
+            if (!swapped && time >= transitionDuration / 2f)
             {
                 swapped = true;
 
                 if (turningToWolf)
                 {
                     ApplyWolfForm();
-
                     transformParticles?.Play();
+                    GetComponent<PlayerMovement>().UpdateAnimator();
 
-                    GetComponent<PlayerMovement>()
-                        .UpdateAnimator();
-
-                    WolfAnimator.SetBool(
-                        "IsTransforming",
-                        false
-                    );
-
-                    WolfAnimator.Play(
-                        "Rest–Reverse",
-                        0,
-                        0f
-                    );
-
-                    StartCoroutine(
-                        ForceReturnToLocomotion(
-                            WolfAnimator
-                        )
-                    );
+                    WolfAnimator.SetBool("IsTransforming", false);
+                    WolfAnimator.Play("Rest–Reverse", 0, 0f);
+                    StartCoroutine(ForceReturnToLocomotion(WolfAnimator));
                 }
                 else
                 {
                     ApplyHumanForm();
-
                     transformParticles?.Play();
+                    GetComponent<PlayerMovement>().UpdateAnimator();
 
-                    GetComponent<PlayerMovement>()
-                        .UpdateAnimator();
-
-                    HumanAnimator.SetBool(
-                        "IsTransforming",
-                        false
-                    );
-
-                    HumanAnimator.Play(
-                        "Rest–Reverse",
-                        0,
-                        0f
-                    );
-
-                    StartCoroutine(
-                        ForceReturnToLocomotion(
-                            HumanAnimator
-                        )
-                    );
+                    HumanAnimator.SetBool("IsTransforming", false);
+                    HumanAnimator.Play("Rest–Reverse", 0, 0f);
+                    StartCoroutine(ForceReturnToLocomotion(HumanAnimator));
                 }
             }
 
             time += Time.deltaTime;
-
             yield return null;
         }
 
-        if (transformLight)
-        {
-            transformLight.intensity = 0f;
-        }
+        if (transformLight) { transformLight.intensity = 0f; }
+        if (glowSphere) { glowSphere.SetActive(false); }
 
-        if (glowSphere)
-        {
-            glowSphere.SetActive(false);
-        }
-
-        HumanAnimator.SetBool(
-            "IsTransforming",
-            false
-        );
-
-        WolfAnimator.SetBool(
-            "IsTransforming",
-            false
-        );
+        HumanAnimator.SetBool("IsTransforming", false);
+        WolfAnimator.SetBool("IsTransforming", false);
 
         isTransitioning = false;
     }
 
-    private IEnumerator ForceReturnToLocomotion(
-        Animator anim)
+    private IEnumerator ForceReturnToLocomotion(Animator anim)
     {
-        yield return new WaitForSeconds(
-            0.6f
-        );
-
-        anim.SetBool(
-            "IsTransforming",
-            false
-        );
-
-        anim.CrossFade(
-            "Locomotion",
-            0.25f
-        );
+        yield return new WaitForSeconds(0.6f);
+        anim.SetBool("IsTransforming", false);
+        anim.CrossFade("Locomotion", 0.25f);
     }
 
     // =========================
@@ -388,20 +266,11 @@ public class PlayerTransformation : MonoBehaviour
         wolfModel.SetActive(false);
 
         currentSpeed = humanSpeed;
-        currentJumpHeight =
-            humanJumpHeight;
-        currentGravity =
-            humanGravity;
+        currentJumpHeight = humanJumpHeight;
+        currentGravity = humanGravity;
 
-        controller.height =
-            humanHeight;
-
-        controller.center =
-            new Vector3(
-                0,
-                humanHeight / 2f,
-                0
-            );
+        controller.height = humanHeight;
+        controller.center = new Vector3(0, humanCenterY, 0);
     }
 
     private void ApplyWolfForm()
@@ -412,19 +281,10 @@ public class PlayerTransformation : MonoBehaviour
         wolfModel.SetActive(true);
 
         currentSpeed = wolfSpeed;
-        currentJumpHeight =
-            wolfJumpHeight;
-        currentGravity =
-            wolfGravity;
+        currentJumpHeight = wolfJumpHeight;
+        currentGravity = wolfGravity;
 
-        controller.height =
-            wolfHeight;
-
-        controller.center =
-            new Vector3(
-                0,
-                wolfHeight / 2f,
-                0
-            );
+        controller.height = wolfHeight;
+        controller.center = new Vector3(0, wolfCenterY, 0);
     }
 }
