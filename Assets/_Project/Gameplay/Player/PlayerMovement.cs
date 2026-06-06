@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSmoothTime = 0.03f;
-    public float sprintMultiplier = 1.9f;
+    public float sprintMultiplier = 1.8f;
 
     private Vector3 currentMoveDirection;
 
@@ -374,6 +374,8 @@ public class PlayerMovement : MonoBehaviour
                 0.15f,
                 Time.deltaTime
             );
+
+            // Debug.Log("Animator Speed = " + currentAnim.GetFloat("Speed"));
 
             currentAnim.SetBool(
                 "IsGrounded",
