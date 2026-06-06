@@ -6,7 +6,7 @@ public class FootprintManager : MonoBehaviour
     public static FootprintManager Instance;
 
     [Header("Limit Settings")]
-    public int maxFootprints = 200;
+    public int maxFootprints = 20;
 
     private Queue<GameObject> footprints = new Queue<GameObject>();
 

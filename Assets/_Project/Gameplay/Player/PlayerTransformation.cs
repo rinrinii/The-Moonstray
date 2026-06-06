@@ -17,8 +17,8 @@ public class PlayerTransformation : MonoBehaviour
     public Animator WolfAnimator;
 
     [Header("Movement")]
-    public float humanSpeed = 5f;
-    public float wolfSpeed = 6.5f;
+    public float humanSpeed = 4.5f;
+    public float wolfSpeed = 6f;
 
     private float speedModifier = 1f;
     private bool ignoreSpeedModifiers;
@@ -33,9 +33,10 @@ public class PlayerTransformation : MonoBehaviour
 
     [Header("Collider Settings")]
     public float humanHeight = 1.73f;
-    public float humanCenterY = 0.865f; // Added field (1.73 / 2)
+    public Vector3 humanCenter = new Vector3(-0.06f, 0.93f, 0.21f);
+
     public float wolfHeight = 0.83f;
-    public float wolfCenterY = 0.415f;  // Added field (0.83 / 2)
+    public Vector3 wolfCenter = new Vector3(0f, 0.49f, 0f);
 
     [Header("World Effects")]
     public Light sunLight;
@@ -270,7 +271,7 @@ public class PlayerTransformation : MonoBehaviour
         currentGravity = humanGravity;
 
         controller.height = humanHeight;
-        controller.center = new Vector3(0, humanCenterY, 0);
+        controller.center = humanCenter;
     }
 
     private void ApplyWolfForm()
@@ -285,6 +286,6 @@ public class PlayerTransformation : MonoBehaviour
         currentGravity = wolfGravity;
 
         controller.height = wolfHeight;
-        controller.center = new Vector3(0, wolfCenterY, 0);
+        controller.center = wolfCenter;
     }
 }

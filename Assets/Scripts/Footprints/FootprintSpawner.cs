@@ -5,6 +5,9 @@ public class FootprintSpawner : MonoBehaviour
     [Header("Core")]
     [SerializeField] private PlayerTransformation transformation;
 
+    [Header("Movement Check")]
+    [SerializeField] private float movementThreshold = 0.5f;
+
     [Header("Human Feet")]
     public Transform humanLeftFoot;
     public Transform humanRightFoot;
@@ -22,14 +25,12 @@ public class FootprintSpawner : MonoBehaviour
 
     [Header("Ground")]
     public LayerMask snowLayer;
-    public float rayDistance = 0.35f;
+    public float rayDistance = 0.25f;
 
     [Header("Optional FX")]
     public ParticleSystem snowPuff;
 
-    private bool hL, hR, wFL, wFR, wBL, wBR;
-
-    void Awake()
+    private void Awake()
     {
         if (transformation == null)
         {
@@ -37,58 +38,121 @@ public class FootprintSpawner : MonoBehaviour
         }
     }
 
-    void Update()
+    // =====================================================
+    // MOVEMENT CHECK
+    // =====================================================
+
+    private bool IsActuallyMoving()
     {
-        if (transformation == null)
+        Animator anim =
+            transformation.currentForm == PlayerTransformation.FormState.Human
+            ? transformation.HumanAnimator
+            : transformation.WolfAnimator;
+
+        if (anim == null)
+            return false;
+
+        return anim.GetFloat("Speed") > movementThreshold;
+    }
+
+    // =====================================================
+    // HUMAN EVENTS
+    // =====================================================
+
+    public void HumanLeftStep()
+    {
+        if (transformation.currentForm != PlayerTransformation.FormState.Human)
             return;
 
-        if (transformation.currentForm == PlayerTransformation.FormState.Wolf)
+        if (!IsActuallyMoving())
+            return;
+
+        SpawnFootprintFromBone(humanLeftFoot, humanLeftFootprint);
+    }
+
+    public void HumanRightStep()
+    {
+        if (transformation.currentForm != PlayerTransformation.FormState.Human)
+            return;
+
+        if (!IsActuallyMoving())
+            return;
+
+        SpawnFootprintFromBone(humanRightFoot, humanRightFootprint);
+    }
+
+    // =====================================================
+    // WOLF EVENTS
+    // =====================================================
+
+    public void WolfFrontLeftStep()
+    {
+        if (transformation.currentForm != PlayerTransformation.FormState.Wolf)
+            return;
+
+        if (!IsActuallyMoving())
+            return;
+
+        SpawnFootprintFromBone(wolfFrontLeft, wolfFootprint);
+    }
+
+    public void WolfFrontRightStep()
+    {
+        if (transformation.currentForm != PlayerTransformation.FormState.Wolf)
+            return;
+
+        if (!IsActuallyMoving())
+            return;
+
+        SpawnFootprintFromBone(wolfFrontRight, wolfFootprint);
+    }
+
+    public void WolfBackLeftStep()
+    {
+        if (transformation.currentForm != PlayerTransformation.FormState.Wolf)
+            return;
+
+        if (!IsActuallyMoving())
+            return;
+
+        SpawnFootprintFromBone(wolfBackLeft, wolfFootprint);
+    }
+
+    public void WolfBackRightStep()
+    {
+        if (transformation.currentForm != PlayerTransformation.FormState.Wolf)
+            return;
+
+        if (!IsActuallyMoving())
+            return;
+
+        SpawnFootprintFromBone(wolfBackRight, wolfFootprint);
+    }
+
+    // =====================================================
+    // SPAWNING
+    // =====================================================
+
+    private void SpawnFootprintFromBone(Transform foot, GameObject prefab)
+    {
+        if (foot == null || prefab == null)
+            return;
+
+        if (Physics.Raycast(
+            foot.position + Vector3.up * 0.1f,
+            Vector3.down,
+            out RaycastHit hit,
+            rayDistance,
+            snowLayer))
         {
-            if (wolfFrontLeft) CheckFoot(wolfFrontLeft, ref wFL, wolfFootprint);
-            if (wolfFrontRight) CheckFoot(wolfFrontRight, ref wFR, wolfFootprint);
-            if (wolfBackLeft) CheckFoot(wolfBackLeft, ref wBL, wolfFootprint);
-            if (wolfBackRight) CheckFoot(wolfBackRight, ref wBR, wolfFootprint);
-        }
-        else
-        {
-            if (humanLeftFoot) CheckFoot(humanLeftFoot, ref hL, humanLeftFootprint);
-            if (humanRightFoot) CheckFoot(humanRightFoot, ref hR, humanRightFootprint);
+            Spawn(hit, prefab);
         }
     }
 
-    void CheckFoot(Transform foot, ref bool hasStepped, GameObject prefab = null)
+    private void Spawn(RaycastHit hit, GameObject prefab)
     {
-        if (foot == null) return;
-
-        RaycastHit hit;
-
-        bool grounded =
-            Physics.Raycast(
-                foot.position + Vector3.up * 0.1f,
-                Vector3.down,
-                out hit,
-                rayDistance,
-                snowLayer
-            );
-
-        if (grounded)
-        {
-            if (!hasStepped)
-            {
-                Spawn(hit, prefab);
-                hasStepped = true;
-            }
-        }
-        else
-        {
-            hasStepped = false;
-        }
-    }
-
-    void Spawn(RaycastHit hit, GameObject prefab)
-    {
-        if (prefab == null) return;
-        Quaternion spawnRotation = Quaternion.LookRotation(-hit.normal, transform.forward);
+        Quaternion spawnRotation =
+            Quaternion.LookRotation(-hit.normal, transform.forward);
 
         GameObject obj = Instantiate(
             prefab,
@@ -98,7 +162,11 @@ public class FootprintSpawner : MonoBehaviour
 
         if (snowPuff != null)
         {
-            Instantiate(snowPuff, hit.point, Quaternion.identity);
+            Instantiate(
+                snowPuff,
+                hit.point,
+                Quaternion.identity
+            );
         }
 
         if (FootprintManager.Instance != null)

@@ -105,6 +105,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LunarSensePulse
   duration: 0.75
   pulseHeight: 0.05
+--- !u!1 &959026521791746676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3174850670069432763}
+  - component: {fileID: 8138382518999235408}
+  m_Layer: 0
+  m_Name: FootstepEventRelay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3174850670069432763
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959026521791746676}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.20916, y: 0.65462, z: 0.11658}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 991145124574253683}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8138382518999235408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959026521791746676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35304480151b7f04e87d61cb90e77812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepEventRelay
 --- !u!1 &2085696353375262294
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,10 +170,10 @@ GameObject:
   - component: {fileID: 3464717530628288}
   - component: {fileID: 3947955109068320580}
   - component: {fileID: 6565060784438283400}
-  - component: {fileID: 2474394855704971288}
+  - component: {fileID: 2548488169668176433}
   m_Layer: 0
   m_Name: Serin
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,11 +187,12 @@ Transform:
   m_GameObject: {fileID: 2085696353375262294}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.19435, y: 0, z: -5.87293}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2570544728441977358}
+  - {fileID: 3174850670069432763}
   - {fileID: 8541305716554376388}
   - {fileID: 3898684848672182402}
   - {fileID: 2351348578153990761}
@@ -175,13 +220,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.78
+  m_Height: 1.73
   m_Radius: 0.22
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: -0.06, y: 0.89, z: 0.21}
+  m_Center: {x: -0.06, y: 0.9, z: 0.21}
 --- !u!114 &2535593712800099155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,16 +244,16 @@ MonoBehaviour:
   wolfModel: {fileID: 4418376043601971768}
   HumanAnimator: {fileID: 2335394167229873854}
   WolfAnimator: {fileID: 1731873517796482274}
-  humanSpeed: 5
-  wolfSpeed: 9
+  humanSpeed: 4.5
+  wolfSpeed: 6
   humanJumpHeight: 2
   wolfJumpHeight: 1.5
   humanGravity: -16
   wolfGravity: -20
   humanHeight: 1.73
-  humanCenterY: 0.89
-  wolfHeight: 1
-  wolfCenterY: 0.415
+  humanCenter: {x: -0.06, y: 0.93, z: 0.21}
+  wolfHeight: 0.83
+  wolfCenter: {x: 0, y: 0.49, z: 0}
   sunLight: {fileID: 0}
   dayVol: {fileID: 0}
   nightVol: {fileID: 0}
@@ -216,7 +261,7 @@ MonoBehaviour:
   transformParticles: {fileID: 1418594078401850593}
   transformLight: {fileID: 5007560239426308528}
   glowSphere: {fileID: 0}
-  maxLightIntensity: 5
+  maxLightIntensity: 20
   maxSphereScale: 3
 --- !u!114 &5913640423102889239
 MonoBehaviour:
@@ -231,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   turnSmoothTime: 0.03
-  sprintMultiplier: 1.2
+  sprintMultiplier: 1.8
   doubleJumpMultiplier: 0.9
 --- !u!114 &3353697142576561209
 MonoBehaviour:
@@ -422,7 +467,7 @@ MonoBehaviour:
   dashDuration: 0.3
   dashCooldown: 1.5
   cleanseRadius: 1
---- !u!114 &2474394855704971288
+--- !u!114 &2548488169668176433
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -447,7 +492,7 @@ MonoBehaviour:
   snowLayer:
     serializedVersion: 2
     m_Bits: 256
-  rayDistance: 0.25
+  rayDistance: 0.6
   snowPuff: {fileID: 0}
 --- !u!1 &3238980465875872551
 GameObject:
@@ -5728,6 +5773,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13c58c36c26d8af41b519748add9788a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1731873517796482274}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 13c58c36c26d8af41b519748add9788a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2076660140928583917}
   m_SourcePrefab: {fileID: 100100000, guid: 13c58c36c26d8af41b519748add9788a, type: 3}
 --- !u!4 &498078835124996065 stripped
 Transform:
@@ -5771,6 +5819,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2076660140928583917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4418376043601971768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35304480151b7f04e87d61cb90e77812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepEventRelay
 --- !u!4 &4536546512017028332 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8113976557116128379, guid: 13c58c36c26d8af41b519748add9788a, type: 3}
@@ -5860,7 +5920,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 277157508320410804}
   m_SourcePrefab: {fileID: 100100000, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}
 --- !u!95 &2335394167229873854 stripped
 Animator:
@@ -5887,3 +5950,15 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 06f666b996e09aa44a74b4ab8b58a807, type: 3}
   m_PrefabInstance: {fileID: 8143186760638251823}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &277157508320410804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062087868336111230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35304480151b7f04e87d61cb90e77812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepEventRelay
