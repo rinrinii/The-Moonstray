@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -8,6 +7,9 @@ public class PauseMenuController : MonoBehaviour
 
     private VisualElement pauseContainer;
     private VisualElement hudContainer;
+
+    [SerializeField]
+    private string mainMenuScene = "MainMenu";
 
     private Button resumeBtn;
     private Button saveBtn;
@@ -52,10 +54,21 @@ public class PauseMenuController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (resumeBtn != null) resumeBtn.clicked -= ResumeGame;
-        if (saveBtn != null) saveBtn.clicked -= SaveGameProgress;
-        if (settingsBtn != null) settingsBtn.clicked -= OpenOptionsOverlay;
-        if (exitBtn != null) exitBtn.clicked -= ReturnToTitleScreen;
+        if (Instance == this)
+            Instance = null;
+
+        if (resumeBtn != null)
+            resumeBtn.clicked -= ResumeGame;
+
+        if (saveBtn != null)
+            saveBtn.clicked -= SaveGameProgress;
+
+        if (settingsBtn != null)
+            settingsBtn.clicked -= OpenOptionsOverlay;
+
+        if (exitBtn != null)
+            exitBtn.clicked -= ReturnToTitleScreen;
+
         Time.timeScale = 1f;
     }
 
@@ -102,7 +115,10 @@ public class PauseMenuController : MonoBehaviour
     private void ReturnToTitleScreen()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Test_MainMenuUI"); //Main Menu Scene here.
+
+        PersistentRoot.DestroyPersistentSystems();
+
+        SceneLoader.LoadScene(mainMenuScene);
     }
 
     public bool IsPaused() => isPaused;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -56,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         dash =
             GetComponent<PlayerDash>();
 
-        cam = Camera.main.transform;
+        RefreshCameraReference();
 
         UpdateAnimator();
     }
@@ -102,6 +103,10 @@ public class PlayerMovement : MonoBehaviour
         if (!controller.enabled)
             return;
 
+        RefreshCameraReference();
+
+        if (cam == null)
+            return;
 
         // =========================================
         // CLIMBING
@@ -411,5 +416,34 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(
             velocity * Time.deltaTime
         );
+    }
+
+    private void RefreshCameraReference()
+    {
+        if (cam != null)
+            return;
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera != null)
+        {
+            cam = mainCamera.transform;
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        cam = null;
+        RefreshCameraReference();
     }
 }

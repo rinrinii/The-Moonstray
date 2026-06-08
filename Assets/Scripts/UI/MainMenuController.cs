@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
     [Header("Scene Mapping")]
-    [SerializeField] private string gamePlayScene = "Test_GameplayUI";
+    [SerializeField] private string gamePlayScene = "Pinewatch Trail";
+
+    [SerializeField]
+    private SessionInitializer sessionInitializer;
 
     private UIDocument uiDocument;
     private VisualElement mainMenuPanel;
@@ -79,8 +81,22 @@ public class MainMenuController : MonoBehaviour
         if (saveBtn != null)        saveBtn.clicked -= SaveConfiguration;
     }
 
-    private void OnContinuePressed() => LoadGameplayScene();
-    private void OnNewGamePressed() => LoadGameplayScene();
+    private void OnContinuePressed()
+    {
+        sessionInitializer.CreateSession();
+
+        LoadGameplayScene();
+    }
+
+    private void OnNewGamePressed()
+    {
+        sessionInitializer.CreateSession();
+
+        SceneLoader.LoadScene(
+            gamePlayScene,
+            "PinewatchTrail"
+        );
+    }
 
     private void OpenSettings()
     {
@@ -115,5 +131,8 @@ public class MainMenuController : MonoBehaviour
         #endif
     }
 
-    private void LoadGameplayScene() => SceneManager.LoadScene(gamePlayScene);
+    private void LoadGameplayScene()
+    {
+        SceneLoader.LoadScene(gamePlayScene);
+    }
 }
