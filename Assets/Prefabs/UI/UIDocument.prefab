@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5618215527770254589}
   - component: {fileID: 1564789606402923274}
   - component: {fileID: 5697546184592555658}
+  - component: {fileID: 2635103363672642909}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -84,6 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c028ffc1a2d2aa4fb2db07d13cc4481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuController
+  mainMenuScene: Test_MainMenuUI
 --- !u!114 &5618215527770254589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,3 +127,15 @@ MonoBehaviour:
   worldMinXZ: {x: 0, y: 0}
   worldMaxXZ: {x: 0, y: 0}
   player: {fileID: 0}
+--- !u!114 &2635103363672642909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701444462549514576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6018220df5a197b4fb79b97dac7e5d40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayUIManager

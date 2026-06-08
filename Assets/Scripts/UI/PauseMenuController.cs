@@ -5,10 +5,16 @@ public class PauseMenuController : MonoBehaviour
 {
     public static PauseMenuController Instance { get; private set; }
 
-    private UIDocument uiDocument;
-
     private VisualElement pauseContainer;
     private VisualElement hudContainer;
+
+    [SerializeField]
+    private string mainMenuScene = "MainMenu";
+
+    private Button resumeBtn;
+    private Button saveBtn;
+    private Button settingsBtn;
+    private Button exitBtn;
 
     private bool isPaused = false;
 
@@ -19,29 +25,64 @@ public class PauseMenuController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
+    }
 
-        uiDocument = GetComponent<UIDocument>();
+    private void Start()
+    {
+        // Bind to elements safely initialized inside GameplayUIManager
+        var ui = GameplayUIManager.Instance;
+        pauseContainer = ui.PauseContainer;
+        hudContainer = ui.HudContainer;
 
-        VisualElement root =
-            uiDocument.rootVisualElement;
+        VisualElement root = ui.RootVisualElement;
+        resumeBtn = root.Q<Button>("ResumeButton");
+        saveBtn = root.Q<Button>("SaveButton");
+        settingsBtn = root.Q<Button>("SettingsButton");
+        exitBtn = root.Q<Button>("ExitButton");
 
-        pauseContainer =
-            root.Q<VisualElement>("PauseContainer");
+        HookEventSubscriptions();
+    }
 
-        hudContainer =
-            root.Q<VisualElement>("HUDContainer");
+    private void HookEventSubscriptions()
+    {
+        if (resumeBtn != null) resumeBtn.clicked += ResumeGame;
+        if (saveBtn != null) saveBtn.clicked += SaveGameProgress;
+        if (settingsBtn != null) settingsBtn.clicked += OpenOptionsOverlay;
+        if (exitBtn != null) exitBtn.clicked += ReturnToTitleScreen;
+    }
 
-        // Hide pause menu on start
-        pauseContainer.style.display =
-            DisplayStyle.None;
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+
+        if (resumeBtn != null)
+            resumeBtn.clicked -= ResumeGame;
+
+        if (saveBtn != null)
+            saveBtn.clicked -= SaveGameProgress;
+
+        if (settingsBtn != null)
+            settingsBtn.clicked -= OpenOptionsOverlay;
+
+        if (exitBtn != null)
+            exitBtn.clicked -= ReturnToTitleScreen;
+
+        Time.timeScale = 1f;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // If the map or journal is active, let them process escape closing logic first
+            if (GameplayUIManager.Instance.Map.IsMapActive() || GameplayUIManager.Instance.Journal.IsJournalActive())
+            {
+                GameplayUIManager.Instance.SuppressSecondaryPanels();
+                return;
+            }
+
             TogglePause();
         }
     }
@@ -49,57 +90,36 @@ public class PauseMenuController : MonoBehaviour
     private void TogglePause()
     {
         isPaused = !isPaused;
-
-        if (isPaused)
-        {
-            PauseGame();
-        }
-        else
-        {
-            ResumeGame();
-        }
+        if (isPaused) PauseGame();
+        else ResumeGame();
     }
 
     private void PauseGame()
     {
-        // Show pause menu
-        pauseContainer.style.display =
-            DisplayStyle.Flex;
-
-        // Hide HUD
-        if (hudContainer != null)
-        {
-            hudContainer.style.display =
-                DisplayStyle.None;
-        }
-
+        if (pauseContainer != null) pauseContainer.style.display = DisplayStyle.Flex;
+        if (hudContainer != null) hudContainer.style.display = DisplayStyle.None;
         Time.timeScale = 0f;
     }
 
-    private void ResumeGame()
+    public void ResumeGame()
     {
-        // Hide pause menu
-        pauseContainer.style.display =
-            DisplayStyle.None;
-
-        // Show HUD again
-        if (hudContainer != null)
-        {
-            hudContainer.style.display =
-                DisplayStyle.Flex;
-        }
-
+        isPaused = false;
+        if (pauseContainer != null) pauseContainer.style.display = DisplayStyle.None;
+        if (hudContainer != null) hudContainer.style.display = DisplayStyle.Flex;
         Time.timeScale = 1f;
     }
 
-    private void OnDisable()
+    private void SaveGameProgress() => Debug.Log("Saving game progress...");
+    private void OpenOptionsOverlay() => Debug.Log("Opening settings menu...");
+
+    private void ReturnToTitleScreen()
     {
-        // Safety reset in case object gets disabled while paused
         Time.timeScale = 1f;
+
+        PersistentRoot.DestroyPersistentSystems();
+
+        SceneLoader.LoadScene(mainMenuScene);
     }
 
-    public bool IsPaused()
-    {
-        return isPaused;
-    }
+    public bool IsPaused() => isPaused;
 }
