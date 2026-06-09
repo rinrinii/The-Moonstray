@@ -89,6 +89,33 @@
     -unity-text-auto-size: none;
 }
 
+.ItemSlot {
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(209, 162, 74);
+    border-right-color: rgb(209, 162, 74);
+    border-top-color: rgb(209, 162, 74);
+    border-bottom-color: rgb(209, 162, 74);
+    max-width: 120px;
+    max-height: 120px;
+    width: 120px;
+    height: 120px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
 
-
-
+.ItemPlaceholder {
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    background-color: rgba(0, 0, 0, 0.09);
+    width: 120px;
+    height: 120px;
+    max-height: 120px;
+    max-width: 120px;
+}

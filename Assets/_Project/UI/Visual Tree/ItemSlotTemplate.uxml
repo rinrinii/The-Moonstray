@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="ItemSlot" class="ItemSlot" style="flex-grow: 1;">
+        <ui:VisualElement name="ItemIcon" style="flex-grow: 1; background-color: rgba(63, 63, 63, 0);"/>
+        <ui:Label text="1" name="ItemQuantity" style="-unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); color: rgb(255, 255, 255); font-size: 43px; position: absolute; bottom: 0%; right: 1px;"/>
+    </ui:VisualElement>
+</ui:UXML>
