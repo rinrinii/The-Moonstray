@@ -148,6 +148,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // =========================================
+        // INVENTORY
+        // =========================================
+        if (InventoryUI.Instance != null &&
+            InventoryUI.Instance.IsInventoryActive())
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
+            }
+
+            ApplyGravity();
+            return;
+        }
+
+        // =========================================
         // DIALOGUE
         // =========================================
         if (DialogueManager.Instance != null &&
