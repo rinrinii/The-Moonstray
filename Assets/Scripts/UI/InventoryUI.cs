@@ -126,9 +126,14 @@ public class InventoryUI : MonoBehaviour
         itemGrid.Clear();
         fragmentGrid.Clear();
 
+        bool selectedStillExists = false;
+
         foreach (var slot in InventorySystem.Instance.slots)
         {
             if (slot.item == null) continue;
+
+            if (slot.item == selectedItem)
+                selectedStillExists = true;
 
             var ui = CreateSlot(slot.item, slot.amount);
 
@@ -137,6 +142,18 @@ public class InventoryUI : MonoBehaviour
             else
                 itemGrid.Add(ui);
         }
+
+        if (!selectedStillExists)
+            ClearInfoPanel();
+    }
+
+    void ClearInfoPanel()
+    {
+        selectedItem = null;
+        if (nameLabel != null) nameLabel.text = "";
+        if (descLabel != null) descLabel.text = "";
+        if (icon != null) icon.style.backgroundImage = null;
+        if (useButton != null) useButton.style.display = DisplayStyle.None;
     }
 
     VisualElement CreateSlot(ItemData item, int amount)

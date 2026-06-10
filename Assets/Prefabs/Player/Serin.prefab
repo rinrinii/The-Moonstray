@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 3947955109068320580}
   - component: {fileID: 6565060784438283400}
   - component: {fileID: 2548488169668176433}
-  - component: {fileID: 8770160600745330525}
   m_Layer: 0
   m_Name: Serin
   m_TagString: Player
@@ -496,19 +495,6 @@ MonoBehaviour:
     m_Bits: 256
   rayDistance: 0.6
   snowPuff: {fileID: 0}
---- !u!114 &8770160600745330525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085696353375262294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04e49c13647ce274699ce67723a4c5ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerPickup
-  range: 2.5
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0
