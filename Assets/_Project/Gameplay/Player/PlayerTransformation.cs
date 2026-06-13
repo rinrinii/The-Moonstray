@@ -44,6 +44,14 @@ public class PlayerTransformation : MonoBehaviour
     public Volume nightVol;
     public float transitionDuration = 1.5f;
 
+    [Header("Day Lighting")]
+    public float dayIntensity = 2.2f;
+    public float dayTemperature = 5500f;
+
+    [Header("Night Lighting")]
+    public float nightIntensity = 0.7f;
+    public float nightTemperature = 10000f;
+
     [Header("VFX")]
     public ParticleSystem transformParticles;
     public Light transformLight;
@@ -79,6 +87,7 @@ public class PlayerTransformation : MonoBehaviour
         RefreshSceneReferences();
 
         ApplyHumanForm();
+        ApplyCurrentLighting();
     }
 
     private void Update()
@@ -96,6 +105,7 @@ public class PlayerTransformation : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshSceneReferences();
+        ApplyCurrentLighting();
     }
 
     private void RefreshSceneReferences()
@@ -166,8 +176,14 @@ public class PlayerTransformation : MonoBehaviour
 
         float spinAmount = 360f;
 
-        float startDayWeight = dayVol.weight;
-        float startNightWeight = nightVol.weight;
+        float startDayWeight = dayVol ? dayVol.weight : 0f;
+        float startNightWeight = nightVol ? nightVol.weight : 0f;
+
+        float startIntensity = sunLight ? sunLight.intensity : 0f;
+        float targetIntensity = turningToWolf ? nightIntensity : dayIntensity;
+
+        float startTemperature = sunLight ? sunLight.colorTemperature : 6500f;
+        float targetTemperature = turningToWolf ? nightTemperature : dayTemperature;
 
         if (turningToWolf)
             HumanAnimator.SetBool("IsTransforming", true);
@@ -180,33 +196,53 @@ public class PlayerTransformation : MonoBehaviour
 
             if (sunLight)
             {
-                sunLight.transform.Rotate(0f, (spinAmount / transitionDuration) * Time.deltaTime, 0f, Space.World);
+                // Transformation spin effect
+                sunLight.transform.Rotate(
+                    0f,
+                    (spinAmount / transitionDuration) * Time.deltaTime,
+                    0f,
+                    Space.World);
+
+                // Lighting transition
+                sunLight.intensity =
+                    Mathf.Lerp(startIntensity, targetIntensity, t);
+
+                sunLight.colorTemperature =
+                    Mathf.Lerp(startTemperature, targetTemperature, t);
             }
 
             if (dayVol)
             {
-                dayVol.weight = Mathf.Lerp(startDayWeight, turningToWolf ? 0f : 1f, t);
+                dayVol.weight =
+                    Mathf.Lerp(startDayWeight, turningToWolf ? 0f : 1f, t);
             }
 
             if (nightVol)
             {
-                nightVol.weight = Mathf.Lerp(startNightWeight, turningToWolf ? 1f : 0f, t);
+                nightVol.weight =
+                    Mathf.Lerp(startNightWeight, turningToWolf ? 1f : 0f, t);
             }
 
             float burstCurve = Mathf.Pow(Mathf.Sin(t * Mathf.PI), 10f);
 
             if (transformLight)
             {
-                transformLight.intensity = burstCurve * maxLightIntensity;
+                transformLight.intensity =
+                    burstCurve * maxLightIntensity;
             }
 
             if (glowSphere)
             {
                 glowSphere.SetActive(true);
-                glowSphere.transform.localScale = Vector3.one * (burstCurve * maxSphereScale);
+                glowSphere.transform.localScale =
+                    Vector3.one * (burstCurve * maxSphereScale);
 
-                Material glowMat = glowSphere.GetComponent<MeshRenderer>().material;
-                glowMat.SetColor("_EmissionColor", Color.white * (burstCurve * 50f));
+                Material glowMat =
+                    glowSphere.GetComponent<MeshRenderer>().material;
+
+                glowMat.SetColor(
+                    "_EmissionColor",
+                    Color.white * (burstCurve * 50f));
             }
 
             if (!swapped && time >= transitionDuration / 2f)
@@ -217,21 +253,27 @@ public class PlayerTransformation : MonoBehaviour
                 {
                     ApplyWolfForm();
                     transformParticles?.Play();
+
                     GetComponent<PlayerMovement>().UpdateAnimator();
 
                     WolfAnimator.SetBool("IsTransforming", false);
                     WolfAnimator.Play("Rest–Reverse", 0, 0f);
-                    StartCoroutine(ForceReturnToLocomotion(WolfAnimator));
+
+                    StartCoroutine(
+                        ForceReturnToLocomotion(WolfAnimator));
                 }
                 else
                 {
                     ApplyHumanForm();
                     transformParticles?.Play();
+
                     GetComponent<PlayerMovement>().UpdateAnimator();
 
                     HumanAnimator.SetBool("IsTransforming", false);
                     HumanAnimator.Play("Rest–Reverse", 0, 0f);
-                    StartCoroutine(ForceReturnToLocomotion(HumanAnimator));
+
+                    StartCoroutine(
+                        ForceReturnToLocomotion(HumanAnimator));
                 }
             }
 
@@ -239,8 +281,21 @@ public class PlayerTransformation : MonoBehaviour
             yield return null;
         }
 
-        if (transformLight) { transformLight.intensity = 0f; }
-        if (glowSphere) { glowSphere.SetActive(false); }
+        if (sunLight)
+        {
+            sunLight.intensity = targetIntensity;
+            sunLight.colorTemperature = targetTemperature;
+        }
+
+        if (transformLight)
+        {
+            transformLight.intensity = 0f;
+        }
+
+        if (glowSphere)
+        {
+            glowSphere.SetActive(false);
+        }
 
         HumanAnimator.SetBool("IsTransforming", false);
         WolfAnimator.SetBool("IsTransforming", false);
@@ -253,6 +308,33 @@ public class PlayerTransformation : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         anim.SetBool("IsTransforming", false);
         anim.CrossFade("Locomotion", 0.25f);
+    }
+
+    // =========================
+    // Lighting
+    // =========================
+
+    private void ApplyCurrentLighting()
+    {
+        if (!sunLight)
+            return;
+
+        if (currentForm == FormState.Human)
+        {
+            sunLight.intensity = dayIntensity;
+            sunLight.colorTemperature = dayTemperature;
+
+            if (dayVol) dayVol.weight = 1f;
+            if (nightVol) nightVol.weight = 0f;
+        }
+        else
+        {
+            sunLight.intensity = nightIntensity;
+            sunLight.colorTemperature = nightTemperature;
+
+            if (dayVol) dayVol.weight = 0f;
+            if (nightVol) nightVol.weight = 1f;
+        }
     }
 
     // =========================
