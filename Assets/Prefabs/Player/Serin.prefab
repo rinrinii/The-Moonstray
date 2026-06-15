@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 3947955109068320580}
   - component: {fileID: 6565060784438283400}
   - component: {fileID: 2548488169668176433}
+  - component: {fileID: 871529545648491543}
   m_Layer: 0
   m_Name: Serin
   m_TagString: Player
@@ -258,6 +259,10 @@ MonoBehaviour:
   dayVol: {fileID: 0}
   nightVol: {fileID: 0}
   transitionDuration: 1.5
+  dayIntensity: 2.2
+  dayTemperature: 5500
+  nightIntensity: 0.7
+  nightTemperature: 10000
   transformParticles: {fileID: 1418594078401850593}
   transformLight: {fileID: 5007560239426308528}
   glowSphere: {fileID: 0}
@@ -495,6 +500,18 @@ MonoBehaviour:
     m_Bits: 256
   rayDistance: 0.6
   snowPuff: {fileID: 0}
+--- !u!114 &871529545648491543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085696353375262294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 835f1d9eb7c95d1409aa6005d116ebb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusEffectManager
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0
