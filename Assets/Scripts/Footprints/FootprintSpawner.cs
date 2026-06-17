@@ -24,7 +24,7 @@ public class FootprintSpawner : MonoBehaviour
     public GameObject wolfFootprint;
 
     [Header("Ground")]
-    public LayerMask snowLayer;
+    public TerrainLayer snowTerrainLayer;
     public float rayDistance = 0.25f;
 
     [Header("Optional FX")]
@@ -142,10 +142,12 @@ public class FootprintSpawner : MonoBehaviour
             foot.position + Vector3.up * 0.1f,
             Vector3.down,
             out RaycastHit hit,
-            rayDistance,
-            snowLayer))
+            rayDistance))
         {
-            Spawn(hit, prefab);
+            if (IsSnowTerrain(hit))
+            {
+                Spawn(hit, prefab);
+            }
         }
     }
 
@@ -173,5 +175,42 @@ public class FootprintSpawner : MonoBehaviour
         {
             FootprintManager.Instance.RegisterFootprint(obj);
         }
+    }
+
+    private bool IsSnowTerrain(RaycastHit hit)
+    {
+        Terrain terrain = hit.collider.GetComponent<Terrain>();
+
+        if (terrain == null)
+            return false;
+
+        TerrainData terrainData = terrain.terrainData;
+
+        Vector3 terrainPos = hit.point - terrain.transform.position;
+
+        int mapX = Mathf.FloorToInt(
+            terrainPos.x / terrainData.size.x * terrainData.alphamapWidth);
+
+        int mapZ = Mathf.FloorToInt(
+            terrainPos.z / terrainData.size.z * terrainData.alphamapHeight);
+
+        float[,,] splatmapData =
+            terrainData.GetAlphamaps(mapX, mapZ, 1, 1);
+
+        int dominantLayer = 0;
+        float maxMix = 0;
+
+        for (int i = 0; i < terrainData.terrainLayers.Length; i++)
+        {
+            float mix = splatmapData[0, 0, i];
+
+            if (mix > maxMix)
+            {
+                maxMix = mix;
+                dominantLayer = i;
+            }
+        }
+
+        return terrainData.terrainLayers[dominantLayer] == snowTerrainLayer;
     }
 }
