@@ -14,33 +14,53 @@ public class MapUI : MonoBehaviour
     private VisualElement mapImage;
     private VisualElement playerIcon;
     private Button worldMapBtn;
+    private Button closeButton;
 
     private bool mapOpen;
 
     private void Start()
     {
         var ui = GameplayUIManager.Instance;
+
         mapRoot = ui.MapRoot;
-        
+
         VisualElement root = ui.RootVisualElement;
+
         mapImage = root.Q<VisualElement>("MapImage");
         playerIcon = root.Q<VisualElement>("PlayerIcon");
         worldMapBtn = root.Q<Button>("WorldMap-Button");
+        closeButton = mapRoot?.Q<Button>("CloseButton");
 
-        if (worldMapBtn != null) worldMapBtn.clicked += OnWorldMapTogglePressed;
+        if (worldMapBtn != null)
+            worldMapBtn.clicked += OnWorldMapTogglePressed;
 
-        if (mapRoot != null) mapRoot.style.display = DisplayStyle.None;
+        if (closeButton != null)
+        {
+            closeButton.pickingMode = PickingMode.Position;
+            closeButton.clicked += CloseMap;
+        }
+
+        if (mapRoot != null)
+        {
+            mapRoot.style.display = DisplayStyle.None;
+            mapRoot.pickingMode = PickingMode.Position;
+        }
+
         mapOpen = false;
     }
 
     private void OnDestroy()
     {
-        if (worldMapBtn != null) worldMapBtn.clicked -= OnWorldMapTogglePressed;
+        if (worldMapBtn != null)
+            worldMapBtn.clicked -= OnWorldMapTogglePressed;
+
+        if (closeButton != null)
+            closeButton.clicked -= CloseMap;
     }
 
     private void Update()
     {
-        if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsPaused()) 
+        if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsPaused())
         {
             if (mapOpen) CloseMap();
             return;
@@ -48,7 +68,8 @@ public class MapUI : MonoBehaviour
 
         HandleInput();
 
-        if (!mapOpen || player == null || mapImage == null || playerIcon == null) return;
+        if (!mapOpen || player == null || mapImage == null || playerIcon == null)
+            return;
 
         UpdatePlayerIcon();
     }
@@ -65,14 +86,18 @@ public class MapUI : MonoBehaviour
     public void OpenMap()
     {
         if (mapRoot == null) return;
-        GameplayUIManager.Instance.SuppressSecondaryPanels(); // Force conflicting overlays to hide
+
+        GameplayUIManager.Instance.SuppressSecondaryPanels();
+
         mapOpen = true;
         mapRoot.style.display = DisplayStyle.Flex;
+        mapRoot.pickingMode = PickingMode.Position;
     }
 
     public void CloseMap()
     {
         if (mapRoot == null) return;
+
         mapOpen = false;
         mapRoot.style.display = DisplayStyle.None;
     }
@@ -85,6 +110,7 @@ public class MapUI : MonoBehaviour
         if (w <= 1 || h <= 1) return;
 
         Vector3 p = player.position;
+
         float x = Mathf.InverseLerp(worldMinXZ.x, worldMaxXZ.x, p.x);
         float y = Mathf.InverseLerp(worldMinXZ.y, worldMaxXZ.y, p.z);
 
@@ -95,6 +121,13 @@ public class MapUI : MonoBehaviour
         playerIcon.style.top = py;
     }
 
-    private void OnWorldMapTogglePressed() => Debug.Log("Swapping active map configurations...");
-    public bool IsMapActive() => mapOpen;
+    private void OnWorldMapTogglePressed()
+    {
+        Debug.Log("Swapping active map configurations...");
+    }
+
+    public bool IsMapActive()
+    {
+        return mapOpen;
+    }
 }

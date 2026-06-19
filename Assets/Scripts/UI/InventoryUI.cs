@@ -37,6 +37,7 @@ public class InventoryUI : MonoBehaviour
         {
             BindUI(inventoryRoot);
             HookButtons();
+            ClearMockElements();
             CloseInventory();
         }
 
@@ -61,16 +62,29 @@ public class InventoryUI : MonoBehaviour
         descLabel = searchRoot.Q<Label>("ItemDescriptionLabel");
         icon = searchRoot.Q<VisualElement>("ItemIcon");
         useButton = searchRoot.Q<Button>("UseButton");
-        closeButton = searchRoot.Q<Button>("CloseButton");
+        closeButton = root.Q<Button>("CloseButton");
 
         if (itemGrid != null) itemGrid.pickingMode = PickingMode.Position;
         if (fragmentGrid != null) fragmentGrid.pickingMode = PickingMode.Position;
+
+        // TEMP DEBUG: confirm every reference was actually found
+        if (itemGrid == null) Debug.LogWarning("InventoryUI: itemGrid (ItemSlotLayer) NOT FOUND");
+        if (fragmentGrid == null) Debug.LogWarning("InventoryUI: fragmentGrid (FragmentSlotLayer) NOT FOUND");
+        if (useButton == null) Debug.LogWarning("InventoryUI: useButton NOT FOUND");
+        if (nameLabel == null) Debug.LogWarning("InventoryUI: nameLabel NOT FOUND");
     }
 
     void HookButtons()
     {
         if (closeButton != null) closeButton.clicked += CloseInventory;
         if (useButton != null) useButton.clicked += UseItem;
+    }
+
+    void ClearMockElements()
+    {
+        itemGrid?.Clear();
+        fragmentGrid?.Clear();
+        ClearInfoPanel();
     }
 
     void Update()
@@ -83,7 +97,11 @@ public class InventoryUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (isInventoryOpen) CloseInventory();
+            bool actuallyOpen =
+                inventoryRoot != null &&
+                inventoryRoot.style.display == DisplayStyle.Flex;
+
+            if (actuallyOpen) CloseInventory();
             else Open();
         }
     }
@@ -98,33 +116,56 @@ public class InventoryUI : MonoBehaviour
     {
         if (inventoryRoot == null || inventoryWindow == null) return;
 
-        if (GameplayUIManager.Instance != null)
-            GameplayUIManager.Instance.SuppressSecondaryPanels();
+        // FIX: pass `this` so SuppressSecondaryPanels doesn't also close
+        // the inventory it was just asked to open.
+        GameplayUIManager.Instance.SuppressSecondaryPanels(this);
 
         isInventoryOpen = true;
-        inventoryWindow.pickingMode = PickingMode.Position;
+
         inventoryRoot.style.display = DisplayStyle.Flex;
         inventoryWindow.style.display = DisplayStyle.Flex;
+
+        inventoryRoot.pickingMode = PickingMode.Position;
+        inventoryWindow.pickingMode = PickingMode.Position;
+
         RefreshUI();
     }
 
     public void CloseInventory()
     {
-        if (inventoryRoot == null) return;
         isInventoryOpen = false;
+
         if (inventoryWindow != null)
+        {
+            inventoryWindow.style.display = DisplayStyle.None;
             inventoryWindow.pickingMode = PickingMode.Ignore;
-        inventoryRoot.style.display = DisplayStyle.None;
+        }
+
+        if (inventoryRoot != null)
+        {
+            inventoryRoot.style.display = DisplayStyle.None;
+            inventoryRoot.pickingMode = PickingMode.Ignore;
+        }
     }
 
-    public bool IsInventoryActive() => isInventoryOpen;
+    public bool IsInventoryActive()
+    {
+        return inventoryRoot != null &&
+               inventoryRoot.style.display == DisplayStyle.Flex;
+    }
 
     public void RefreshUI()
     {
-        if (itemGrid == null || fragmentGrid == null || InventorySystem.Instance == null) return;
+        if (itemGrid == null || fragmentGrid == null || InventorySystem.Instance == null)
+        {
+            Debug.LogWarning($"InventoryUI: RefreshUI bailed early. itemGrid null={itemGrid == null}, fragmentGrid null={fragmentGrid == null}, InventorySystem.Instance null={InventorySystem.Instance == null}");
+            return;
+        }
 
         itemGrid.Clear();
         fragmentGrid.Clear();
+
+        Debug.Log($"InventoryUI: RefreshUI running, slots.Count={InventorySystem.Instance.slots.Count}");
 
         bool selectedStillExists = false;
 
@@ -135,7 +176,18 @@ public class InventoryUI : MonoBehaviour
             if (slot.item == selectedItem)
                 selectedStillExists = true;
 
-            var ui = CreateSlot(slot.item, slot.amount);
+            VisualElement ui;
+            try
+            {
+                ui = CreateSlot(slot.item, slot.amount);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"InventoryUI: CreateSlot threw for item '{slot.item.itemName}': {e}");
+                continue;
+            }
+
+            Debug.Log($"InventoryUI: adding '{slot.item.itemName}' (type={slot.item.type}) to {(slot.item.type == ItemType.Fragment ? "fragmentGrid" : "itemGrid")}");
 
             if (slot.item.type == ItemType.Fragment)
                 fragmentGrid.Add(ui);

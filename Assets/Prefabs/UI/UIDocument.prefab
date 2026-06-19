@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5697546184592555658}
   - component: {fileID: 2635103363672642909}
   - component: {fileID: 21262502826724240}
+  - component: {fileID: 1587816856206528790}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -152,3 +153,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a47655e18ca194bb9378a58c646abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectUI
+--- !u!114 &1587816856206528790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701444462549514576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ec81ce69fc2be4d8f3d779cf0be433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
+  itemSlotTemplate: {fileID: 9197481963319205126, guid: 532c7020887d88d4685da73d67ccbbcd, type: 3}
