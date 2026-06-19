@@ -12,6 +12,7 @@ public class JournalController : MonoBehaviour
     private Label questTitleLabel;
     private Label questDetailsLabel;
     private Label questConditionLabel;
+    private Button closeButton;
 
     private void Start()
     {
@@ -21,6 +22,7 @@ public class JournalController : MonoBehaviour
         if (journalContainer != null)
         {
             InitializeTemplateBindings(journalContainer);
+            CloseJournal();
         }
     }
 
@@ -31,7 +33,14 @@ public class JournalController : MonoBehaviour
         questTitleLabel = root.Q<Label>("QuestTitle");
         questDetailsLabel = root.Q<Label>("QuestDetails");
         questConditionLabel = root.Q<Label>("QuestCondition");
-        
+        closeButton = root.Q<Button>("CloseButton");
+
+        if (closeButton != null)
+        {
+            closeButton.pickingMode = PickingMode.Position;
+            closeButton.clicked += CloseJournal;
+        }
+
         ClearMockElements();
     }
 
@@ -59,16 +68,20 @@ public class JournalController : MonoBehaviour
     public void OpenJournal()
     {
         if (journalContainer == null) return;
-        GameplayUIManager.Instance.SuppressSecondaryPanels(); // Ensure the map or other full-screen overlays shut down safely
+
+        GameplayUIManager.Instance.SuppressSecondaryPanels();
+
         isJournalOpen = true;
         journalContainer.style.display = DisplayStyle.Flex;
-        
+        journalContainer.pickingMode = PickingMode.Position;
+
         RenderActiveJournalData();
     }
 
     public void CloseJournal()
     {
         if (journalContainer == null) return;
+
         isJournalOpen = false;
         journalContainer.style.display = DisplayStyle.None;
     }
@@ -77,16 +90,12 @@ public class JournalController : MonoBehaviour
     {
         ClearMockElements();
 
-        // Concrete implementation snippet demonstrating how to pass runtime collections safely into your custom USS styles
         for (int i = 1; i <= 3; i++)
         {
             Button runtimeQuestButton = new Button();
             runtimeQuestButton.text = $"Blight Investigation Task #{i}";
-            
-            // Inject the identical style class listed inside your text-editor stylesheets
             runtimeQuestButton.AddToClassList("journalButton");
 
-            // Strip out default layout overrides
             runtimeQuestButton.style.borderTopWidth = 0;
             runtimeQuestButton.style.borderBottomWidth = 0;
             runtimeQuestButton.style.borderLeftWidth = 0;

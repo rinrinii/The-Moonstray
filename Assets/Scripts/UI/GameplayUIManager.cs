@@ -63,10 +63,15 @@ public class GameplayUIManager : MonoBehaviour
         if (InventoryRoot != null) InventoryRoot.style.display = DisplayStyle.None;
     }
 
-    public void SuppressSecondaryPanels()
+    public void SuppressSecondaryPanels(MonoBehaviour except = null)
     {
-        if (Map != null) Map.CloseMap();
-        if (Journal != null) Journal.CloseJournal();
-        if (Inventory != null) Inventory.CloseInventory();
+        if (Map != null && Map != except)
+            Map.CloseMap();
+
+        if (Journal != null && Journal != except)
+            Journal.CloseJournal();
+
+        if (Inventory != null && Inventory != except)
+            Inventory.CloseInventory();
     }
 }
