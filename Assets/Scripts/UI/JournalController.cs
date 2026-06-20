@@ -4,15 +4,31 @@ using UnityEngine.UIElements;
 
 public class JournalController : MonoBehaviour
 {
+    public static JournalController Instance;
+
+    [SerializeField] private VisualTreeAsset journalEntryTemplate;
+
     private VisualElement journalContainer;
     private bool isJournalOpen = false;
 
     private VisualElement mainQuestListContainer;
     private VisualElement sideQuestListContainer;
+
+    private VisualElement noteListContainer;
+    private Label noteNameLabel;
+    private Label noteDescriptionLabel;
+
     private Label questTitleLabel;
     private Label questDetailsLabel;
     private Label questConditionLabel;
     private Button closeButton;
+
+    private readonly List<JournalNote> notes = new();
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -30,9 +46,15 @@ public class JournalController : MonoBehaviour
     {
         mainQuestListContainer = root.Q<VisualElement>("MainQuestList-Container");
         sideQuestListContainer = root.Q<VisualElement>("SideQuestList-Container");
+
         questTitleLabel = root.Q<Label>("QuestTitle");
         questDetailsLabel = root.Q<Label>("QuestDetails");
         questConditionLabel = root.Q<Label>("QuestCondition");
+
+        noteListContainer = root.Q<VisualElement>("NoteList-Container");
+        noteNameLabel = root.Q<Label>("NoteNameLabel");
+        noteDescriptionLabel = root.Q<Label>("NoteDescription");
+
         closeButton = root.Q<Button>("CloseButton");
 
         if (closeButton != null)
@@ -42,6 +64,7 @@ public class JournalController : MonoBehaviour
         }
 
         ClearMockElements();
+        RenderNotes();
     }
 
     private void ClearMockElements()
@@ -69,13 +92,14 @@ public class JournalController : MonoBehaviour
     {
         if (journalContainer == null) return;
 
-        GameplayUIManager.Instance.SuppressSecondaryPanels();
+        GameplayUIManager.Instance.SuppressSecondaryPanels(this);
 
         isJournalOpen = true;
         journalContainer.style.display = DisplayStyle.Flex;
         journalContainer.pickingMode = PickingMode.Position;
 
         RenderActiveJournalData();
+        RenderNotes();
     }
 
     public void CloseJournal()
@@ -86,28 +110,88 @@ public class JournalController : MonoBehaviour
         journalContainer.style.display = DisplayStyle.None;
     }
 
+    public void AddNote(string title, string content)
+    {
+        foreach (var note in notes)
+        {
+            if (note.title == title)
+                return;
+        }
+
+        notes.Add(new JournalNote(title, content));
+        RenderNotes();
+    }
+
+    private void RenderNotes()
+    {
+        if (noteListContainer == null) return;
+
+        noteListContainer.Clear();
+
+        foreach (var note in notes)
+        {
+            VisualElement entry = CreateJournalEntry(note.title, () =>
+            {
+                if (noteNameLabel != null) noteNameLabel.text = note.title;
+                if (noteDescriptionLabel != null) noteDescriptionLabel.text = note.content;
+            });
+
+            noteListContainer.Add(entry);
+        }
+    }
+
     private void RenderActiveJournalData()
     {
         ClearMockElements();
 
         for (int i = 1; i <= 3; i++)
         {
-            Button runtimeQuestButton = new Button();
-            runtimeQuestButton.text = $"Blight Investigation Task #{i}";
-            runtimeQuestButton.AddToClassList("journalButton");
-
-            runtimeQuestButton.style.borderTopWidth = 0;
-            runtimeQuestButton.style.borderBottomWidth = 0;
-            runtimeQuestButton.style.borderLeftWidth = 0;
-            runtimeQuestButton.style.borderRightWidth = 0;
-
+            string questTitle = $"Blight Investigation Task #{i}";
             string abstractSummary = $"Details for step {i}: Cleanse the remaining hazard metrics scattered across the sandbox quadrants.";
             string goalCondition = $"Status: 0 / {i} Cleansed";
 
-            runtimeQuestButton.clicked += () => PopulateFocusedQuestView(runtimeQuestButton.text, abstractSummary, goalCondition);
+            VisualElement entry = CreateJournalEntry(questTitle, () =>
+            {
+                PopulateFocusedQuestView(questTitle, abstractSummary, goalCondition);
+            });
 
-            mainQuestListContainer?.Add(runtimeQuestButton);
+            mainQuestListContainer?.Add(entry);
         }
+    }
+
+    private VisualElement CreateJournalEntry(string title, System.Action onClick)
+    {
+        if (journalEntryTemplate == null)
+        {
+            Button fallbackButton = new Button();
+            fallbackButton.text = title;
+            fallbackButton.clicked += () => onClick?.Invoke();
+            return fallbackButton;
+        }
+
+        TemplateContainer instance = journalEntryTemplate.Instantiate();
+
+        VisualElement root = instance.Q<VisualElement>("JournalEntry");
+
+        if (root == null)
+            root = instance.ElementAt(0);
+
+        Button entryButton = root.Q<Button>("EntryTitle");
+
+        if (entryButton != null)
+        {
+            entryButton.text = title;
+            entryButton.clicked += () => onClick?.Invoke();
+            entryButton.pickingMode = PickingMode.Position;
+        }
+        else
+        {
+            root.RegisterCallback<ClickEvent>(_ => onClick?.Invoke());
+        }
+
+        root.pickingMode = PickingMode.Position;
+
+        return root;
     }
 
     private void PopulateFocusedQuestView(string title, string details, string condition)
@@ -117,5 +201,21 @@ public class JournalController : MonoBehaviour
         if (questConditionLabel != null) questConditionLabel.text = condition;
     }
 
-    public bool IsJournalActive() => isJournalOpen;
+    public bool IsJournalActive()
+    {
+        return journalContainer != null &&
+               journalContainer.style.display == DisplayStyle.Flex;
+    }
+
+    private class JournalNote
+    {
+        public string title;
+        public string content;
+
+        public JournalNote(string title, string content)
+        {
+            this.title = title;
+            this.content = content;
+        }
+    }
 }
