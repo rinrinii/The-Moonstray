@@ -17,11 +17,13 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement JournalContainer { get; private set; }
     public VisualElement MapRoot { get; private set; }
     public VisualElement InventoryRoot { get; private set; }
+    public VisualElement NotePopupRoot { get; private set; }
 
-    // Public Sub-Controller properties (Fixes the PauseMenuController compile errors!)
+    // Public Sub-Controller properties 
     public MapUI Map { get; private set; }
     public JournalController Journal { get; private set; }
     public InventoryUI Inventory { get; private set; }
+    public NoteUI Note { get; private set; }
 
     private void Awake()
     {
@@ -43,11 +45,13 @@ public class GameplayUIManager : MonoBehaviour
         JournalContainer = RootVisualElement.Q<VisualElement>("JournalContainer");
         MapRoot = RootVisualElement.Q<VisualElement>("MapRoot");
         InventoryRoot = RootVisualElement.Q<VisualElement>("InventoryRoot");
+        NotePopupRoot = RootVisualElement.Q<VisualElement>("NotePopupRoot");
 
         // Grab component references sitting on this same GameObject
         Map = GetComponent<MapUI>();
         Journal = GetComponent<JournalController>();
         Inventory = GetComponent<InventoryUI>();
+        Note = GetComponent<NoteUI>();
 
         NormalizeDefaultScreenLayout();
     }
@@ -61,6 +65,7 @@ public class GameplayUIManager : MonoBehaviour
         if (JournalContainer != null) JournalContainer.style.display = DisplayStyle.None;
         if (MapRoot != null) MapRoot.style.display = DisplayStyle.None;
         if (InventoryRoot != null) InventoryRoot.style.display = DisplayStyle.None;
+        if (NotePopupRoot != null) NotePopupRoot.style.display = DisplayStyle.None;
     }
 
     public void SuppressSecondaryPanels(MonoBehaviour except = null)
@@ -73,5 +78,8 @@ public class GameplayUIManager : MonoBehaviour
 
         if (Inventory != null && Inventory != except)
             Inventory.CloseInventory();
+
+        if (Note != null && Note != except)
+            Note.CloseNote();
     }
 }
