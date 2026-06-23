@@ -35,28 +35,25 @@ namespace WaterStylizedShader
         {
             waterHeight = baseWaterHeight + Mathf.Sin(Time.time * waveSpeed) * (waterHeightVariation / 2f);
 
-            floatersUnderwater = 0;
+            Debug.Log(
+                "FloaterY: " + floaters[0].position.y +
+                " | WaterHeight: " + waterHeight
+            );
+
             for (int i = 0; i < floaters.Length; i++)
             {
                 float diff = floaters[i].position.y - waterHeight;
 
                 if (diff < 0)
                 {
-                    rb.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(diff), floaters[i].position, ForceMode.Force);
-                    floatersUnderwater++;
-                    if (!underwater)
-                    {
-                        underwater = true;
-                        SwitchState(true);
-                    }
+                    Debug.Log("UNDERWATER");
+
+                    rb.AddForceAtPosition(
+                        Vector3.up * floatingPower * Mathf.Abs(diff),
+                        floaters[i].position,
+                        ForceMode.Force
+                    );
                 }
-            }
-
-
-            if (underwater && floatersUnderwater == 0)
-            {
-                underwater = false;
-                SwitchState(false);
             }
         }
 
