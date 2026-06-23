@@ -1891,6 +1891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c028ffc1a2d2aa4fb2db07d13cc4481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuController
+  mainMenuScene: MainMenu
 --- !u!114 &570348604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1917,6 +1918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64c303372396c3144a381254304e91ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JournalController
+  journalEntryTemplate: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -4912,6 +4914,7 @@ MonoBehaviour:
   damagePerSecond: 10
   visualMesh: {fileID: 547601068}
   damageTrigger: {fileID: 2077208696}
+  movementMultiplier: 0.75
   targetTriggerSize: {x: 2, y: 1, z: 2}
   targetVisualScale: {x: 2, y: 1, z: 2}
   spreadSpeed: 1.5
