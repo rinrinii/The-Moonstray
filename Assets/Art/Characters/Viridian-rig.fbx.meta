@@ -1,0 +1,4032 @@
+fileFormatVersion: 2
+guid: 08c62e989c6b7f94991fce3af67ae8f4
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface1
+    second: {fileID: 2100000, guid: d2c2c7ba09ec5a2438a31eedce811c76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface3
+    second: {fileID: 2100000, guid: e3f722e7ef50062449b1b0374546c479, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface4
+    second: {fileID: 2100000, guid: ac76aa350f206124c99fbb1bc865f931, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface5
+    second: {fileID: 2100000, guid: 9196a69e525069e42b5f8333d6bc6a3e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface6
+    second: {fileID: 2100000, guid: 31e5c44cf6f16974aa548ff6c1ebe101, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface7
+    second: {fileID: 2100000, guid: f27afbc358789b94981ba8ca16c92cd6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface8
+    second: {fileID: 2100000, guid: 69f7f400a07ec69438527f0e7295b27e, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 27
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: Root_M
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Hip_L
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Hip_R
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Knee_L
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Knee_R
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Ankle_L
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Ankle_R
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RootPart1_M
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Spine1_M
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Neck_M
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Head_M
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Scapula_L
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Scapula_R
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Shoulder_L
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Shoulder_R
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Elbow_L
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Elbow_R
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Wrist_L
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Wrist_R
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Toes_L
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Toes_R
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Eye_R
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ThumbFinger1_L
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ThumbFinger2_L
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ThumbFinger3_L
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: IndexFinger1_L
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: IndexFinger2_L
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: IndexFinger3_L
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: MiddleFinger1_L
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: MiddleFinger2_L
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: MiddleFinger3_L
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RingFinger1_L
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RingFinger2_L
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RingFinger3_L
+      humanName: Left Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: PinkyFinger1_L
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: PinkyFinger2_L
+      humanName: Left Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: PinkyFinger3_L
+      humanName: Left Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ThumbFinger1_R
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ThumbFinger2_R
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: ThumbFinger3_R
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: IndexFinger1_R
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: IndexFinger2_R
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: IndexFinger3_R
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: MiddleFinger1_R
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: MiddleFinger2_R
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: MiddleFinger3_R
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RingFinger1_R
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RingFinger2_R
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: RingFinger3_R
+      humanName: Right Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: PinkyFinger1_R
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: PinkyFinger2_R
+      humanName: Right Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: PinkyFinger3_R
+      humanName: Right Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Chest_M
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Eye_L
+      humanName: LeftEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Viridian-rig(Clone)
+      parentName: 
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: DeformationSystem
+      parentName: Viridian-rig(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: root
+      parentName: DeformationSystem
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root_M
+      parentName: root
+      position: {x: 3.4534433e-16, y: 0.94568694, z: -0.017047275}
+      rotation: {x: 0.46390375, y: -0.5336603, z: -0.46390375, w: 0.53366035}
+      scale: {x: 0.9999997, y: 0.9999997, z: 0.99999976}
+    - name: Hip_L
+      parentName: Root_M
+      position: {x: 0.01921387, y: -0.007913051, z: 0.10170655}
+      rotation: {x: 0.9980409, y: -0.025905851, z: 0.054159842, w: 0.017607125}
+      scale: {x: 1.0000014, y: 1.0000015, z: 1.0000012}
+    - name: HipPart1_L
+      parentName: Hip_L
+      position: {x: 0.16041303, y: -1.498801e-17, z: 5.995204e-17}
+      rotation: {x: -0, y: 2.9103834e-11, z: -0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
+    - name: HipPart2_L
+      parentName: HipPart1_L
+      position: {x: 0.16041303, y: -7.494005e-18, z: 5.995204e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000001}
+    - name: Knee_L
+      parentName: HipPart2_L
+      position: {x: 0.16041303, y: 4.1217027e-17, z: 2.0983214e-16}
+      rotation: {x: -0.00000006891549, y: 0.000000012892899, z: -0.0817461, w: -0.99665326}
+      scale: {x: 1.0000014, y: 1.0000008, z: 1.0000015}
+    - name: Ankle_L
+      parentName: Knee_L
+      position: {x: 0.37074587, y: 2.6375383e-16, z: 2.772782e-16}
+      rotation: {x: -0.0031810252, y: 0.055967577, z: 0.03824407, w: -0.9976948}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: Toes_L
+      parentName: Ankle_L
+      position: {x: 0.06416784, y: -0.12912856, z: -4.5536352e-12}
+      rotation: {x: 0.004562849, y: 0.0039830427, z: -0.65760654, w: 0.75333726}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999996}
+    - name: ToesEnd_L
+      parentName: Toes_L
+      position: {x: 0.06031963, y: -5.2458034e-17, z: -6.1621402e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_R
+      parentName: Root_M
+      position: {x: 0.01921387, y: -0.007913051, z: -0.10170655}
+      rotation: {x: 0.025905773, y: 0.9980409, z: 0.017607182, w: -0.05415973}
+      scale: {x: 1.0000013, y: 1.0000012, z: 1.0000012}
+    - name: HipPart1_R
+      parentName: Hip_R
+      position: {x: -0.16041303, y: 7.494005e-17, z: -2.3980816e-16}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 0.9999997, y: 0.9999997, z: 0.99999994}
+    - name: HipPart2_R
+      parentName: HipPart1_R
+      position: {x: -0.16041303, y: 7.494005e-17, z: -2.0983214e-16}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000008, y: 1.0000006, z: 1.0000007}
+    - name: Knee_R
+      parentName: HipPart2_R
+      position: {x: -0.16041303, y: 7.494005e-17, z: -1.498801e-16}
+      rotation: {x: 0.00000007136259, y: -0.000000014901161, z: 0.08174619, w: 0.9966532}
+      scale: {x: 1.0000013, y: 1.0000011, z: 1.0000012}
+    - name: Ankle_R
+      parentName: Knee_R
+      position: {x: -0.37074587, y: -3.287263e-16, z: -1.1241007e-16}
+      rotation: {x: 0.003181025, y: -0.055967577, z: -0.03824408, w: 0.9976948}
+      scale: {x: 0.9999992, y: 0.99999994, z: 0.9999997}
+    - name: Toes_R
+      parentName: Ankle_R
+      position: {x: -0.06416784, y: 0.12912856, z: 1.6855771e-10}
+      rotation: {x: 0.004561825, y: 0.0039821826, z: -0.6576065, w: 0.7533373}
+      scale: {x: 0.99999994, y: 0.9999998, z: 0.9999998}
+    - name: ToesEnd_R
+      parentName: Toes_R
+      position: {x: -0.06031963, y: -8.234749e-14, z: 0.00000015590173}
+      rotation: {x: 0.00000017616577, y: 0.0000012922459, z: -2.2764947e-13, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RootPart1_M
+      parentName: Root_M
+      position: {x: -0.05632502, y: -5.995204e-17, z: -6.7772304e-17}
+      rotation: {x: -0, y: -0, z: -0.000000029802322, w: 1}
+      scale: {x: 1, y: 0.9999999, z: 1.0000005}
+    - name: RootPart2_M
+      parentName: RootPart1_M
+      position: {x: -0.05632502, y: -5.995204e-17, z: -6.7772304e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 0.99999934, y: 0.9999994, z: 0.9999995}
+    - name: Spine1_M
+      parentName: RootPart2_M
+      position: {x: -0.05632502, y: 1.3489209e-16, z: -2.033169e-16}
+      rotation: {x: -0, y: -0, z: -0.027103603, w: 0.9996327}
+      scale: {x: 1.0000012, y: 1.0000012, z: 1.0000013}
+    - name: Spine1Part1_M
+      parentName: Spine1_M
+      position: {x: -0.04573296, y: 1.498801e-17, z: -5.612448e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000002}
+    - name: Spine1Part2_M
+      parentName: Spine1Part1_M
+      position: {x: -0.04573296, y: 7.494005e-18, z: -5.612448e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000008, y: 1.000001, z: 1.0000006}
+    - name: Chest_M
+      parentName: Spine1Part2_M
+      position: {x: -0.04573296, y: 1.8735012e-18, z: -1.6837346e-16}
+      rotation: {x: 0.000000089406974, y: -0, z: -0.11194112, w: 0.99371487}
+      scale: {x: 0.9999998, y: 0.9999997, z: 0.99999887}
+    - name: Neck_M
+      parentName: Chest_M
+      position: {x: -0.11235036, y: 3.3067295e-16, z: 1.2424503e-15}
+      rotation: {x: -0.0000000819442, y: -0.00000007109341, z: -0.020904496, w: 0.99978155}
+      scale: {x: 1.000002, y: 1.0000023, z: 1.0000024}
+    - name: NeckPart1_M
+      parentName: Neck_M
+      position: {x: -0.049875677, y: 5.995204e-17, z: -1.6911815e-17}
+      rotation: {x: -0, y: -0, z: -5.825692e-15, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
+    - name: NeckPart2_M
+      parentName: NeckPart1_M
+      position: {x: -0.049875677, y: 2.3980816e-16, z: -1.6911815e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000011, y: 1.0000013, z: 1.0000008}
+    - name: Head_M
+      parentName: NeckPart2_M
+      position: {x: -0.049875677, y: 1.7798261e-16, z: -5.073545e-17}
+      rotation: {x: 0.000000031612394, y: 0.000000034882408, z: 0.08996419, w: 0.99594504}
+      scale: {x: 1.0000005, y: 1.0000008, z: 1.000001}
+    - name: Eye_L
+      parentName: Head_M
+      position: {x: -0.018762643, y: 0.07730378, z: 0.036987565}
+      rotation: {x: 0, y: -0, z: -0.7071068, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: EyeEnd_L
+      parentName: Eye_L
+      position: {x: -0.025450872, y: -2.3980816e-15, z: -1.8735012e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Eye_R
+      parentName: Head_M
+      position: {x: -0.018762643, y: 0.07730378, z: -0.036987565}
+      rotation: {x: 0, y: -0, z: -0.7071068, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: EyeEnd_R
+      parentName: Eye_R
+      position: {x: -0.025450872, y: -2.1582734e-15, z: 1.7985612e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: HeadEnd_M
+      parentName: Head_M
+      position: {x: -0.14449143, y: 1.4238609e-16, z: 1.128785e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Jaw_M
+      parentName: Head_M
+      position: {x: 0.03358578, y: 0.026759442, z: -1.7310395e-16}
+      rotation: {x: 0.000000050699672, y: 0.000000037128093, z: -0.90405214, w: 0.42742226}
+      scale: {x: 1.0000002, y: 1.0000006, z: 1.0000002}
+    - name: JawEnd_M
+      parentName: Jaw_M
+      position: {x: -0.08528796, y: -9.592326e-16, z: -5.8546913e-19}
+      rotation: {x: 3.5527124e-15, y: -0, z: -0.000000029802315, w: 1}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: Scapula_L
+      parentName: Chest_M
+      position: {x: -0.10313767, y: 0.02234768, z: 0.055871557}
+      rotation: {x: -0.7171084, y: 0.06893145, z: -0.6749458, w: 0.1595372}
+      scale: {x: 1.000002, y: 1.0000011, z: 1.0000007}
+    - name: Shoulder_L
+      parentName: Scapula_L
+      position: {x: 0.10995184, y: 1.1459972e-15, z: 9.587642e-16}
+      rotation: {x: -0.12061497, y: -0.025717888, z: -0.1673396, w: 0.9781555}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000008}
+    - name: ShoulderPart1_L
+      parentName: Shoulder_L
+      position: {x: 0.06917727, y: 1.1990408e-16, z: -7.1942447e-16}
+      rotation: {x: -0.00000004470347, y: 0.037951365, z: -0.0039442545, w: 0.99927187}
+      scale: {x: 1.0000014, y: 1.0000008, z: 1.0000002}
+    - name: ShoulderPart2_L
+      parentName: ShoulderPart1_L
+      position: {x: 0.06917727, y: 1.1990408e-16, z: -9.592326e-16}
+      rotation: {x: -0, y: -0, z: 0.000000007916242, w: 1}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000007}
+    - name: Elbow_L
+      parentName: ShoulderPart2_L
+      position: {x: 0.06917727, y: 2.3980816e-16, z: 7.1942447e-16}
+      rotation: {x: 0.004500734, y: 0.02784658, z: -0.021925988, w: 0.9993616}
+      scale: {x: 1.0000004, y: 0.9999998, z: 1.0000005}
+    - name: ElbowPart1_L
+      parentName: Elbow_L
+      position: {x: 0.07652502, y: 0, z: 4.796163e-16}
+      rotation: {x: -0, y: -0, z: -6.5594225e-17, w: 1}
+      scale: {x: 0.9999998, y: 0.9999998, z: 1.0000001}
+    - name: ElbowPart2_L
+      parentName: ElbowPart1_L
+      position: {x: 0.07652502, y: -1.1990408e-16, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: Wrist_L
+      parentName: ElbowPart2_L
+      position: {x: 0.07652502, y: -5.714179e-17, z: -2.4355517e-16}
+      rotation: {x: -0.10364926, y: -0.0563123, z: -0.04599951, w: -0.99195254}
+      scale: {x: 1.0000006, y: 0.9999997, z: 1.0000001}
+    - name: Cup_L
+      parentName: Wrist_L
+      position: {x: 0.017999595, y: 0.012311403, z: -0.0015566207}
+      rotation: {x: 0.06612508, y: 0.0029160902, z: 0.00945311, w: -0.9977624}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
+    - name: PinkyFinger1_L
+      parentName: Cup_L
+      position: {x: 0.061754007, y: 0.027032223, z: 0.008371695}
+      rotation: {x: -0.074064896, y: 0.043483555, z: -0.069053605, w: -0.99390906}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1.0000001}
+    - name: PinkyFinger2_L
+      parentName: PinkyFinger1_L
+      position: {x: 0.019889502, y: -2.9375913e-17, z: 1.4393173e-15}
+      rotation: {x: 0.0192821, y: -0.02546067, z: -0.030961238, w: 0.99901026}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000002}
+    - name: PinkyFinger3_L
+      parentName: PinkyFinger2_L
+      position: {x: 0.020585598, y: 2.8980723e-17, z: 2.3980816e-16}
+      rotation: {x: 0.038078602, y: -0.026494958, z: 0.029779984, w: 0.9984794}
+      scale: {x: 1.0000012, y: 1.0000006, z: 1.0000008}
+    - name: PinkyFinger4_L
+      parentName: PinkyFinger3_L
+      position: {x: 0.023211846, y: -8.992806e-17, z: 2.3980816e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_L
+      parentName: Cup_L
+      position: {x: 0.07673663, y: 0.010890713, z: 0.00044210345}
+      rotation: {x: -0.09844176, y: 0.075938314, z: -0.032016434, w: -0.99172455}
+      scale: {x: 0.99999994, y: 0.9999998, z: 1}
+    - name: RingFinger2_L
+      parentName: RingFinger1_L
+      position: {x: 0.032949284, y: -2.6208892e-17, z: -7.0256296e-19}
+      rotation: {x: 0.0018454639, y: -0.030622106, z: 0.005628279, w: 0.99951357}
+      scale: {x: 1.0000007, y: 1.0000007, z: 1.0000004}
+    - name: RingFinger3_L
+      parentName: RingFinger2_L
+      position: {x: 0.024679413, y: 7.494005e-18, z: -2.4027654e-16}
+      rotation: {x: 0.01366333, y: -0.040121917, z: -0.0037598822, w: 0.9990943}
+      scale: {x: 1.0000008, y: 1.0000005, z: 1.0000001}
+    - name: RingFinger4_L
+      parentName: RingFinger3_L
+      position: {x: 0.027543124, y: -1.498801e-17, z: 2.3980816e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_L
+      parentName: Wrist_L
+      position: {x: 0.09538726, y: -0.022395426, z: 0.0005980038}
+      rotation: {x: 0.01887506, y: 0.06618012, z: -0.049798284, w: -0.9963856}
+      scale: {x: 0.9999998, y: 1.0000001, z: 0.9999998}
+    - name: IndexFinger2_L
+      parentName: IndexFinger1_L
+      position: {x: 0.033894356, y: -7.669646e-18, z: -4.798505e-16}
+      rotation: {x: -0.006182121, y: -0.023392878, z: -0.004831021, w: 0.9996956}
+      scale: {x: 1.0000011, y: 1.0000001, z: 1.0000004}
+    - name: IndexFinger3_L
+      parentName: IndexFinger2_L
+      position: {x: 0.025177872, y: 1.4753822e-17, z: 7.166142e-16}
+      rotation: {x: -0.05254478, y: -0.03605468, z: 0.0016732538, w: 0.9979661}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
+    - name: IndexFinger4_L
+      parentName: IndexFinger3_L
+      position: {x: 0.026758645, y: -1.1990408e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MiddleFinger1_L
+      parentName: Wrist_L
+      position: {x: 0.096762, y: -7.3066544e-17, z: -3.7470024e-18}
+      rotation: {x: 0.009010571, y: -0.07079413, z: 0.04268943, w: 0.9965363}
+      scale: {x: 1, y: 1.0000002, z: 0.99999994}
+    - name: MiddleFinger2_L
+      parentName: MiddleFinger1_L
+      position: {x: 0.031053932, y: -6.935562e-17, z: -2.3977888e-16}
+      rotation: {x: 0.0003193249, y: -0.0022891536, z: -0.0017031685, w: 0.9999959}
+      scale: {x: 0.99999994, y: 0.9999998, z: 1.0000001}
+    - name: MiddleFinger3_L
+      parentName: MiddleFinger2_L
+      position: {x: 0.022666631, y: 2.4827093e-17, z: 2.3980816e-16}
+      rotation: {x: 0.0007065708, y: -0.04032176, z: -0.0003679727, w: 0.99918646}
+      scale: {x: 1.0000006, y: 1.0000006, z: 0.9999998}
+    - name: MiddleFinger4_L
+      parentName: MiddleFinger3_L
+      position: {x: 0.033339147, y: 1.8735012e-18, z: 9.592326e-16}
+      rotation: {x: 0.000000012904784, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger1_L
+      parentName: Wrist_L
+      position: {x: 0.022121219, y: -0.0109761255, z: 0.008006139}
+      rotation: {x: 0.4164337, y: -0.15877509, z: 0.30173922, w: -0.84280896}
+      scale: {x: 0.9999997, y: 0.9999998, z: 0.99999994}
+    - name: ThumbFinger2_L
+      parentName: ThumbFinger1_L
+      position: {x: 0.0569961, y: -9.560711e-16, z: 9.573591e-16}
+      rotation: {x: -0.010077498, y: -0.032553185, z: -0.013165273, w: 0.9993325}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000002}
+    - name: ThumbFinger3_L
+      parentName: ThumbFinger2_L
+      position: {x: 0.016230745, y: 1.1989024e-15, z: -3.4163295e-15}
+      rotation: {x: 0.0026290873, y: -0.03467173, z: -0.002940303, w: 0.999391}
+      scale: {x: 1.0000002, y: 0.9999996, z: 1.000001}
+    - name: ThumbFinger4_L
+      parentName: ThumbFinger3_L
+      position: {x: 0.024220472, y: 1.1990408e-15, z: 4.796163e-16}
+      rotation: {x: 0.000000021073424, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Scapula_R
+      parentName: Chest_M
+      position: {x: -0.10313767, y: 0.02234768, z: -0.055871557}
+      rotation: {x: 0.06893145, y: 0.7171084, z: -0.15953712, w: -0.67494583}
+      scale: {x: 1.000001, y: 1.0000013, z: 1.0000005}
+    - name: Shoulder_R
+      parentName: Scapula_R
+      position: {x: -0.10995184, y: -4.3090527e-16, z: -4.8102143e-16}
+      rotation: {x: -0.12061483, y: -0.025717312, z: -0.16733937, w: 0.9781555}
+      scale: {x: 1.0000012, y: 1.0000008, z: 1.0000002}
+    - name: ShoulderPart1_R
+      parentName: Shoulder_R
+      position: {x: -0.06917727, y: -1.7985612e-16, z: 0}
+      rotation: {x: 0.000000007450579, y: 0.03795104, z: -0.0039441884, w: 0.9992718}
+      scale: {x: 1.0000004, y: 1, z: 0.9999998}
+    - name: ShoulderPart2_R
+      parentName: ShoulderPart1_R
+      position: {x: -0.06917727, y: -5.995204e-17, z: 2.3980816e-16}
+      rotation: {x: -1.5178829e-17, y: -0.000000009313226, z: 0.000000029336661, w: 1}
+      scale: {x: 1.0000005, y: 1.0000008, z: 1.0000005}
+    - name: Elbow_R
+      parentName: ShoulderPart2_R
+      position: {x: -0.06917727, y: 1.1990408e-16, z: 4.796163e-16}
+      rotation: {x: 0.004500738, y: 0.027846709, z: -0.021925857, w: 0.9993616}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000001}
+    - name: ElbowPart1_R
+      parentName: Elbow_R
+      position: {x: -0.07652502, y: -5.995204e-17, z: 4.796163e-16}
+      rotation: {x: -0, y: -0, z: 2.7061686e-16, w: 1}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000002}
+    - name: ElbowPart2_R
+      parentName: ElbowPart1_R
+      position: {x: -0.07652502, y: -5.995204e-17, z: 4.796163e-16}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.000001, y: 1.0000005, z: 1.0000005}
+    - name: Wrist_R
+      parentName: ElbowPart2_R
+      position: {x: -0.07652502, y: -2.8102518e-18, z: -7.1567746e-16}
+      rotation: {x: 0.10364925, y: 0.056312326, z: 0.04599953, w: 0.99195254}
+      scale: {x: 1.0000025, y: 1.0000001, z: 1.0000013}
+    - name: Cup_R
+      parentName: Wrist_R
+      position: {x: -0.017999595, y: -0.012311403, z: 0.0015566207}
+      rotation: {x: -0.06612508, y: -0.0029160865, z: -0.009453106, w: 0.9977624}
+      scale: {x: 0.9999998, y: 1.0000001, z: 0.9999996}
+    - name: PinkyFinger1_R
+      parentName: Cup_R
+      position: {x: -0.061754007, y: -0.027032223, z: -0.008371695}
+      rotation: {x: 0.07406512, y: -0.043481898, z: 0.06905529, w: 0.99390906}
+      scale: {x: 1.0000007, y: 1.0000002, z: 1.0000004}
+    - name: PinkyFinger2_R
+      parentName: PinkyFinger1_R
+      position: {x: -0.019889502, y: 3.9263024e-17, z: 0}
+      rotation: {x: 0.019282026, y: -0.025464727, z: -0.030963082, w: 0.99901}
+      scale: {x: 1.0000008, y: 1.0000006, z: 1.0000006}
+    - name: PinkyFinger3_R
+      parentName: PinkyFinger2_R
+      position: {x: -0.020585598, y: 2.6990127e-17, z: 4.683753e-19}
+      rotation: {x: 0.038078476, y: -0.0264965, z: 0.029778162, w: 0.9984795}
+      scale: {x: 1.0000007, y: 1.0000002, z: 1.0000002}
+    - name: PinkyFinger4_R
+      parentName: PinkyFinger3_R
+      position: {x: -0.023211846, y: 1.1990408e-16, z: 2.3980816e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_R
+      parentName: Cup_R
+      position: {x: -0.07673663, y: -0.010890713, z: -0.00044210345}
+      rotation: {x: 0.09844188, y: -0.075938314, z: 0.032016415, w: 0.99172455}
+      scale: {x: 1.0000006, y: 1, z: 1.0000006}
+    - name: RingFinger2_R
+      parentName: RingFinger1_R
+      position: {x: -0.032949284, y: 3.7422455e-17, z: 1.6793597e-15}
+      rotation: {x: 0.0018454713, y: -0.03062215, z: 0.00562829, w: 0.99951357}
+      scale: {x: 1.0000002, y: 1, z: 1.0000001}
+    - name: RingFinger3_R
+      parentName: RingFinger2_R
+      position: {x: -0.024679413, y: -7.376911e-18, z: -2.157805e-15}
+      rotation: {x: 0.013663324, y: -0.040126342, z: -0.0037596854, w: 0.9990942}
+      scale: {x: 1.0000006, y: 1.0000005, z: 0.9999998}
+    - name: RingFinger4_R
+      parentName: RingFinger3_R
+      position: {x: -0.027543124, y: -1.498801e-17, z: -2.3980816e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_R
+      parentName: Wrist_R
+      position: {x: -0.09538726, y: 0.022395426, z: -0.0005980038}
+      rotation: {x: -0.018875126, y: -0.0661791, z: 0.049797673, w: 0.9963856}
+      scale: {x: 0.9999996, y: 1, z: 0.9999998}
+    - name: IndexFinger2_R
+      parentName: IndexFinger1_R
+      position: {x: -0.033894356, y: 4.503721e-17, z: 2.3980816e-16}
+      rotation: {x: -0.0061820634, y: -0.023392916, z: -0.0048310366, w: 0.9996956}
+      scale: {x: 1.0000007, y: 1.0000005, z: 1.0000006}
+    - name: IndexFinger3_R
+      parentName: IndexFinger2_R
+      position: {x: -0.025177872, y: 1.5105104e-17, z: 1.4416592e-15}
+      rotation: {x: -0.052544836, y: -0.036050025, z: 0.0016751589, w: 0.9979663}
+      scale: {x: 1.0000012, y: 1.0000002, z: 0.99999946}
+    - name: IndexFinger4_R
+      parentName: IndexFinger3_R
+      position: {x: -0.026758645, y: 8.992806e-17, z: 4.796163e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MiddleFinger1_R
+      parentName: Wrist_R
+      position: {x: -0.096762, y: 1.7728005e-16, z: 4.833633e-16}
+      rotation: {x: 0.009010456, y: -0.07079362, z: 0.04269025, w: 0.9965363}
+      scale: {x: 1.0000005, y: 1.0000004, z: 1.0000001}
+    - name: MiddleFinger2_R
+      parentName: MiddleFinger1_R
+      position: {x: -0.031053932, y: 4.5897006e-17, z: -7.1942447e-16}
+      rotation: {x: 0.00031932583, y: -0.0022891462, z: -0.0017031762, w: 0.99999595}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000002}
+    - name: MiddleFinger3_R
+      parentName: MiddleFinger2_R
+      position: {x: -0.022666631, y: -2.8115326e-17, z: -4.7867955e-16}
+      rotation: {x: 0.00070663076, y: -0.040319942, z: -0.0003682463, w: 0.9991866}
+      scale: {x: 1.0000008, y: 1.0000004, z: 1}
+    - name: MiddleFinger4_R
+      parentName: MiddleFinger3_R
+      position: {x: -0.033339147, y: -3.7470024e-18, z: -2.3980816e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger1_R
+      parentName: Wrist_R
+      position: {x: -0.022121219, y: 0.0109761255, z: -0.008006139}
+      rotation: {x: -0.41643366, y: 0.15877506, z: -0.3017392, w: 0.84280896}
+      scale: {x: 0.9999998, y: 1.0000004, z: 0.999999}
+    - name: ThumbFinger2_R
+      parentName: ThumbFinger1_R
+      position: {x: -0.0569961, y: 9.58413e-16, z: -3.5971223e-16}
+      rotation: {x: -0.010077951, y: -0.032550678, z: -0.013166991, w: 0.9993326}
+      scale: {x: 1.0000008, y: 1.0000005, z: 0.9999992}
+    - name: ThumbFinger3_R
+      parentName: ThumbFinger2_R
+      position: {x: -0.016230745, y: 1.8102589e-19, z: 2.9367132e-15}
+      rotation: {x: 0.0026287402, y: -0.034671687, z: -0.0029411255, w: 0.999391}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000011}
+    - name: ThumbFinger4_R
+      parentName: ThumbFinger3_R
+      position: {x: -0.024220472, y: -7.1942447e-16, z: -4.796163e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Geometry
+      parentName: Viridian-rig(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cages
+      parentName: Geometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: skinCage
+      parentName: Cages
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: geo
+      parentName: Geometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: group3
+      parentName: geo
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: body
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: hair
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_eye
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: pants
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: R_eye
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: shirt
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: thing
+      parentName: group3
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MeshCurves
+      parentName: Geometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Ankle_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.1956121, y: 0.06572222, z: 0.025173943}
+      rotation: {x: 0.5030189, y: -0.5030188, z: 0.49696288, w: -0.4969628}
+      scale: {x: 0.12745085, y: 0.10426687, z: 0.10426687}
+    - name: Ankle_L_endProfile
+      parentName: Ankle_L_endCurveOffset
+      position: {x: -0, y: -2.997602e-17, z: 4.796163e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Ankle_L_endCurve
+      parentName: Ankle_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_L_endCurve_copy
+      parentName: Ankle_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.19600311, y: 0.08176417, z: -0.0071058315}
+      rotation: {x: 0.5030189, y: -0.5030188, z: 0.49696288, w: -0.4969628}
+      scale: {x: 0.15294103, y: 0.13185532, z: 0.13185532}
+    - name: Ankle_L_middleCurve
+      parentName: Ankle_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_L_middleCurve_copy
+      parentName: Ankle_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.1855451, y: 0.17359886, z: -0.00019194328}
+      rotation: {x: 0.5030189, y: -0.5030188, z: 0.49696288, w: -0.4969628}
+      scale: {x: 0.12745085, y: 0.1239949, z: 0.1239949}
+    - name: Ankle_L_startProfile
+      parentName: Ankle_L_startCurveOffset
+      position: {x: -0, y: 7.494005e-18, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Ankle_L_startCurve
+      parentName: Ankle_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_L_startCurve_copy
+      parentName: Ankle_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.1956121, y: 0.06572222, z: 0.025173943}
+      rotation: {x: 0.4969628, y: 0.49696288, z: 0.5030188, w: 0.50301886}
+      scale: {x: 0.12745085, y: 0.10426687, z: 0.10426687}
+    - name: Ankle_R_endProfile
+      parentName: Ankle_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Ankle_R_endCurve
+      parentName: Ankle_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_R_endCurve_copy
+      parentName: Ankle_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.19600311, y: 0.08176417, z: -0.0071058315}
+      rotation: {x: 0.4969628, y: 0.49696288, z: 0.5030188, w: 0.50301886}
+      scale: {x: 0.15294103, y: 0.13185532, z: 0.13185532}
+    - name: Ankle_R_middleCurve
+      parentName: Ankle_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_R_middleCurve_copy
+      parentName: Ankle_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.1855451, y: 0.17359886, z: -0.00019194328}
+      rotation: {x: 0.4969628, y: 0.49696288, z: 0.5030188, w: 0.50301886}
+      scale: {x: 0.12745085, y: 0.1239949, z: 0.1239949}
+    - name: Ankle_R_startProfile
+      parentName: Ankle_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Ankle_R_startCurve
+      parentName: Ankle_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Ankle_R_startCurve_copy
+      parentName: Ankle_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Chest_M_middleProfile
+      parentName: MeshCurves
+      position: {x: 8.926232e-16, y: 1.2497163, z: -0.052268315}
+      rotation: {x: 0.533501, y: -0.46408698, z: -0.533501, w: 0.46408698}
+      scale: {x: 0.40784276, y: 0.39378417, z: 0.6058218}
+    - name: Chest_M_middleCurve
+      parentName: Chest_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Chest_M_middleCurve_copy
+      parentName: Chest_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.36281997, y: 1.3138626, z: -0.06735901}
+      rotation: {x: -0.095447704, y: 0.77626425, z: -0.6227211, w: 0.022847474}
+      scale: {x: 0.10196069, y: 0.1603646, z: 0.1603646}
+    - name: Elbow_L_middleCurve
+      parentName: Elbow_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_L_middleCurve_copy
+      parentName: Elbow_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_L_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: -0.43590236, y: 1.2983068, z: -0.050834525}
+      rotation: {x: -0.14863174, y: 0.7678575, z: -0.6228174, w: -0.02005248}
+      scale: {x: 0.07719786, y: 0.12770563, z: 0.09660643}
+    - name: Elbow_L_twistProfile1
+      parentName: Elbow_L_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Elbow_L_twistCurve1
+      parentName: Elbow_L_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_L_twistCurve1_copy
+      parentName: Elbow_L_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_L_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: -0.50898474, y: 1.282751, z: -0.03431004}
+      rotation: {x: -0.14863174, y: 0.7678575, z: -0.6228174, w: -0.02005248}
+      scale: {x: 0.07013891, y: 0.122037366, z: 0.069836885}
+    - name: Elbow_L_twistProfile2
+      parentName: Elbow_L_twistCurve2Offset
+      position: {x: -9.592326e-16, y: -4.796163e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Elbow_L_twistCurve2
+      parentName: Elbow_L_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_L_twistCurve2_copy
+      parentName: Elbow_L_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.36281997, y: 1.3138626, z: -0.06735901}
+      rotation: {x: 0.022847468, y: 0.6227211, z: 0.77626425, w: 0.095447704}
+      scale: {x: 0.10196069, y: 0.1603646, z: 0.1603646}
+    - name: Elbow_R_middleCurve
+      parentName: Elbow_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_R_middleCurve_copy
+      parentName: Elbow_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_R_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: 0.43590236, y: 1.2983068, z: -0.050834525}
+      rotation: {x: -0.020052485, y: 0.6228174, z: 0.7678575, w: 0.14863174}
+      scale: {x: 0.07719786, y: 0.12770563, z: 0.09660643}
+    - name: Elbow_R_twistProfile1
+      parentName: Elbow_R_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Elbow_R_twistCurve1
+      parentName: Elbow_R_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_R_twistCurve1_copy
+      parentName: Elbow_R_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_R_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: 0.50898474, y: 1.282751, z: -0.03431004}
+      rotation: {x: -0.020052485, y: 0.6228174, z: 0.7678575, w: 0.14863174}
+      scale: {x: 0.07013891, y: 0.122037366, z: 0.069836885}
+    - name: Elbow_R_twistProfile2
+      parentName: Elbow_R_twistCurve2Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Elbow_R_twistCurve2
+      parentName: Elbow_R_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Elbow_R_twistCurve2_copy
+      parentName: Elbow_R_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Head_M_middleProfile
+      parentName: MeshCurves
+      position: {x: -2.9849184e-16, y: 1.5081735, z: -0.009810197}
+      rotation: {x: 0.50014496, y: -0.499855, z: -0.50014496, w: 0.499855}
+      scale: {x: 0.40784276, y: 0.114037044, z: 0.114037044}
+    - name: Head_M_middleCurve
+      parentName: Head_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Head_M_middleCurve_copy
+      parentName: Head_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: HeadEnd_M_middleProfile
+      parentName: MeshCurves
+      position: {x: -4.755374e-16, y: 1.6526648, z: -0.009726407}
+      rotation: {x: 0.50014496, y: -0.499855, z: -0.50014496, w: 0.499855}
+      scale: {x: 0.15294103, y: 0.12472802, z: 0.12472802}
+    - name: HeadEnd_M_middleCurve
+      parentName: HeadEnd_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: HeadEnd_M_middleCurve_copy
+      parentName: HeadEnd_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.10170655, y: 0.92555875, z: -0.022209264}
+      rotation: {x: 0.4998621, y: -0.5113409, z: 0.54133195, w: -0.44229862}
+      scale: {x: 0.15294103, y: 0.3100382, z: 0.3100382}
+    - name: Hip_L_middleCurve
+      parentName: Hip_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_middleCurve_copy
+      parentName: Hip_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.10170655, y: 0.92555875, z: -0.022209264}
+      rotation: {x: 0.4998621, y: -0.5113409, z: 0.54133195, w: -0.44229862}
+      scale: {x: 0.12745085, y: 0.25836518, z: 0.25836518}
+    - name: Hip_L_startProfile
+      parentName: Hip_L_startCurveOffset
+      position: {x: -0.13013999, y: -6.898558e-11, z: 2.5437627e-10}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Hip_L_startCurve
+      parentName: Hip_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_startCurve_copy
+      parentName: Hip_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: -0.119194716, y: 0.7667402, z: -0.007956269}
+      rotation: {x: 0.4998621, y: -0.5113409, z: 0.54133195, w: -0.44229862}
+      scale: {x: 0.12745085, y: 0.22826779, z: 0.22826779}
+    - name: Hip_L_twistProfile1
+      parentName: Hip_L_twistCurve1Offset
+      position: {x: -9.592326e-16, y: -5.995204e-17, z: 1.1990408e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Hip_L_twistCurve1
+      parentName: Hip_L_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_twistCurve1_copy
+      parentName: Hip_L_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: -0.1366829, y: 0.60792154, z: 0.006296726}
+      rotation: {x: 0.4998621, y: -0.5113409, z: 0.54133195, w: -0.44229862}
+      scale: {x: 0.12745085, y: 0.2016765, z: 0.2016765}
+    - name: Hip_L_twistProfile2
+      parentName: Hip_L_twistCurve2Offset
+      position: {x: 9.592326e-16, y: 2.997602e-17, z: -1.1990408e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Hip_L_twistCurve2
+      parentName: Hip_L_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_L_twistCurve2_copy
+      parentName: Hip_L_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.10170655, y: 0.92555875, z: -0.022209264}
+      rotation: {x: 0.44229862, y: 0.54133195, z: 0.5113409, w: 0.4998621}
+      scale: {x: 0.15294103, y: 0.3100382, z: 0.3100382}
+    - name: Hip_R_middleCurve
+      parentName: Hip_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_middleCurve_copy
+      parentName: Hip_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.10170655, y: 0.92555875, z: -0.022209264}
+      rotation: {x: 0.44229862, y: 0.54133195, z: 0.5113409, w: 0.4998621}
+      scale: {x: 0.12745085, y: 0.25836518, z: 0.25836518}
+    - name: Hip_R_startProfile
+      parentName: Hip_R_startCurveOffset
+      position: {x: 0.13013999, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Hip_R_startCurve
+      parentName: Hip_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_startCurve_copy
+      parentName: Hip_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: 0.119194716, y: 0.7667402, z: -0.007956269}
+      rotation: {x: 0.44229862, y: 0.54133195, z: 0.5113409, w: 0.4998621}
+      scale: {x: 0.12745085, y: 0.22826779, z: 0.22826779}
+    - name: Hip_R_twistProfile1
+      parentName: Hip_R_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Hip_R_twistCurve1
+      parentName: Hip_R_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_twistCurve1_copy
+      parentName: Hip_R_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: 0.1366829, y: 0.60792154, z: 0.006296726}
+      rotation: {x: 0.44229862, y: 0.54133195, z: 0.5113409, w: 0.4998621}
+      scale: {x: 0.12745085, y: 0.2016765, z: 0.2016765}
+    - name: Hip_R_twistProfile2
+      parentName: Hip_R_twistCurve2Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Hip_R_twistCurve2
+      parentName: Hip_R_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Hip_R_twistCurve2_copy
+      parentName: Hip_R_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6812872, y: 1.2568499, z: 0.01769708}
+      rotation: {x: -0.08785271, y: 0.7192981, z: -0.6847925, w: 0.07714561}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger1_L_endProfile
+      parentName: IndexFinger1_L_endCurveOffset
+      position: {x: -0, y: 2.3980816e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger1_L_endCurve
+      parentName: IndexFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_L_endCurve_copy
+      parentName: IndexFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.6730453, y: 1.258816, z: 0.017617932}
+      rotation: {x: -0.08785271, y: 0.7192981, z: -0.6847925, w: 0.07714561}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger1_L_middleCurve
+      parentName: IndexFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_L_middleCurve_copy
+      parentName: IndexFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6730453, y: 1.258816, z: 0.017617932}
+      rotation: {x: -0.08785271, y: 0.7192981, z: -0.6847925, w: 0.07714561}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger1_L_startProfile
+      parentName: IndexFinger1_L_startCurveOffset
+      position: {x: -0.13013999, y: 0.0000000016440084, z: 7.78283e-11}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger1_L_startCurve
+      parentName: IndexFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.833, y: 0.833, z: 0.833}
+    - name: IndexFinger1_L_startCurve_copy
+      parentName: IndexFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6812872, y: 1.2568499, z: 0.01769708}
+      rotation: {x: 0.0771456, y: 0.6847925, z: 0.7192981, w: 0.08785271}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger1_R_endProfile
+      parentName: IndexFinger1_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger1_R_endCurve
+      parentName: IndexFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_R_endCurve_copy
+      parentName: IndexFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.6730453, y: 1.258816, z: 0.017617932}
+      rotation: {x: 0.0771456, y: 0.6847925, z: 0.7192981, w: 0.08785271}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger1_R_middleCurve
+      parentName: IndexFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_R_middleCurve_copy
+      parentName: IndexFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6730453, y: 1.258816, z: 0.017617932}
+      rotation: {x: 0.0771456, y: 0.6847925, z: 0.7192981, w: 0.08785271}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger1_R_startProfile
+      parentName: IndexFinger1_R_startCurveOffset
+      position: {x: 0.13013999, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger1_R_startCurve
+      parentName: IndexFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger1_R_startCurve_copy
+      parentName: IndexFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.71205896, y: 1.2492031, z: 0.018037342}
+      rotation: {x: -0.107797086, y: 0.72108346, z: -0.6784548, w: 0.09009719}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger2_L_endProfile
+      parentName: IndexFinger2_L_endCurveOffset
+      position: {x: -0, y: -4.796163e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger2_L_endCurve
+      parentName: IndexFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_L_endCurve_copy
+      parentName: IndexFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.706013, y: 1.2509512, z: 0.017934518}
+      rotation: {x: -0.107797086, y: 0.72108346, z: -0.6784548, w: 0.09009719}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger2_L_middleCurve
+      parentName: IndexFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_L_middleCurve_copy
+      parentName: IndexFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6977711, y: 1.2529174, z: 0.017855372}
+      rotation: {x: -0.107797086, y: 0.72108346, z: -0.6784548, w: 0.09009719}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger2_L_startProfile
+      parentName: IndexFinger2_L_startCurveOffset
+      position: {x: -1.9184653e-15, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger2_L_startCurve
+      parentName: IndexFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_L_startCurve_copy
+      parentName: IndexFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.71205896, y: 1.2492031, z: 0.018037342}
+      rotation: {x: 0.09009719, y: 0.6784548, z: 0.72108346, w: 0.10779709}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger2_R_endProfile
+      parentName: IndexFinger2_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger2_R_endCurve
+      parentName: IndexFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_R_endCurve_copy
+      parentName: IndexFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.706013, y: 1.2509512, z: 0.017934518}
+      rotation: {x: 0.09009719, y: 0.6784548, z: 0.72108346, w: 0.10779709}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger2_R_middleCurve
+      parentName: IndexFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_R_middleCurve_copy
+      parentName: IndexFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6977711, y: 1.2529174, z: 0.017855372}
+      rotation: {x: 0.09009719, y: 0.6784548, z: 0.72108346, w: 0.10779709}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger2_R_startProfile
+      parentName: IndexFinger2_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger2_R_startCurve
+      parentName: IndexFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger2_R_startCurve_copy
+      parentName: IndexFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.7358013, y: 1.2403123, z: 0.018131778}
+      rotation: {x: -0.20718555, y: 0.7346394, z: -0.61577773, w: 0.19544022}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger3_L_endProfile
+      parentName: IndexFinger3_L_endCurveOffset
+      position: {x: -1.1990408e-15, y: 0, z: -1.5347722e-14}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger3_L_endCurve
+      parentName: IndexFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_L_endCurve_copy
+      parentName: IndexFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.73019695, y: 1.2439588, z: 0.018345816}
+      rotation: {x: -0.20718555, y: 0.7346394, z: -0.61577773, w: 0.19544022}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger3_L_middleCurve
+      parentName: IndexFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_L_middleCurve_copy
+      parentName: IndexFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.724151, y: 1.245707, z: 0.018242992}
+      rotation: {x: -0.20718555, y: 0.7346394, z: -0.61577773, w: 0.19544022}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger3_L_startProfile
+      parentName: IndexFinger3_L_startCurveOffset
+      position: {x: -7.1942447e-16, y: 9.592326e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger3_L_startCurve
+      parentName: IndexFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_L_startCurve_copy
+      parentName: IndexFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.7358013, y: 1.2403123, z: 0.018131778}
+      rotation: {x: 0.1954402, y: 0.61577773, z: 0.7346394, w: 0.20718555}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger3_R_endProfile
+      parentName: IndexFinger3_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger3_R_endCurve
+      parentName: IndexFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_R_endCurve_copy
+      parentName: IndexFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.73019695, y: 1.2439588, z: 0.018345816}
+      rotation: {x: 0.1954402, y: 0.61577773, z: 0.7346394, w: 0.20718555}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger3_R_middleCurve
+      parentName: IndexFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_R_middleCurve_copy
+      parentName: IndexFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.724151, y: 1.245707, z: 0.018242992}
+      rotation: {x: 0.1954402, y: 0.61577773, z: 0.7346394, w: 0.20718555}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: IndexFinger3_R_startProfile
+      parentName: IndexFinger3_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: IndexFinger3_R_startCurve
+      parentName: IndexFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger3_R_startCurve_copy
+      parentName: IndexFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger4_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.7526142, y: 1.2293725, z: 0.017489657}
+      rotation: {x: -0.20718555, y: 0.7346394, z: -0.61577773, w: 0.19544022}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger4_L_middleCurve
+      parentName: IndexFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger4_L_middleCurve_copy
+      parentName: IndexFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger4_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.7526142, y: 1.2293725, z: 0.017489657}
+      rotation: {x: 0.1954402, y: 0.61577773, z: 0.7346394, w: 0.20718555}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: IndexFinger4_R_middleCurve
+      parentName: IndexFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: IndexFinger4_R_middleCurve_copy
+      parentName: IndexFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.16462907, y: 0.3572682, z: 0.013635834}
+      rotation: {x: -0.4785261, y: 0.5313609, z: -0.52278554, w: 0.46407282}
+      scale: {x: 0.12745085, y: 0.15789871, z: 0.15789871}
+    - name: Knee_L_endProfile
+      parentName: Knee_L_endCurveOffset
+      position: {x: -4.796163e-16, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Knee_L_endCurve
+      parentName: Knee_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_L_endCurve_copy
+      parentName: Knee_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.15417106, y: 0.4491029, z: 0.020549722}
+      rotation: {x: -0.4785261, y: 0.5313609, z: -0.52278554, w: 0.46407282}
+      scale: {x: 0.15294103, y: 0.21381946, z: 0.21381946}
+    - name: Knee_L_middleCurve
+      parentName: Knee_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_L_middleCurve_copy
+      parentName: Knee_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.16462907, y: 0.3572682, z: 0.013635834}
+      rotation: {x: 0.46407282, y: 0.52278554, z: 0.5313609, w: 0.4785261}
+      scale: {x: 0.12745085, y: 0.15789871, z: 0.15789871}
+    - name: Knee_R_endProfile
+      parentName: Knee_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Knee_R_endCurve
+      parentName: Knee_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_R_endCurve_copy
+      parentName: Knee_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.15417106, y: 0.4491029, z: 0.020549722}
+      rotation: {x: 0.46407282, y: 0.52278554, z: 0.5313609, w: 0.4785261}
+      scale: {x: 0.15294103, y: 0.21381946, z: 0.21381946}
+    - name: Knee_R_middleCurve
+      parentName: Knee_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Knee_R_middleCurve_copy
+      parentName: Knee_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6849929, y: 1.2568465, z: -0.0044790776}
+      rotation: {x: 0.09601622, y: -0.69967, z: 0.69999427, w: -0.10607008}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger1_L_endProfile
+      parentName: MiddleFinger1_L_endCurveOffset
+      position: {x: 2.8776979e-15, y: -1.498801e-17, z: -7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger1_L_endCurve
+      parentName: MiddleFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_L_endCurve_copy
+      parentName: MiddleFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.6775473, y: 1.2590424, z: -0.0043703387}
+      rotation: {x: 0.09601622, y: -0.69967, z: 0.69999427, w: -0.10607008}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger1_L_middleCurve
+      parentName: MiddleFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_L_middleCurve_copy
+      parentName: MiddleFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6536772, y: 1.2610805, z: -0.0077241426}
+      rotation: {x: 0.09601622, y: -0.69967, z: 0.69999427, w: -0.10607008}
+      scale: {x: 0.041882657, y: 0.047930934, z: 0.038878802}
+    - name: MiddleFinger1_L_startProfile
+      parentName: MiddleFinger1_L_startCurveOffset
+      position: {x: -0, y: 1.31145086e-17, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger1_L_startCurve
+      parentName: MiddleFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.833, y: 0.833, z: 0.833}
+    - name: MiddleFinger1_L_startCurve_copy
+      parentName: MiddleFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6849929, y: 1.2568465, z: -0.0044790776}
+      rotation: {x: 0.106070064, y: 0.6999943, z: 0.69966996, w: 0.09601623}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger1_R_endProfile
+      parentName: MiddleFinger1_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger1_R_endCurve
+      parentName: MiddleFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_R_endCurve_copy
+      parentName: MiddleFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.6775473, y: 1.2590424, z: -0.0043703387}
+      rotation: {x: 0.106070064, y: 0.6999943, z: 0.69966996, w: 0.09601623}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger1_R_middleCurve
+      parentName: MiddleFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_R_middleCurve_copy
+      parentName: MiddleFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6536772, y: 1.2610805, z: -0.0077241426}
+      rotation: {x: 0.106070064, y: 0.6999943, z: 0.69966996, w: 0.09601623}
+      scale: {x: 0.041882657, y: 0.047930934, z: 0.038878802}
+    - name: MiddleFinger1_R_startProfile
+      parentName: MiddleFinger1_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger1_R_startCurve
+      parentName: MiddleFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger1_R_startCurve_copy
+      parentName: MiddleFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.71275735, y: 1.2486309, z: -0.00486529}
+      rotation: {x: 0.098776005, y: -0.69903725, z: 0.70017564, w: -0.10650976}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger2_L_endProfile
+      parentName: MiddleFinger2_L_endCurveOffset
+      position: {x: -1.9184653e-15, y: 2.997602e-17, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger2_L_endCurve
+      parentName: MiddleFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_L_endCurve_copy
+      parentName: MiddleFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.7073298, y: 1.2502586, z: -0.0048052943}
+      rotation: {x: 0.098776005, y: -0.69903725, z: 0.70017564, w: -0.10650976}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger2_L_middleCurve
+      parentName: MiddleFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_L_middleCurve_copy
+      parentName: MiddleFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6998842, y: 1.2524545, z: -0.004696556}
+      rotation: {x: 0.098776005, y: -0.69903725, z: 0.70017564, w: -0.10650976}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger2_L_startProfile
+      parentName: MiddleFinger2_L_startCurveOffset
+      position: {x: 9.592326e-16, y: -4.496403e-17, z: -1.5347722e-14}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger2_L_startCurve
+      parentName: MiddleFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_L_startCurve_copy
+      parentName: MiddleFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.71275735, y: 1.2486309, z: -0.00486529}
+      rotation: {x: 0.10650975, y: 0.70017564, z: 0.69903725, w: 0.09877601}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger2_R_endProfile
+      parentName: MiddleFinger2_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger2_R_endCurve
+      parentName: MiddleFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_R_endCurve_copy
+      parentName: MiddleFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.7073298, y: 1.2502586, z: -0.0048052943}
+      rotation: {x: 0.10650975, y: 0.70017564, z: 0.69903725, w: 0.09877601}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger2_R_middleCurve
+      parentName: MiddleFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_R_middleCurve_copy
+      parentName: MiddleFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6998842, y: 1.2524545, z: -0.004696556}
+      rotation: {x: 0.10650975, y: 0.70017564, z: 0.69903725, w: 0.09877601}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger2_R_startProfile
+      parentName: MiddleFinger2_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger2_R_startCurve
+      parentName: MiddleFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger2_R_startCurve_copy
+      parentName: MiddleFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.7366381, y: 1.2403228, z: -0.0051184325}
+      rotation: {x: 0.14511889, y: -0.68992954, z: 0.6926872, w: -0.15205987}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger3_L_endProfile
+      parentName: MiddleFinger3_L_endCurveOffset
+      position: {x: 1.9184653e-15, y: -1.498801e-17, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger3_L_endCurve
+      parentName: MiddleFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_L_endCurve_copy
+      parentName: MiddleFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.72903985, y: 1.2437476, z: -0.0050452766}
+      rotation: {x: 0.14511889, y: -0.68992954, z: 0.6926872, w: -0.15205987}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger3_L_middleCurve
+      parentName: MiddleFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_L_middleCurve_copy
+      parentName: MiddleFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.72361237, y: 1.2453754, z: -0.004985281}
+      rotation: {x: 0.14511889, y: -0.68992954, z: 0.6926872, w: -0.15205987}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger3_L_startProfile
+      parentName: MiddleFinger3_L_startCurveOffset
+      position: {x: 3.3573142e-15, y: -1.498801e-17, z: -7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger3_L_startCurve
+      parentName: MiddleFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_L_startCurve_copy
+      parentName: MiddleFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.7366381, y: 1.2403228, z: -0.0051184325}
+      rotation: {x: 0.15205985, y: 0.6926872, z: 0.68992954, w: 0.14511889}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger3_R_endProfile
+      parentName: MiddleFinger3_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger3_R_endCurve
+      parentName: MiddleFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_R_endCurve_copy
+      parentName: MiddleFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.72903985, y: 1.2437476, z: -0.0050452766}
+      rotation: {x: 0.15205985, y: 0.6926872, z: 0.68992954, w: 0.14511889}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger3_R_middleCurve
+      parentName: MiddleFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_R_middleCurve_copy
+      parentName: MiddleFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.72361237, y: 1.2453754, z: -0.004985281}
+      rotation: {x: 0.15205985, y: 0.6926872, z: 0.68992954, w: 0.14511889}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: MiddleFinger3_R_startProfile
+      parentName: MiddleFinger3_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: MiddleFinger3_R_startCurve
+      parentName: MiddleFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger3_R_startCurve_copy
+      parentName: MiddleFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger4_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.7594331, y: 1.2300485, z: -0.0053378996}
+      rotation: {x: 0.14511889, y: -0.68992954, z: 0.6926872, w: -0.15205987}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger4_L_middleCurve
+      parentName: MiddleFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger4_L_middleCurve_copy
+      parentName: MiddleFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger4_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.7594331, y: 1.2300485, z: -0.0053378996}
+      rotation: {x: 0.15205985, y: 0.6926872, z: 0.68992954, w: 0.14511889}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: MiddleFinger4_R_middleCurve
+      parentName: MiddleFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MiddleFinger4_R_middleCurve_copy
+      parentName: MiddleFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_middleProfile
+      parentName: MeshCurves
+      position: {x: -3.4982704e-16, y: 1.360984, z: -0.036708552}
+      rotation: {x: 0.54308593, y: -0.45283294, z: -0.54308593, w: 0.45283294}
+      scale: {x: 0.15294103, y: 0.114037044, z: 0.114037044}
+    - name: Neck_M_middleCurve
+      parentName: Neck_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_middleCurve_copy
+      parentName: Neck_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -3.9214482e-17, y: 1.333167, z: -0.040598493}
+      rotation: {x: 0.54308593, y: -0.45283294, z: -0.54308593, w: 0.45283294}
+      scale: {x: 0.1628677, y: 0.12954414, z: 0.14427446}
+    - name: Neck_M_startProfile
+      parentName: Neck_M_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Neck_M_startCurve
+      parentName: Neck_M_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_startCurve_copy
+      parentName: Neck_M_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: -3.327153e-16, y: 1.4100472, z: -0.027742432}
+      rotation: {x: 0.54308593, y: -0.45283294, z: -0.54308593, w: 0.45283294}
+      scale: {x: 0.17673898, y: 0.09503087, z: 0.09503087}
+    - name: Neck_M_twistProfile1
+      parentName: Neck_M_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Neck_M_twistCurve1
+      parentName: Neck_M_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_twistCurve1_copy
+      parentName: Neck_M_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: -3.1560358e-16, y: 1.4591103, z: -0.018776316}
+      rotation: {x: 0.54308593, y: -0.45283294, z: -0.54308593, w: 0.45283294}
+      scale: {x: 0.24508792, y: 0.09503087, z: 0.09503087}
+    - name: Neck_M_twistProfile2
+      parentName: Neck_M_twistCurve2Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Neck_M_twistCurve2
+      parentName: Neck_M_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Neck_M_twistCurve2_copy
+      parentName: Neck_M_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.671201, y: 1.2554872, z: -0.04561623}
+      rotation: {x: 0.04587419, y: -0.7026428, z: 0.70512927, w: -0.08355506}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger1_L_endProfile
+      parentName: PinkyFinger1_L_endCurveOffset
+      position: {x: 1.9184653e-15, y: -4.1966427e-16, z: 7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger1_L_endCurve
+      parentName: PinkyFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_L_endCurve_copy
+      parentName: PinkyFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.666319, y: 1.2563936, z: -0.04535407}
+      rotation: {x: 0.04587419, y: -0.7026428, z: 0.70512927, w: -0.08355506}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger1_L_middleCurve
+      parentName: PinkyFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_L_middleCurve_copy
+      parentName: PinkyFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.666319, y: 1.2563936, z: -0.04535407}
+      rotation: {x: 0.04587419, y: -0.7026428, z: 0.70512927, w: -0.08355506}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger1_L_startProfile
+      parentName: PinkyFinger1_L_startCurveOffset
+      position: {x: -0.13013999, y: 0.0000000016658418, z: 3.7908873e-12}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger1_L_startCurve
+      parentName: PinkyFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.833, y: 0.833, z: 0.833}
+    - name: PinkyFinger1_L_startCurve_copy
+      parentName: PinkyFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.671201, y: 1.2554872, z: -0.04561623}
+      rotation: {x: 0.08355506, y: 0.70512927, z: 0.7026428, w: 0.045874193}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger1_R_endProfile
+      parentName: PinkyFinger1_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger1_R_endCurve
+      parentName: PinkyFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_R_endCurve_copy
+      parentName: PinkyFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.666319, y: 1.2563936, z: -0.04535407}
+      rotation: {x: 0.08355506, y: 0.70512927, z: 0.7026428, w: 0.045874193}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger1_R_middleCurve
+      parentName: PinkyFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_R_middleCurve_copy
+      parentName: PinkyFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.666319, y: 1.2563936, z: -0.04535407}
+      rotation: {x: 0.08355506, y: 0.70512927, z: 0.7026428, w: 0.045874193}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger1_R_startProfile
+      parentName: PinkyFinger1_R_startCurveOffset
+      position: {x: 0.13013999, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger1_R_startCurve
+      parentName: PinkyFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger1_R_startCurve_copy
+      parentName: PinkyFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.69079775, y: 1.2513952, z: -0.046098508}
+      rotation: {x: 0.11423017, y: -0.6809162, z: 0.71926093, w: -0.07725578}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger2_L_endProfile
+      parentName: PinkyFinger2_L_endCurveOffset
+      position: {x: -1.9184653e-15, y: -2.2107314e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger2_L_endCurve
+      parentName: PinkyFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_L_endCurve_copy
+      parentName: PinkyFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.68584704, y: 1.2527677, z: -0.046402726}
+      rotation: {x: 0.11423017, y: -0.6809162, z: 0.71926093, w: -0.07725578}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger2_L_middleCurve
+      parentName: PinkyFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_L_middleCurve_copy
+      parentName: PinkyFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.680965, y: 1.2536741, z: -0.046140563}
+      rotation: {x: 0.11423017, y: -0.6809162, z: 0.71926093, w: -0.07725578}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger2_L_startProfile
+      parentName: PinkyFinger2_L_startCurveOffset
+      position: {x: -3.8369305e-15, y: -2.6229017e-17, z: -7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger2_L_startCurve
+      parentName: PinkyFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_L_startCurve_copy
+      parentName: PinkyFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.69079775, y: 1.2513952, z: -0.046098508}
+      rotation: {x: 0.07725578, y: 0.71926093, z: 0.6809162, w: 0.11423018}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger2_R_endProfile
+      parentName: PinkyFinger2_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger2_R_endCurve
+      parentName: PinkyFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_R_endCurve_copy
+      parentName: PinkyFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.68584704, y: 1.2527677, z: -0.046402726}
+      rotation: {x: 0.07725578, y: 0.71926093, z: 0.6809162, w: 0.11423018}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger2_R_middleCurve
+      parentName: PinkyFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_R_middleCurve_copy
+      parentName: PinkyFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.680965, y: 1.2536741, z: -0.046140563}
+      rotation: {x: 0.07725578, y: 0.71926093, z: 0.6809162, w: 0.11423018}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger2_R_startProfile
+      parentName: PinkyFinger2_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger2_R_startCurve
+      parentName: PinkyFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger2_R_startCurve_copy
+      parentName: PinkyFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.7110342, y: 1.2451295, z: -0.04544452}
+      rotation: {x: 0.10858696, y: -0.65371805, z: 0.7325277, w: -0.15577188}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger3_L_endProfile
+      parentName: PinkyFinger3_L_endCurveOffset
+      position: {x: -4.796163e-15, y: 4.796163e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger3_L_endCurve
+      parentName: PinkyFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_L_endCurve_copy
+      parentName: PinkyFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.7056497, y: 1.2472776, z: -0.045185845}
+      rotation: {x: 0.10858696, y: -0.65371805, z: 0.7325277, w: -0.15577188}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger3_L_middleCurve
+      parentName: PinkyFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_L_middleCurve_copy
+      parentName: PinkyFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.70069903, y: 1.2486502, z: -0.045490067}
+      rotation: {x: 0.10858696, y: -0.65371805, z: 0.7325277, w: -0.15577188}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger3_L_startProfile
+      parentName: PinkyFinger3_L_startCurveOffset
+      position: {x: -9.592326e-16, y: -4.796163e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger3_L_startCurve
+      parentName: PinkyFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_L_startCurve_copy
+      parentName: PinkyFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.7110342, y: 1.2451295, z: -0.04544452}
+      rotation: {x: 0.15577187, y: 0.73252773, z: 0.653718, w: 0.108586974}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger3_R_endProfile
+      parentName: PinkyFinger3_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger3_R_endCurve
+      parentName: PinkyFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_R_endCurve_copy
+      parentName: PinkyFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.7056497, y: 1.2472776, z: -0.045185845}
+      rotation: {x: 0.15577187, y: 0.73252773, z: 0.653718, w: 0.108586974}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger3_R_middleCurve
+      parentName: PinkyFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_R_middleCurve_copy
+      parentName: PinkyFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.70069903, y: 1.2486502, z: -0.045490067}
+      rotation: {x: 0.15577187, y: 0.73252773, z: 0.653718, w: 0.108586974}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: PinkyFinger3_R_startProfile
+      parentName: PinkyFinger3_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: PinkyFinger3_R_startCurve
+      parentName: PinkyFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger3_R_startCurve_copy
+      parentName: PinkyFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger4_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.7271877, y: 1.2386849, z: -0.046220534}
+      rotation: {x: 0.10858696, y: -0.65371805, z: 0.7325277, w: -0.15577188}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger4_L_middleCurve
+      parentName: PinkyFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger4_L_middleCurve_copy
+      parentName: PinkyFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger4_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.7271877, y: 1.2386849, z: -0.046220534}
+      rotation: {x: 0.15577187, y: 0.73252773, z: 0.653718, w: 0.108586974}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: PinkyFinger4_R_middleCurve
+      parentName: PinkyFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: PinkyFinger4_R_middleCurve_copy
+      parentName: PinkyFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6866577, y: 1.2581505, z: -0.026010068}
+      rotation: {x: 0.12621932, y: -0.68133825, z: 0.71120065, w: -0.11849335}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger1_L_endProfile
+      parentName: RingFinger1_L_endCurveOffset
+      position: {x: 2.8776979e-15, y: 1.1990408e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger1_L_endCurve
+      parentName: RingFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_L_endCurve_copy
+      parentName: RingFinger1_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.6789141, y: 1.2609556, z: -0.026158886}
+      rotation: {x: 0.12621932, y: -0.68133825, z: 0.71120065, w: -0.11849335}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger1_L_middleCurve
+      parentName: RingFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_L_middleCurve_copy
+      parentName: RingFinger1_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6789141, y: 1.2609556, z: -0.026158886}
+      rotation: {x: 0.12621932, y: -0.68133825, z: 0.71120065, w: -0.11849335}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger1_L_startProfile
+      parentName: RingFinger1_L_startCurveOffset
+      position: {x: -0.13013999, y: 0.0000000015843169, z: -7.488921e-11}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger1_L_startCurve
+      parentName: RingFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.833, y: 0.833, z: 0.833}
+    - name: RingFinger1_L_startCurve_copy
+      parentName: RingFinger1_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6866577, y: 1.2581505, z: -0.026010068}
+      rotation: {x: 0.11849333, y: 0.7112006, z: 0.68133825, w: 0.1262193}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger1_R_endProfile
+      parentName: RingFinger1_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger1_R_endCurve
+      parentName: RingFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_R_endCurve_copy
+      parentName: RingFinger1_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.6789141, y: 1.2609556, z: -0.026158886}
+      rotation: {x: 0.11849333, y: 0.7112006, z: 0.68133825, w: 0.1262193}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger1_R_middleCurve
+      parentName: RingFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_R_middleCurve_copy
+      parentName: RingFinger1_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6789141, y: 1.2609556, z: -0.026158886}
+      rotation: {x: 0.11849333, y: 0.7112006, z: 0.68133825, w: 0.1262193}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger1_R_startProfile
+      parentName: RingFinger1_R_startCurveOffset
+      position: {x: 0.13013999, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger1_R_startCurve
+      parentName: RingFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger1_R_startCurve_copy
+      parentName: RingFinger1_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.7155485, y: 1.2472801, z: -0.02550602}
+      rotation: {x: 0.14388295, y: -0.6767762, z: 0.7075799, w: -0.14353552}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger2_L_endProfile
+      parentName: RingFinger2_L_endCurveOffset
+      position: {x: 2.8776979e-15, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger2_L_endCurve
+      parentName: RingFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_L_endCurve_copy
+      parentName: RingFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.70988834, y: 1.2497351, z: -0.02556361}
+      rotation: {x: 0.14388295, y: -0.6767762, z: 0.7075799, w: -0.14353552}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger2_L_middleCurve
+      parentName: RingFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_L_middleCurve_copy
+      parentName: RingFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.70214474, y: 1.2525402, z: -0.02571243}
+      rotation: {x: 0.14388295, y: -0.6767762, z: 0.7075799, w: -0.14353552}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger2_L_startProfile
+      parentName: RingFinger2_L_startCurveOffset
+      position: {x: -1.9184653e-15, y: -2.3980816e-16, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger2_L_startCurve
+      parentName: RingFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_L_startCurve_copy
+      parentName: RingFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.7155485, y: 1.2472801, z: -0.02550602}
+      rotation: {x: 0.14353551, y: 0.70758, z: 0.6767761, w: 0.14388296}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger2_R_endProfile
+      parentName: RingFinger2_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger2_R_endCurve
+      parentName: RingFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_R_endCurve_copy
+      parentName: RingFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.70988834, y: 1.2497351, z: -0.02556361}
+      rotation: {x: 0.14353551, y: 0.70758, z: 0.6767761, w: 0.14388296}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger2_R_middleCurve
+      parentName: RingFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_R_middleCurve_copy
+      parentName: RingFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.70214474, y: 1.2525402, z: -0.02571243}
+      rotation: {x: 0.14353551, y: 0.70758, z: 0.6767761, w: 0.14388296}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger2_R_startProfile
+      parentName: RingFinger2_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger2_R_startCurve
+      parentName: RingFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger2_R_startCurve_copy
+      parentName: RingFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.7384298, y: 1.2363722, z: -0.025133392}
+      rotation: {x: 0.19260009, y: -0.6551751, z: 0.7065552, w: -0.18555489}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger3_L_endProfile
+      parentName: RingFinger3_L_endCurveOffset
+      position: {x: 6.4298563e-15, y: -4.796163e-16, z: -7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger3_L_endCurve
+      parentName: RingFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_L_endCurve_copy
+      parentName: RingFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.73252904, y: 1.2399156, z: -0.02533324}
+      rotation: {x: 0.19260009, y: -0.6551751, z: 0.7065552, w: -0.18555489}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger3_L_middleCurve
+      parentName: RingFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_L_middleCurve_copy
+      parentName: RingFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.7268688, y: 1.2423704, z: -0.025390832}
+      rotation: {x: 0.19260009, y: -0.6551751, z: 0.7065552, w: -0.18555489}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger3_L_startProfile
+      parentName: RingFinger3_L_startCurveOffset
+      position: {x: 5.6354915e-15, y: 2.3980816e-16, z: -7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger3_L_startCurve
+      parentName: RingFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_L_startCurve_copy
+      parentName: RingFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.7384298, y: 1.2363722, z: -0.025133392}
+      rotation: {x: 0.18555488, y: 0.7065552, z: 0.6551751, w: 0.19260009}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger3_R_endProfile
+      parentName: RingFinger3_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger3_R_endCurve
+      parentName: RingFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_R_endCurve_copy
+      parentName: RingFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.73252904, y: 1.2399156, z: -0.02533324}
+      rotation: {x: 0.18555488, y: 0.7065552, z: 0.6551751, w: 0.19260009}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger3_R_middleCurve
+      parentName: RingFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_R_middleCurve_copy
+      parentName: RingFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.7268688, y: 1.2423704, z: -0.025390832}
+      rotation: {x: 0.18555488, y: 0.7065552, z: 0.6551751, w: 0.19260009}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: RingFinger3_R_startProfile
+      parentName: RingFinger3_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: RingFinger3_R_startCurve
+      parentName: RingFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger3_R_startCurve_copy
+      parentName: RingFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger4_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.756132, y: 1.2257423, z: -0.02453385}
+      rotation: {x: 0.19260009, y: -0.6551751, z: 0.7065552, w: -0.18555489}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger4_L_middleCurve
+      parentName: RingFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger4_L_middleCurve_copy
+      parentName: RingFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger4_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.756132, y: 1.2257423, z: -0.02453385}
+      rotation: {x: 0.18555488, y: 0.7065552, z: 0.6551751, w: 0.19260009}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: RingFinger4_R_middleCurve
+      parentName: RingFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: RingFinger4_R_middleCurve_copy
+      parentName: RingFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Root_M_middleProfile
+      parentName: MeshCurves
+      position: {x: 2.606326e-16, y: 0.94568694, z: -0.017047275}
+      rotation: {x: 0.46390378, y: -0.53366023, z: -0.46390378, w: 0.53366023}
+      scale: {x: 0.40784276, y: 0.39378417, z: 0.6058218}
+    - name: Root_M_middleCurve
+      parentName: Root_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Root_M_middleCurve_copy
+      parentName: Root_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Root_M_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: 3.777553e-16, y: 1.0014638, z: -0.024886204}
+      rotation: {x: 0.46390378, y: -0.53366023, z: -0.46390378, w: 0.53366023}
+      scale: {x: 0.33986896, y: 0.32815346, z: 0.5048515}
+    - name: Root_M_twistProfile1
+      parentName: Root_M_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Root_M_twistCurve1
+      parentName: Root_M_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Root_M_twistCurve1_copy
+      parentName: Root_M_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Root_M_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: 4.94878e-16, y: 1.0572406, z: -0.03272513}
+      rotation: {x: 0.46390378, y: -0.53366023, z: -0.46390378, w: 0.53366023}
+      scale: {x: 0.33986896, y: 0.32815346, z: 0.5048515}
+    - name: Root_M_twistProfile2
+      parentName: Root_M_twistCurve2Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Root_M_twistCurve2
+      parentName: Root_M_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Root_M_twistCurve2_copy
+      parentName: Root_M_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.15780209, y: 1.344299, z: -0.056835376}
+      rotation: {x: -0.04181129, y: 0.78099185, z: -0.6196734, w: 0.06563914}
+      scale: {x: 0.15294103, y: 0.23163775, z: 0.23163775}
+    - name: Shoulder_L_middleCurve
+      parentName: Shoulder_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_middleCurve_copy
+      parentName: Shoulder_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.15780209, y: 1.344299, z: -0.056835376}
+      rotation: {x: -0.04181129, y: 0.78099185, z: -0.6196734, w: 0.06563914}
+      scale: {x: 0.12745085, y: 0.19303146, z: 0.19303146}
+    - name: Shoulder_L_startProfile
+      parentName: Shoulder_L_startCurveOffset
+      position: {x: -0.13013999, y: 0.0000000010543614, z: 2.512489e-10}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Shoulder_L_startCurve
+      parentName: Shoulder_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_startCurve_copy
+      parentName: Shoulder_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: -0.22614138, y: 1.3341534, z: -0.060343254}
+      rotation: {x: -0.04181129, y: 0.78099185, z: -0.6196734, w: 0.06563914}
+      scale: {x: 0.11133858, y: 0.17076327, z: 0.17076327}
+    - name: Shoulder_L_twistProfile1
+      parentName: Shoulder_L_twistCurve1Offset
+      position: {x: 2.3980816e-16, y: -2.3980816e-16, z: -9.592326e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Shoulder_L_twistCurve1
+      parentName: Shoulder_L_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_twistCurve1_copy
+      parentName: Shoulder_L_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: -0.29448068, y: 1.324008, z: -0.06385113}
+      rotation: {x: -0.04181129, y: 0.78099185, z: -0.6196734, w: 0.06563914}
+      scale: {x: 0.09726321, y: 0.15106395, z: 0.15106395}
+    - name: Shoulder_L_twistProfile2
+      parentName: Shoulder_L_twistCurve2Offset
+      position: {x: -1.1990408e-16, y: 0, z: 1.9184653e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Shoulder_L_twistCurve2
+      parentName: Shoulder_L_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_L_twistCurve2_copy
+      parentName: Shoulder_L_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.15780209, y: 1.344299, z: -0.056835376}
+      rotation: {x: 0.06563913, y: 0.6196734, z: 0.78099185, w: 0.041811295}
+      scale: {x: 0.15294103, y: 0.23163775, z: 0.23163775}
+    - name: Shoulder_R_middleCurve
+      parentName: Shoulder_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_middleCurve_copy
+      parentName: Shoulder_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.15780209, y: 1.344299, z: -0.056835376}
+      rotation: {x: 0.06563913, y: 0.6196734, z: 0.78099185, w: 0.041811295}
+      scale: {x: 0.12745085, y: 0.19303146, z: 0.19303146}
+    - name: Shoulder_R_startProfile
+      parentName: Shoulder_R_startCurveOffset
+      position: {x: 0.13013999, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Shoulder_R_startCurve
+      parentName: Shoulder_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_startCurve_copy
+      parentName: Shoulder_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: 0.22614138, y: 1.3341534, z: -0.060343254}
+      rotation: {x: 0.06563913, y: 0.6196734, z: 0.78099185, w: 0.041811295}
+      scale: {x: 0.11133858, y: 0.17076327, z: 0.17076327}
+    - name: Shoulder_R_twistProfile1
+      parentName: Shoulder_R_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Shoulder_R_twistCurve1
+      parentName: Shoulder_R_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_twistCurve1_copy
+      parentName: Shoulder_R_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: 0.29448068, y: 1.324008, z: -0.06385113}
+      rotation: {x: 0.06563913, y: 0.6196734, z: 0.78099185, w: 0.041811295}
+      scale: {x: 0.09726321, y: 0.15106395, z: 0.15106395}
+    - name: Shoulder_R_twistProfile2
+      parentName: Shoulder_R_twistCurve2Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Shoulder_R_twistCurve2
+      parentName: Shoulder_R_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Shoulder_R_twistCurve2_copy
+      parentName: Shoulder_R_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Spine1_M_middleProfile
+      parentName: MeshCurves
+      position: {x: 6.120008e-16, y: 1.1130176, z: -0.040564056}
+      rotation: {x: 0.4781975, y: -0.5208908, z: -0.4781975, w: 0.5208908}
+      scale: {x: 0.40784276, y: 0.39378417, z: 0.6058218}
+    - name: Spine1_M_middleCurve
+      parentName: Spine1_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Spine1_M_middleCurve_copy
+      parentName: Spine1_M_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Spine1_M_twistCurve1Offset
+      parentName: MeshCurves
+      position: {x: 7.055416e-16, y: 1.1585838, z: -0.04446548}
+      rotation: {x: 0.4781975, y: -0.5208908, z: -0.4781975, w: 0.5208908}
+      scale: {x: 0.33986896, y: 0.32815346, z: 0.5048515}
+    - name: Spine1_M_twistProfile1
+      parentName: Spine1_M_twistCurve1Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Spine1_M_twistCurve1
+      parentName: Spine1_M_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Spine1_M_twistCurve1_copy
+      parentName: Spine1_M_twistProfile1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Spine1_M_twistCurve2Offset
+      parentName: MeshCurves
+      position: {x: 7.990824e-16, y: 1.2041501, z: -0.048366897}
+      rotation: {x: 0.4781975, y: -0.5208908, z: -0.4781975, w: 0.5208908}
+      scale: {x: 0.33986896, y: 0.32815346, z: 0.5048515}
+    - name: Spine1_M_twistProfile2
+      parentName: Spine1_M_twistCurve2Offset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Spine1_M_twistCurve2
+      parentName: Spine1_M_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Spine1_M_twistCurve2_copy
+      parentName: Spine1_M_twistProfile2
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.64289343, y: 1.2537899, z: 0.040766325}
+      rotation: {x: -0.25496492, y: 0.8987746, z: -0.24854241, w: -0.25578082}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger2_L_endProfile
+      parentName: ThumbFinger2_L_endCurveOffset
+      position: {x: -3.3573142e-15, y: 0, z: 5.7553958e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger2_L_endCurve
+      parentName: ThumbFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_L_endCurve_copy
+      parentName: ThumbFinger2_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.63989425, y: 1.2551336, z: 0.03838642}
+      rotation: {x: -0.25496492, y: 0.8987746, z: -0.24854241, w: -0.25578082}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: ThumbFinger2_L_middleCurve
+      parentName: ThumbFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_L_middleCurve_copy
+      parentName: ThumbFinger2_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.63989425, y: 1.2551336, z: 0.03838642}
+      rotation: {x: -0.25496492, y: 0.8987746, z: -0.24854241, w: -0.25578082}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger2_L_startProfile
+      parentName: ThumbFinger2_L_startCurveOffset
+      position: {x: -0.13013999, y: 9.967117e-10, z: 0.0000000012458763}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger2_L_startCurve
+      parentName: ThumbFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.833, y: 0.833, z: 0.833}
+    - name: ThumbFinger2_L_startCurve_copy
+      parentName: ThumbFinger2_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.64289343, y: 1.2537899, z: 0.040766325}
+      rotation: {x: -0.25578082, y: 0.24854241, z: 0.8987746, w: 0.25496492}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger2_R_endProfile
+      parentName: ThumbFinger2_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger2_R_endCurve
+      parentName: ThumbFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_R_endCurve_copy
+      parentName: ThumbFinger2_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.63989425, y: 1.2551336, z: 0.03838642}
+      rotation: {x: -0.25578082, y: 0.24854241, z: 0.8987746, w: 0.25496492}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: ThumbFinger2_R_middleCurve
+      parentName: ThumbFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_R_middleCurve_copy
+      parentName: ThumbFinger2_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.63989425, y: 1.2551336, z: 0.03838642}
+      rotation: {x: -0.25578082, y: 0.24854241, z: 0.8987746, w: 0.25496492}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger2_R_startProfile
+      parentName: ThumbFinger2_R_startCurveOffset
+      position: {x: 0.13013999, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger2_R_startCurve
+      parentName: ThumbFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger2_R_startCurve_copy
+      parentName: ThumbFinger2_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6566781, y: 1.2465466, z: 0.049758606}
+      rotation: {x: -0.30805, y: 0.9250103, z: -0.1991154, w: -0.099066325}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger3_L_endProfile
+      parentName: ThumbFinger3_L_endCurveOffset
+      position: {x: 5.7553958e-15, y: 0, z: 1.9184653e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger3_L_endCurve
+      parentName: ThumbFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_L_endCurve_copy
+      parentName: ThumbFinger3_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.651891, y: 1.2497586, z: 0.04790604}
+      rotation: {x: -0.30805, y: 0.9250103, z: -0.1991154, w: -0.099066325}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: ThumbFinger3_L_middleCurve
+      parentName: ThumbFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_L_middleCurve_copy
+      parentName: ThumbFinger3_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6488918, y: 1.2511023, z: 0.045526136}
+      rotation: {x: -0.30805, y: 0.9250103, z: -0.1991154, w: -0.099066325}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger3_L_startProfile
+      parentName: ThumbFinger3_L_startCurveOffset
+      position: {x: -4.796163e-16, y: 0, z: -1.9184653e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger3_L_startCurve
+      parentName: ThumbFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_L_startCurve_copy
+      parentName: ThumbFinger3_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6566781, y: 1.2465466, z: 0.049758606}
+      rotation: {x: -0.099066325, y: 0.1991154, z: 0.9250103, w: 0.30805}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger3_R_endProfile
+      parentName: ThumbFinger3_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger3_R_endCurve
+      parentName: ThumbFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_R_endCurve_copy
+      parentName: ThumbFinger3_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.651891, y: 1.2497586, z: 0.04790604}
+      rotation: {x: -0.099066325, y: 0.1991154, z: 0.9250103, w: 0.30805}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: ThumbFinger3_R_middleCurve
+      parentName: ThumbFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_R_middleCurve_copy
+      parentName: ThumbFinger3_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6488918, y: 1.2511023, z: 0.045526136}
+      rotation: {x: -0.099066325, y: 0.1991154, z: 0.9250103, w: 0.30805}
+      scale: {x: 0.03641453, y: 0.035636578, z: 0.035636578}
+    - name: ThumbFinger3_R_startProfile
+      parentName: ThumbFinger3_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: ThumbFinger3_R_startCurve
+      parentName: ThumbFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger3_R_startCurve_copy
+      parentName: ThumbFinger3_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger4_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.6710393, y: 1.2369109, z: 0.055316288}
+      rotation: {x: -0.30805, y: 0.9250103, z: -0.1991154, w: -0.099066325}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: ThumbFinger4_L_middleCurve
+      parentName: ThumbFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger4_L_middleCurve_copy
+      parentName: ThumbFinger4_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger4_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.6710393, y: 1.2369109, z: 0.055316288}
+      rotation: {x: -0.099066325, y: 0.1991154, z: 0.9250103, w: 0.30805}
+      scale: {x: 0.04369744, y: 0.042763893, z: 0.042763893}
+    - name: ThumbFinger4_R_middleCurve
+      parentName: ThumbFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ThumbFinger4_R_middleCurve_copy
+      parentName: ThumbFinger4_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.19443914, y: 0.015559429, z: 0.13695496}
+      rotation: {x: 0.70548433, y: -0.04786623, z: 0.7054853, w: -0.0478663}
+      scale: {x: 0.12745085, y: 0.08909144, z: 0.08909144}
+    - name: Toes_L_endProfile
+      parentName: Toes_L_endCurveOffset
+      position: {x: -2.3980816e-16, y: 0, z: 4.796163e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Toes_L_endCurve
+      parentName: Toes_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_L_endCurve_copy
+      parentName: Toes_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.19443913, y: 0.017596358, z: 0.12201326}
+      rotation: {x: 0.70548433, y: -0.04786623, z: 0.7054853, w: -0.0478663}
+      scale: {x: 0.15294103, y: 0.10690973, z: 0.10690973}
+    - name: Toes_L_middleCurve
+      parentName: Toes_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_L_middleCurve_copy
+      parentName: Toes_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_L_startCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.19483012, y: 0.03363831, z: 0.08973349}
+      rotation: {x: 0.70548433, y: -0.04786623, z: 0.7054853, w: -0.0478663}
+      scale: {x: 0.12745085, y: 0.093887135, z: 0.093887135}
+    - name: Toes_L_startProfile
+      parentName: Toes_L_startCurveOffset
+      position: {x: -0, y: 0, z: 4.796163e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Toes_L_startCurve
+      parentName: Toes_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_L_startCurve_copy
+      parentName: Toes_L_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.19443914, y: 0.015559429, z: 0.13695496}
+      rotation: {x: 0.047866236, y: 0.70548433, z: 0.047866292, w: 0.7054853}
+      scale: {x: 0.12745085, y: 0.08909144, z: 0.08909144}
+    - name: Toes_R_endProfile
+      parentName: Toes_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Toes_R_endCurve
+      parentName: Toes_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_R_endCurve_copy
+      parentName: Toes_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.19443913, y: 0.017596358, z: 0.12201326}
+      rotation: {x: 0.047866236, y: 0.70548433, z: 0.047866292, w: 0.7054853}
+      scale: {x: 0.15294103, y: 0.10690973, z: 0.10690973}
+    - name: Toes_R_middleCurve
+      parentName: Toes_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_R_middleCurve_copy
+      parentName: Toes_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_R_startCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.19483012, y: 0.03363831, z: 0.08973349}
+      rotation: {x: 0.047866236, y: 0.70548433, z: 0.047866292, w: 0.7054853}
+      scale: {x: 0.12745085, y: 0.093887135, z: 0.093887135}
+    - name: Toes_R_startProfile
+      parentName: Toes_R_startCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Toes_R_startCurve
+      parentName: Toes_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Toes_R_startCurve_copy
+      parentName: Toes_R_startProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ToesEnd_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.1944392, y: 0.009448643, z: 0.18178008}
+      rotation: {x: 0.70548433, y: -0.04786623, z: 0.7054853, w: -0.0478663}
+      scale: {x: 0.15294103, y: 0.10690973, z: 0.10690973}
+    - name: ToesEnd_L_middleCurve
+      parentName: ToesEnd_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ToesEnd_L_middleCurve_copy
+      parentName: ToesEnd_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ToesEnd_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.1944392, y: 0.009448643, z: 0.18178008}
+      rotation: {x: 0.047866236, y: 0.70548433, z: 0.047866292, w: 0.7054853}
+      scale: {x: 0.15294103, y: 0.10690973, z: 0.10690973}
+    - name: ToesEnd_R_middleCurve
+      parentName: ToesEnd_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: ToesEnd_R_middleCurve_copy
+      parentName: ToesEnd_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_L_endCurveOffset
+      parentName: MeshCurves
+      position: {x: -0.6059372, y: 1.2651569, z: -0.014431751}
+      rotation: {x: 0.079120636, y: -0.7028313, z: 0.7066853, w: 0.019076109}
+      scale: {x: 0.05540555, y: 0.08670731, z: 0.04627503}
+    - name: Wrist_L_endProfile
+      parentName: Wrist_L_endCurveOffset
+      position: {x: -3.8369305e-15, y: -2.3980816e-16, z: 7.673861e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Wrist_L_endCurve
+      parentName: Wrist_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.833, y: 0.833, z: 0.833}
+    - name: Wrist_L_endCurve_copy
+      parentName: Wrist_L_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_L_middleProfile
+      parentName: MeshCurves
+      position: {x: -0.58206713, y: 1.2671951, z: -0.017785555}
+      rotation: {x: 0.079120636, y: -0.7028313, z: 0.7066853, w: 0.019076109}
+      scale: {x: 0.07647052, y: 0.13994484, z: 0.06058218}
+    - name: Wrist_L_middleCurve
+      parentName: Wrist_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_L_middleCurve_copy
+      parentName: Wrist_L_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_R_endCurveOffset
+      parentName: MeshCurves
+      position: {x: 0.6059372, y: 1.2651569, z: -0.014431751}
+      rotation: {x: -0.019076113, y: 0.7066853, z: 0.7028313, w: 0.079120636}
+      scale: {x: 0.05540555, y: 0.08670731, z: 0.04627503}
+    - name: Wrist_R_endProfile
+      parentName: Wrist_R_endCurveOffset
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.2, y: 1.2, z: 1.2}
+    - name: Wrist_R_endCurve
+      parentName: Wrist_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_R_endCurve_copy
+      parentName: Wrist_R_endProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_R_middleProfile
+      parentName: MeshCurves
+      position: {x: 0.58206713, y: 1.2671951, z: -0.017785555}
+      rotation: {x: -0.019076113, y: 0.7066853, z: 0.7028313, w: 0.079120636}
+      scale: {x: 0.07647052, y: 0.13994484, z: 0.06058218}
+    - name: Wrist_R_middleCurve
+      parentName: Wrist_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: Wrist_R_middleCurve_copy
+      parentName: Wrist_R_middleProfile
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.8333333, y: 0.8333333, z: 0.8333333}
+    - name: MeshGeometry
+      parentName: Geometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_L_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_L_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_R_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_R_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_L_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_L_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_R_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_R_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinkyFinger1_L_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinkyFinger1_L_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinkyFinger1_R_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinkyFinger1_R_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_L_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_L_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_R_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_R_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root_M_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root_M_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder_L_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder_L_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder_R_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder_R_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger2_L_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger2_L_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger2_R_poly
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger2_R_polyBase
+      parentName: MeshGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: NurbsGeometry
+      parentName: Geometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_L_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip_R_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_L_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IndexFinger1_R_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinkyFinger1_L_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: PinkyFinger1_R_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_L_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RingFinger1_R_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root_M_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder_L_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shoulder_R_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger2_L_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ThumbFinger2_R_surface
+      parentName: NurbsGeometry
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 27
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
