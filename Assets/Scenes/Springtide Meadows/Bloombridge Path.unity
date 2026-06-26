@@ -156,6 +156,38 @@ Transform:
   - {fileID: 150889829}
   m_Father: {fileID: 362054401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &27221486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 27221487}
+  m_Layer: 0
+  m_Name: ----- Spawn -----
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &27221487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27221486}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 15, z: -6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 791389232}
+  m_Father: {fileID: 534140576}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &49253358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2790,6 +2822,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 171713916}
+  - {fileID: 27221487}
   - {fileID: 980437113}
   - {fileID: 50230757}
   m_Father: {fileID: 1756356635}
@@ -3971,6 +4004,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2269764397786590279, guid: 8f97141fce747724ab29785f125649ea, type: 3}
   m_PrefabInstance: {fileID: 757979429}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &791389231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 791389232}
+  - component: {fileID: 791389233}
+  m_Layer: 0
+  m_Name: Spawn_ToBloombridgeFromFarmlands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &791389232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791389231}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0.5, z: -4.48}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 27221487}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &791389233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791389231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e2be372533253449f3534fa435b40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+  spawnID: ToBloombridgeFromFarmlands
 --- !u!1001 &825539528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10207,8 +10285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9084c3ec81b024caa084e11c69ea68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
-  targetScene: 
-  targetSpawnID: 
+  targetScene: Outer Farmlands
+  targetSpawnID: ToFarmlandsFromBloombridge
 --- !u!65 &1835348183
 BoxCollider:
   m_ObjectHideFlags: 0
