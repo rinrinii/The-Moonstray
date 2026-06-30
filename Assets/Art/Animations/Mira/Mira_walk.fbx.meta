@@ -20,8 +20,9 @@ ModelImporter:
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'Spine1Part1_M' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'NeckPart1_M' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'NeckPart2_M'
+      and has rotation animation that will be discarded.\n\t'Spine1Part2_M' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'NeckPart1_M'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'NeckPart2_M'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'ShoulderPart1_R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'ShoulderPart2_R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'ShoulderPart1_L'
@@ -57,10 +58,10 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
-      loopBlendOrientation: 0
+      loopBlendOrientation: 1
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
