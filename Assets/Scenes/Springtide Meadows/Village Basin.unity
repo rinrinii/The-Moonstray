@@ -6292,7 +6292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21e2be372533253449f3534fa435b40e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
-  spawnID: ToVillageBasinFromManor
+  spawnID: ToVillageBasinFromEstate
 --- !u!1 &474608711
 GameObject:
   m_ObjectHideFlags: 0
@@ -6303,7 +6303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 474608712}
   m_Layer: 0
-  m_Name: ----- VM_Spawn -----
+  m_Name: ----- VE_Spawn -----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21860,7 +21860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1603318876}
   m_Layer: 0
-  m_Name: ----- VM_Exit Trigger -----
+  m_Name: ----- VE_Exit Trigger -----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26026,7 +26026,7 @@ GameObject:
   - component: {fileID: 1890350015}
   - component: {fileID: 1890350014}
   m_Layer: 0
-  m_Name: Exit_ToViridianManorFromBasin
+  m_Name: Exit_ToViridianEstateFromBasin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26059,8 +26059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9084c3ec81b024caa084e11c69ea68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
-  targetScene: 
-  targetSpawnID: ToViridianManorFromBasin
+  targetScene: Viridian Estate
+  targetSpawnID: ToViridianEstateFromBasin
 --- !u!65 &1890350015
 BoxCollider:
   m_ObjectHideFlags: 0
