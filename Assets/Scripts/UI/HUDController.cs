@@ -7,6 +7,11 @@ public class HUDController : MonoBehaviour
     public Sprite humanPortrait;
     public Sprite wolfPortrait;
 
+    [Header("Health Bar Colors")]
+    [SerializeField] private Color healthyColor = new Color32(0x45, 0x89, 0x45, 0xFF); // #458945
+    [SerializeField] private Color warningColor = new Color32(0xEA, 0xDD, 0x45, 0xFF); // #EADD45
+    [SerializeField] private Color dangerColor = new Color32(0xD7, 0x1C, 0x1C, 0xFF); // #D71C1C
+
     private VisualElement playerFormIcon;
     private VisualElement staminaFill;
     private VisualElement healthFill;
@@ -78,9 +83,29 @@ public class HUDController : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        if (playerHealth == null || healthFill == null) return;
-        float healthPercent = playerHealth.CurrentHealth / playerHealth.MaxHealth;
-        healthFill.style.width = Length.Percent(healthPercent * 100f);
+        if (playerHealth == null || healthFill == null)
+            return;
+
+        float healthPercent =
+            playerHealth.CurrentHealth / playerHealth.MaxHealth;
+
+        healthFill.style.width =
+            Length.Percent(healthPercent * 100f);
+
+        Color barColor;
+
+        if (healthPercent > 0.6f)
+        {
+            float t = Mathf.InverseLerp(0.6f, 1f, healthPercent);
+            barColor = Color.Lerp(warningColor, healthyColor, t);
+        }
+        else
+        {
+            float t = Mathf.InverseLerp(0.3f, 0.6f, healthPercent);
+            barColor = Color.Lerp(dangerColor, warningColor, t);
+        }
+
+        healthFill.style.backgroundColor = barColor;
     }
 
     // =========================================
