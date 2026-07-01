@@ -13,14 +13,19 @@ public class InteractableObject : MonoBehaviour, IInteractable
     private void Awake()
     {
         responses = GetComponents<IInteractionResponse>();
+        Debug.Log($"{name}: Found {responses.Length} interaction responses.");
     }
 
     public void Interact()
     {
-        if (!isInteractable) return;
+        Debug.Log("Interact called!");
+
+        if (!isInteractable)
+            return;
 
         foreach (var response in responses)
         {
+            Debug.Log($"Executing {response.GetType().Name}");
             response.OnInteract();
         }
     }

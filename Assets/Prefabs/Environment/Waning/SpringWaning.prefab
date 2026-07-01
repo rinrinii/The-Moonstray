@@ -82,6 +82,106 @@ MonoBehaviour:
   visualRenderer: {fileID: 4267465729281195563}
   corruptedMaterial: {fileID: 2100000, guid: 1b4672d73fe8ae941a85f5f892a13028, type: 2}
   cleansedMaterial: {fileID: 2100000, guid: 019dc41ea9299e549b56181db20367bc, type: 2}
+--- !u!1 &2773992806163294229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3506585798027068951}
+  - component: {fileID: 1800546313454391533}
+  - component: {fileID: 6674636606285520675}
+  - component: {fileID: 6909829166459105153}
+  - component: {fileID: 4744645307170791177}
+  m_Layer: 3
+  m_Name: InteractTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3506585798027068951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773992806163294229}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2375731622978406187}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1800546313454391533
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773992806163294229}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1, y: 1.1, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6674636606285520675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773992806163294229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1101669e74e05ae4080b5a9e6c02b43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanseWaningBehaviour
+  waningController: {fileID: 1058810706334425644}
+--- !u!114 &6909829166459105153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773992806163294229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f8b661a1da4ce4ab1cf43863c7395b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
+  isInteractable: 1
+  interactionType: 1
+--- !u!114 &4744645307170791177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773992806163294229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291a57a1a8a4b6b489539e8eaf276b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
+  objectID: test_cleanse
+  actions:
+  - requiredState: 0
+    nextState: 1
+    behaviour: {fileID: 6674636606285520675}
 --- !u!1 &3494066664987649976
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,6 +215,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5457396899945752018}
+  - {fileID: 3506585798027068951}
   m_Father: {fileID: 7943027051442208529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3905997499201583070
@@ -207,9 +308,6 @@ GameObject:
   - component: {fileID: 3647423956990616690}
   - component: {fileID: 4193932375618903783}
   - component: {fileID: 3755598451528920417}
-  - component: {fileID: 7083629002861658308}
-  - component: {fileID: 7232900948076862623}
-  - component: {fileID: 3112540254152731676}
   m_Layer: 6
   m_Name: ClimbTrigger
   m_TagString: Untagged
@@ -280,47 +378,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClimbingWaning
   damagePerSecond: 10
   climbingDamagePerSecond: 50
---- !u!114 &7083629002861658308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8378001253379051333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1101669e74e05ae4080b5a9e6c02b43e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleanseWaningBehaviour
-  waningController: {fileID: 1058810706334425644}
---- !u!114 &7232900948076862623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8378001253379051333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37f8b661a1da4ce4ab1cf43863c7395b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
-  isInteractable: 1
-  interactionType: 1
---- !u!114 &3112540254152731676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8378001253379051333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291a57a1a8a4b6b489539e8eaf276b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
-  objectID: test_cleanse
-  actions:
-  - requiredState: 0
-    nextState: 1
-    behaviour: {fileID: 7083629002861658308}
