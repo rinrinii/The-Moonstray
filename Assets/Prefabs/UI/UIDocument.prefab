@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 21262502826724240}
   - component: {fileID: 1587816856206528790}
   - component: {fileID: 5392995151514886469}
+  - component: {fileID: 1251435677161378601}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -103,6 +104,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HUDController
   humanPortrait: {fileID: 21300000, guid: 9adac98d8e1cae84dbea345ff3331e18, type: 3}
   wolfPortrait: {fileID: 21300000, guid: 80e3b5802abcb8c4eaad1288f7068ad7, type: 3}
+  healthyColor: {r: 0.27058825, g: 0.5372549, b: 0.27058825, a: 1}
+  warningColor: {r: 0.91764706, g: 0.8666667, b: 0.27058825, a: 1}
+  dangerColor: {r: 0.84313726, g: 0.10980392, b: 0.10980392, a: 1}
 --- !u!114 &1564789606402923274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,3 +184,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec6015a1bd0d354cabc0003acb24b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteUI
+--- !u!114 &1251435677161378601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701444462549514576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac895f47a477124381b53170f62432a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestBoardController
+  questNoteTemplate: {fileID: 9197481963319205126, guid: d771afb294805b4409ff5312510c4beb, type: 3}
+  notesPerPage: 3
+  noteWidth: 180
+  noteHeight: 220
