@@ -7,18 +7,18 @@ public class ExpandingWaning : WaningBase
     [SerializeField] private Transform visualMesh;
 
     [Header("Spread Settings")]
-    [SerializeField] private BoxCollider damageTrigger;
+    [SerializeField] private Collider damageTrigger;
+    [SerializeField] private Vector3 targetTriggerScale = new Vector3(1.5f, 1f, 1.5f);
+    [SerializeField] private Vector3 targetVisualScale = new Vector3(1.5f, 1f, 1.5f);
+    [SerializeField] private float spreadSpeed = 1.5f;
 
     [Header("Movement Slow")]
     [SerializeField] private float movementMultiplier = 0.75f;
 
-    [SerializeField] private Vector3 targetTriggerSize = new Vector3(1.5f, 1f, 1.5f);
-    [SerializeField] private Vector3 targetVisualScale = new Vector3(1.5f, 1f, 1.5f);
-    [SerializeField] private float spreadSpeed = 1.5f;
-
     private bool hasExpanded;
     private bool cleansed;
-    private Vector3 initialTriggerSize;
+
+    private Vector3 initialTriggerScale;
     private Vector3 initialVisualScale;
 
     protected virtual void Awake()
@@ -28,13 +28,14 @@ public class ExpandingWaning : WaningBase
             Debug.LogError("Damage Trigger is missing.");
             return;
         }
+
         if (visualMesh == null)
         {
             Debug.LogError("Visual Mesh is missing.");
             return;
         }
 
-        initialTriggerSize = damageTrigger.size;
+        initialTriggerScale = damageTrigger.transform.localScale;
         initialVisualScale = visualMesh.localScale;
     }
 
@@ -45,10 +46,10 @@ public class ExpandingWaning : WaningBase
 
         PlayerTransformation playerTransform =
             player.GetComponent<PlayerTransformation>();
+
         if (playerTransform != null)
             playerTransform.SetSpeedModifier(movementMultiplier);
 
-        // Summer: slow + poison
         StatusEffectManager.Instance?.AddSlow();
         StatusEffectManager.Instance?.SetPoison(true);
     }
@@ -57,6 +58,7 @@ public class ExpandingWaning : WaningBase
     {
         PlayerTransformation playerTransform =
             player.GetComponent<PlayerTransformation>();
+
         if (playerTransform != null)
             playerTransform.SetSpeedModifier(1f);
 
@@ -67,6 +69,7 @@ public class ExpandingWaning : WaningBase
     protected override void ApplyDamage(GameObject player)
     {
         PlayerDash dash = player.GetComponent<PlayerDash>();
+
         if (dash != null && dash.IsDashing())
             return;
 
@@ -81,17 +84,24 @@ public class ExpandingWaning : WaningBase
         while (progress < 1f)
         {
             progress += Time.deltaTime * spreadSpeed;
+            float t = Mathf.Clamp01(progress);
 
-            damageTrigger.size = Vector3.Lerp(
-                initialTriggerSize, targetTriggerSize, progress);
+            damageTrigger.transform.localScale = Vector3.Lerp(
+                initialTriggerScale,
+                targetTriggerScale,
+                t
+            );
 
             visualMesh.localScale = Vector3.Lerp(
-                initialVisualScale, targetVisualScale, progress);
+                initialVisualScale,
+                targetVisualScale,
+                t
+            );
 
             yield return null;
         }
 
-        damageTrigger.size = targetTriggerSize;
+        damageTrigger.transform.localScale = targetTriggerScale;
         visualMesh.localScale = targetVisualScale;
     }
 
@@ -105,9 +115,11 @@ public class ExpandingWaning : WaningBase
 
         Debug.Log("Summer Waning Cleansed");
 
-        damageTrigger.enabled = false;
+        if (damageTrigger != null)
+            damageTrigger.enabled = false;
 
         Collider rootCollider = GetComponent<Collider>();
+
         if (rootCollider != null)
             rootCollider.enabled = false;
 
