@@ -106,6 +106,9 @@ public class PlayerTransformation : MonoBehaviour
     {
         RefreshSceneReferences();
         ApplyCurrentLighting();
+
+        MusicManager.Instance?.SetNightMode(
+            currentForm == FormState.Wolf);
     }
 
     private void RefreshSceneReferences()
@@ -252,6 +255,9 @@ public class PlayerTransformation : MonoBehaviour
                 if (turningToWolf)
                 {
                     ApplyWolfForm();
+
+                    MusicManager.Instance?.SetNightMode(true);
+
                     transformParticles?.Play();
 
                     GetComponent<PlayerMovement>().UpdateAnimator();
@@ -265,6 +271,9 @@ public class PlayerTransformation : MonoBehaviour
                 else
                 {
                     ApplyHumanForm();
+
+                    MusicManager.Instance?.SetNightMode(false);
+
                     transformParticles?.Play();
 
                     GetComponent<PlayerMovement>().UpdateAnimator();
