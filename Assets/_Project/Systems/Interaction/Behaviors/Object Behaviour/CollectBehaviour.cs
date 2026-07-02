@@ -29,12 +29,6 @@ public class CollectBehaviour : MonoBehaviour, IObjectBehaviour
                 Debug.Log("Inventory full.");
                 return;
             }
-
-            if (TutorialManager.Instance != null &&
-                TutorialManager.Instance.IsCurrentStep(TutorialStep.CollectSupplies))
-            {
-                TutorialManager.Instance.CompleteCurrentStep();
-            }
         }
 
         string message = string.IsNullOrEmpty(collectMessage)

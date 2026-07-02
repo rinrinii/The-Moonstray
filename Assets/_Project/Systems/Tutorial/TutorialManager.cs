@@ -84,6 +84,10 @@ public class TutorialManager : MonoBehaviour
     {
         switch (currentStep)
         {
+            //--------------------------------------------------
+            // Pinewatch Trail
+            //--------------------------------------------------
+
             case TutorialStep.Move:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
@@ -107,32 +111,55 @@ public class TutorialManager : MonoBehaviour
                 QuestManager.Instance?.CompleteCurrentObjective();
 
                 QuestManager.Instance?.StartQuest(
-                    "Gathering Supplies",
-                    "Collect Supplies",
-                    "Continue to Blight Path"
+                    "Find Another Way",
+                    "Leave the Courtyard"
                 );
 
-                SetStep(TutorialStep.CollectSupplies);
+                SetStep(TutorialStep.LeaveCourtyard);
 
                 break;
 
-            case TutorialStep.CollectSupplies:
+            //--------------------------------------------------
+            // Snow Courtyard
+            //--------------------------------------------------
+
+            case TutorialStep.LeaveCourtyard:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
 
-                SetStep(TutorialStep.ReachBlight);
+                // Tutorial continues in Frostmere Library.
+                // Do NOT finish here.
 
                 break;
 
-            case TutorialStep.ReachBlight:
+            //--------------------------------------------------
+            // Frostmere Library
+            //--------------------------------------------------
+
+            case TutorialStep.Transform:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
+
+                QuestManager.Instance?.SetCurrentObjective(1);
+
+                SetStep(TutorialStep.LibraryInteract);
+
+                break;
+
+            case TutorialStep.LibraryInteract:
+
+                QuestManager.Instance?.CompleteCurrentObjective();
+
+                // You'll advance to NPCReturn once both
+                // interactions are completed.
+
+                break;
+
+            case TutorialStep.NPCReturn:
 
                 FinishTutorial();
 
                 break;
-
-
         }
     }
 

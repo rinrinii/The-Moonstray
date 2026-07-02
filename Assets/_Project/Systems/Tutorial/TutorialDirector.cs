@@ -21,10 +21,11 @@ public class TutorialDirector : MonoBehaviour
             //--------------------------------------------------
             // MOVE
             //--------------------------------------------------
+
             case TutorialStep.Move:
 
                 GameplayUIManager.Instance.Prompt.Show(
-                    "[ WASD ]  Movement",
+                    "[ WASD ] Movement",
                     "Use WASD to move around."
                 );
 
@@ -33,10 +34,11 @@ public class TutorialDirector : MonoBehaviour
             //--------------------------------------------------
             // SPRINT
             //--------------------------------------------------
+
             case TutorialStep.Sprint:
 
                 GameplayUIManager.Instance.Prompt.Show(
-                    "[ LEFT SHIFT ]  Sprint",
+                    "[ LEFT SHIFT ] Sprint",
                     "Hold Left Shift while moving."
                 );
 
@@ -45,10 +47,11 @@ public class TutorialDirector : MonoBehaviour
             //--------------------------------------------------
             // JUMP
             //--------------------------------------------------
+
             case TutorialStep.Jump:
 
                 GameplayUIManager.Instance.Prompt.Show(
-                    "[ SPACE ]  Jump",
+                    "[ SPACE ] Jump",
                     "Press Space to jump."
                 );
 
@@ -57,6 +60,7 @@ public class TutorialDirector : MonoBehaviour
             //--------------------------------------------------
             // REACH COURTYARD
             //--------------------------------------------------
+
             case TutorialStep.ReachCourtyard:
 
                 GameplayUIManager.Instance.Prompt.Hide();
@@ -66,21 +70,10 @@ public class TutorialDirector : MonoBehaviour
                 break;
 
             //--------------------------------------------------
-            // COLLECT SUPPLIES
+            // LEAVE COURTYARD
             //--------------------------------------------------
-            case TutorialStep.CollectSupplies:
 
-                GameplayUIManager.Instance.Prompt.Show(
-                    "[ E ]  Interact",
-                    "Pick up nearby supplies."
-                );
-
-                break;
-
-            //--------------------------------------------------
-            // REACH BLIGHT
-            //--------------------------------------------------
-            case TutorialStep.ReachBlight:
+            case TutorialStep.LeaveCourtyard:
 
                 GameplayUIManager.Instance.Prompt.Hide();
 
@@ -89,9 +82,11 @@ public class TutorialDirector : MonoBehaviour
             //--------------------------------------------------
             // FINISHED
             //--------------------------------------------------
+
             case TutorialStep.Finished:
 
                 GameplayUIManager.Instance.Prompt.Hide();
+                GameplayUIManager.Instance.Objectives.Hide();
 
                 QuestManager.Instance?.FinishQuest();
 

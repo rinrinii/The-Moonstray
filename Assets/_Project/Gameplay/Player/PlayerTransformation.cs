@@ -1,12 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class PlayerTransformation : MonoBehaviour
 {
     public enum FormState { Human, Wolf }
-    public FormState currentForm = FormState.Human;
+    public FormState currentForm = FormState.Wolf;
+
+    public event Action<FormState> OnTransformationComplete;
+
+    [SerializeField]
+    private bool canTransform = false;
+
+    public bool CanTransform => canTransform;
+
+    public void UnlockTransformation()
+    {
+        canTransform = true;
+
+        Debug.Log("Transformation unlocked.");
+    }
+
+    public void LockTransformation()
+    {
+        canTransform = false;
+    }
 
     [Header("Models")]
     public GameObject humanModel;
@@ -86,15 +106,26 @@ public class PlayerTransformation : MonoBehaviour
 
         RefreshSceneReferences();
 
-        ApplyHumanForm();
+        if (currentForm == FormState.Human)
+        {
+            ApplyHumanForm();
+        }
+        else
+        {
+            ApplyWolfForm();
+        }
+
         ApplyCurrentLighting();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && !isTransitioning)
+        if (Input.GetKeyDown(KeyCode.F) &&
+            !isTransitioning &&
+            canTransform)
         {
-            StartCoroutine(TransformationSequence());
+            StartCoroutine(
+                TransformationSequence());
         }
     }
 
@@ -310,6 +341,7 @@ public class PlayerTransformation : MonoBehaviour
         WolfAnimator.SetBool("IsTransforming", false);
 
         isTransitioning = false;
+        OnTransformationComplete?.Invoke(currentForm);
     }
 
     private IEnumerator ForceReturnToLocomotion(Animator anim)
