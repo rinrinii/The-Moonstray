@@ -23,6 +23,7 @@ public class CollectBehaviour : MonoBehaviour, IObjectBehaviour
         if (item != null && InventorySystem.Instance != null)
         {
             bool added = InventorySystem.Instance.Add(item, amount);
+
             if (!added)
             {
                 Debug.Log("Inventory full.");

@@ -72,11 +72,17 @@ public class MainMenuController : MonoBehaviour
 
     private void OnNewGamePressed()
     {
+        Debug.Log("MAIN MENU: New Game");
+
         sessionInitializer.CreateSession();
+
+        Debug.Log("TutorialManager = " + TutorialManager.Instance);
+
+        TutorialManager.Instance.QueueTutorialStart();
 
         SceneLoader.LoadScene(
             gamePlayScene,
-            "PinewatchTrail"
+            "ToPinewatchTrail"
         );
     }
 

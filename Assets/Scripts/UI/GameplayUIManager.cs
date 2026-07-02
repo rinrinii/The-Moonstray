@@ -19,6 +19,10 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement InventoryRoot { get; private set; }
     public VisualElement NotePopupRoot { get; private set; }
 
+    // UI Controllers
+    public PromptUI Prompt { get; private set; }
+    public ObjectivesUI Objectives { get; private set; }
+
     // Public Sub-Controller properties 
     public MapUI Map { get; private set; }
     public JournalController Journal { get; private set; }
@@ -53,6 +57,18 @@ public class GameplayUIManager : MonoBehaviour
         Inventory = GetComponent<InventoryUI>();
         Note = GetComponent<NoteUI>();
 
+        Prompt = GetComponent<PromptUI>();
+        Objectives = GetComponent<ObjectivesUI>();
+
+        if (Prompt == null)
+            Debug.LogWarning("PromptUI component not found.");
+
+        if (Objectives == null)
+            Debug.LogWarning("ObjectivesUI component not found.");
+
+        Prompt?.Initialize(RootVisualElement);
+        Objectives?.Initialize(RootVisualElement);
+
         NormalizeDefaultScreenLayout();
     }
 
@@ -82,4 +98,5 @@ public class GameplayUIManager : MonoBehaviour
         if (Note != null && Note != except)
             Note.CloseNote();
     }
+
 }

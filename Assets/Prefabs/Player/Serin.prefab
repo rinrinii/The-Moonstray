@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 6565060784438283400}
   - component: {fileID: 2548488169668176433}
   - component: {fileID: 871529545648491543}
+  - component: {fileID: 2233543117649755377}
   m_Layer: 0
   m_Name: Serin
   m_TagString: Player
@@ -495,9 +496,7 @@ MonoBehaviour:
   humanLeftFootprint: {fileID: 6270530334169336483, guid: ff80bd31ebb8f3d479d6527af0d272da, type: 3}
   humanRightFootprint: {fileID: 4218811569919527391, guid: 7553a05fe80696a4089dd3f0628c6e6e, type: 3}
   wolfFootprint: {fileID: 1822299534084347628, guid: 5619a2ae1a2b5fd468779e823a84d498, type: 3}
-  snowLayer:
-    serializedVersion: 2
-    m_Bits: 256
+  snowTerrainLayer: {fileID: 0}
   rayDistance: 0.6
   snowPuff: {fileID: 0}
 --- !u!114 &871529545648491543
@@ -512,6 +511,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835f1d9eb7c95d1409aa6005d116ebb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectManager
+--- !u!114 &2233543117649755377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085696353375262294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edd23167be4c35a4bb78d15a2c137bf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementTutorialTracker
+  moveDistance: 2
 --- !u!1 &3238980465875872551
 GameObject:
   m_ObjectHideFlags: 0

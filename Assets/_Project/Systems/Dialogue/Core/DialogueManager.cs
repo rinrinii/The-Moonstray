@@ -1,35 +1,118 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager Instance { get; private set; }
+    public static DialogueManager Instance
+    {
+        get;
+        private set;
+    }
 
-    private Queue<DialogueLine> lines =
-        new Queue<DialogueLine>();
+    private readonly Queue<DialogueLine> lines =
+        new();
 
-    private bool isActive = false;
+    private bool isActive;
 
     [Header("References")]
-    [SerializeField] private DialogueUIDocument dialogueUI;
-    [SerializeField] private DialogueDatabase database;
+    [SerializeField]
+    private DialogueUIDocument dialogueUI;
+
+    [SerializeField]
+    private DialogueDatabase database;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance != null &&
+            Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
+
+        FindDialogueUI();
     }
 
-    public void StartDialogue(string dialogueID)
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded +=
+            HandleSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -=
+            HandleSceneLoaded;
+    }
+
+    private void HandleSceneLoaded(
+        Scene scene,
+        LoadSceneMode mode)
+    {
+        FindDialogueUI();
+    }
+
+    private void FindDialogueUI()
+    {
+        Debug.Log("Searching for Dialogue UI...");
+
+        DialogueUIDocument[] docs =
+            FindObjectsByType<DialogueUIDocument>(
+                FindObjectsSortMode.None);
+
+        Debug.Log($"Found {docs.Length} DialogueUIDocument(s)");
+
+        foreach (var doc in docs)
+        {
+            Debug.Log($" -> {doc.name}");
+        }
+
+        dialogueUI = docs.Length > 0
+            ? docs[0]
+            : null;
+
+        if (dialogueUI != null)
+        {
+            Debug.Log($"Assigned {dialogueUI.name}");
+        }
+    }
+
+    public void StartDialogue(
+        string dialogueID)
     {
         if (isActive)
         {
-            Debug.LogWarning("Dialogue already active.");
+            Debug.LogWarning(
+                "Dialogue already active."
+            );
+
+            return;
+        }
+
+        // Scene changed?
+        if (dialogueUI == null)
+        {
+            FindDialogueUI();
+
+            if (dialogueUI == null)
+            {
+                Debug.LogError(
+                    "DialogueManager: Cannot start dialogue because DialogueUIDocument is missing."
+                );
+
+                return;
+            }
+        }
+
+        if (database == null)
+        {
+            Debug.LogError(
+                "DialogueManager: DialogueDatabase missing."
+            );
+
             return;
         }
 
@@ -48,7 +131,8 @@ public class DialogueManager : MonoBehaviour
 
         lines.Clear();
 
-        foreach (DialogueLine line in dialogueLines)
+        foreach (DialogueLine line
+                 in dialogueLines)
         {
             lines.Enqueue(line);
         }
@@ -71,18 +155,24 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        DialogueLine line = lines.Dequeue();
+        DialogueLine line =
+            lines.Dequeue();
 
         dialogueUI.DisplayLine(line);
 
-        dialogueUI.ShowNextArrow(lines.Count > 0);
+        dialogueUI.ShowNextArrow(
+            lines.Count > 0
+        );
     }
 
     public void EndDialogue()
     {
         isActive = false;
 
-        dialogueUI.HideDialogueUI();
+        if (dialogueUI != null)
+        {
+            dialogueUI.HideDialogueUI();
+        }
     }
 
     public bool IsDialogueActive()

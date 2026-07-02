@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Death")]
     [SerializeField] private float gameOverDelay = 0.4f;
+
+    public event Action OnStoryDeath;
 
     private Animator currentAnimator;
 
@@ -20,27 +23,22 @@ public class PlayerHealth : MonoBehaviour
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
 
-    private bool isDead;
+    public bool IsDead => isDead;
 
-    // Temporary direct reference
-    // Refactor later into events/UI manager
+    private bool isDead;
+    private bool suppressNextGameOver;
+
     private HUDController hudController;
 
     private void Start()
     {
         currentHealth = maxHealth;
 
-        hudController =
-            FindFirstObjectByType<HUDController>();
+        hudController = FindFirstObjectByType<HUDController>();
 
-        transformation =
-            GetComponent<PlayerTransformation>();
-
-        movement =
-            GetComponent<PlayerMovement>();
-
-        climbing =
-            GetComponent<PlayerClimbing>();
+        transformation = GetComponent<PlayerTransformation>();
+        movement = GetComponent<PlayerMovement>();
+        climbing = GetComponent<PlayerClimbing>();
 
         UpdateAnimatorReference();
     }
@@ -58,9 +56,7 @@ public class PlayerHealth : MonoBehaviour
             maxHealth
         );
 
-        Debug.Log(
-            $"Player Health: {currentHealth}"
-        );
+        Debug.Log($"Player Health: {currentHealth}");
 
         if (currentHealth <= 0f)
         {
@@ -82,63 +78,63 @@ public class PlayerHealth : MonoBehaviour
         );
     }
 
+    public void ReviveAtFullHealth()
+    {
+        currentHealth = maxHealth;
+
+        isDead = false;
+
+        UpdateAnimatorReference();
+
+        if (movement != null)
+            movement.enabled = true;
+
+        if (climbing != null)
+            climbing.enabled = true;
+
+        if (currentAnimator != null)
+            currentAnimator.Rebind();
+
+        Debug.Log("Player revived.");
+    }
+
+    public void SuppressNextGameOver()
+    {
+        suppressNextGameOver = true;
+    }
+
     private void Die()
     {
-        StartCoroutine(
-            DeathSequence()
-        );
+        StartCoroutine(DeathSequence());
     }
 
     private IEnumerator DeathSequence()
     {
         isDead = true;
 
-        Debug.Log("Player Died");
-
-        // Update current active animator
         UpdateAnimatorReference();
 
-        // =========================================
-        // PLAY DEATH ANIMATION
-        // =========================================
-
         if (currentAnimator != null)
-        {
-            currentAnimator.SetTrigger(
-                "Die"
-            );
-        }
-
-        // =========================================
-        // DISABLE PLAYER CONTROL
-        // =========================================
+            currentAnimator.SetTrigger("Die");
 
         if (movement != null)
-        {
             movement.enabled = false;
-        }
 
         if (climbing != null)
-        {
             climbing.enabled = false;
-        }
 
-        // =========================================
-        // WAIT BEFORE GAME OVER
-        // =========================================
+        yield return new WaitForSeconds(gameOverDelay);
 
-        yield return new WaitForSeconds(
-            gameOverDelay
-        );
-
-        // =========================================
-        // SHOW GAME OVER UI
-        // =========================================
-
-        if (hudController != null)
+        if (suppressNextGameOver)
         {
-            hudController.ShowGameOver();
+            suppressNextGameOver = false;
+
+            OnStoryDeath?.Invoke();
+
+            yield break;
         }
+
+        hudController?.ShowGameOver();
     }
 
     private void UpdateAnimatorReference()
