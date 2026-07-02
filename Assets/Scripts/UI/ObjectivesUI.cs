@@ -13,8 +13,7 @@ public class ObjectivesUI : MonoBehaviour
 
     public void Initialize(VisualElement root)
     {
-        panel =
-            root.Q<VisualElement>("ObjectivesPanel");
+        panel = root.Q<VisualElement>("ObjectivesPanel");
 
         sideQuestContainer =
             root.Q<VisualElement>("SideQuestContainer");
@@ -26,21 +25,18 @@ public class ObjectivesUI : MonoBehaviour
             root.Q<Label>("MainQuestDescription");
 
         if (sideQuestContainer != null)
-            sideQuestContainer.style.display =
-                DisplayStyle.None;
+            sideQuestContainer.style.display = DisplayStyle.None;
 
         Hide();
 
         if (QuestManager.Instance != null)
-            QuestManager.Instance.OnQuestUpdated +=
-                Refresh;
+            QuestManager.Instance.OnQuestUpdated += Refresh;
     }
 
     private void OnDestroy()
     {
         if (QuestManager.Instance != null)
-            QuestManager.Instance.OnQuestUpdated -=
-                Refresh;
+            QuestManager.Instance.OnQuestUpdated -= Refresh;
     }
 
     private void Refresh(QuestState quest)
@@ -57,30 +53,48 @@ public class ObjectivesUI : MonoBehaviour
 
         StringBuilder builder = new();
 
-        foreach (QuestObjective objective
-                 in quest.Objectives)
-        {
-            builder.Append(
-                objective.Completed
-                    ? "/ "
-                    : "X ");
+        int currentIndex = QuestManager.Instance != null
+            ? QuestManager.Instance.CurrentObjectiveIndex
+            : -1;
 
-            builder.AppendLine(objective.Text);
+        for (int i = 0; i < quest.Objectives.Count; i++)
+        {
+            QuestObjective objective = quest.Objectives[i];
+
+            string prefix;
+
+            if (objective.Completed)
+            {
+                prefix = "/ ";
+            }
+            else if (i == currentIndex)
+            {
+                prefix = "> ";
+            }
+            else
+            {
+                prefix = "X ";
+            }
+
+            builder.AppendLine(prefix + objective.Text);
         }
 
-        descriptionLabel.text =
-            builder.ToString();
+        descriptionLabel.text = builder.ToString();
     }
 
     public void Show()
     {
-        panel.style.display =
-            DisplayStyle.Flex;
+        if (panel == null)
+            return;
+
+        panel.style.display = DisplayStyle.Flex;
     }
 
     public void Hide()
     {
-        panel.style.display =
-            DisplayStyle.None;
+        if (panel == null)
+            return;
+
+        panel.style.display = DisplayStyle.None;
     }
 }

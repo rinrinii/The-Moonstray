@@ -86,27 +86,53 @@ public class TutorialManager : MonoBehaviour
         {
             case TutorialStep.Move:
 
-                QuestManager.Instance?.CompleteObjective(0);
+                QuestManager.Instance?.CompleteCurrentObjective();
                 SetStep(TutorialStep.Sprint);
                 break;
 
             case TutorialStep.Sprint:
 
-                QuestManager.Instance?.CompleteObjective(1);
+                QuestManager.Instance?.CompleteCurrentObjective();
                 SetStep(TutorialStep.Jump);
                 break;
 
             case TutorialStep.Jump:
 
-                QuestManager.Instance?.CompleteObjective(2);
+                QuestManager.Instance?.CompleteCurrentObjective();
                 SetStep(TutorialStep.ReachCourtyard);
                 break;
 
             case TutorialStep.ReachCourtyard:
 
-                QuestManager.Instance?.CompleteObjective(3);
-                FinishTutorial();
+                QuestManager.Instance?.CompleteCurrentObjective();
+
+                QuestManager.Instance?.StartQuest(
+                    "Gathering Supplies",
+                    "Collect Supplies",
+                    "Continue to Blight Path"
+                );
+
+                SetStep(TutorialStep.CollectSupplies);
+
                 break;
+
+            case TutorialStep.CollectSupplies:
+
+                QuestManager.Instance?.CompleteCurrentObjective();
+
+                SetStep(TutorialStep.ReachBlight);
+
+                break;
+
+            case TutorialStep.ReachBlight:
+
+                QuestManager.Instance?.CompleteCurrentObjective();
+
+                FinishTutorial();
+
+                break;
+
+
         }
     }
 

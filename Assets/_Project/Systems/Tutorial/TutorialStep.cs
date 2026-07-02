@@ -9,6 +9,7 @@ public enum TutorialStep
     ReachCourtyard,
 
     // Snow Courtyard
+    CollectSupplies,
     ReachBlight,
 
     // Blight Path
@@ -20,7 +21,7 @@ public enum TutorialStep
     // Frostmere Library
     NPCArrival,
     Transform,
-    Interact,
+    LibraryInteract,
     NPCReturn,
     Ending,
 

@@ -61,6 +61,29 @@ public class TutorialDirector : MonoBehaviour
 
                 GameplayUIManager.Instance.Prompt.Hide();
 
+                QuestManager.Instance?.SetCurrentObjective(3);
+
+                break;
+
+            //--------------------------------------------------
+            // COLLECT SUPPLIES
+            //--------------------------------------------------
+            case TutorialStep.CollectSupplies:
+
+                GameplayUIManager.Instance.Prompt.Show(
+                    "[ E ]  Interact",
+                    "Pick up nearby supplies."
+                );
+
+                break;
+
+            //--------------------------------------------------
+            // REACH BLIGHT
+            //--------------------------------------------------
+            case TutorialStep.ReachBlight:
+
+                GameplayUIManager.Instance.Prompt.Hide();
+
                 break;
 
             //--------------------------------------------------
