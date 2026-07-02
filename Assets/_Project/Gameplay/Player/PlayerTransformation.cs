@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class PlayerTransformation : MonoBehaviour
 {
     public enum FormState { Human, Wolf }
     public FormState currentForm = FormState.Wolf;
+
+    public event Action<FormState> OnTransformationComplete;
 
     [SerializeField]
     private bool canTransform = false;
@@ -338,6 +341,7 @@ public class PlayerTransformation : MonoBehaviour
         WolfAnimator.SetBool("IsTransforming", false);
 
         isTransitioning = false;
+        OnTransformationComplete?.Invoke(currentForm);
     }
 
     private IEnumerator ForceReturnToLocomotion(Animator anim)

@@ -27,19 +27,21 @@ public class JournalController : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null &&
+            Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        var ui = GameplayUIManager.Instance;
-        journalContainer = ui.JournalContainer;
-
-        if (journalContainer != null)
-        {
-            InitializeTemplateBindings(journalContainer);
-            CloseJournal();
-        }
+        RefreshReferences();
     }
 
     private void InitializeTemplateBindings(VisualElement root)
@@ -217,5 +219,41 @@ public class JournalController : MonoBehaviour
             this.title = title;
             this.content = content;
         }
+    }
+
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded +=
+            OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -=
+            OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(
+        UnityEngine.SceneManagement.Scene scene,
+        UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        RefreshReferences();
+    }
+
+    private void RefreshReferences()
+    {
+        var ui = GameplayUIManager.Instance;
+
+        if (ui == null)
+            return;
+
+        journalContainer = ui.JournalContainer;
+
+        if (journalContainer == null)
+            return;
+
+        InitializeTemplateBindings(journalContainer);
+
+        CloseJournal();
     }
 }
