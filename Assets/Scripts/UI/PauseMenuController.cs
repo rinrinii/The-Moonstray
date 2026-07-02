@@ -6,17 +6,22 @@ public class PauseMenuController : MonoBehaviour
     public static PauseMenuController Instance { get; private set; }
 
     private VisualElement pauseContainer;
+    private VisualElement pausePanel;
     private VisualElement hudContainer;
+    private VisualElement settingsContainer;
 
-    [SerializeField]
-    private string mainMenuScene = "MainMenu";
+    [SerializeField] private string mainMenuScene = "MainMenu";
 
     private Button resumeBtn;
     private Button saveBtn;
     private Button settingsBtn;
     private Button exitBtn;
+    private Button backBtn;
+
+    private SettingsController settingsController;
 
     private bool isPaused = false;
+    private bool settingsOpen = false;
 
     private void Awake()
     {
@@ -25,31 +30,64 @@ public class PauseMenuController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
     }
 
     private void Start()
     {
-        // Bind to elements safely initialized inside GameplayUIManager
         var ui = GameplayUIManager.Instance;
+
         pauseContainer = ui.PauseContainer;
         hudContainer = ui.HudContainer;
+        settingsContainer = ui.SettingsRoot;
 
         VisualElement root = ui.RootVisualElement;
+
+        pausePanel = root.Q<VisualElement>("PausePanel");
+
         resumeBtn = root.Q<Button>("ResumeButton");
         saveBtn = root.Q<Button>("SaveButton");
         settingsBtn = root.Q<Button>("SettingsButton");
         exitBtn = root.Q<Button>("ExitButton");
 
+        backBtn = root.Q<Button>("BackButton");
+
+        if (backBtn == null)
+            backBtn = root.Q<Button>("Back-Button");
+
+        settingsController = GetComponent<SettingsController>();
+
         HookEventSubscriptions();
+
+        if (pauseContainer != null)
+            pauseContainer.style.display = DisplayStyle.None;
+
+        if (pausePanel != null)
+            pausePanel.style.display = DisplayStyle.Flex;
+
+        if (settingsContainer != null)
+            settingsContainer.style.display = DisplayStyle.None;
+        else
+            Debug.LogError("SettingsRoot not found from GameplayUIManager.");
     }
 
     private void HookEventSubscriptions()
     {
-        if (resumeBtn != null) resumeBtn.clicked += ResumeGame;
-        if (saveBtn != null) saveBtn.clicked += SaveGameProgress;
-        if (settingsBtn != null) settingsBtn.clicked += OpenOptionsOverlay;
-        if (exitBtn != null) exitBtn.clicked += ReturnToTitleScreen;
+        if (resumeBtn != null)
+            resumeBtn.clicked += ResumeGame;
+
+        if (saveBtn != null)
+            saveBtn.clicked += SaveGameProgress;
+
+        if (settingsBtn != null)
+            settingsBtn.clicked += OpenOptionsOverlay;
+
+        if (exitBtn != null)
+            exitBtn.clicked += ReturnToTitleScreen;
+
+        if (backBtn != null)
+            backBtn.clicked += CloseOptionsOverlay;
     }
 
     private void OnDestroy()
@@ -69,6 +107,9 @@ public class PauseMenuController : MonoBehaviour
         if (exitBtn != null)
             exitBtn.clicked -= ReturnToTitleScreen;
 
+        if (backBtn != null)
+            backBtn.clicked -= CloseOptionsOverlay;
+
         Time.timeScale = 1f;
     }
 
@@ -76,8 +117,14 @@ public class PauseMenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // If the map or journal is active, let them process escape closing logic first
-            if (GameplayUIManager.Instance.Map.IsMapActive() || GameplayUIManager.Instance.Journal.IsJournalActive())
+            if (settingsOpen)
+            {
+                CloseOptionsOverlay();
+                return;
+            }
+
+            if (GameplayUIManager.Instance.Map.IsMapActive() ||
+                GameplayUIManager.Instance.Journal.IsJournalActive())
             {
                 GameplayUIManager.Instance.SuppressSecondaryPanels();
                 return;
@@ -90,27 +137,86 @@ public class PauseMenuController : MonoBehaviour
     private void TogglePause()
     {
         isPaused = !isPaused;
-        if (isPaused) PauseGame();
-        else ResumeGame();
+
+        if (isPaused)
+            PauseGame();
+        else
+            ResumeGame();
     }
 
     private void PauseGame()
     {
-        if (pauseContainer != null) pauseContainer.style.display = DisplayStyle.Flex;
-        if (hudContainer != null) hudContainer.style.display = DisplayStyle.None;
+        isPaused = true;
+        settingsOpen = false;
+
+        if (pauseContainer != null)
+            pauseContainer.style.display = DisplayStyle.Flex;
+
+        if (pausePanel != null)
+            pausePanel.style.display = DisplayStyle.Flex;
+
+        if (settingsContainer != null)
+            settingsContainer.style.display = DisplayStyle.None;
+
+        if (hudContainer != null)
+            hudContainer.style.display = DisplayStyle.None;
+
         Time.timeScale = 0f;
     }
 
     public void ResumeGame()
     {
         isPaused = false;
-        if (pauseContainer != null) pauseContainer.style.display = DisplayStyle.None;
-        if (hudContainer != null) hudContainer.style.display = DisplayStyle.Flex;
+        settingsOpen = false;
+
+        if (pauseContainer != null)
+            pauseContainer.style.display = DisplayStyle.None;
+
+        if (pausePanel != null)
+            pausePanel.style.display = DisplayStyle.Flex;
+
+        if (settingsContainer != null)
+            settingsContainer.style.display = DisplayStyle.None;
+
+        if (hudContainer != null)
+            hudContainer.style.display = DisplayStyle.Flex;
+
         Time.timeScale = 1f;
     }
 
-    private void SaveGameProgress() => Debug.Log("Saving game progress...");
-    private void OpenOptionsOverlay() => Debug.Log("Opening settings menu...");
+    private void SaveGameProgress()
+    {
+        Debug.Log("Saving game progress...");
+    }
+
+    private void OpenOptionsOverlay()
+    {
+        settingsOpen = true;
+
+        if (pauseContainer != null)
+            pauseContainer.style.display = DisplayStyle.Flex;
+
+        if (pausePanel != null)
+            pausePanel.style.display = DisplayStyle.None;
+
+        if (settingsContainer != null)
+            settingsContainer.style.display = DisplayStyle.Flex;
+        else
+            Debug.LogError("SettingsRoot not found in PauseMenuVT.");
+    }
+
+    private void CloseOptionsOverlay()
+    {
+        settingsOpen = false;
+
+        settingsController?.RevertToSavedSettings();
+
+        if (settingsContainer != null)
+            settingsContainer.style.display = DisplayStyle.None;
+
+        if (pausePanel != null)
+            pausePanel.style.display = DisplayStyle.Flex;
+    }
 
     private void ReturnToTitleScreen()
     {
@@ -121,5 +227,8 @@ public class PauseMenuController : MonoBehaviour
         SceneLoader.LoadScene(mainMenuScene);
     }
 
-    public bool IsPaused() => isPaused;
+    public bool IsPaused()
+    {
+        return isPaused;
+    }
 }

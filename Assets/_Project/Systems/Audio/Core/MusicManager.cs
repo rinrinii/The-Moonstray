@@ -5,21 +5,15 @@ using UnityEngine.SceneManagement;
 public class MusicManager : MonoBehaviour
 {
     [Header("Library")]
-    [SerializeField]
-    private MusicLibrary musicLibrary;
+    [SerializeField] private MusicLibrary musicLibrary;
 
     [Header("Sources")]
-    [SerializeField]
-    private AudioSource daySource;
-
-    [SerializeField]
-    private AudioSource nightSource;
+    [SerializeField] private AudioSource daySource;
+    [SerializeField] private AudioSource nightSource;
 
     [Header("Transitions")]
-
     [SerializeField]
     [Range(0f, 0.5f)]
-    [Tooltip("Brief pause between fading out the current music and fading in the next track.")]
     private float regionTransitionPause = 0.15f;
 
     private string currentMusicID;
@@ -29,6 +23,8 @@ public class MusicManager : MonoBehaviour
 
     private bool isTransitioningMusic;
     private bool isNightMode;
+
+    private float musicVolumeMultiplier = 1f;
 
     public static MusicManager Instance { get; private set; }
 
@@ -53,12 +49,9 @@ public class MusicManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(
-        Scene scene,
-        LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SceneMusic sceneMusic =
-            FindFirstObjectByType<SceneMusic>();
+        SceneMusic sceneMusic = FindFirstObjectByType<SceneMusic>();
 
         if (sceneMusic == null)
             return;
@@ -66,11 +59,12 @@ public class MusicManager : MonoBehaviour
         TransitionToMusic(sceneMusic.MusicID);
     }
 
-    /// <summary>
-    /// Changes the currently playing music.
-    /// If the requested music is already playing,
-    /// nothing happens.
-    /// </summary>
+    public void SetMusicVolume(float value)
+    {
+        musicVolumeMultiplier = Mathf.Clamp01(value);
+        ApplyCurrentMusicVolumes();
+    }
+
     private void TransitionToMusic(string musicID)
     {
         if (musicID == currentMusicID)
@@ -79,29 +73,20 @@ public class MusicManager : MonoBehaviour
         if (isTransitioningMusic)
             return;
 
-        MusicSet musicSet =
-            musicLibrary.GetMusicSet(musicID);
+        MusicSet musicSet = musicLibrary.GetMusicSet(musicID);
 
         if (musicSet == null)
             return;
 
-        StartCoroutine(
-            TransitionMusicRoutine(
-                musicID,
-                musicSet));
+        StartCoroutine(TransitionMusicRoutine(musicID, musicSet));
     }
 
-    private IEnumerator TransitionMusicRoutine(
-    string musicID,
-    MusicSet musicSet)
+    private IEnumerator TransitionMusicRoutine(string musicID, MusicSet musicSet)
     {
         isTransitioningMusic = true;
 
-        float duration =
-            musicSet.TransitionDuration;
-
-        float fadeDuration =
-            duration * 0.5f;
+        float duration = musicSet.TransitionDuration;
+        float fadeDuration = duration * 0.5f;
 
         AudioSource activeSource =
             isNightMode &&
@@ -110,55 +95,28 @@ public class MusicManager : MonoBehaviour
                 ? nightSource
                 : daySource;
 
-        // Fade out currently audible music
         if (activeSource.isPlaying)
-        {
-            yield return FadeAudioSource(
-                activeSource,
-                0f,
-                fadeDuration);
-        }
+            yield return FadeAudioSource(activeSource, 0f, fadeDuration);
 
-        // Stop previous playback
         daySource.Stop();
         nightSource.Stop();
 
         currentMusicID = musicID;
         currentMusicSet = musicSet;
 
-        // Assign clips
-        daySource.clip =
-            currentMusicSet.PrimaryClip;
+        daySource.clip = currentMusicSet.PrimaryClip;
+        nightSource.clip = currentMusicSet.NightClip;
 
-        nightSource.clip =
-            currentMusicSet.NightClip;
-
-        // Reset playback
         if (daySource.clip != null)
             daySource.time = 0f;
 
         if (nightSource.clip != null)
             nightSource.time = 0f;
 
-        // Apply initial volumes
-        if (currentMusicSet.HasNightVariant)
-        {
-            daySource.volume =
-                isNightMode ? 0f : 1f;
+        ApplyCurrentMusicVolumes();
 
-            nightSource.volume =
-                isNightMode ? 1f : 0f;
-        }
-        else
-        {
-            daySource.volume = 1f;
-            nightSource.volume = 0f;
-        }
-
-        // Tiny pause between regions
         yield return new WaitForSeconds(regionTransitionPause);
 
-        // Start playback
         if (daySource.clip != null)
             daySource.Play();
 
@@ -171,22 +129,15 @@ public class MusicManager : MonoBehaviour
                 ? nightSource
                 : daySource;
 
-        newActiveSource.volume = 0f;
+        SetSourceVolume(newActiveSource, 0f);
 
-        yield return FadeAudioSource(
-            newActiveSource,
-            1f,
-            fadeDuration);
+        yield return FadeAudioSource(newActiveSource, 1f, fadeDuration);
 
         isTransitioningMusic = false;
 
         Debug.Log($"Now playing: {musicID}");
     }
 
-    /// <summary>
-    /// Called by PlayerTransformation whenever
-    /// Serin changes form.
-    /// </summary>
     public void SetNightMode(bool isNight)
     {
         isNightMode = isNight;
@@ -199,99 +150,105 @@ public class MusicManager : MonoBehaviour
 
         if (!currentMusicSet.HasNightVariant)
         {
-            daySource.volume = 1f;
-            nightSource.volume = 0f;
+            SetSourceVolume(daySource, 1f);
+            SetSourceVolume(nightSource, 0f);
             return;
         }
 
         if (transitionCoroutine != null)
             StopCoroutine(transitionCoroutine);
 
-        transitionCoroutine =
-            StartCoroutine(CrossfadeDayNight());
+        transitionCoroutine = StartCoroutine(CrossfadeDayNight());
     }
 
     private IEnumerator CrossfadeDayNight()
     {
-        float duration =
-            currentMusicSet.TransitionDuration;
+        float duration = currentMusicSet.TransitionDuration;
 
-        float startDay =
-            daySource.volume;
+        float startDay = GetBaseVolume(daySource.volume);
+        float startNight = GetBaseVolume(nightSource.volume);
 
-        float startNight =
-            nightSource.volume;
-
-        float targetDay =
-            isNightMode ? 0f : 1f;
-
-        float targetNight =
-            isNightMode ? 1f : 0f;
+        float targetDay = isNightMode ? 0f : 1f;
+        float targetNight = isNightMode ? 1f : 0f;
 
         float time = 0f;
 
         while (time < duration)
         {
             time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / duration);
 
-            float t =
-                Mathf.Clamp01(time / duration);
-
-            daySource.volume =
-                Mathf.Lerp(
-                    startDay,
-                    targetDay,
-                    t);
-
-            nightSource.volume =
-                Mathf.Lerp(
-                    startNight,
-                    targetNight,
-                    t);
+            SetSourceVolume(daySource, Mathf.Lerp(startDay, targetDay, t));
+            SetSourceVolume(nightSource, Mathf.Lerp(startNight, targetNight, t));
 
             yield return null;
         }
 
-        daySource.volume = targetDay;
-        nightSource.volume = targetNight;
+        SetSourceVolume(daySource, targetDay);
+        SetSourceVolume(nightSource, targetNight);
 
         transitionCoroutine = null;
     }
 
-    /// <summary>
-    /// Generic fade helper.
-    /// Will be used for region transitions.
-    /// </summary>
-    private IEnumerator FadeAudioSource(
-    AudioSource source,
-    float targetVolume,
-    float duration)
+    private IEnumerator FadeAudioSource(AudioSource source, float targetBaseVolume, float duration)
     {
-        float startVolume =
-            source.volume;
+        float startBaseVolume = GetBaseVolume(source.volume);
 
         float time = 0f;
 
         while (time < duration)
         {
             time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / duration);
 
-            float t =
-                Mathf.Clamp01(time / duration);
-
-            source.volume =
-                Mathf.Lerp(
-                    startVolume,
-                    targetVolume,
-                    t);
+            SetSourceVolume(
+                source,
+                Mathf.Lerp(startBaseVolume, targetBaseVolume, t)
+            );
 
             yield return null;
         }
 
-        source.volume = targetVolume;
+        SetSourceVolume(source, targetBaseVolume);
     }
 
-    // Temporary testing
+    private void ApplyCurrentMusicVolumes()
+    {
+        if (currentMusicSet == null)
+        {
+            SetSourceVolume(daySource, 0f);
+            SetSourceVolume(nightSource, 0f);
+            return;
+        }
+
+        if (currentMusicSet.HasNightVariant)
+        {
+            SetSourceVolume(daySource, isNightMode ? 0f : 1f);
+            SetSourceVolume(nightSource, isNightMode ? 1f : 0f);
+        }
+        else
+        {
+            SetSourceVolume(daySource, 1f);
+            SetSourceVolume(nightSource, 0f);
+        }
+    }
+
+    private void SetSourceVolume(AudioSource source, float baseVolume)
+    {
+        if (source == null)
+            return;
+
+        source.volume = Mathf.Clamp01(baseVolume) * musicVolumeMultiplier;
+    }
+
+    private float GetBaseVolume(float actualVolume)
+    {
+        if (musicVolumeMultiplier <= 0f)
+            return 0f;
+
+        return actualVolume / musicVolumeMultiplier;
+    }
+
     private bool night;
 
     private void Update()
