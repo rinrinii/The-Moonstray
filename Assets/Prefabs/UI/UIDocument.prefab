@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5618215527770254589}
   - component: {fileID: 1564789606402923274}
   - component: {fileID: 5697546184592555658}
+  - component: {fileID: 6156013347693575223}
+  - component: {fileID: 1485842867816769596}
   - component: {fileID: 2635103363672642909}
   - component: {fileID: 21262502826724240}
   - component: {fileID: 1587816856206528790}
@@ -135,6 +137,30 @@ MonoBehaviour:
   worldMinXZ: {x: 0, y: 0}
   worldMaxXZ: {x: 0, y: 0}
   player: {fileID: 0}
+--- !u!114 &6156013347693575223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701444462549514576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51abf45325b67c14b9fc4d361a689d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectivesUI
+--- !u!114 &1485842867816769596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7701444462549514576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae65d5c23736ebb4fba9909d75bc766f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PromptUI
 --- !u!114 &2635103363672642909
 MonoBehaviour:
   m_ObjectHideFlags: 0
