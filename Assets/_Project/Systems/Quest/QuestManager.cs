@@ -9,8 +9,12 @@ public class QuestManager : MonoBehaviour
 
     private QuestState currentMainQuest;
 
-    public QuestState CurrentMainQuest =>
-        currentMainQuest;
+    public QuestState CurrentMainQuest => currentMainQuest;
+
+    /// <summary>
+    /// Which objective is currently active.
+    /// </summary>
+    public int CurrentObjectiveIndex { get; private set; }
 
     private void Awake()
     {
@@ -22,7 +26,6 @@ public class QuestManager : MonoBehaviour
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
 
@@ -30,12 +33,17 @@ public class QuestManager : MonoBehaviour
         string title,
         params string[] objectives)
     {
-        currentMainQuest =
-            new QuestState(title, objectives);
+        currentMainQuest = new QuestState(title, objectives);
+
+        CurrentObjectiveIndex = 0;
 
         RaiseUpdated();
     }
 
+    /// <summary>
+    /// Completes a specific objective.
+    /// (Useful if objectives can be completed out of order.)
+    /// </summary>
     public void CompleteObjective(int index)
     {
         if (currentMainQuest == null)
@@ -45,8 +53,67 @@ public class QuestManager : MonoBehaviour
             index >= currentMainQuest.Objectives.Count)
             return;
 
-        currentMainQuest.Objectives[index]
+        if (currentMainQuest.Objectives[index].Completed)
+            return;
+
+        currentMainQuest.Objectives[index].Completed = true;
+
+        RaiseUpdated();
+    }
+
+    /// <summary>
+    /// Completes the current objective and advances to the next.
+    /// </summary>
+    public void CompleteCurrentObjective()
+    {
+        if (currentMainQuest == null)
+            return;
+
+        if (CurrentObjectiveIndex < 0 ||
+            CurrentObjectiveIndex >= currentMainQuest.Objectives.Count)
+            return;
+
+        currentMainQuest.Objectives[CurrentObjectiveIndex]
             .Completed = true;
+
+        if (CurrentObjectiveIndex <
+            currentMainQuest.Objectives.Count - 1)
+        {
+            CurrentObjectiveIndex++;
+        }
+
+        RaiseUpdated();
+    }
+
+    /// <summary>
+    /// Advances the active objective without marking it complete.
+    /// </summary>
+    public void AdvanceObjective()
+    {
+        if (currentMainQuest == null)
+            return;
+
+        if (CurrentObjectiveIndex <
+            currentMainQuest.Objectives.Count - 1)
+        {
+            CurrentObjectiveIndex++;
+            RaiseUpdated();
+        }
+    }
+
+    /// <summary>
+    /// Sets the active objective.
+    /// </summary>
+    public void SetCurrentObjective(int index)
+    {
+        if (currentMainQuest == null)
+            return;
+
+        if (index < 0 ||
+            index >= currentMainQuest.Objectives.Count)
+            return;
+
+        CurrentObjectiveIndex = index;
 
         RaiseUpdated();
     }
@@ -62,8 +129,7 @@ public class QuestManager : MonoBehaviour
             index >= currentMainQuest.Objectives.Count)
             return;
 
-        currentMainQuest.Objectives[index]
-            .Text = text;
+        currentMainQuest.Objectives[index].Text = text;
 
         RaiseUpdated();
     }
@@ -71,6 +137,7 @@ public class QuestManager : MonoBehaviour
     public void FinishQuest()
     {
         currentMainQuest = null;
+        CurrentObjectiveIndex = 0;
 
         RaiseUpdated();
     }
