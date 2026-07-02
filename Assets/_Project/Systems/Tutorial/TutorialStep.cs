@@ -9,7 +9,6 @@ public enum TutorialStep
     ReachCourtyard,
 
     // Snow Courtyard
-    CollectSupplies,
     LeaveCourtyard,
 
     // Blight Path

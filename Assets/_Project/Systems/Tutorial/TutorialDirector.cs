@@ -70,19 +70,6 @@ public class TutorialDirector : MonoBehaviour
                 break;
 
             //--------------------------------------------------
-            // COLLECT SUPPLIES
-            //--------------------------------------------------
-
-            case TutorialStep.CollectSupplies:
-
-                GameplayUIManager.Instance.Prompt.Show(
-                    "[ E ] Interact",
-                    "Collect nearby supplies."
-                );
-
-                break;
-
-            //--------------------------------------------------
             // LEAVE COURTYARD
             //--------------------------------------------------
 
@@ -100,6 +87,7 @@ public class TutorialDirector : MonoBehaviour
 
                 GameplayUIManager.Instance.Prompt.Hide();
                 GameplayUIManager.Instance.Objectives.Hide();
+
                 QuestManager.Instance?.FinishQuest();
 
                 break;

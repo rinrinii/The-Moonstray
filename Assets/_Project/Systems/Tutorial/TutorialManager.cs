@@ -111,12 +111,11 @@ public class TutorialManager : MonoBehaviour
                 QuestManager.Instance?.CompleteCurrentObjective();
 
                 QuestManager.Instance?.StartQuest(
-                    "Gathering Supplies",
-                    "Collect Supplies",
+                    "Find Another Way",
                     "Leave the Courtyard"
                 );
 
-                SetStep(TutorialStep.CollectSupplies);
+                SetStep(TutorialStep.LeaveCourtyard);
 
                 break;
 
@@ -124,19 +123,39 @@ public class TutorialManager : MonoBehaviour
             // Snow Courtyard
             //--------------------------------------------------
 
-            case TutorialStep.CollectSupplies:
+            case TutorialStep.LeaveCourtyard:
+
+                QuestManager.Instance?.CompleteCurrentObjective();
+
+                // Tutorial continues in Frostmere Library.
+                // Do NOT finish here.
+
+                break;
+
+            //--------------------------------------------------
+            // Frostmere Library
+            //--------------------------------------------------
+
+            case TutorialStep.Transform:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
 
                 QuestManager.Instance?.SetCurrentObjective(1);
 
-                SetStep(TutorialStep.LeaveCourtyard);
+                SetStep(TutorialStep.LibraryInteract);
 
                 break;
 
-            case TutorialStep.LeaveCourtyard:
+            case TutorialStep.LibraryInteract:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
+
+                // You'll advance to NPCReturn once both
+                // interactions are completed.
+
+                break;
+
+            case TutorialStep.NPCReturn:
 
                 FinishTutorial();
 

@@ -78,6 +78,26 @@ public class PlayerHealth : MonoBehaviour
         );
     }
 
+    public void ReviveAtFullHealth()
+    {
+        currentHealth = maxHealth;
+
+        isDead = false;
+
+        UpdateAnimatorReference();
+
+        if (movement != null)
+            movement.enabled = true;
+
+        if (climbing != null)
+            climbing.enabled = true;
+
+        if (currentAnimator != null)
+            currentAnimator.Rebind();
+
+        Debug.Log("Player revived.");
+    }
+
     public void SuppressNextGameOver()
     {
         suppressNextGameOver = true;
