@@ -40,11 +40,11 @@ public class PauseMenuController : MonoBehaviour
 
         pauseContainer = ui.PauseContainer;
         hudContainer = ui.HudContainer;
+        settingsContainer = ui.SettingsRoot;
 
         VisualElement root = ui.RootVisualElement;
 
         pausePanel = root.Q<VisualElement>("PausePanel");
-        settingsContainer = root.Q<VisualElement>("SettingsRoot");
 
         resumeBtn = root.Q<Button>("ResumeButton");
         saveBtn = root.Q<Button>("SaveButton");
@@ -68,6 +68,8 @@ public class PauseMenuController : MonoBehaviour
 
         if (settingsContainer != null)
             settingsContainer.style.display = DisplayStyle.None;
+        else
+            Debug.LogError("SettingsRoot not found from GameplayUIManager.");
     }
 
     private void HookEventSubscriptions()

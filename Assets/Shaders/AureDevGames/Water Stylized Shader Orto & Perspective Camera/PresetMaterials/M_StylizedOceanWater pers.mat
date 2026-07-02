@@ -20,11 +20,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_StylizedOceanWater
+  m_Name: M_StylizedOceanWater pers
   m_Shader: {fileID: -6465566751694194690, guid: 8eef88ae773ef5f4dbe4da56da89303b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _PERSPECTIVE
   - _WORLD_SPACE_UV
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -100,7 +101,7 @@ Material:
     - _CaveBlend: 0
     - _CaveDistortion: 0
     - _DepthCompareDistance: 0.1
-    - _DepthFadeDistance: 11.71
+    - _DepthFadeDistance: 0
     - _FoamBlend: 0.09
     - _FresnelPower: 1
     - _GradientRefractionScale: 10
@@ -108,18 +109,18 @@ Material:
     - _Hue: 1
     - _IntersectionFoamBlend: 1.09
     - _IntersectionFoamCutoff: 1.9
-    - _IntersectionFoamDepth: 1
+    - _IntersectionFoamDepth: 0.45
     - _IntersectionFoamDirection: 0.65
     - _IntersectionFoamFade: 1.48
     - _IntersectionFoamSpeed: 0.16
-    - _IntersectionFoamTiling: 5
+    - _IntersectionFoamTiling: 2.92
     - _LightingHardness: 0.39
     - _LightingSmoothness: 12.34
     - _NormalScale: 1.61
     - _NormalSpeed: 0.16
     - _NormalStrength: 1.71
     - _OrthographicCamSize: 0
-    - _PERSPECTIVE: 0
+    - _PERSPECTIVE: 1
     - _PosterizeSteps: 0
     - _QueueControl: 1
     - _QueueOffset: -49
@@ -162,10 +163,10 @@ Material:
     - _FoamUVsOffset: {r: 1, g: 1, b: 0, a: 0}
     - _FresnelColor: {r: 2.670157, g: 2.670157, b: 2.670157, a: 0}
     - _HorizonColor: {r: 7.3772106, g: 3.6607668, b: 6.6577153, a: 1}
-    - _IntersectionFoamColor: {r: 1.1486984, g: 1.1486984, b: 1.1486984, a: 1}
+    - _IntersectionFoamColor: {r: 1.1486984, g: 1.1486984, b: 1.1486984, a: 0.21176471}
     - _PositionRipples: {r: 0, g: 0, b: 0, a: 0}
     - _SecondaryFoamColor: {r: 0, g: 0.03780615, b: 0.3301887, a: 0.078431375}
-    - _ShallowColor: {r: 0, g: 0.57150817, b: 0.7056604, a: 1}
+    - _ShallowColor: {r: 0, g: 0.23721182, b: 0.2924528, a: 1}
     - _SpecularColor: {r: 0.12887149, g: 0.1468041, b: 0.1509434, a: 0.31764707}
     - _SurfaceFoamColor: {r: 1.7129308, g: 1.7129308, b: 1.7129308, a: 0}
     - _TopColor: {r: 0, g: 0.17848217, b: 0.5622641, a: 0.44705883}

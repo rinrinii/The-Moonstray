@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,12 +16,50 @@ public class SettingsController : MonoBehaviour
     private SliderInt musicSlider;
     private SliderInt sfxSlider;
 
+    private DropdownField resolutionDropdown;
+    private DropdownField qualityDropdown;
+    private Toggle fullscreenToggle;
+
+    private readonly List<Vector2Int> resolutions = new()
+    {
+        new Vector2Int(1280, 720),
+        new Vector2Int(1600, 900),
+        new Vector2Int(1920, 1080)
+    };
+
+    private readonly List<string> resolutionOptions = new()
+    {
+        "1280 × 720",
+        "1600 × 900",
+        "1920 × 1080"
+    };
+
+    private readonly List<string> qualityOptions = new()
+    {
+        "Low",
+        "Medium",
+        "High"
+    };
+
     private void Start()
     {
         UIDocument ui = GetComponent<UIDocument>();
+
+        if (ui == null)
+        {
+            Debug.LogError("SettingsController: UIDocument missing.");
+            return;
+        }
+
         VisualElement root = ui.rootVisualElement;
 
-        settingsRoot = root.Q<VisualElement>("SettingsRoot");
+        settingsRoot = root.Query<VisualElement>("SettingsRoot").First();
+
+        if (settingsRoot == null)
+        {
+            Debug.LogError("SettingsRoot not found.");
+            return;
+        }
 
         audioContainer = settingsRoot.Q<VisualElement>("AudioSettingsContainer");
         videoContainer = settingsRoot.Q<VisualElement>("VideoSettingsContainer");
@@ -33,21 +72,95 @@ public class SettingsController : MonoBehaviour
         musicSlider = settingsRoot.Q<SliderInt>("MusicSlider");
         sfxSlider = settingsRoot.Q<SliderInt>("SFXSlider");
 
-        if (masterSlider == null) Debug.LogError("MasterSlider not found.");
-        if (musicSlider == null) Debug.LogError("MusicSlider not found.");
-        if (sfxSlider == null) Debug.LogError("SFXSlider not found.");
+        resolutionDropdown = settingsRoot.Q<DropdownField>("ResolutionDropdown");
+        qualityDropdown = settingsRoot.Q<DropdownField>("QualityDropdown");
+        fullscreenToggle = settingsRoot.Q<Toggle>("FullscreenToggle");
 
-        if (audioButton != null) audioButton.clicked += ShowAudio;
-        if (videoButton != null) videoButton.clicked += ShowVideo;
-        if (saveSettingsButton != null) saveSettingsButton.clicked += SaveSettings;
+        if (audioButton != null)
+            audioButton.clicked += ShowAudio;
 
+        if (videoButton != null)
+            videoButton.clicked += ShowVideo;
+
+        if (saveSettingsButton != null)
+            saveSettingsButton.clicked += SaveSettings;
+
+        SetupAudioSliders();
+        SetupVideoSettings();
+
+        RegisterAudioCallbacks();
+
+        ApplySavedAudioSettings();
+
+        ShowAudio();
+    }
+
+    private void SetupAudioSliders()
+    {
         SetupSlider(masterSlider, "MasterVolume");
         SetupSlider(musicSlider, "MusicVolume");
         SetupSlider(sfxSlider, "SFXVolume");
+    }
 
+    private void SetupSlider(SliderInt slider, string prefKey)
+    {
+        if (slider == null)
+        {
+            Debug.LogError(prefKey + " slider not found.");
+            return;
+        }
+
+        slider.lowValue = 0;
+        slider.highValue = 100;
+        slider.value = Mathf.RoundToInt(PlayerPrefs.GetFloat(prefKey, 1f) * 100f);
+    }
+
+    private void SetupVideoSettings()
+    {
+        if (resolutionDropdown != null)
+        {
+            resolutionDropdown.choices = resolutionOptions;
+
+            int savedResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", 2);
+            savedResolutionIndex = Mathf.Clamp(savedResolutionIndex, 0, resolutionOptions.Count - 1);
+
+            resolutionDropdown.index = savedResolutionIndex;
+        }
+        else
+        {
+            Debug.LogError("ResolutionDropdown not found.");
+        }
+
+        if (qualityDropdown != null)
+        {
+            qualityDropdown.choices = qualityOptions;
+
+            int savedQualityIndex = PlayerPrefs.GetInt("QualityIndex", 2);
+            savedQualityIndex = Mathf.Clamp(savedQualityIndex, 0, qualityOptions.Count - 1);
+
+            qualityDropdown.index = savedQualityIndex;
+        }
+        else
+        {
+            Debug.LogError("QualityDropdown not found.");
+        }
+
+        if (fullscreenToggle != null)
+        {
+            fullscreenToggle.value = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1;
+        }
+        else
+        {
+            Debug.LogError("FullscreenToggle not found.");
+        }
+
+        ApplySavedVideoSettings();
+    }
+
+    private void RegisterAudioCallbacks()
+    {
         if (masterSlider != null)
         {
-            ApplyMasterVolume(masterSlider.value / 100f);
             masterSlider.RegisterValueChangedCallback(evt =>
             {
                 ApplyMasterVolume(evt.newValue / 100f);
@@ -56,7 +169,6 @@ public class SettingsController : MonoBehaviour
 
         if (musicSlider != null)
         {
-            ApplyMusicVolume(musicSlider.value / 100f);
             musicSlider.RegisterValueChangedCallback(evt =>
             {
                 ApplyMusicVolume(evt.newValue / 100f);
@@ -65,23 +177,11 @@ public class SettingsController : MonoBehaviour
 
         if (sfxSlider != null)
         {
-            ApplySFXVolume(sfxSlider.value / 100f);
             sfxSlider.RegisterValueChangedCallback(evt =>
             {
                 ApplySFXVolume(evt.newValue / 100f);
             });
         }
-
-        ShowAudio();
-    }
-
-    private void SetupSlider(SliderInt slider, string prefKey)
-    {
-        if (slider == null) return;
-
-        slider.lowValue = 0;
-        slider.highValue = 100;
-        slider.value = Mathf.RoundToInt(PlayerPrefs.GetFloat(prefKey, 1f) * 100f);
     }
 
     private void ShowAudio()
@@ -100,6 +200,36 @@ public class SettingsController : MonoBehaviour
 
         if (videoContainer != null)
             videoContainer.style.display = DisplayStyle.Flex;
+    }
+
+    private void ApplySavedAudioSettings()
+    {
+        ApplyMasterVolume(PlayerPrefs.GetFloat("MasterVolume", 1f));
+        ApplyMusicVolume(PlayerPrefs.GetFloat("MusicVolume", 1f));
+        ApplySFXVolume(PlayerPrefs.GetFloat("SFXVolume", 1f));
+    }
+
+    private void ApplySavedVideoSettings()
+    {
+        int resolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", 2);
+        resolutionIndex = Mathf.Clamp(resolutionIndex, 0, resolutions.Count - 1);
+
+        int qualityIndex = PlayerPrefs.GetInt("QualityIndex", 2);
+        qualityIndex = Mathf.Clamp(qualityIndex, 0, qualityOptions.Count - 1);
+
+        bool fullscreen = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1;
+
+        Vector2Int selectedResolution = resolutions[resolutionIndex];
+
+        Screen.SetResolution(
+            selectedResolution.x,
+            selectedResolution.y,
+            fullscreen
+        );
+
+        QualitySettings.SetQualityLevel(qualityIndex);
+
+        Screen.fullScreen = fullscreen;
     }
 
     private void ApplyMasterVolume(float value)
@@ -128,9 +258,21 @@ public class SettingsController : MonoBehaviour
         if (sfxSlider != null)
             PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value / 100f);
 
+        if (resolutionDropdown != null)
+            PlayerPrefs.SetInt("ResolutionIndex", resolutionDropdown.index);
+
+        if (qualityDropdown != null)
+            PlayerPrefs.SetInt("QualityIndex", qualityDropdown.index);
+
+        if (fullscreenToggle != null)
+            PlayerPrefs.SetInt("Fullscreen", fullscreenToggle.value ? 1 : 0);
+
         PlayerPrefs.Save();
 
-        Debug.Log("Settings saved.");
+        ApplySavedAudioSettings();
+        ApplySavedVideoSettings();
+
+        Debug.Log("Settings saved and applied.");
     }
 
     public void RevertToSavedSettings()
@@ -143,5 +285,17 @@ public class SettingsController : MonoBehaviour
 
         if (sfxSlider != null)
             sfxSlider.value = Mathf.RoundToInt(PlayerPrefs.GetFloat("SFXVolume", 1f) * 100f);
+
+        if (resolutionDropdown != null)
+            resolutionDropdown.index = PlayerPrefs.GetInt("ResolutionIndex", 2);
+
+        if (qualityDropdown != null)
+            qualityDropdown.index = PlayerPrefs.GetInt("QualityIndex", 2);
+
+        if (fullscreenToggle != null)
+            fullscreenToggle.value = PlayerPrefs.GetInt("Fullscreen", Screen.fullScreen ? 1 : 0) == 1;
+
+        ApplySavedAudioSettings();
+        ApplySavedVideoSettings();
     }
 }

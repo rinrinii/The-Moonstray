@@ -18,6 +18,7 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement MapRoot { get; private set; }
     public VisualElement InventoryRoot { get; private set; }
     public VisualElement NotePopupRoot { get; private set; }
+    public VisualElement SettingsRoot { get; private set; }
 
     // UI Controllers
     public PromptUI Prompt { get; private set; }
@@ -50,6 +51,7 @@ public class GameplayUIManager : MonoBehaviour
         MapRoot = RootVisualElement.Q<VisualElement>("MapRoot");
         InventoryRoot = RootVisualElement.Q<VisualElement>("InventoryRoot");
         NotePopupRoot = RootVisualElement.Q<VisualElement>("NotePopupRoot");
+        SettingsRoot = RootVisualElement.Q<VisualElement>("SettingsRoot");
 
         // Grab component references sitting on this same GameObject
         Map = GetComponent<MapUI>();
@@ -78,6 +80,7 @@ public class GameplayUIManager : MonoBehaviour
         if (DialogueContainer != null) DialogueContainer.style.display = DisplayStyle.None;
         if (GameOverContainer != null) GameOverContainer.style.display = DisplayStyle.None;
         if (PauseContainer != null) PauseContainer.style.display = DisplayStyle.None;
+        if (SettingsRoot != null) SettingsRoot.style.display = DisplayStyle.None;
         if (JournalContainer != null) JournalContainer.style.display = DisplayStyle.None;
         if (MapRoot != null) MapRoot.style.display = DisplayStyle.None;
         if (InventoryRoot != null) InventoryRoot.style.display = DisplayStyle.None;
