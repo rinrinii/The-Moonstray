@@ -1,30 +1,86 @@
+using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ObjectivesUI : MonoBehaviour
 {
-    private VisualElement objectivesPanel;
+    private VisualElement panel;
+
+    private VisualElement sideQuestContainer;
+
+    private Label titleLabel;
+    private Label descriptionLabel;
 
     public void Initialize(VisualElement root)
     {
-        objectivesPanel = root.Q<VisualElement>("ObjectivesPanel");
+        panel =
+            root.Q<VisualElement>("ObjectivesPanel");
+
+        sideQuestContainer =
+            root.Q<VisualElement>("SideQuestContainer");
+
+        titleLabel =
+            root.Q<Label>("MainQuestTitle");
+
+        descriptionLabel =
+            root.Q<Label>("MainQuestDescription");
+
+        if (sideQuestContainer != null)
+            sideQuestContainer.style.display =
+                DisplayStyle.None;
 
         Hide();
+
+        if (QuestManager.Instance != null)
+            QuestManager.Instance.OnQuestUpdated +=
+                Refresh;
+    }
+
+    private void OnDestroy()
+    {
+        if (QuestManager.Instance != null)
+            QuestManager.Instance.OnQuestUpdated -=
+                Refresh;
+    }
+
+    private void Refresh(QuestState quest)
+    {
+        if (quest == null)
+        {
+            Hide();
+            return;
+        }
+
+        Show();
+
+        titleLabel.text = quest.Title;
+
+        StringBuilder builder = new();
+
+        foreach (QuestObjective objective
+                 in quest.Objectives)
+        {
+            builder.Append(
+                objective.Completed
+                    ? "/ "
+                    : "X ");
+
+            builder.AppendLine(objective.Text);
+        }
+
+        descriptionLabel.text =
+            builder.ToString();
     }
 
     public void Show()
     {
-        if (objectivesPanel == null)
-            return;
-
-        objectivesPanel.style.display = DisplayStyle.Flex;
+        panel.style.display =
+            DisplayStyle.Flex;
     }
 
     public void Hide()
     {
-        if (objectivesPanel == null)
-            return;
-
-        objectivesPanel.style.display = DisplayStyle.None;
+        panel.style.display =
+            DisplayStyle.None;
     }
 }

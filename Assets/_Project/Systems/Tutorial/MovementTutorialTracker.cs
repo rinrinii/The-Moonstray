@@ -9,6 +9,9 @@ public class MovementTutorialTracker : MonoBehaviour
     private bool sprintCompleted;
     private bool jumpCompleted;
 
+    private float jumpInputGraceTimer;
+    private const float JumpInputGraceDuration = 0.15f;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -40,6 +43,7 @@ public class MovementTutorialTracker : MonoBehaviour
 
             case TutorialStep.Jump:
                 jumpCompleted = false;
+                jumpInputGraceTimer = 0f;
                 break;
         }
     }
@@ -47,6 +51,9 @@ public class MovementTutorialTracker : MonoBehaviour
     private void Update()
     {
         if (TutorialManager.Instance == null)
+            return;
+
+        if (TutorialManager.Instance.IsTutorialFinished)
             return;
 
         switch (TutorialManager.Instance.CurrentStep)
@@ -78,8 +85,7 @@ public class MovementTutorialTracker : MonoBehaviour
         {
             moveCompleted = true;
 
-            TutorialManager.Instance.SetStep(
-                TutorialStep.Sprint);
+            TutorialManager.Instance.CompleteCurrentStep();
         }
     }
 
@@ -98,8 +104,7 @@ public class MovementTutorialTracker : MonoBehaviour
         {
             sprintCompleted = true;
 
-            TutorialManager.Instance.SetStep(
-                TutorialStep.Jump);
+            TutorialManager.Instance.CompleteCurrentStep();
         }
     }
 
@@ -108,13 +113,17 @@ public class MovementTutorialTracker : MonoBehaviour
         if (jumpCompleted)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Space) &&
-            controller.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
+            jumpInputGraceTimer = JumpInputGraceDuration;
+
+        if (jumpInputGraceTimer > 0f)
+            jumpInputGraceTimer -= Time.deltaTime;
+
+        if (jumpInputGraceTimer > 0f)
         {
             jumpCompleted = true;
 
-            TutorialManager.Instance.SetStep(
-                TutorialStep.ReachCourtyard);
+            TutorialManager.Instance.CompleteCurrentStep();
         }
     }
 }

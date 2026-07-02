@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -8,11 +7,13 @@ public class TutorialManager : MonoBehaviour
 
     public event Action<TutorialStep> OnStepChanged;
 
+    private bool startTutorialOnSceneLoad;
+
+    public bool ShouldStartTutorial => startTutorialOnSceneLoad;
+
     [Header("Tutorial State")]
     [SerializeField]
     private TutorialStep currentStep = TutorialStep.None;
-
-    private bool startTutorialOnNextPinewatchLoad;
 
     public TutorialStep CurrentStep => currentStep;
 
@@ -31,40 +32,34 @@ public class TutorialManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
     /// <summary>
-    /// Called by the New Game button.
-    /// The tutorial will begin after Pinewatch Trail finishes loading.
+    /// Called by Main Menu after loading Pinewatch Trail.
     /// </summary>
     public void QueueTutorialStart()
     {
-        startTutorialOnNextPinewatchLoad = true;
+        Debug.Log("Tutorial queued");
+
+        startTutorialOnSceneLoad = true;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (!startTutorialOnNextPinewatchLoad)
-            return;
-
-        if (scene.name != "Pinewatch Trail")
-            return;
-
-        startTutorialOnNextPinewatchLoad = false;
-
-        StartTutorial();
-    }
-
+    /// <summary>
+    /// Called by TutorialBootstrap once Pinewatch Trail finishes loading.
+    /// </summary>
     public void StartTutorial()
     {
+        Debug.Log("StartTutorial()");
+        startTutorialOnSceneLoad = false;
+
+        QuestManager.Instance?.StartQuest(
+            "Finding Your Footing",
+            new string[]
+            {
+                "Move",
+                "Sprint",
+                "Jump",
+                "Reach the Courtyard"
+            });
+
         SetStep(TutorialStep.Move);
     }
 
@@ -80,13 +75,43 @@ public class TutorialManager : MonoBehaviour
         OnStepChanged?.Invoke(currentStep);
     }
 
-    public void FinishTutorial()
-    {
-        SetStep(TutorialStep.Finished);
-    }
-
     public bool IsCurrentStep(TutorialStep step)
     {
         return currentStep == step;
+    }
+
+    public void CompleteCurrentStep()
+    {
+        switch (currentStep)
+        {
+            case TutorialStep.Move:
+
+                QuestManager.Instance?.CompleteObjective(0);
+                SetStep(TutorialStep.Sprint);
+                break;
+
+            case TutorialStep.Sprint:
+
+                QuestManager.Instance?.CompleteObjective(1);
+                SetStep(TutorialStep.Jump);
+                break;
+
+            case TutorialStep.Jump:
+
+                QuestManager.Instance?.CompleteObjective(2);
+                SetStep(TutorialStep.ReachCourtyard);
+                break;
+
+            case TutorialStep.ReachCourtyard:
+
+                QuestManager.Instance?.CompleteObjective(3);
+                FinishTutorial();
+                break;
+        }
+    }
+
+    public void FinishTutorial()
+    {
+        SetStep(TutorialStep.Finished);
     }
 }
