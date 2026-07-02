@@ -92,9 +92,11 @@ public class MainMenuController : MonoBehaviour
     {
         sessionInitializer.CreateSession();
 
+        TutorialManager.Instance.QueueTutorialStart();
+
         SceneLoader.LoadScene(
             gamePlayScene,
-            "PinewatchTrail"
+            "ToPinewatchTrail"
         );
     }
 
