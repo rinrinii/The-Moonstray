@@ -84,6 +84,10 @@ public class TutorialManager : MonoBehaviour
     {
         switch (currentStep)
         {
+            //--------------------------------------------------
+            // Pinewatch Trail
+            //--------------------------------------------------
+
             case TutorialStep.Move:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
@@ -109,30 +113,34 @@ public class TutorialManager : MonoBehaviour
                 QuestManager.Instance?.StartQuest(
                     "Gathering Supplies",
                     "Collect Supplies",
-                    "Continue to Blight Path"
+                    "Leave the Courtyard"
                 );
 
                 SetStep(TutorialStep.CollectSupplies);
 
                 break;
 
+            //--------------------------------------------------
+            // Snow Courtyard
+            //--------------------------------------------------
+
             case TutorialStep.CollectSupplies:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
 
-                SetStep(TutorialStep.ReachBlight);
+                QuestManager.Instance?.SetCurrentObjective(1);
+
+                SetStep(TutorialStep.LeaveCourtyard);
 
                 break;
 
-            case TutorialStep.ReachBlight:
+            case TutorialStep.LeaveCourtyard:
 
                 QuestManager.Instance?.CompleteCurrentObjective();
 
                 FinishTutorial();
 
                 break;
-
-
         }
     }
 

@@ -10,7 +10,7 @@ public enum TutorialStep
 
     // Snow Courtyard
     CollectSupplies,
-    ReachBlight,
+    LeaveCourtyard,
 
     // Blight Path
     EscapeWaning,
