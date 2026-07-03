@@ -5,37 +5,44 @@ public class SceneSpawnManager : MonoBehaviour
 {
     private void Start()
     {
-        if (string.IsNullOrEmpty(
-            SceneLoader.PendingSpawnID))
-            return;
+        Debug.Log($"Pending Spawn ID = {SceneLoader.PendingSpawnID}");
 
         SpawnPoint[] spawnPoints =
-            FindObjectsByType<SpawnPoint>(
-                FindObjectsSortMode.None
-            );
+            FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
 
-        foreach (SpawnPoint point
-            in spawnPoints)
+        Debug.Log($"Found {spawnPoints.Length} spawn points.");
+
+        foreach (SpawnPoint point in spawnPoints)
         {
-            if (point.SpawnID !=
-                SceneLoader.PendingSpawnID)
+            Debug.Log($"SpawnPoint: {point.SpawnID}");
+
+            if (point.SpawnID != SceneLoader.PendingSpawnID)
                 continue;
 
-            GameObject player =
-                GameObject.FindGameObjectWithTag(
-                    "Player"
-                );
+            Debug.Log($"Matched spawn: {point.SpawnID}");
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            Debug.Log(player != null ? "Player found." : "Player NOT found.");
 
             if (player != null)
             {
-                player.transform.position =
-                    point.transform.position;
+                CharacterController cc = player.GetComponent<CharacterController>();
+
+                if (cc != null)
+                    cc.enabled = false;
+
+                player.transform.position = point.transform.position;
+
+                if (cc != null)
+                    cc.enabled = true;
+
+                Debug.Log($"Moved player to {player.transform.position}");
             }
 
             break;
         }
 
-        SceneLoader.PendingSpawnID =
-            null;
+        SceneLoader.PendingSpawnID = null;
     }
 }
