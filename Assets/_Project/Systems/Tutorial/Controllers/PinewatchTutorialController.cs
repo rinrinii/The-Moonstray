@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PinewatchTutorialController : MonoBehaviour
 {
+    [Header("Tutorial")]
     [SerializeField] private GameObject southExitBlocker;
+
     [SerializeField] private Transform playerSpawn;
 
     private void Start()
@@ -44,25 +46,25 @@ public class PinewatchTutorialController : MonoBehaviour
     {
         Debug.Log("Entered Pinewatch Tutorial");
 
-        Debug.Log("PlayerTransformation = " + PlayerTransformation.Instance);
-        Debug.Log("HUDController = " + HUDController.Instance);
-        Debug.Log("ObjectivesUI = " + ObjectivesUI.Instance);
-        Debug.Log("PromptUI = " + PromptUI.Instance);
+        // Prevent leaving the area
+        if (southExitBlocker != null)
+            southExitBlocker.SetActive(true);
 
+        // Player starts as a wolf
         PlayerTransformation.Instance?.ForceWolfForm();
         PlayerTransformation.Instance?.LockTransformation();
 
+        // Hide unavailable HUD icons
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
+        // Initial objective
         ObjectivesUI.Instance?.SetObjective(
             "Finding Your Footing",
             "Explore the trail."
         );
 
-        PromptUI.Instance?.Show(
-            "[LEFT SHIFT]",
-            "Hold Left Shift to sprint."
-        );
+        // Prompt is now handled by MovementTutorialTriggers.
+        PromptUI.Instance?.Hide();
     }
 
     private void ExitPinewatch()

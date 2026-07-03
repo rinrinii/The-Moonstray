@@ -391,6 +391,25 @@ public class PlayerTransformation : MonoBehaviour
     // Form Setup
     // =========================
 
+    private void ApplyCurrentForm()
+    {
+        if (currentForm == FormState.Human)
+        {
+            ApplyHumanForm();
+        }
+        else
+        {
+            ApplyWolfForm();
+        }
+
+        ApplyCurrentLighting();
+
+        MusicManager.Instance?.SetNightMode(
+            currentForm == FormState.Wolf);
+
+        playerMovement?.UpdateAnimator();
+    }
+
     private void ApplyHumanForm()
     {
         Debug.Log("ApplyHumanForm()");

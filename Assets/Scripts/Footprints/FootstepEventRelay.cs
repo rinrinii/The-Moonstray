@@ -21,25 +21,21 @@ public class FootstepEventRelay : MonoBehaviour
 
     public void WolfFrontLeftStep()
     {
-        Debug.Log("EVENT: Wolf Front Left");
         footprintSpawner?.WolfFrontLeftStep();
     }
 
     public void WolfFrontRightStep()
     {
-        Debug.Log("EVENT: Wolf Front Right");
         footprintSpawner?.WolfFrontRightStep();
     }
 
     public void WolfBackLeftStep()
     {
-        Debug.Log("EVENT: Wolf Back Left");
         footprintSpawner?.WolfBackLeftStep();
     }
 
     public void WolfBackRightStep()
     {
-        Debug.Log("EVENT: Wolf Back Right");
         footprintSpawner?.WolfBackRightStep();
     }
 }
