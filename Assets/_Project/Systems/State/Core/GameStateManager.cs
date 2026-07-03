@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,13 +6,16 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
 
+    // Fired whenever an object's state changes.
+    public event Action<string, int> OnObjectStateChanged;
+
     // Stores state per ID (NPCs, objects, etc.)
-    private Dictionary<string, int> stateMap = new Dictionary<string, int>();
+    private readonly Dictionary<string, int> stateMap = new();
 
     // Stores global flags (quests, conditions, etc.)
-    private Dictionary<string, bool> flagMap = new Dictionary<string, bool>();
+    private readonly Dictionary<string, bool> flagMap = new();
 
-    void Awake()
+    private void Awake()
     {
         // Singleton setup
         if (Instance != null && Instance != this)
@@ -23,28 +27,35 @@ public class GameStateManager : MonoBehaviour
         Instance = this;
     }
 
+    // ============================
     // STATE METHODS
+    // ============================
 
     public int GetState(string id)
     {
-        if (stateMap.ContainsKey(id))
-            return stateMap[id];
+        if (stateMap.TryGetValue(id, out int state))
+            return state;
 
-        return 0; // default state
+        return 0; // Default state
     }
 
     public void SetState(string id, int state)
     {
         stateMap[id] = state;
+
         Debug.Log($"[STATE] {id} -> {state}");
+
+        OnObjectStateChanged?.Invoke(id, state);
     }
 
+    // ============================
     // FLAG METHODS
+    // ============================
 
     public bool GetFlag(string key)
     {
-        if (flagMap.ContainsKey(key))
-            return flagMap[key];
+        if (flagMap.TryGetValue(key, out bool value))
+            return value;
 
         return false;
     }
@@ -52,6 +63,7 @@ public class GameStateManager : MonoBehaviour
     public void SetFlag(string key, bool value)
     {
         flagMap[key] = value;
+
         Debug.Log($"[FLAG] {key} -> {value}");
     }
 }
