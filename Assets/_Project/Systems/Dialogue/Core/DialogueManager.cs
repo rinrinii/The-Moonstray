@@ -16,7 +16,11 @@ public class DialogueManager : MonoBehaviour
 
     private bool isActive;
     private bool waitForSpaceRelease;
-    public event Action OnDialogueEnded;
+
+    private string currentDialogueID;
+    public string CurrentDialogueID => currentDialogueID;
+
+    public event Action<string> OnDialogueEnded;
 
     [Header("References")]
     [SerializeField]
@@ -132,6 +136,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        currentDialogueID = dialogueID;
         lines.Clear();
 
         foreach (DialogueLine line
@@ -151,7 +156,7 @@ public class DialogueManager : MonoBehaviour
     string dialogueID,
     Action onComplete)
     {
-        void HandleFinished()
+        void HandleFinished(string finishedDialogueID)
         {
             OnDialogueEnded -= HandleFinished;
             onComplete?.Invoke();
@@ -195,7 +200,8 @@ public class DialogueManager : MonoBehaviour
             dialogueUI.HideDialogueUI();
         }
 
-        OnDialogueEnded?.Invoke();
+        OnDialogueEnded?.Invoke(currentDialogueID);
+        currentDialogueID = string.Empty;
     }
 
     public bool IsGameplayInputBlocked()
