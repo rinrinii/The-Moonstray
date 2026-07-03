@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
         new();
 
     private bool isActive;
+    private bool waitForSpaceRelease;
     public event Action OnDialogueEnded;
 
     [Header("References")]
@@ -186,12 +187,20 @@ public class DialogueManager : MonoBehaviour
     {
         isActive = false;
 
+        // Don't let gameplay receive the same Space press
+        waitForSpaceRelease = true;
+
         if (dialogueUI != null)
         {
             dialogueUI.HideDialogueUI();
         }
 
         OnDialogueEnded?.Invoke();
+    }
+
+    public bool IsGameplayInputBlocked()
+    {
+        return waitForSpaceRelease;
     }
 
     public bool IsDialogueActive()
@@ -201,6 +210,16 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
+        if (waitForSpaceRelease)
+        {
+            if (!Input.GetKey(KeyCode.Space))
+            {
+                waitForSpaceRelease = false;
+            }
+
+            return;
+        }
+
         if (!isActive)
             return;
 

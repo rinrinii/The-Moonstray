@@ -168,6 +168,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // =========================================
+        // GAMEPLAY INPUT LOCK
+        // =========================================
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsGameplayInputBlocked())
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
+            }
+
+            ApplyGravity();
+            return;
+        }
+
+        // =========================================
         // DIALOGUE
         // =========================================
         if (DialogueManager.Instance != null &&
