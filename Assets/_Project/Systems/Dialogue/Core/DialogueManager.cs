@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,8 @@ public class DialogueManager : MonoBehaviour
         new();
 
     private bool isActive;
+    private bool waitForSpaceRelease;
+    public event Action OnDialogueEnded;
 
     [Header("References")]
     [SerializeField]
@@ -144,6 +147,21 @@ public class DialogueManager : MonoBehaviour
         DisplayNextLine();
     }
 
+    public void StartDialogue(
+    string dialogueID,
+    Action onComplete)
+    {
+        void HandleFinished()
+        {
+            OnDialogueEnded -= HandleFinished;
+            onComplete?.Invoke();
+        }
+
+        OnDialogueEnded += HandleFinished;
+
+        StartDialogue(dialogueID);
+    }
+
     public void DisplayNextLine()
     {
         if (!isActive)
@@ -169,10 +187,20 @@ public class DialogueManager : MonoBehaviour
     {
         isActive = false;
 
+        // Don't let gameplay receive the same Space press
+        waitForSpaceRelease = true;
+
         if (dialogueUI != null)
         {
             dialogueUI.HideDialogueUI();
         }
+
+        OnDialogueEnded?.Invoke();
+    }
+
+    public bool IsGameplayInputBlocked()
+    {
+        return waitForSpaceRelease;
     }
 
     public bool IsDialogueActive()
@@ -182,6 +210,16 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
+        if (waitForSpaceRelease)
+        {
+            if (!Input.GetKey(KeyCode.Space))
+            {
+                waitForSpaceRelease = false;
+            }
+
+            return;
+        }
+
         if (!isActive)
             return;
 

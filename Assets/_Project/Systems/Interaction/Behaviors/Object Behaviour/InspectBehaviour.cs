@@ -2,20 +2,35 @@ using UnityEngine;
 
 public class InspectBehaviour : MonoBehaviour, IObjectBehaviour
 {
-    [SerializeField] private string inspectMessage;
-    [SerializeField] private GameObject highlightMarker;
+    [Header("Dialogue")]
+    [SerializeField] private string dialogueID;
 
     public void Execute()
     {
-        string message = string.IsNullOrEmpty(inspectMessage)
-            ? $"You inspected {gameObject.name}"
-            : inspectMessage;
-
-        if (highlightMarker != null)
+        if (string.IsNullOrEmpty(dialogueID))
         {
-            highlightMarker.SetActive(false);
+            Debug.LogWarning(
+                $"InspectBehaviour on '{gameObject.name}' has no Dialogue ID."
+            );
+            return;
         }
 
-        Debug.Log(message);
+        if (DialogueManager.Instance == null)
+        {
+            Debug.LogWarning("DialogueManager missing.");
+            return;
+        }
+
+        DialogueManager.Instance.StartDialogue(
+            dialogueID,
+            () =>
+            {
+                Debug.Log($"Inspection complete: {gameObject.name}");
+
+                // Future:
+                // - Notify tutorial controller
+                // - Trigger quest progression
+                // - Play SFX
+            });
     }
 }

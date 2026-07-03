@@ -19,14 +19,32 @@ public class NPCStateAction
         if (currentState != requiredState)
             return;
 
-        // Dialogue
-        if (!string.IsNullOrEmpty(dialogueID))
+        if (DialogueManager.Instance == null)
         {
-            // DialogueManager.Instance.StartDialogue(dialogueID);
-            Debug.Log($"Trigger dialogue: {dialogueID}");
+            Debug.LogWarning("DialogueManager missing.");
+            return;
         }
 
-        // Progression
-        GameStateManager.Instance.SetState(objectID, nextState);
+        // Dialogue + progression
+        if (!string.IsNullOrEmpty(dialogueID))
+        {
+            DialogueManager.Instance.StartDialogue(
+                dialogueID,
+                () =>
+                {
+                    GameStateManager.Instance.SetState(
+                        objectID,
+                        nextState
+                    );
+                });
+        }
+        else
+        {
+            // No dialogue; advance immediately.
+            GameStateManager.Instance.SetState(
+                objectID,
+                nextState
+            );
+        }
     }
 }
