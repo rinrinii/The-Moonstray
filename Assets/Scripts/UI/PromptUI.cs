@@ -7,6 +7,19 @@ public class PromptUI : MonoBehaviour
     private Label promptHeader;
     private Label promptBody;
 
+    public static PromptUI Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
+
     public void Initialize(VisualElement root)
     {
         promptPanel = root.Q<VisualElement>("PromptPanel");
