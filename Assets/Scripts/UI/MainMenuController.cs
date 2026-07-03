@@ -78,7 +78,7 @@ public class MainMenuController : MonoBehaviour
 
         Debug.Log("TutorialManager = " + TutorialManager.Instance);
 
-        TutorialManager.Instance.QueueTutorialStart();
+        TutorialManager.Instance.StartTutorial();
 
         SceneLoader.LoadScene(
             gamePlayScene,

@@ -3,6 +3,8 @@ using UnityEngine.UIElements;
 
 public class HUDController : MonoBehaviour
 {
+    public static HUDController Instance { get; private set; }
+
     [Header("Portrait Sprites")]
     public Sprite humanPortrait;
     public Sprite wolfPortrait;
@@ -27,25 +29,46 @@ public class HUDController : MonoBehaviour
     private StyleBackground wolfStyleBg;
     private PlayerTransformation.FormState lastFormState;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
     private void Start()
     {
-        var ui = GameplayUIManager.Instance;
-        VisualElement root = ui.RootVisualElement;
+        GameplayUIManager ui = GameplayUIManager.Instance;
 
-        playerFormIcon = root.Q<VisualElement>("PlayerFormIcon");
-        staminaFill = root.Q<VisualElement>("StaminaFill");
-        healthFill = root.Q<VisualElement>("HealthFill");
-        hpOverlay = root.Q<VisualElement>("HPOverlay");
+        if (ui == null)
+        {
+            Debug.LogError("GameplayUIManager not found.");
+            enabled = false;
+            return;
+        }
+
+        playerFormIcon = ui.PlayerFormIcon;
+        staminaFill = ui.StaminaFill;
+        healthFill = ui.HealthFill;
+        hpOverlay = ui.HPOverlay;
 
         // Cache backgrounds to avoid GC allocation spikes in Update
-        if (humanPortrait != null) humanStyleBg = new StyleBackground(humanPortrait);
-        if (wolfPortrait != null) wolfStyleBg = new StyleBackground(wolfPortrait);
+        if (humanPortrait != null)
+            humanStyleBg = new StyleBackground(humanPortrait);
+
+        if (wolfPortrait != null)
+            wolfStyleBg = new StyleBackground(wolfPortrait);
 
         playerTransformation = FindFirstObjectByType<PlayerTransformation>();
         playerStamina = FindFirstObjectByType<PlayerStamina>();
         playerHealth = FindFirstObjectByType<PlayerHealth>();
 
-        if (playerTransformation != null) lastFormState = playerTransformation.currentForm;
+        if (playerTransformation != null)
+            lastFormState = playerTransformation.currentForm;
 
         InitialForceRefresh();
     }
@@ -172,6 +195,30 @@ public class HUDController : MonoBehaviour
         }
 
         hpOverlay.style.opacity = alpha;
+    }
+
+    // =========================================
+    // HUD VISIBILITY
+    // =========================================
+
+    public void SetObjectivesVisible(bool visible)
+    {
+        GameplayUIManager.Instance?.SetObjectivesVisible(visible);
+    }
+
+    public void SetTopRightHUDVisible(bool visible)
+    {
+        GameplayUIManager.Instance?.SetTopRightHUDVisible(visible);
+    }
+
+    public void SetBottomLeftHUDVisible(bool visible)
+    {
+        GameplayUIManager.Instance?.SetBottomLeftHUDVisible(visible);
+    }
+
+    public void SetBottomRightHUDVisible(bool visible)
+    {
+        GameplayUIManager.Instance?.SetBottomRightHUDVisible(visible);
     }
 
     // =========================================

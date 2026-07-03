@@ -6,18 +6,21 @@ public class TutorialTrigger : MonoBehaviour
     [Header("Tutorial")]
 
     [SerializeField]
-    private TutorialStep requiredStep;
+    private TutorialState requiredState;
 
     [SerializeField]
-    private bool completeStepOnEnter = true;
+    private TutorialState nextState;
 
     [SerializeField]
     private bool disableAfterTrigger = true;
 
+    [SerializeField]
+    private bool changeTutorialState = true;
+
     private void Reset()
     {
-        BoxCollider collider = GetComponent<BoxCollider>();
-        collider.isTrigger = true;
+        BoxCollider box = GetComponent<BoxCollider>();
+        box.isTrigger = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,11 +31,13 @@ public class TutorialTrigger : MonoBehaviour
         if (TutorialManager.Instance == null)
             return;
 
-        if (!TutorialManager.Instance.IsCurrentStep(requiredStep))
+        if (!TutorialManager.Instance.IsCurrentState(requiredState))
             return;
 
-        if (completeStepOnEnter)
-            TutorialManager.Instance.CompleteCurrentStep();
+        if (changeTutorialState)
+        {
+            TutorialManager.Instance.SetState(nextState);
+        }
 
         if (disableAfterTrigger)
             gameObject.SetActive(false);

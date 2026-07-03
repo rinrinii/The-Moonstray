@@ -15,18 +15,9 @@ public class PlayerTransformation : MonoBehaviour
     private bool canTransform = false;
 
     public bool CanTransform => canTransform;
+    private PlayerMovement playerMovement;
 
-    public void UnlockTransformation()
-    {
-        canTransform = true;
-
-        Debug.Log("Transformation unlocked.");
-    }
-
-    public void LockTransformation()
-    {
-        canTransform = false;
-    }
+    public static PlayerTransformation Instance { get; private set; }
 
     [Header("Models")]
     public GameObject humanModel;
@@ -100,22 +91,40 @@ public class PlayerTransformation : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void Awake()
+    {
+        Instance = this;
+
+        controller = GetComponent<CharacterController>();
+        playerMovement = GetComponent<PlayerMovement>();
+    }
+
+    public void UnlockTransformation()
+    {
+        canTransform = true;
+
+        Debug.Log("Transformation unlocked.");
+    }
+
+    public void LockTransformation()
+    {
+        canTransform = false;
+    }
+
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-
         RefreshSceneReferences();
 
-        if (currentForm == FormState.Human)
+        if (TutorialManager.Instance != null &&
+            TutorialManager.Instance.CurrentState == TutorialState.PinewatchTrail)
         {
-            ApplyHumanForm();
+            ForceWolfForm();
+            LockTransformation();
         }
         else
         {
-            ApplyWolfForm();
+            ApplyCurrentForm();
         }
-
-        ApplyCurrentLighting();
     }
 
     private void Update()
@@ -382,8 +391,29 @@ public class PlayerTransformation : MonoBehaviour
     // Form Setup
     // =========================
 
+    private void ApplyCurrentForm()
+    {
+        if (currentForm == FormState.Human)
+        {
+            ApplyHumanForm();
+        }
+        else
+        {
+            ApplyWolfForm();
+        }
+
+        ApplyCurrentLighting();
+
+        MusicManager.Instance?.SetNightMode(
+            currentForm == FormState.Wolf);
+
+        playerMovement?.UpdateAnimator();
+    }
+
     private void ApplyHumanForm()
     {
+        Debug.Log("ApplyHumanForm()");
+
         currentForm = FormState.Human;
 
         humanModel.SetActive(true);
@@ -399,6 +429,8 @@ public class PlayerTransformation : MonoBehaviour
 
     private void ApplyWolfForm()
     {
+        Debug.Log("ApplyWolfForm()");
+
         currentForm = FormState.Wolf;
 
         humanModel.SetActive(false);
@@ -410,5 +442,44 @@ public class PlayerTransformation : MonoBehaviour
 
         controller.height = wolfHeight;
         controller.center = wolfCenter;
+    }
+
+    public void ForceWolfForm()
+    {
+        Debug.Log("ForceWolfForm called.");
+
+        if (isTransitioning)
+        {
+            Debug.Log("Ignored because transitioning.");
+            return;
+        }
+
+        ApplyWolfForm();
+
+        Debug.Log("Current form = " + currentForm);
+
+        ApplyCurrentLighting();
+
+        MusicManager.Instance?.SetNightMode(true);
+
+        playerMovement?.UpdateAnimator();
+
+        OnTransformationComplete?.Invoke(currentForm);
+    }
+
+    public void ForceHumanForm()
+    {
+        if (isTransitioning)
+            return;
+
+        ApplyHumanForm();
+
+        ApplyCurrentLighting();
+
+        MusicManager.Instance?.SetNightMode(false);
+
+        playerMovement?.UpdateAnimator();
+
+        OnTransformationComplete?.Invoke(currentForm);
     }
 }

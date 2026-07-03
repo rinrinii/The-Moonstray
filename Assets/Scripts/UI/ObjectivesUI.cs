@@ -11,6 +11,19 @@ public class ObjectivesUI : MonoBehaviour
     private Label titleLabel;
     private Label descriptionLabel;
 
+    public static ObjectivesUI Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
+
     public void Initialize(VisualElement root)
     {
         panel = root.Q<VisualElement>("ObjectivesPanel");
@@ -53,30 +66,9 @@ public class ObjectivesUI : MonoBehaviour
 
         StringBuilder builder = new();
 
-        int currentIndex = QuestManager.Instance != null
-            ? QuestManager.Instance.CurrentObjectiveIndex
-            : -1;
-
         for (int i = 0; i < quest.Objectives.Count; i++)
         {
-            QuestObjective objective = quest.Objectives[i];
-
-            string prefix;
-
-            if (objective.Completed)
-            {
-                prefix = "/ ";
-            }
-            else if (i == currentIndex)
-            {
-                prefix = "> ";
-            }
-            else
-            {
-                prefix = "X ";
-            }
-
-            builder.AppendLine(prefix + objective.Text);
+            builder.AppendLine(quest.Objectives[i].Text);
         }
 
         descriptionLabel.text = builder.ToString();
@@ -95,6 +87,25 @@ public class ObjectivesUI : MonoBehaviour
         if (panel == null)
             return;
 
+        titleLabel.text = string.Empty;
+        descriptionLabel.text = string.Empty;
+
         panel.style.display = DisplayStyle.None;
+    }
+
+    public void Clear()
+    {
+        Hide();
+    }
+
+    public void SetObjective(string title, string description)
+    {
+        if (panel == null)
+            return;
+
+        Show();
+
+        titleLabel.text = title;
+        descriptionLabel.text = description;
     }
 }

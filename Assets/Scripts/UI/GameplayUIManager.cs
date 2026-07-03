@@ -20,6 +20,18 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement NotePopupRoot { get; private set; }
     public VisualElement SettingsRoot { get; private set; }
 
+    // HUD Sections
+    public VisualElement ObjectivesPanel { get; private set; }
+    public VisualElement TopRightHUD { get; private set; }
+    public VisualElement BottomLeftHUD { get; private set; }
+    public VisualElement BottomRightHUD { get; private set; }
+
+    // Frequently accessed HUD elements
+    public VisualElement PlayerFormIcon { get; private set; }
+    public VisualElement StaminaFill { get; private set; }
+    public VisualElement HealthFill { get; private set; }
+    public VisualElement HPOverlay { get; private set; }
+
     // UI Controllers
     public PromptUI Prompt { get; private set; }
     public ObjectivesUI Objectives { get; private set; }
@@ -41,6 +53,21 @@ public class GameplayUIManager : MonoBehaviour
 
         uiDocument = GetComponent<UIDocument>();
         RootVisualElement = uiDocument.rootVisualElement;
+
+        // =========================================
+        // HUD
+        // =========================================
+
+        ObjectivesPanel = RootVisualElement.Q<VisualElement>("ObjectivesPanel");
+        TopRightHUD = RootVisualElement.Q<VisualElement>("TopRightHUD");
+        BottomLeftHUD = RootVisualElement.Q<VisualElement>("BottomLeftHUD");
+        BottomRightHUD = RootVisualElement.Q<VisualElement>("BottomRightHUD");
+
+        // Frequently updated HUD elements
+        PlayerFormIcon = RootVisualElement.Q<VisualElement>("PlayerFormIcon");
+        StaminaFill = RootVisualElement.Q<VisualElement>("StaminaFill");
+        HealthFill = RootVisualElement.Q<VisualElement>("HealthFill");
+        HPOverlay = RootVisualElement.Q<VisualElement>("HPOverlay");
 
         // Route structural elements out of your centralized hierarchy
         HudContainer = RootVisualElement.Q<VisualElement>("HUDContainer");
@@ -102,4 +129,36 @@ public class GameplayUIManager : MonoBehaviour
             Note.CloseNote();
     }
 
+    // =========================================
+    // HUD VISIBILITY
+    // =========================================
+
+    private void SetVisible(VisualElement element, bool visible)
+    {
+        if (element == null)
+            return;
+
+        element.style.display =
+            visible ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    public void SetObjectivesVisible(bool visible)
+    {
+        SetVisible(ObjectivesPanel, visible);
+    }
+
+    public void SetTopRightHUDVisible(bool visible)
+    {
+        SetVisible(TopRightHUD, visible);
+    }
+
+    public void SetBottomLeftHUDVisible(bool visible)
+    {
+        SetVisible(BottomLeftHUD, visible);
+    }
+
+    public void SetBottomRightHUDVisible(bool visible)
+    {
+        SetVisible(BottomRightHUD, visible);
+    }
 }
