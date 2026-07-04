@@ -62,7 +62,6 @@ public class SnowCourtyardTutorialController : MonoBehaviour
     {
         Debug.Log("Entered Snow Courtyard Tutorial");
 
-        // Prevent leaving the courtyard.
         if (pinewatchExitBlocker != null)
             pinewatchExitBlocker.SetActive(true);
 
@@ -72,20 +71,22 @@ public class SnowCourtyardTutorialController : MonoBehaviour
         if (southExitBlocker != null)
             southExitBlocker.SetActive(true);
 
-        // Player remains in wolf form.
-        PlayerTransformation.Instance?.ForceWolfForm();
-        PlayerTransformation.Instance?.LockTransformation();
+        // TEMPORARILY REMOVE THESE
+        // PlayerTransformation.Instance?.ForceWolfForm();
+        // PlayerTransformation.Instance?.LockTransformation();
 
-        // Keep the same HUD configuration as Pinewatch.
+        Debug.Log("After ForceWolfForm");
+
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
-        // Initial objective.
+        Debug.Log("Before Objective");
+
         ObjectivesUI.Instance?.SetObjective(
             "Snow Courtyard",
             "Explore the courtyard."
         );
 
-        PromptUI.Instance?.Hide();
+        Debug.Log("Objective set");
     }
 
     private void ExitSnowCourtyard()

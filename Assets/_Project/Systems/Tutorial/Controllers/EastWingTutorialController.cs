@@ -85,9 +85,6 @@ public class EastWingTutorialController : MonoBehaviour
         if (blightExitBlocker != null)
             blightExitBlocker.SetActive(true);
 
-        PlayerTransformation.Instance?.ForceWolfForm();
-        PlayerTransformation.Instance?.LockTransformation();
-
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
         ObjectivesUI.Instance?.SetObjective(
@@ -121,6 +118,8 @@ public class EastWingTutorialController : MonoBehaviour
             yield return new WaitUntil(() =>
                 !DialogueManager.Instance.IsDialogueActive());
         }
+
+        playerHealth?.RestoreAfterStoryDeath();
 
         TutorialManager.Instance?.SetState(TutorialState.WakeInLibrary);
 

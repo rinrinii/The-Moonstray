@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
@@ -8,6 +9,8 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
     [SerializeField] private string noteContent;
 
     [SerializeField] private bool disableAfterPickup = true;
+
+    public static event Action OnNoteRead;
 
     public void OnInteract()
     {
@@ -31,5 +34,7 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
             Renderer rend = GetComponent<Renderer>();
             if (rend != null) rend.enabled = false;
         }
+
+        OnNoteRead?.Invoke();
     }
 }

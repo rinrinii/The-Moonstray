@@ -55,9 +55,6 @@ public class BlightTutorialController : MonoBehaviour
         if (courtyardExitBlocker != null)
             courtyardExitBlocker.SetActive(true);
 
-        PlayerTransformation.Instance?.ForceWolfForm();
-        PlayerTransformation.Instance?.LockTransformation();
-
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
         ObjectivesUI.Instance?.SetObjective(
