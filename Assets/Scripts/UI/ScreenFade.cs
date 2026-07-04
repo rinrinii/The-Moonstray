@@ -35,6 +35,7 @@ public class ScreenFade : MonoBehaviour
         fadeImage.color = color;
 
         SetRaycastBlocking(false);
+        fadeImage.gameObject.SetActive(false);
     }
 
     public void FadeOut(Action onComplete = null)
@@ -52,10 +53,10 @@ public class ScreenFade : MonoBehaviour
         if (fadeRoutine != null)
             StopCoroutine(fadeRoutine);
 
+        fadeImage.gameObject.SetActive(true);
         SetRaycastBlocking(true);
 
-        fadeRoutine = StartCoroutine(
-            FadeRoutine(targetAlpha, onComplete));
+        fadeRoutine = StartCoroutine(FadeRoutine(targetAlpha, onComplete));
     }
 
     private IEnumerator FadeRoutine(float targetAlpha, Action onComplete)
@@ -87,6 +88,7 @@ public class ScreenFade : MonoBehaviour
         if (Mathf.Approximately(targetAlpha, 0f))
         {
             SetRaycastBlocking(false);
+            fadeImage.gameObject.SetActive(false);
         }
 
         onComplete?.Invoke();
