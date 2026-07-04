@@ -2998,6 +2998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CutscenePlayer
   cutsceneCanvas: {fileID: 2067123088}
   videoPlayer: {fileID: 194545572}
+  musicFadeDuration: 0.75
 --- !u!328 &194545572
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -11076,6 +11077,7 @@ MonoBehaviour:
   farewellDialogueID: intro.studentFarewell
   firstBookshelfPoint: {fileID: 213403347}
   secondBookshelfPoint: {fileID: 383047234}
+  readingWingCutscene: {fileID: 194545571}
 --- !u!1 &383047233
 GameObject:
   m_ObjectHideFlags: 0
@@ -15038,6 +15040,10 @@ PrefabInstance:
     - target: {fileID: 3481334246543795219, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547561426349523273, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 6253852879536781855, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
       propertyPath: currentState
@@ -45677,7 +45683,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 900
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!114 &2067123089
 MonoBehaviour:

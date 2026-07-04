@@ -89,6 +89,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     [SerializeField]
     private Transform secondBookshelfPoint;
+
+    [SerializeField]
+    private CutscenePlayer readingWingCutscene;
     #endregion
 
     private void Start()
@@ -542,7 +545,62 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnReadingDialogue3Finished()
     {
-        Debug.Log("Reading dialogue complete.");
+        DisablePlayerMovement();
+
+        if (ScreenFade.Instance != null)
+        {
+            ScreenFade.Instance.FadeOut(OnReadingFadeOutFinished);
+        }
+        else
+        {
+            OnReadingFadeOutFinished();
+        }
+    }
+
+    private void OnReadingFadeOutFinished()
+    {
+        if (readingWingCutscene != null)
+        {
+            readingWingCutscene.Play(OnReadingCutsceneFinished);
+        }
+        else
+        {
+            OnReadingCutsceneFinished();
+        }
+    }
+
+    private void OnReadingCutsceneFinished()
+    {
+        if (ScreenFade.Instance != null)
+        {
+            ScreenFade.Instance.FadeIn(OnReadingFadeInFinished);
+        }
+        else
+        {
+            OnReadingFadeInFinished();
+        }
+    }
+
+    private void OnReadingFadeInFinished()
+    {
+        DialogueManager.Instance?.StartDialogue(
+            giveMapDialogueID,
+            OnGiveMapDialogueFinished);
+    }
+
+    private void OnGiveMapDialogueFinished()
+    {
+        DialogueManager.Instance?.StartDialogue(
+            farewellDialogueID,
+            OnFarewellDialogueFinished);
+    }
+
+    private void OnFarewellDialogueFinished()
+    {
+        EnablePlayerMovement();
+
+        Debug.Log("Reading Wing tutorial complete.");
+        // TutorialManager.Instance.SetState(TutorialState.NextState);
     }
 
 
