@@ -29,10 +29,16 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
         if (disableAfterPickup)
         {
             Collider col = GetComponent<Collider>();
-            if (col != null) col.enabled = false;
+            if (col != null)
+                col.enabled = false;
 
             Renderer rend = GetComponent<Renderer>();
-            if (rend != null) rend.enabled = false;
+            if (rend != null)
+                rend.enabled = false;
+
+            Transform highlightAnchor = transform.Find("HighlightAnchor");
+            if (highlightAnchor != null)
+                highlightAnchor.gameObject.SetActive(false);
         }
 
         OnNoteRead?.Invoke();

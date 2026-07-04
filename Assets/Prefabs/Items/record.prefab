@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 4371411460318897237}
   - component: {fileID: 4843436690564895415}
   - component: {fileID: 5156241388022493457}
-  - component: {fileID: 5526419205966858423}
   m_Layer: 3
   m_Name: record
   m_TagString: Untagged
@@ -264,8 +263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetHighlightBehaviour
   targetRenderer: {fileID: 3069693902090508463}
-  highlightColor: {r: 1, g: 1, b: 1, a: 1}
-  emissionIntensity: 1.2
+  highlightColor: {r: 1, g: 0.95, b: 0.35, a: 1}
+  highlightOutlineWidth: 20
 --- !u!114 &5156241388022493457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,22 +279,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoteInteractionResponse
   noteTitle: Sample Record
   noteContent: '[insert text here]'
+  objectsToDisable:
+  - {fileID: 5991408966569899432}
   disableAfterPickup: 1
---- !u!114 &5526419205966858423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3667610008614357924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 357ed8adb1d28a8479acd59c4fbc17c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TargetHighlightBehaviour
-  targetRenderer: {fileID: 3069693902090508463}
-  highlightColor: {r: 1, g: 1, b: 1, a: 1}
-  emissionIntensity: 1.2
 --- !u!1 &5991408966569899432
 GameObject:
   m_ObjectHideFlags: 0

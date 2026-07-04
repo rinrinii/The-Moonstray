@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FrostmereLibraryTutorialController : MonoBehaviour
@@ -44,6 +45,8 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     private bool archiveObjectCollected;
     private int notesRead;
 
+    private bool hasTransformedToHuman;
+
     private bool npcReturning;
 
     #endregion
@@ -51,8 +54,15 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     #region Reveal Identity
 
     [Header("Reveal Identity")]
+
     [SerializeField]
     private string revealDialogueID = "intro.studentReturn";
+
+    [SerializeField]
+    private Transform readingWingPlayerSpawn;
+
+    [SerializeField]
+    private Transform readingWingNpcSpawn;
 
     #endregion
 
@@ -73,6 +83,12 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     [SerializeField]
     private string farewellDialogueID = "intro.studentFarewell";
+
+    [SerializeField]
+    private Transform firstBookshelfPoint;
+
+    [SerializeField]
+    private Transform secondBookshelfPoint;
     #endregion
 
     private void Start()
@@ -96,6 +112,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
         NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
+
+        if (playerTransformation != null)
+            playerTransformation.OnTransformationComplete -= HandleTransformationCompleted;
     }
 
     private void HandleTutorialStateChanged(TutorialState state)
@@ -125,11 +144,26 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
         NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
 
+        if (playerTransformation != null)
+            playerTransformation.OnTransformationComplete -= HandleTransformationCompleted;
+
         CollectBehaviour.OnItemCollected += HandleItemCollected;
         NoteInteractionResponse.OnNoteRead += HandleNoteRead;
+
+        if (playerTransformation != null)
+            playerTransformation.OnTransformationComplete += HandleTransformationCompleted;
     }
 
+    private void WalkNpcTo(Transform destination, Action onArrived)
+    {
+        if (tutorialNpc == null || destination == null)
+        {
+            onArrived?.Invoke();
+            return;
+        }
 
+        tutorialNpc.WalkTo(destination, onArrived);
+    }
 
     #region Wake In Library
 
@@ -183,7 +217,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         if (tutorialNpc != null)
         {
-            tutorialNpc.WalkTo(
+            WalkNpcTo(
                 npcSuppliesDestination,
                 OnNpcReachedSupplies);
         }
@@ -206,6 +240,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (searchInitialized)
             return;
 
+        hasTransformedToHuman = false;
         searchInitialized = true;
 
         archiveObjectCollected = false;
@@ -259,6 +294,15 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (notesRead < 2)
             return;
 
+        if (!hasTransformedToHuman)
+        {
+            ObjectivesUI.Instance?.SetObjective(
+                "Searching for Answers",
+                "Transform into your human form.");
+
+            return;
+        }
+
         if (npcReturning)
             return;
 
@@ -271,6 +315,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
         NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
 
+        if (playerTransformation != null)
+            playerTransformation.OnTransformationComplete -= HandleTransformationCompleted;
+
         ReturnNpc();
     }
 
@@ -279,7 +326,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (tutorialNpc == null)
             return;
 
-        tutorialNpc.WalkTo(
+        WalkNpcTo(
             npcPlayerDestination,
             OnNpcReturned);
     }
@@ -288,6 +335,20 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         TutorialManager.Instance.SetState(
             TutorialState.RevealIdentity);
+    }
+
+    private void HandleTransformationCompleted(
+    PlayerTransformation.FormState form)
+    {
+        if (form != PlayerTransformation.FormState.Human)
+            return;
+
+        if (hasTransformedToHuman)
+            return;
+
+        hasTransformedToHuman = true;
+
+        CheckSearchArchivesCompleted();
     }
 
     private void HandleItemCollected(CollectBehaviour collectedObject)
@@ -338,9 +399,90 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnRevealDialogueFinished()
     {
-        // Fade to black
-        // Restore HP
-        // Continue to ReadingWing
+        DisablePlayerMovement();
+
+        if (ScreenFade.Instance != null)
+        {
+            ScreenFade.Instance.FadeOut(OnRevealFadeOutFinished);
+        }
+        else
+        {
+            OnRevealFadeOutFinished();
+        }
+    }
+
+    private void OnRevealFadeOutFinished()
+    {
+        RestorePlayerHealth();
+
+        MovePlayerToReadingWing();
+        MoveNpcToReadingWing();
+
+        if (ScreenFade.Instance != null)
+        {
+            ScreenFade.Instance.FadeIn(OnRevealFadeInFinished);
+        }
+        else
+        {
+            OnRevealFadeInFinished();
+        }
+
+        FaceCharacters();
+    }
+
+    private void OnRevealFadeInFinished()
+    {
+        TutorialManager.Instance.SetState(
+            TutorialState.ReadingWing);
+    }
+
+    private void RestorePlayerHealth()
+    {
+        playerHealth?.RestoreFullHealth();
+    }
+
+    private void MovePlayerToReadingWing()
+    {
+        if (playerMovement == null || readingWingPlayerSpawn == null)
+            return;
+
+        playerMovement.transform.SetPositionAndRotation(
+            readingWingPlayerSpawn.position,
+            readingWingPlayerSpawn.rotation);
+    }
+
+    private void MoveNpcToReadingWing()
+    {
+        if (tutorialNpc == null || readingWingNpcSpawn == null)
+            return;
+
+        tutorialNpc.transform.SetPositionAndRotation(
+            readingWingNpcSpawn.position,
+            readingWingNpcSpawn.rotation);
+    }
+
+    private void FaceCharacters()
+    {
+        if (playerMovement == null || tutorialNpc == null)
+            return;
+
+        Vector3 playerLook =
+            tutorialNpc.transform.position -
+            playerMovement.transform.position;
+
+        playerLook.y = 0f;
+
+        playerMovement.transform.rotation =
+            Quaternion.LookRotation(playerLook);
+
+        Vector3 npcLook =
+            playerMovement.transform.position -
+            tutorialNpc.transform.position;
+
+        npcLook.y = 0f;
+
+        tutorialNpc.transform.rotation =
+            Quaternion.LookRotation(npcLook);
     }
 
     #endregion
@@ -349,8 +491,60 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void EnterReadingWing()
     {
+        if (readingInitialized)
+            return;
 
+        readingInitialized = true;
+
+        StartReadingDialogue1();
     }
+
+    private void StartReadingDialogue1()
+    {
+        DialogueManager.Instance?.StartDialogue(
+            readingDialogue1ID,
+            OnReadingDialogue1Finished);
+    }
+
+    private void OnReadingDialogue1Finished()
+    {
+        if (tutorialNpc == null)
+            return;
+
+        WalkNpcTo(
+            firstBookshelfPoint,
+            OnReachedFirstBookshelf);
+    }
+
+    private void OnReachedFirstBookshelf()
+    {
+        DialogueManager.Instance?.StartDialogue(
+            readingDialogue2ID,
+            OnReadingDialogue2Finished);
+    }
+
+    private void OnReadingDialogue2Finished()
+    {
+        if (tutorialNpc == null)
+            return;
+
+        WalkNpcTo(
+            secondBookshelfPoint,
+            OnReachedSecondBookshelf);
+    }
+
+    private void OnReachedSecondBookshelf()
+    {
+        DialogueManager.Instance?.StartDialogue(
+            readingDialogue3ID,
+            OnReadingDialogue3Finished);
+    }
+
+    private void OnReadingDialogue3Finished()
+    {
+        Debug.Log("Reading dialogue complete.");
+    }
+
 
     #endregion
 }
