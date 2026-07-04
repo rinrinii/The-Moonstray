@@ -24,7 +24,12 @@ public class MusicManager : MonoBehaviour
     private bool isTransitioningMusic;
     private bool isNightMode;
 
+    private bool musicSuspended;
+
+    private Coroutine cutsceneFadeCoroutine;
+
     private float musicVolumeMultiplier = 1f;
+    private float cutsceneVolumeMultiplier = 1f;
 
     public static MusicManager Instance { get; private set; }
 
@@ -238,7 +243,10 @@ public class MusicManager : MonoBehaviour
         if (source == null)
             return;
 
-        source.volume = Mathf.Clamp01(baseVolume) * musicVolumeMultiplier;
+        source.volume =
+            Mathf.Clamp01(baseVolume)
+            * musicVolumeMultiplier
+            * cutsceneVolumeMultiplier;
     }
 
     private float GetBaseVolume(float actualVolume)
@@ -258,5 +266,52 @@ public class MusicManager : MonoBehaviour
             night = !night;
             SetNightMode(night);
         }
+    }
+
+    public void FadeOutForCutscene(float duration = 1f)
+    {
+        StartCutsceneFade(0f, duration);
+    }
+
+    public void FadeInAfterCutscene(float duration = 1f)
+    {
+        StartCutsceneFade(1f, duration);
+    }
+
+    private void StartCutsceneFade(float targetMultiplier, float duration)
+    {
+        if (cutsceneFadeCoroutine != null)
+            StopCoroutine(cutsceneFadeCoroutine);
+
+        cutsceneFadeCoroutine =
+            StartCoroutine(CutsceneFadeRoutine(targetMultiplier, duration));
+    }
+
+    private IEnumerator CutsceneFadeRoutine(float targetMultiplier, float duration)
+    {
+        float start = cutsceneVolumeMultiplier;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            cutsceneVolumeMultiplier =
+                Mathf.Lerp(
+                    start,
+                    targetMultiplier,
+                    elapsed / duration);
+
+            ApplyCurrentMusicVolumes();
+
+            yield return null;
+        }
+
+        cutsceneVolumeMultiplier = targetMultiplier;
+
+        ApplyCurrentMusicVolumes();
+
+        cutsceneFadeCoroutine = null;
     }
 }

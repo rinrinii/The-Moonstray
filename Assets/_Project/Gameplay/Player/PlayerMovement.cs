@@ -191,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
         // DIALOGUE
         // =========================================
         if (DialogueManager.Instance != null &&
-            DialogueManager.Instance.IsDialogueActive())
+            DialogueManager.Instance.IsDialogueActive)
         {
             if (currentAnim != null)
             {

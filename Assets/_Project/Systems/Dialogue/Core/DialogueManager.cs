@@ -209,10 +209,7 @@ public class DialogueManager : MonoBehaviour
         return waitForSpaceRelease;
     }
 
-    public bool IsDialogueActive()
-    {
-        return isActive;
-    }
+    public bool IsDialogueActive => isActive;
 
     private void Update()
     {

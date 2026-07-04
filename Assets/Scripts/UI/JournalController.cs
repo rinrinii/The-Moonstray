@@ -83,6 +83,15 @@ public class JournalController : MonoBehaviour
             return;
         }
 
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsDialogueActive)
+        {
+            if (isJournalOpen)
+                CloseJournal();
+
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (isJournalOpen) CloseJournal();

@@ -116,7 +116,7 @@ public class EastWingTutorialController : MonoBehaviour
             DialogueManager.Instance.StartDialogue(dialogueID);
 
             yield return new WaitUntil(() =>
-                !DialogueManager.Instance.IsDialogueActive());
+                !DialogueManager.Instance.IsDialogueActive);
         }
 
         playerHealth?.RestoreAfterStoryDeath();

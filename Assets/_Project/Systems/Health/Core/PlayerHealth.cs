@@ -177,4 +177,9 @@ public class PlayerHealth : MonoBehaviour
             currentAnimator.Play("Idle", 0, 0f);
         }
     }
+
+    public void RestoreFullHealth()
+    {
+        currentHealth = maxHealth;
+    }
 }

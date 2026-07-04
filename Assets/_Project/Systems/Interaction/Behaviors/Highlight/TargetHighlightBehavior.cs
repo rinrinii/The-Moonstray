@@ -2,60 +2,93 @@ using UnityEngine;
 
 public class TargetHighlightBehaviour : MonoBehaviour, IHighlightable
 {
+    [Header("Target")]
     [SerializeField] private Renderer targetRenderer;
-    [SerializeField] private Color highlightColor = Color.white;
-    [SerializeField] private float emissionIntensity = 1.2f;
+
+    [Header("Highlight")]
+    [SerializeField] private Color highlightColor = new(1f, 0.95f, 0.35f);
+    [SerializeField] private float highlightOutlineWidth = 20f;
 
     private Material matInstance;
-    private Color originalEmission;
-    private bool hasEmission;
+
+    private Color originalOutlineColor;
+    private float originalOutlineWidth;
+    private float originalBlendBaseColor;
+    private float originalLightColorOutline;
+
+    private bool hasOutline;
 
     private void Awake()
     {
-        // auto-find renderer (for those with child object setup)
         if (targetRenderer == null)
             targetRenderer = GetComponentInChildren<Renderer>();
 
-        if (targetRenderer != null)
+        if (targetRenderer == null)
         {
-            matInstance = targetRenderer.material;
+            Debug.LogError($"{name}: No Renderer found.");
+            return;
+        }
 
-            if (matInstance.HasProperty("_EmissionColor"))
-            {
-                hasEmission = true;
-                originalEmission = matInstance.GetColor("_EmissionColor");
-            }
-        }
-        else
+        matInstance = targetRenderer.material;
+
+        hasOutline =
+            matInstance.HasProperty("_Outline_Color") &&
+            matInstance.HasProperty("_Outline_Width");
+
+        if (!hasOutline)
         {
-            Debug.LogWarning($"[{name}] No Renderer found for TargetHighlightBehaviour.");
+            Debug.LogWarning($"{name}: Material does not support outline highlighting.");
+            return;
         }
+
+        originalOutlineColor = matInstance.GetColor("_Outline_Color");
+        originalOutlineWidth = matInstance.GetFloat("_Outline_Width");
+
+        if (matInstance.HasProperty("_Is_BlendBaseColor"))
+            originalBlendBaseColor = matInstance.GetFloat("_Is_BlendBaseColor");
+
+        if (matInstance.HasProperty("_Is_LightColor_Outline"))
+            originalLightColorOutline = matInstance.GetFloat("_Is_LightColor_Outline");
     }
 
     public void Highlight()
     {
-        if (!IsValid()) return;
+        if (!IsValid())
+            return;
 
-        matInstance.EnableKeyword("_EMISSION");
-        matInstance.SetColor("_EmissionColor", highlightColor * emissionIntensity);
+        if (matInstance.HasProperty("_OUTLINE"))
+            matInstance.SetFloat("_OUTLINE", 1f);
+
+        if (matInstance.HasProperty("_Is_BlendBaseColor"))
+            matInstance.SetFloat("_Is_BlendBaseColor", 0f);
+
+        if (matInstance.HasProperty("_Is_LightColor_Outline"))
+            matInstance.SetFloat("_Is_LightColor_Outline", 0f);
+
+        matInstance.SetColor("_Outline_Color", highlightColor);
+        matInstance.SetFloat("_Outline_Width", highlightOutlineWidth);
     }
 
     public void Unhighlight()
     {
-        if (!IsValid()) return;
+        if (!IsValid())
+            return;
 
-        matInstance.SetColor("_EmissionColor", originalEmission);
+        matInstance.SetColor("_Outline_Color", originalOutlineColor);
+        matInstance.SetFloat("_Outline_Width", originalOutlineWidth);
+
+        if (matInstance.HasProperty("_Is_BlendBaseColor"))
+            matInstance.SetFloat("_Is_BlendBaseColor", originalBlendBaseColor);
+
+        if (matInstance.HasProperty("_Is_LightColor_Outline"))
+            matInstance.SetFloat("_Is_LightColor_Outline", originalLightColorOutline);
     }
 
     private bool IsValid()
     {
-        if (targetRenderer == null || matInstance == null || !hasEmission)
-            return false;
-
-        // prevent highlighting inactive objects (restore case)
-        if (!targetRenderer.gameObject.activeInHierarchy)
-            return false;
-
-        return true;
+        return targetRenderer != null &&
+               matInstance != null &&
+               hasOutline &&
+               targetRenderer.gameObject.activeInHierarchy;
     }
 }
