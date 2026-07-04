@@ -32,6 +32,20 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     [SerializeField]
     private TutorialPromptTrigger transformationTrigger;
 
+    [SerializeField]
+    private CollectBehaviour requiredArchiveObject;
+
+    [SerializeField]
+    private Transform npcPlayerDestination;
+
+    private const int requiredArchivesProgress = 3;
+
+    private int archivesProgress;
+    private bool archiveObjectCollected;
+    private int notesRead;
+
+    private bool npcReturning;
+
     #endregion
 
     #region Reveal Identity
@@ -79,6 +93,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         if (TutorialManager.Instance != null)
             TutorialManager.Instance.OnStateChanged -= HandleTutorialStateChanged;
+
+        CollectBehaviour.OnItemCollected -= HandleItemCollected;
+        NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
     }
 
     private void HandleTutorialStateChanged(TutorialState state)
@@ -101,6 +118,15 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
                 EnterReadingWing();
                 break;
         }
+    }
+
+    private void RegisterSearchEvents()
+    {
+        CollectBehaviour.OnItemCollected -= HandleItemCollected;
+        NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
+
+        CollectBehaviour.OnItemCollected += HandleItemCollected;
+        NoteInteractionResponse.OnNoteRead += HandleNoteRead;
     }
 
 
@@ -182,20 +208,24 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
         searchInitialized = true;
 
-        ShowSearchObjective();
+        archiveObjectCollected = false;
+        notesRead = 0;
+        archivesProgress = 0;
+        npcReturning = false;
 
+        RegisterSearchEvents();
+
+        UpdateSearchObjective();
         EnableSearchHUD();
-
         EnableTransformation();
-
         EnableTransformationTutorial();
     }
 
-    private void ShowSearchObjective()
+    private void UpdateSearchObjective()
     {
         ObjectivesUI.Instance?.SetObjective(
             "Searching for Answers",
-            "Explore the archives.");
+            $"Explore the archives ({archivesProgress}/{requiredArchivesProgress})");
     }
 
     private void EnableSearchHUD()
@@ -221,13 +251,96 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         }
     }
 
+    private void CheckSearchArchivesCompleted()
+    {
+        if (!archiveObjectCollected)
+            return;
+
+        if (notesRead < 2)
+            return;
+
+        if (npcReturning)
+            return;
+
+        npcReturning = true;
+
+        ObjectivesUI.Instance?.SetObjective(
+            "Searching for Answers",
+            "Wait for the librarian.");
+
+        CollectBehaviour.OnItemCollected -= HandleItemCollected;
+        NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
+
+        ReturnNpc();
+    }
+
+    private void ReturnNpc()
+    {
+        if (tutorialNpc == null)
+            return;
+
+        tutorialNpc.WalkTo(
+            npcPlayerDestination,
+            OnNpcReturned);
+    }
+
+    private void OnNpcReturned()
+    {
+        TutorialManager.Instance.SetState(
+            TutorialState.RevealIdentity);
+    }
+
+    private void HandleItemCollected(CollectBehaviour collectedObject)
+    {
+        if (collectedObject != requiredArchiveObject)
+            return;
+
+        if (archiveObjectCollected)
+            return;
+
+        archiveObjectCollected = true;
+        archivesProgress++;
+
+        UpdateSearchObjective();
+        CheckSearchArchivesCompleted();
+    }
+
+    private void HandleNoteRead()
+    {
+        if (notesRead >= 2)
+            return;
+
+        notesRead++;
+        archivesProgress++;
+
+        UpdateSearchObjective();
+        CheckSearchArchivesCompleted();
+    }
+
     #endregion
 
     #region Reveal Identity
 
     private void EnterRevealIdentity()
     {
+        if (revealInitialized)
+            return;
 
+        revealInitialized = true;
+
+        if (DialogueManager.Instance != null)
+        {
+            DialogueManager.Instance.StartDialogue(
+                revealDialogueID,
+                OnRevealDialogueFinished);
+        }
+    }
+
+    private void OnRevealDialogueFinished()
+    {
+        // Fade to black
+        // Restore HP
+        // Continue to ReadingWing
     }
 
     #endregion
