@@ -4,7 +4,9 @@ public enum ItemType
 {
     Consumable,
     Resource,
-    Fragment
+    Fragment,
+    LostItem,
+    KeyItem
 }
 
 [CreateAssetMenu(menuName = "Moonstray/Item")]
