@@ -16,18 +16,21 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private PlayerHealth playerHealth;
+    private PlayerTransformation playerTransformation;
 
-    /* [SerializeField]
+    [SerializeField]
     private NPCMovement tutorialNpc;
 
     [SerializeField]
-    private Transform npcSuppliesDestination; */
+    private Transform npcSuppliesDestination;
 
     #endregion
 
     #region Search Archives
 
     [Header("Search Archives")]
+    [SerializeField]
+    private TutorialPromptTrigger transformationTrigger;
 
     #endregion
 
@@ -62,6 +65,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         playerMovement = FindFirstObjectByType<PlayerMovement>();
         playerHealth = FindFirstObjectByType<PlayerHealth>();
+        playerTransformation = FindFirstObjectByType<PlayerTransformation>();
 
         if (TutorialManager.Instance == null)
             return;
@@ -98,6 +102,8 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
                 break;
         }
     }
+
+
 
     #region Wake In Library
 
@@ -149,15 +155,20 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnWakeDialogueFinished()
     {
-        // NPC walks away
+        if (tutorialNpc != null)
+        {
+            tutorialNpc.WalkTo(
+                npcSuppliesDestination,
+                OnNpcReachedSupplies);
+        }
+    }
+
+    private void OnNpcReachedSupplies()
+    {
+        TutorialManager.Instance.SetState(
+            TutorialState.SearchArchives);
 
         EnablePlayerMovement();
-
-        if (TutorialManager.Instance != null)
-        {
-            TutorialManager.Instance.SetState(
-                TutorialState.SearchArchives);
-        }
     }
 
     #endregion
@@ -166,7 +177,48 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void EnterSearchArchives()
     {
+        if (searchInitialized)
+            return;
 
+        searchInitialized = true;
+
+        ShowSearchObjective();
+
+        EnableSearchHUD();
+
+        EnableTransformation();
+
+        EnableTransformationTutorial();
+    }
+
+    private void ShowSearchObjective()
+    {
+        ObjectivesUI.Instance?.SetObjective(
+            "Searching for Answers",
+            "Explore the archives.");
+    }
+
+    private void EnableSearchHUD()
+    {
+        if (HUDController.Instance == null)
+            return;
+
+        HUDController.Instance.SetObjectivesVisible(true);
+        HUDController.Instance.SetTopRightHUDVisible(true);
+        HUDController.Instance.SetBottomRightHUDVisible(true);
+    }
+
+    private void EnableTransformation()
+    {
+        playerTransformation?.UnlockTransformation();
+    }
+
+    private void EnableTransformationTutorial()
+    {
+        if (transformationTrigger != null)
+        {
+            transformationTrigger.gameObject.SetActive(true);
+        }
     }
 
     #endregion
