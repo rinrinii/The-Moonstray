@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class MovementTutorialTrigger : MonoBehaviour
+public class TutorialPromptTrigger : MonoBehaviour
 {
     [System.Serializable]
     public enum TriggerMode

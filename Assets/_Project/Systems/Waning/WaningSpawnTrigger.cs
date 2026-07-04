@@ -3,7 +3,7 @@ using UnityEngine;
 public class WaningSpawnTrigger : MonoBehaviour
 {
     [SerializeField]
-    private GameObject waningRoot;
+    private GameObject waning;
 
     private bool triggered;
 
@@ -17,7 +17,7 @@ public class WaningSpawnTrigger : MonoBehaviour
 
         triggered = true;
 
-        if (waningRoot != null)
-            waningRoot.SetActive(true);
+        if (waning != null)
+            waning.SetActive(true);
     }
 }

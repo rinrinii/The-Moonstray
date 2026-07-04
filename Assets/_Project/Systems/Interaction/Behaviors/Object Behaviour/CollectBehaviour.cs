@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CollectBehaviour : MonoBehaviour, IObjectBehaviour
@@ -11,6 +12,8 @@ public class CollectBehaviour : MonoBehaviour, IObjectBehaviour
 
     [Header("Collection")]
     [SerializeField] private string collectMessage;
+
+    public static event Action<CollectBehaviour> OnItemCollected;
 
     public void Execute()
     {
@@ -30,6 +33,10 @@ public class CollectBehaviour : MonoBehaviour, IObjectBehaviour
                 return;
             }
         }
+
+        OnItemCollected?.Invoke(this);
+
+        Debug.Log($"Collected: {name}");
 
         string message = string.IsNullOrEmpty(collectMessage)
             ? $"{targetObject.name} collected."

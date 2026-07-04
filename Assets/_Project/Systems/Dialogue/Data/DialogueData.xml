@@ -12,9 +12,31 @@
     </Dialogue>
 	<!-- inspect test -->
 
+	<!-- ==================== PROLOGUE : TUTORIAL SECTION DIALOGUE ==================== -->
+
+	<!-- snow courtyard tutorial inspect -->
+	<Dialogue id="inspect.frozenFountain">
+		<Line type="narration">
+			The fountain has long since frozen over. Not even the faintest trickle of water remains.
+		</Line>
+	</Dialogue>
+
+	<Dialogue id="inspect.clocktower">
+		<Line type="narration">
+			The clock tower stands untouched beneath layers of snow.
+		</Line>
+
+		<Line type="narration">
+			None seems to have echoed through this place for a very long time.
+		</Line>
+	</Dialogue>
+	<!-- snow courtyard tutorial inspect -->
+
+	<!-- east wing tutorial section -->
 	<Dialogue id="intro.prologue">
 
 		<Line speaker="???" portrait="student">
+			<!-- should replace portrait with generic person silhouette -->
 			...Hmm? Something wandered in. A wolf?
 		</Line>
 
@@ -25,11 +47,11 @@
 		<Line speaker="???" portrait="student">
 			Hang on... I'll help you.
 		</Line>
-
 	</Dialogue>
+	<!-- east wing tutorial section -->
 
-
-	<Dialogue id="intro.leaveForSupplies">
+	<!-- frostmere library tutorial section; wake in library tutorial state -->
+	<Dialogue id="intro.studentWake">
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">
 			You're awake...
@@ -46,10 +68,10 @@
 		<Line speaker="Student" portrait="tutorialNPC-portrait">
 			Stay here, alright? Don't wander off.
 		</Line>
-
 	</Dialogue>
+	<!-- frostmere library tutorial section; wake in library tutorial state -->
 
-
+	<!-- frostmere library tutorial section; reveal identity tutorial state -->
 	<Dialogue id="intro.studentReturn">
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">
@@ -77,11 +99,11 @@
 		</Line>
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">
-			Don't worry. You're safe here.
+			Don't worry. You're safe here. I won't tell anyone.
 		</Line>
 
-		<Line speaker="Student" portrait="tutorialNPC-portrait">
-			I won't tell anyone.
+		<Line speaker="Serin" portrait="serin-human">
+			...
 		</Line>
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">
@@ -89,5 +111,76 @@
 		</Line>
 
 	</Dialogue>
+	<!-- frostmere library tutorial section; reveal identity tutorial state -->
+
+	<!-- frostmere library tutorial section; reading wing tutorial state -->
+	<Dialogue id="intro.studentInform1">
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			…I see. Well, you’re currently in the Pale Snowfields. This place is known for its universities and research halls.
+		</Line>
+	</Dialogue>
+
+	<!-- short pause -->
+	
+	<Dialogue id="intro.studentInform2">
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			There are several regions beyond the snowfields.
+		</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			To the south are the Springtide Meadows. It used to be a flourishing place where most of the food and crops were grown.
+		</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			To the west lies the Mirage Plains, where craft guilds and smiths once forged tools, armor, and machinery.
+		</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			And to the east is the Amberwood Forest, where trade routes and markets once connected people from different lands.
+		</Line>
+	</Dialogue>
+
+	<!-- short pause -->
+
+	<Dialogue id="intro.studentInform3">
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			These places used to thrive… but things haven’t been the same for a long time.
+		</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			There's an old legend everyone learns growing up….
+		</Line>
+	</Dialogue>
+
+	<!-- short pause -->
+
+	<Dialogue id="intro.studentGiveMap">
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			If you're looking for answers, exploring the lands beyond the snowfields might help.
+		</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			Take this map. It should help you find your way.
+		</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			If you head south, you'll eventually reach the Springtide Meadows.
+		</Line>
+
+		<Line type ="narration">
+			Obtained Map Item.
+		</Line>
+	</Dialogue>
+
+	<Dialogue id="intro.studentFarewell">
+		<Line speaker="Student" portrait="tutorialNPC-portrait">
+			You should be on your way now, and make sure to take care, alright?
+		</Line>
+	</Dialogue>
+
+	<!-- ==================== PROLOGUE : TUTORIAL SECTION DIALOGUE ==================== -->
+
+	<!-- ==================== ... DIALOGUE ==================== -->
 
 </GameDialogue>

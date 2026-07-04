@@ -139,7 +139,42 @@ public class PlayerHealth : MonoBehaviour
 
     private void UpdateAnimatorReference()
     {
-        currentAnimator =
-            GetComponentInChildren<Animator>();
+        Animator[] animators = GetComponentsInChildren<Animator>(true);
+
+        foreach (Animator animator in animators)
+        {
+            if (animator.gameObject.activeInHierarchy)
+            {
+                currentAnimator = animator;
+                return;
+            }
+        }
+
+        currentAnimator = null;
+    }
+
+    public void RestoreAfterStoryDeath(float healthPercent = 0.10f)
+    {
+        currentHealth = maxHealth * Mathf.Clamp01(healthPercent);
+
+        isDead = false;
+        suppressNextGameOver = false;
+
+        UpdateAnimatorReference();
+
+        if (movement != null)
+            movement.enabled = true;
+
+        if (climbing != null)
+            climbing.enabled = true;
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.Rebind();
+            currentAnimator.Update(0f);
+
+            // Return to a neutral standing state.
+            currentAnimator.Play("Idle", 0, 0f);
+        }
     }
 }

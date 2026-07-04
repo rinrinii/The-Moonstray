@@ -5,6 +5,8 @@ public class InspectBehaviour : MonoBehaviour, IObjectBehaviour
     [Header("Dialogue")]
     [SerializeField] private string dialogueID;
 
+    private bool hasBeenInspected;
+
     public void Execute()
     {
         if (string.IsNullOrEmpty(dialogueID))
@@ -27,10 +29,17 @@ public class InspectBehaviour : MonoBehaviour, IObjectBehaviour
             {
                 Debug.Log($"Inspection complete: {gameObject.name}");
 
-                // Future:
-                // - Notify tutorial controller
-                // - Trigger quest progression
-                // - Play SFX
+                if (!hasBeenInspected)
+                {
+                    hasBeenInspected = true;
+
+                    SnowCourtyardTutorialController.Instance?.RegisterInspection();
+                }
+
+            // Future:
+            // - Notify tutorial controller
+            // - Trigger quest progression
+            // - Play SFX
             });
     }
 }
