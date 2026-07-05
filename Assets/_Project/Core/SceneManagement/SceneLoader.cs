@@ -15,6 +15,8 @@ public static class SceneLoader
         PendingScene = sceneName;
         PendingSpawnID = null;
 
+        ClearTransientPlayerEffects();
+        GameplayUIManager.Instance?.SetGameplayUIVisible(false);
         SceneManager.LoadScene("LoadingScene");
     }
 
@@ -27,6 +29,14 @@ public static class SceneLoader
         PendingScene = sceneName;
         PendingSpawnID = spawnID;
 
+        ClearTransientPlayerEffects();
+        GameplayUIManager.Instance?.SetGameplayUIVisible(false);
         SceneManager.LoadScene("LoadingScene");
+    }
+
+    private static void ClearTransientPlayerEffects()
+    {
+        StatusEffectManager.Instance?.ClearAll();
+        PlayerTransformation.Instance?.SetSpeedModifier(1f);
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -103,6 +104,21 @@ public class GameplayUIManager : MonoBehaviour
         NormalizeDefaultScreenLayout();
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetGameplayUIVisible(scene.name != "LoadingScene");
+    }
+
     private void NormalizeDefaultScreenLayout()
     {
         if (HudContainer != null) HudContainer.style.display = DisplayStyle.Flex;
@@ -142,6 +158,11 @@ public class GameplayUIManager : MonoBehaviour
 
         element.style.display =
             visible ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    public void SetGameplayUIVisible(bool visible)
+    {
+        SetVisible(RootVisualElement, visible);
     }
 
     public void SetObjectivesVisible(bool visible)

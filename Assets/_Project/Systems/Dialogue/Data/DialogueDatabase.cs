@@ -47,6 +47,15 @@ public class DialogueDatabase : MonoBehaviour
                 string portraitName =
                     lineNode.Attributes["portrait"]?.Value ?? "";
 
+                if (portraitName == "serin-current")
+                {
+                    portraitName =
+                        PlayerTransformation.Instance != null &&
+                        PlayerTransformation.Instance.IsWolf
+                            ? "serin-wolf"
+                            : "serin-human";
+                }
+
                 if (!string.IsNullOrEmpty(portraitName))
                 {
                     portraitSprite =
