@@ -104,6 +104,7 @@ public class GameplayUIManager : MonoBehaviour
         Objectives?.Initialize(RootVisualElement);
 
         NormalizeDefaultScreenLayout();
+        UpdateVisibilityForScene(SceneManager.GetActiveScene());
     }
 
     private void OnEnable()
@@ -118,7 +119,16 @@ public class GameplayUIManager : MonoBehaviour
 
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SetGameplayUIVisible(scene.name != "LoadingScene");
+        UpdateVisibilityForScene(scene);
+    }
+
+    private void UpdateVisibilityForScene(Scene scene)
+    {
+        bool isGameplayScene =
+            scene.name != "LoadingScene" &&
+            scene.name != "MainMenu";
+
+        SetGameplayUIVisible(isGameplayScene);
     }
 
     private void NormalizeDefaultScreenLayout()
