@@ -45,9 +45,28 @@ public class PlayerInteraction : MonoBehaviour
 
             if (interactableObject != null)
             {
-                playerMovement.PlayInteractionAnimation(
-                    interactableObject.interactionType
-                );
+                PlayerTransformation transformation =
+                    PlayerTransformation.Instance;
+
+                if (transformation != null)
+                {
+                    switch (interactableObject.RequiredForm)
+                    {
+                        case InteractionFormRequirement.HumanOnly:
+                            if (transformation.IsWolf)
+                                return;
+                            break;
+
+                        case InteractionFormRequirement.WolfOnly:
+                            if (transformation.IsHuman)
+                                return;
+                            break;
+                    }
+
+                    playerMovement.PlayInteractionAnimation(
+                        interactableObject.interactionType
+                    );
+                }
             }
 
             currentInteractable.Interact();

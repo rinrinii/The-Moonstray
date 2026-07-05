@@ -119,6 +119,12 @@ public class EastWingTutorialController : MonoBehaviour
                 !DialogueManager.Instance.IsDialogueActive);
         }
 
+        // Clear all temporary status effects.
+        StatusEffectManager.Instance?.ClearAll();
+
+        // Restore player movement modifiers.
+        PlayerTransformation.Instance?.SetSpeedModifier(1f);
+
         playerHealth?.RestoreAfterStoryDeath();
 
         TutorialManager.Instance?.SetState(TutorialState.WakeInLibrary);

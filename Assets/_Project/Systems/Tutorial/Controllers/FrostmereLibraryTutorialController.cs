@@ -191,7 +191,10 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         DisablePlayerMovement();
 
-        // Remove Winter Waning
+        GameplayUIManager.Instance.Inventory?.Unlock();
+        GameplayUIManager.Instance.Journal?.Unlock();
+
+        StatusEffectManager.Instance?.ClearAll();
 
         // Restore vignette
 
@@ -590,6 +593,8 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnGiveMapDialogueFinished()
     {
+        GameplayUIManager.Instance.Map?.Unlock();
+
         DialogueManager.Instance?.StartDialogue(
             farewellDialogueID,
             OnFarewellDialogueFinished);

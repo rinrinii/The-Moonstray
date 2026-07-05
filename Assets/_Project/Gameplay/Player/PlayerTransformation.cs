@@ -9,6 +9,9 @@ public class PlayerTransformation : MonoBehaviour
     public enum FormState { Human, Wolf }
     public FormState currentForm = FormState.Wolf;
 
+    public bool IsHuman => currentForm == FormState.Human;
+    public bool IsWolf => currentForm == FormState.Wolf;
+
     public event Action<FormState> OnTransformationComplete;
 
     [SerializeField]

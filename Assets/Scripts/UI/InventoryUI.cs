@@ -20,6 +20,10 @@ public class InventoryUI : MonoBehaviour
 
     private ItemData selectedItem;
 
+    [SerializeField]
+    private bool unlocked = false;
+    public bool IsUnlocked => unlocked;
+
     public static InventoryUI Instance;
 
     private void Awake()
@@ -104,7 +108,7 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (unlocked && Input.GetKeyDown(KeyCode.I))
         {
             bool actuallyOpen =
                 inventoryRoot != null &&
@@ -123,6 +127,9 @@ public class InventoryUI : MonoBehaviour
 
     public void Open()
     {
+        if (!unlocked)
+            return;
+
         if (inventoryRoot == null || inventoryWindow == null) return;
 
         // FIX: pass `this` so SuppressSecondaryPanels doesn't also close
@@ -260,5 +267,15 @@ public class InventoryUI : MonoBehaviour
 
         InventorySystem.Instance.Remove(selectedItem);
         RefreshUI();
+    }
+
+    public void Unlock()
+    {
+        if (unlocked)
+            return;
+
+        unlocked = true;
+
+        Debug.Log($"{nameof(InventoryUI)} unlocked.");
     }
 }

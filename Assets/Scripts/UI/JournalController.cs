@@ -23,6 +23,10 @@ public class JournalController : MonoBehaviour
     private Label questConditionLabel;
     private Button closeButton;
 
+    [SerializeField]
+    private bool unlocked = false;
+    public bool IsUnlocked => unlocked;
+
     private readonly List<JournalNote> notes = new();
 
     private void Awake()
@@ -92,7 +96,7 @@ public class JournalController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (unlocked && Input.GetKeyDown(KeyCode.J))
         {
             if (isJournalOpen) CloseJournal();
             else OpenJournal();
@@ -101,6 +105,9 @@ public class JournalController : MonoBehaviour
 
     public void OpenJournal()
     {
+        if (!unlocked)
+            return;
+
         if (journalContainer == null) return;
 
         GameplayUIManager.Instance.SuppressSecondaryPanels(this);
@@ -264,5 +271,15 @@ public class JournalController : MonoBehaviour
         InitializeTemplateBindings(journalContainer);
 
         CloseJournal();
+    }
+
+    public void Unlock()
+    {
+        if (unlocked)
+            return;
+
+        unlocked = true;
+
+        Debug.Log("Journal unlocked.");
     }
 }
