@@ -31063,8 +31063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9084c3ec81b024caa084e11c69ea68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
-  targetScene: 
-  targetSpawnID: 
+  targetScene: Restricted Farmlands
+  targetSpawnID: ToRestrictedFarmlands
 --- !u!65 &2143143948
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31080,7 +31080,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

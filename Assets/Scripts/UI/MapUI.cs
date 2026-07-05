@@ -81,6 +81,18 @@ public class MapUI : MonoBehaviour
 
     private void Update()
     {
+        // =========================================
+        // DEBUG
+        // =========================================
+
+        // Instantly unlock the map. This shortcut is
+        // intentionally available in development builds
+        // for testing later tutorial sections.
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            Unlock();
+        }
+
         if (PauseMenuController.Instance != null &&
             PauseMenuController.Instance.IsPaused())
         {

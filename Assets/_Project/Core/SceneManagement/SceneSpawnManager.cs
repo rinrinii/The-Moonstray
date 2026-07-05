@@ -45,5 +45,22 @@ public class SceneSpawnManager : MonoBehaviour
         }
 
         SceneLoader.PendingSpawnID = null;
+
+        CompleteTutorialIfMoonveilReached();
+    }
+
+    private void CompleteTutorialIfMoonveilReached()
+    {
+        if (SceneManager.GetActiveScene().name != "Moonveil")
+            return;
+
+        if (TutorialManager.Instance == null ||
+            TutorialManager.Instance.CurrentState != TutorialState.ReadingWing)
+        {
+            return;
+        }
+
+        ObjectivesUI.Instance?.Clear();
+        TutorialManager.Instance.FinishTutorial();
     }
 }

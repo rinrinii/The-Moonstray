@@ -205,6 +205,8 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void DisablePlayerMovement()
     {
+        ResolvePlayerReferences();
+
         if (playerMovement != null)
         {
             playerMovement.enabled = false;
@@ -213,10 +215,24 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void EnablePlayerMovement()
     {
+        ResolvePlayerReferences();
+
         if (playerMovement != null)
         {
             playerMovement.enabled = true;
         }
+    }
+
+    private void ResolvePlayerReferences()
+    {
+        if (playerMovement == null)
+            playerMovement = FindFirstObjectByType<PlayerMovement>();
+
+        if (playerHealth == null)
+            playerHealth = FindFirstObjectByType<PlayerHealth>();
+
+        if (playerTransformation == null)
+            playerTransformation = FindFirstObjectByType<PlayerTransformation>();
     }
 
     private void OnWakeDialogueFinished()
@@ -316,7 +332,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
         ObjectivesUI.Instance?.SetObjective(
             "Searching for Answers",
-            "Wait for the librarian.");
+            "Wait for the student.");
 
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
         NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
@@ -444,17 +460,38 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void RestorePlayerHealth()
     {
+        ResolvePlayerReferences();
         playerHealth?.RestoreFullHealth();
     }
 
     private void MovePlayerToReadingWing()
     {
-        if (playerMovement == null || readingWingPlayerSpawn == null)
-            return;
+        ResolvePlayerReferences();
 
-        playerMovement.transform.SetPositionAndRotation(
+        if (playerMovement == null || readingWingPlayerSpawn == null)
+        {
+            Debug.LogError(
+                "Cannot move player to Reading Wing: player or spawn reference is missing.");
+            return;
+        }
+
+        Transform player = playerMovement.transform;
+        CharacterController characterController =
+            player.GetComponent<CharacterController>();
+
+        if (characterController != null)
+            characterController.enabled = false;
+
+        player.SetPositionAndRotation(
             readingWingPlayerSpawn.position,
             readingWingPlayerSpawn.rotation);
+
+        Physics.SyncTransforms();
+
+        if (characterController != null)
+            characterController.enabled = true;
+
+        Debug.Log($"Moved player to Reading Wing spawn at {player.position}.");
     }
 
     private void MoveNpcToReadingWing()
@@ -595,6 +632,10 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         GameplayUIManager.Instance.Map?.Unlock();
 
+        ObjectivesUI.Instance?.SetObjective(
+            "Leaving the Past Behind",
+            "Leave the Frostmere Library.");
+
         DialogueManager.Instance?.StartDialogue(
             farewellDialogueID,
             OnFarewellDialogueFinished);
@@ -604,8 +645,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         EnablePlayerMovement();
 
-        Debug.Log("Reading Wing tutorial complete.");
-        // TutorialManager.Instance.SetState(TutorialState.NextState);
+        Debug.Log("Reading Wing sequence complete. Tutorial remains active until Moonveil.");
     }
 
 
