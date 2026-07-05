@@ -33,18 +33,20 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    // use F10 to unlock all upgrades temporarily; for ease of debug and testing
+    // =========================================
+    // DEBUG
+    // =========================================
+
+    // Instantly unlock all player upgrades.
+    // This shortcut is intentionally available in
+    // development builds for quickly testing
+    // upgrade-dependent gameplay.
     private void Update()
     {
-#if UNITY_EDITOR
-
-                if (Input.GetKeyDown(
-                    KeyCode.F10))
-                {
-                    UnlockAllUpgrades();
-                }
-
-#endif
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            UnlockAllUpgrades();
+        }
     }
 
     // =========================================

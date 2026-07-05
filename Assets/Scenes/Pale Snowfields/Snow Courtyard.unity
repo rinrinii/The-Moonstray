@@ -573,6 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 0
   interactionType: 0
 --- !u!1001 &76403882
 PrefabInstance:
@@ -1381,6 +1382,10 @@ PrefabInstance:
       propertyPath: 'sceneMaps.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: d6c9db173611a7848a3d8a69a20b5684, type: 2}
+    - target: {fileID: 6253852879536781855, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: currentState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5381,6 +5386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 0
   interactionType: 0
 --- !u!1001 &1566236073
 PrefabInstance:

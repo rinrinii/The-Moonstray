@@ -43,6 +43,22 @@ public class PlayerHealth : MonoBehaviour
         UpdateAnimatorReference();
     }
 
+    // =========================================
+    // DEBUG
+    // =========================================
+
+    // Instantly restore the player's health to
+    // maximum. This shortcut is intentionally
+    // available in development builds for
+    // quickly testing combat encounters.
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            RestoreFullHealth();
+        }
+    }
+
     public void TakeDamage(float damageAmount)
     {
         if (isDead)
@@ -181,5 +197,25 @@ public class PlayerHealth : MonoBehaviour
     public void RestoreFullHealth()
     {
         currentHealth = maxHealth;
+
+        isDead = false;
+        suppressNextGameOver = false;
+
+        UpdateAnimatorReference();
+
+        if (movement != null)
+            movement.enabled = true;
+
+        if (climbing != null)
+            climbing.enabled = true;
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.Rebind();
+            currentAnimator.Update(0f);
+            currentAnimator.Play("Idle", 0, 0f);
+        }
+
+        Debug.Log("Player health restored.");
     }
 }

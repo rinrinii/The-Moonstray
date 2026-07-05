@@ -33,6 +33,7 @@ public class SceneSpawnManager : MonoBehaviour
                     cc.enabled = false;
 
                 player.transform.position = point.transform.position;
+                RespawnManager.Instance?.SetCurrentSpawn(point.SpawnID);
 
                 if (cc != null)
                     cc.enabled = true;

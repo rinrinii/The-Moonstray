@@ -41,6 +41,7 @@ public class GameplayUIManager : MonoBehaviour
     public JournalController Journal { get; private set; }
     public InventoryUI Inventory { get; private set; }
     public NoteUI Note { get; private set; }
+    public GameOverUI GameOver { get; private set; }
 
     private void Awake()
     {
@@ -85,6 +86,7 @@ public class GameplayUIManager : MonoBehaviour
         Journal = GetComponent<JournalController>();
         Inventory = GetComponent<InventoryUI>();
         Note = GetComponent<NoteUI>();
+        GameOver = GetComponent<GameOverUI>();
 
         Prompt = GetComponent<PromptUI>();
         Objectives = GetComponent<ObjectivesUI>();
