@@ -3193,6 +3193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 1
   interactionType: 0
 --- !u!4 &1080865605 stripped
 Transform:
@@ -5448,6 +5449,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: drawer2
       objectReference: {fileID: 0}
+    - target: {fileID: 8395259584252045867, guid: 6eadfbbc2ea326f47a735d89aa5d8934, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ee546396b9443844c94ac8560b080dfe, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12692,6 +12697,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6645676992565756737, guid: 8ef3d191595e8d3458ed9541c1050cbb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 797db2d9c5a33a24c84aeea9ab068cd9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
