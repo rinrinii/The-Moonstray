@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -42,6 +43,7 @@ public class GameplayUIManager : MonoBehaviour
     public InventoryUI Inventory { get; private set; }
     public NoteUI Note { get; private set; }
     public GameOverUI GameOver { get; private set; }
+    public QuestBoardController QuestBoard { get; private set; }
 
     private void Awake()
     {
@@ -87,6 +89,7 @@ public class GameplayUIManager : MonoBehaviour
         Inventory = GetComponent<InventoryUI>();
         Note = GetComponent<NoteUI>();
         GameOver = GetComponent<GameOverUI>();
+        QuestBoard = GetComponent<QuestBoardController>();
 
         Prompt = GetComponent<PromptUI>();
         Objectives = GetComponent<ObjectivesUI>();
@@ -101,6 +104,31 @@ public class GameplayUIManager : MonoBehaviour
         Objectives?.Initialize(RootVisualElement);
 
         NormalizeDefaultScreenLayout();
+        UpdateVisibilityForScene(SceneManager.GetActiveScene());
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        UpdateVisibilityForScene(scene);
+    }
+
+    private void UpdateVisibilityForScene(Scene scene)
+    {
+        bool isGameplayScene =
+            scene.name != "LoadingScene" &&
+            scene.name != "MainMenu";
+
+        SetGameplayUIVisible(isGameplayScene);
     }
 
     private void NormalizeDefaultScreenLayout()
@@ -142,6 +170,11 @@ public class GameplayUIManager : MonoBehaviour
 
         element.style.display =
             visible ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    public void SetGameplayUIVisible(bool visible)
+    {
+        SetVisible(RootVisualElement, visible);
     }
 
     public void SetObjectivesVisible(bool visible)

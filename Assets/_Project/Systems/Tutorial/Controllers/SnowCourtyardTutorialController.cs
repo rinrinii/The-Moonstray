@@ -46,6 +46,8 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
     private void HandleStateChanged(TutorialState state)
     {
+        SetExitBlockersActive(state == TutorialState.SnowCourtyard);
+
         switch (state)
         {
             case TutorialState.SnowCourtyard:
@@ -61,15 +63,6 @@ public class SnowCourtyardTutorialController : MonoBehaviour
     private void EnterSnowCourtyard()
     {
         Debug.Log("Entered Snow Courtyard Tutorial");
-
-        if (pinewatchExitBlocker != null)
-            pinewatchExitBlocker.SetActive(true);
-
-        if (libraryExitBlocker != null)
-            libraryExitBlocker.SetActive(true);
-
-        if (southExitBlocker != null)
-            southExitBlocker.SetActive(true);
 
         // TEMPORARILY REMOVE THESE
         // PlayerTransformation.Instance?.ForceWolfForm();
@@ -95,6 +88,18 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
         PromptUI.Instance?.Hide();
         ObjectivesUI.Instance?.Clear();
+    }
+
+    private void SetExitBlockersActive(bool active)
+    {
+        if (pinewatchExitBlocker != null)
+            pinewatchExitBlocker.SetActive(active);
+
+        if (libraryExitBlocker != null)
+            libraryExitBlocker.SetActive(active);
+
+        if (southExitBlocker != null)
+            southExitBlocker.SetActive(active);
     }
 
     public void RegisterInspection()

@@ -93,6 +93,18 @@ public class InventoryUI : MonoBehaviour
 
     void Update()
     {
+        // =========================================
+        // DEBUG
+        // =========================================
+
+        // Instantly unlock the inventory. This shortcut
+        // is intentionally available in development
+        // builds for testing later tutorial sections.
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            Unlock();
+        }
+
         if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsPaused())
         {
             if (isInventoryOpen) CloseInventory();

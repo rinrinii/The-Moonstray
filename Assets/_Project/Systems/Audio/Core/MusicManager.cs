@@ -42,6 +42,15 @@ public class MusicManager : MonoBehaviour
         }
 
         Instance = this;
+
+        ConfigureSources();
+    }
+
+    private void Start()
+    {
+        // The persistent systems can be created after the Main Menu scene has
+        // already loaded, so the sceneLoaded event alone is not sufficient.
+        PlayMusicForScene(SceneManager.GetActiveScene());
     }
 
     private void OnEnable()
@@ -56,12 +65,35 @@ public class MusicManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        PlayMusicForScene(scene);
+    }
+
+    private void PlayMusicForScene(Scene scene)
+    {
         SceneMusic sceneMusic = FindFirstObjectByType<SceneMusic>();
 
         if (sceneMusic == null)
+        {
+            Debug.LogWarning($"No SceneMusic found in scene '{scene.name}'.");
             return;
+        }
 
         TransitionToMusic(sceneMusic.MusicID);
+    }
+
+    private void ConfigureSources()
+    {
+        if (daySource != null)
+        {
+            daySource.loop = true;
+            daySource.playOnAwake = false;
+        }
+
+        if (nightSource != null)
+        {
+            nightSource.loop = true;
+            nightSource.playOnAwake = false;
+        }
     }
 
     public void SetMusicVolume(float value)
@@ -72,6 +104,13 @@ public class MusicManager : MonoBehaviour
 
     private void TransitionToMusic(string musicID)
     {
+        if (musicLibrary == null || daySource == null || nightSource == null)
+        {
+            Debug.LogError(
+                "MusicManager requires a MusicLibrary and both persistent AudioSources.");
+            return;
+        }
+
         if (musicID == currentMusicID)
             return;
 
@@ -81,7 +120,10 @@ public class MusicManager : MonoBehaviour
         MusicSet musicSet = musicLibrary.GetMusicSet(musicID);
 
         if (musicSet == null)
+        {
+            Debug.LogWarning($"No MusicSet found for music ID '{musicID}'.");
             return;
+        }
 
         StartCoroutine(TransitionMusicRoutine(musicID, musicSet));
     }

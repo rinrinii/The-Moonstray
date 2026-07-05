@@ -26,6 +26,10 @@ public class MainMenuController : MonoBehaviour
         uiDocument = GetComponent<UIDocument>();
         settingsController = GetComponent<SettingsController>();
         AssignUIReferences();
+
+        // Music and other cross-scene services must exist while the Main Menu
+        // is open, not only after New Game or Continue is pressed.
+        sessionInitializer?.CreateSession();
     }
 
     private void OnEnable()

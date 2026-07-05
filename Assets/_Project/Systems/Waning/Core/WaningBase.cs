@@ -5,11 +5,14 @@ public abstract class WaningBase : MonoBehaviour
     [Header("Waning Damage")]
     [SerializeField] protected float damagePerSecond = 10f;
 
+    private GameObject affectedPlayer;
+
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
             return;
 
+        affectedPlayer = other.gameObject;
         OnPlayerEntered(other.gameObject);
     }
 
@@ -27,6 +30,20 @@ public abstract class WaningBase : MonoBehaviour
             return;
 
         OnPlayerExited(other.gameObject);
+
+        if (affectedPlayer == other.gameObject)
+            affectedPlayer = null;
+    }
+
+    protected virtual void OnDisable()
+    {
+        // Unity does not guarantee OnTriggerExit when a Waning zone is disabled
+        // or its scene unloads while the player is still inside it.
+        if (affectedPlayer == null)
+            return;
+
+        OnPlayerExited(affectedPlayer);
+        affectedPlayer = null;
     }
 
     protected virtual void ApplyDamage(GameObject player)
