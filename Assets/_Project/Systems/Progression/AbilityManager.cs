@@ -38,17 +38,20 @@ public class AbilityManager : MonoBehaviour
         );
     }
 
-    // use F9 to unlock all abilities temporarily; for ease of debug and testing
+    // =========================================
+    // DEBUG
+    // =========================================
+
+    // Instantly unlock all player abilities.
+    // This shortcut is intentionally available in
+    // development builds for quickly testing areas
+    // that require progression abilities.
     private void Update()
     {
-        #if UNITY_EDITOR
-
         if (Input.GetKeyDown(KeyCode.F9))
         {
             UnlockAllAbilities();
         }
-
-        #endif
     }
 
     // =========================================

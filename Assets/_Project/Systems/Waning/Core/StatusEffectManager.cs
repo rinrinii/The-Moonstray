@@ -57,9 +57,13 @@ public class StatusEffectManager : MonoBehaviour
     public void ClearAll()
     {
         slowSources = 0;
+
         HasThorn = false;
         HasFrostbite = false;
         HasPoison = false;
+
+        PlayerTransformation.Instance?.SetSpeedModifier(1f);
+
         OnStatusChanged?.Invoke();
     }
 }

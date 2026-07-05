@@ -6,6 +6,13 @@ public class InteractableObject : MonoBehaviour, IInteractable
 
     [SerializeField] private bool isInteractable = true;
 
+    [Header("Form Requirement")]
+    [SerializeField]
+    private InteractionFormRequirement requiredForm =
+    InteractionFormRequirement.HumanOnly;
+
+    public InteractionFormRequirement RequiredForm => requiredForm;
+
     [Header("Interaction Animation")]
     public InteractionType interactionType =
         InteractionType.Stand;

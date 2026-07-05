@@ -14,6 +14,10 @@ public class MapUI : MonoBehaviour
     [SerializeField] private float maxZoom = 2.5f;
     [SerializeField] private float zoomSpeed = 0.2f;
 
+    [SerializeField]
+    private bool hasMap = false;
+    public bool HasMap => hasMap;
+
     private VisualElement mapRoot;
     private VisualElement mapImageContainer;
     private Image mapImage;
@@ -57,6 +61,12 @@ public class MapUI : MonoBehaviour
         if (mapRoot != null)
             mapRoot.style.display = DisplayStyle.None;
 
+        if (worldMapBtn != null)
+        {
+            worldMapBtn.style.display =
+                hasMap ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
         mapOpen = false;
     }
 
@@ -71,16 +81,21 @@ public class MapUI : MonoBehaviour
 
     private void Update()
     {
-        if (PauseMenuController.Instance != null && PauseMenuController.Instance.IsPaused())
+        if (PauseMenuController.Instance != null &&
+            PauseMenuController.Instance.IsPaused())
         {
-            if (mapOpen) CloseMap();
+            if (mapOpen)
+                CloseMap();
+
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.M))
+        if (hasMap && Input.GetKeyDown(KeyCode.M))
         {
-            if (mapOpen) CloseMap();
-            else OpenMap();
+            if (mapOpen)
+                CloseMap();
+            else
+                OpenMap();
         }
 
         if (!mapOpen)
@@ -98,7 +113,8 @@ public class MapUI : MonoBehaviour
             mapImageContainer.pickingMode = PickingMode.Position;
         }
 
-        if (mapImage == null) return;
+        if (mapImage == null)
+            return;
 
         mapImage.scaleMode = ScaleMode.ScaleToFit;
         mapImage.style.width = Length.Percent(100);
@@ -107,15 +123,31 @@ public class MapUI : MonoBehaviour
         mapImage.style.transformOrigin = new TransformOrigin(
             Length.Percent(50),
             Length.Percent(50),
-            0
-        );
+            0);
+    }
+
+    public void Unlock()
+    {
+        if (hasMap)
+            return;
+
+        hasMap = true;
+
+        if (worldMapBtn != null)
+            worldMapBtn.style.display = DisplayStyle.Flex;
+
+        Debug.Log($"{nameof(MapUI)} unlocked.");
     }
 
     public void OpenMap()
     {
-        if (mapRoot == null) return;
+        if (!hasMap)
+            return;
 
-        GameplayUIManager.Instance.SuppressSecondaryPanels();
+        if (mapRoot == null)
+            return;
+
+        GameplayUIManager.Instance.SuppressSecondaryPanels(this);
 
         mapOpen = true;
         mapRoot.style.display = DisplayStyle.Flex;
@@ -126,7 +158,8 @@ public class MapUI : MonoBehaviour
 
     public void CloseMap()
     {
-        if (mapRoot == null) return;
+        if (mapRoot == null)
+            return;
 
         mapOpen = false;
         dragging = false;
@@ -145,6 +178,7 @@ public class MapUI : MonoBehaviour
                 currentRegionTitle = map.regionTitle;
 
                 showingWorldMap = false;
+
                 SetMap(currentSceneMap);
                 SetRegionTitle(currentRegionTitle);
                 SetWorldMapButtonText("World Map");
@@ -159,7 +193,8 @@ public class MapUI : MonoBehaviour
 
     private void SetMap(Sprite sprite)
     {
-        if (sprite == null || mapImage == null) return;
+        if (sprite == null || mapImage == null)
+            return;
 
         mapImage.image = sprite.texture;
         mapImage.scaleMode = ScaleMode.ScaleToFit;
@@ -206,9 +241,11 @@ public class MapUI : MonoBehaviour
 
         Vector2 currentMouse = Input.mousePosition;
         Vector2 delta = currentMouse - dragStart;
+
         dragStart = currentMouse;
 
         mapOffset += new Vector2(delta.x, -delta.y);
+
         ApplyZoomAndPan();
     }
 

@@ -9,6 +9,9 @@ public class PlayerTransformation : MonoBehaviour
     public enum FormState { Human, Wolf }
     public FormState currentForm = FormState.Wolf;
 
+    public bool IsHuman => currentForm == FormState.Human;
+    public bool IsWolf => currentForm == FormState.Wolf;
+
     public event Action<FormState> OnTransformationComplete;
 
     [SerializeField]
@@ -101,6 +104,9 @@ public class PlayerTransformation : MonoBehaviour
 
     public void UnlockTransformation()
     {
+        if (canTransform)
+            return;
+
         canTransform = true;
 
         Debug.Log("Transformation unlocked.");
@@ -134,6 +140,23 @@ public class PlayerTransformation : MonoBehaviour
         {
             return;
         }
+
+        // =========================================
+        // DEBUG
+        // =========================================
+
+        // Instantly unlock player transformation.
+        // This shortcut is intentionally available in
+        // development builds for quickly testing later
+        // tutorial sections without replaying the intro.
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            UnlockTransformation();
+        }
+
+        // =========================================
+        // TRANSFORMATION INPUT
+        // =========================================
 
         if (Input.GetKeyDown(KeyCode.F) &&
             !isTransitioning &&
