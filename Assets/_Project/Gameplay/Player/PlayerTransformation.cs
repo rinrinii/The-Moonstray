@@ -129,6 +129,12 @@ public class PlayerTransformation : MonoBehaviour
 
     private void Update()
     {
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsDialogueActive)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.F) &&
             !isTransitioning &&
             canTransform)

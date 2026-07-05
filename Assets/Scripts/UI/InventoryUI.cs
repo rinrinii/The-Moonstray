@@ -95,6 +95,15 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsDialogueActive)
+        {
+            if (isInventoryOpen)
+                CloseInventory();
+
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             bool actuallyOpen =
