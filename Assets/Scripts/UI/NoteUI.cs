@@ -7,21 +7,20 @@ public class NoteUI : MonoBehaviour
     public static NoteUI Instance;
 
     private VisualElement noteContainer;
+    private ScrollView noteContentContainer;
     private Label noteTitle;
     private Label noteContent;
     private Button closeButton;
 
     private void Awake()
     {
-        if (Instance != null &&
-            Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
 
@@ -40,9 +39,7 @@ public class NoteUI : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(
-        Scene scene,
-        LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshReferences();
     }
@@ -58,6 +55,9 @@ public class NoteUI : MonoBehaviour
 
         if (noteContainer == null)
             return;
+
+        noteContentContainer =
+            noteContainer.Q<ScrollView>("NoteContentContainer");
 
         noteTitle =
             noteContainer.Q<Label>("NoteTitle");
@@ -77,32 +77,33 @@ public class NoteUI : MonoBehaviour
         CloseNote();
     }
 
-    public void OpenNote(
-        string title,
-        string content)
+    public void OpenNote(string title, string content)
     {
-        if (noteContainer == null)
+        if (noteContainer == null ||
+            noteTitle == null ||
+            noteContent == null)
         {
             RefreshReferences();
         }
 
-        if (noteContainer == null)
+        if (noteContainer == null ||
+            noteTitle == null ||
+            noteContent == null)
         {
-            Debug.LogError(
-                "NoteContainer missing."
-            );
-
+            Debug.LogError("Note UI references missing.");
             return;
         }
 
         noteTitle.text = title;
         noteContent.text = content;
 
-        noteContainer.style.display =
-            DisplayStyle.Flex;
+        noteContainer.style.display = DisplayStyle.Flex;
+        noteContainer.pickingMode = PickingMode.Position;
 
-        noteContainer.pickingMode =
-            PickingMode.Position;
+        if (noteContentContainer != null)
+        {
+            noteContentContainer.scrollOffset = Vector2.zero;
+        }
     }
 
     public void CloseNote()
@@ -110,10 +111,7 @@ public class NoteUI : MonoBehaviour
         if (noteContainer == null)
             return;
 
-        noteContainer.style.display =
-            DisplayStyle.None;
-
-        noteContainer.pickingMode =
-            PickingMode.Ignore;
+        noteContainer.style.display = DisplayStyle.None;
+        noteContainer.pickingMode = PickingMode.Ignore;
     }
 }
