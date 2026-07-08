@@ -20,6 +20,10 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement InventoryRoot { get; private set; }
     public VisualElement NotePopupRoot { get; private set; }
     public VisualElement SettingsRoot { get; private set; }
+    public VisualElement EndingChoiceContainer { get; private set; }
+
+    public Button RestoreButton { get; private set; }
+    public Button DestroyButton { get; private set; }
 
     // HUD Sections
     public VisualElement ObjectivesPanel { get; private set; }
@@ -83,6 +87,11 @@ public class GameplayUIManager : MonoBehaviour
         NotePopupRoot = RootVisualElement.Q<VisualElement>("NotePopupRoot");
         SettingsRoot = RootVisualElement.Q<VisualElement>("SettingsRoot");
 
+        EndingChoiceContainer = RootVisualElement.Q<VisualElement>("EndingChoiceContainer");
+
+        RestoreButton = RootVisualElement.Q<Button>("RestoreButton");
+        DestroyButton = RootVisualElement.Q<Button>("DestroyButton");
+
         // Grab component references sitting on this same GameObject
         Map = GetComponent<MapUI>();
         Journal = GetComponent<JournalController>();
@@ -142,6 +151,8 @@ public class GameplayUIManager : MonoBehaviour
         if (MapRoot != null) MapRoot.style.display = DisplayStyle.None;
         if (InventoryRoot != null) InventoryRoot.style.display = DisplayStyle.None;
         if (NotePopupRoot != null) NotePopupRoot.style.display = DisplayStyle.None;
+        if (EndingChoiceContainer != null)
+            EndingChoiceContainer.style.display = DisplayStyle.None;
     }
 
     public void SuppressSecondaryPanels(MonoBehaviour except = null)
@@ -195,5 +206,31 @@ public class GameplayUIManager : MonoBehaviour
     public void SetBottomRightHUDVisible(bool visible)
     {
         SetVisible(BottomRightHUD, visible);
+    }
+
+    // =========================================
+    // ENDING CHOICE
+    // =========================================
+
+    public void ShowEndingChoice()
+    {
+        SuppressSecondaryPanels();
+
+        if (EndingChoiceContainer != null)
+            EndingChoiceContainer.style.display = DisplayStyle.Flex;
+
+        UnityEngine.Cursor.visible = true;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+
+        // disable player movement later.
+    }
+
+    public void HideEndingChoice()
+    {
+        if (EndingChoiceContainer != null)
+            EndingChoiceContainer.style.display = DisplayStyle.None;
+
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 }
