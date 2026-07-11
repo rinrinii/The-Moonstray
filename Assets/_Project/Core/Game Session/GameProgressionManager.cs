@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,21 +8,35 @@ public class GameProgressionManager : MonoBehaviour
     public static GameProgressionManager Instance { get; private set; }
 
     public event Action<GameProgressionStage> OnStageChanged;
+    public event Action<string, bool> OnFlagChanged;
 
     [SerializeField]
     private GameProgressionStage currentStage = GameProgressionStage.Tutorial;
 
+    private readonly HashSet<string> progressionFlags = new();
+    private static bool isCreatingFallback;
+    private bool isFallbackInstance;
+
     public GameProgressionStage CurrentStage => currentStage;
     public bool HasStartedMainJourney => currentStage != GameProgressionStage.Tutorial;
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
     {
         if (Instance != null)
             return;
 
+        GameProgressionManager existingManager =
+            FindFirstObjectByType<GameProgressionManager>(
+                FindObjectsInactive.Include);
+
+        if (existingManager != null)
+            return;
+
+        isCreatingFallback = true;
         GameObject managerObject = new GameObject(nameof(GameProgressionManager));
         managerObject.AddComponent<GameProgressionManager>();
+        isCreatingFallback = false;
         DontDestroyOnLoad(managerObject);
     }
 
@@ -29,11 +44,28 @@ public class GameProgressionManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            if (Instance.isFallbackInstance)
+            {
+                Destroy(Instance.gameObject);
+                Instance = this;
+                PreserveIfNeeded();
+                return;
+            }
+
             Destroy(gameObject);
             return;
         }
 
+        isFallbackInstance = isCreatingFallback;
         Instance = this;
+        PreserveIfNeeded();
+    }
+
+    private void PreserveIfNeeded()
+    {
+        if (GetComponentInParent<PersistentRoot>() != null)
+            return;
+
         DontDestroyOnLoad(gameObject);
     }
 
@@ -97,6 +129,46 @@ public class GameProgressionManager : MonoBehaviour
 
         Debug.Log($"Game Progression Stage = {currentStage}");
         OnStageChanged?.Invoke(currentStage);
+        RefreshProgressionBlockers();
+    }
+
+    public bool IsAtLeast(GameProgressionStage stage)
+    {
+        return currentStage >= stage;
+    }
+
+    public bool HasFlag(string flag)
+    {
+        return string.IsNullOrWhiteSpace(flag) ||
+            progressionFlags.Contains(flag);
+    }
+
+    public void SetFlag(string flag, bool value = true)
+    {
+        if (string.IsNullOrWhiteSpace(flag))
+            return;
+
+        bool changed = value
+            ? progressionFlags.Add(flag)
+            : progressionFlags.Remove(flag);
+
+        if (!changed)
+            return;
+
+        Debug.Log($"Game Progression Flag '{flag}' = {value}");
+        OnFlagChanged?.Invoke(flag, value);
+        RefreshProgressionBlockers();
+    }
+
+    private void RefreshProgressionBlockers()
+    {
+        ProgressionExitBlocker[] blockers =
+            FindObjectsByType<ProgressionExitBlocker>(
+                FindObjectsInactive.Exclude,
+                FindObjectsSortMode.None);
+
+        foreach (ProgressionExitBlocker blocker in blockers)
+            blocker.RefreshState();
     }
 
     private void TryCompleteTutorialAtMoonveil(string sceneName)
