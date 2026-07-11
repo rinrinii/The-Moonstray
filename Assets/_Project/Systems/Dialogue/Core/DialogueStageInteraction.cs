@@ -9,6 +9,12 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
     [SerializeField]
     private int currentStage = 0;
 
+    [SerializeField]
+    private bool facePlayerOnInteract = true;
+
+    [SerializeField]
+    private bool freezePlayerDuringDialogue = true;
+
     public int CurrentStage => currentStage;
 
     public void OnInteract()
@@ -39,6 +45,18 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
             return;
         }
 
+        if (DialogueManager.Instance.IsDialogueActive)
+            return;
+
+        FacePlayer();
+        PlayerMovement playerMovement =
+            FindFirstObjectByType<PlayerMovement>();
+        bool wasPlayerMovementEnabled =
+            playerMovement != null && playerMovement.enabled;
+
+        if (freezePlayerDuringDialogue && playerMovement != null)
+            playerMovement.enabled = false;
+
         DialogueManager.Instance.StartDialogue(
             stage.dialogueID,
             () =>
@@ -47,7 +65,42 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
                 {
                     SetStage(stage.nextStage);
                 }
+
+                if (freezePlayerDuringDialogue &&
+                    wasPlayerMovementEnabled &&
+                    playerMovement != null)
+                {
+                    playerMovement.enabled = true;
+                }
             });
+
+        if (freezePlayerDuringDialogue &&
+            wasPlayerMovementEnabled &&
+            playerMovement != null &&
+            !DialogueManager.Instance.IsDialogueActive)
+        {
+            playerMovement.enabled = true;
+        }
+    }
+
+    private void FacePlayer()
+    {
+        if (!facePlayerOnInteract)
+            return;
+
+        PlayerMovement playerMovement =
+            FindFirstObjectByType<PlayerMovement>();
+
+        if (playerMovement == null)
+            return;
+
+        NPCMovement npcMovement =
+            GetComponentInParent<NPCMovement>();
+
+        if (npcMovement == null)
+            return;
+
+        npcMovement.FaceTarget(playerMovement.transform);
     }
 
     public void SetStage(int stage)

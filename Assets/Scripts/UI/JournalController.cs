@@ -15,6 +15,7 @@ public class JournalController : MonoBehaviour
     private VisualElement sideQuestListContainer;
 
     private ScrollView noteListContainer;
+    private ScrollView noteContentContainer;
     private Label noteNameLabel;
     private Label noteDescriptionLabel;
 
@@ -114,6 +115,17 @@ public class JournalController : MonoBehaviour
         noteListContainer =
             root.Q<ScrollView>("NoteList-Container");
 
+        noteContentContainer =
+            root.Q<ScrollView>("NoteContentContainer");
+
+        if (noteContentContainer != null)
+        {
+            noteContentContainer.verticalScrollerVisibility =
+                ScrollerVisibility.Auto;
+            noteContentContainer.horizontalScrollerVisibility =
+                ScrollerVisibility.Hidden;
+        }
+
         noteNameLabel =
             root.Q<Label>("NoteNameLabel");
 
@@ -195,6 +207,9 @@ public class JournalController : MonoBehaviour
 
                 if (noteDescriptionLabel != null)
                     noteDescriptionLabel.text = note.content;
+
+                if (noteContentContainer != null)
+                    noteContentContainer.scrollOffset = Vector2.zero;
             });
 
             noteListContainer.contentContainer.Add(entry);

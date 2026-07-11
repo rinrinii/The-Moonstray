@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -11,6 +12,8 @@ public class NoteUI : MonoBehaviour
     private Label noteTitle;
     private Label noteContent;
     private Button closeButton;
+    private Action onCurrentNoteClosed;
+    private bool isOpen;
 
     private void Awake()
     {
@@ -65,6 +68,21 @@ public class NoteUI : MonoBehaviour
         noteContent =
             noteContainer.Q<Label>("NoteContent");
 
+        if (noteContentContainer != null)
+        {
+            noteContentContainer.verticalScrollerVisibility =
+                ScrollerVisibility.Auto;
+            noteContentContainer.horizontalScrollerVisibility =
+                ScrollerVisibility.Hidden;
+        }
+
+        if (noteContent != null)
+        {
+            noteContent.style.whiteSpace = WhiteSpace.Normal;
+            noteContent.style.unityTextAlign = TextAnchor.UpperLeft;
+            noteContent.style.alignSelf = Align.Stretch;
+        }
+
         closeButton =
             noteContainer.Q<Button>("CloseButton");
 
@@ -77,7 +95,7 @@ public class NoteUI : MonoBehaviour
         CloseNote();
     }
 
-    public void OpenNote(string title, string content)
+    public void OpenNote(string title, string content, Action onClosed = null)
     {
         if (noteContainer == null ||
             noteTitle == null ||
@@ -96,6 +114,8 @@ public class NoteUI : MonoBehaviour
 
         noteTitle.text = title;
         noteContent.text = content;
+        onCurrentNoteClosed = onClosed;
+        isOpen = true;
 
         noteContainer.style.display = DisplayStyle.Flex;
         noteContainer.pickingMode = PickingMode.Position;
@@ -111,7 +131,16 @@ public class NoteUI : MonoBehaviour
         if (noteContainer == null)
             return;
 
+        bool wasOpen = isOpen;
+        Action closedCallback = onCurrentNoteClosed;
+
+        isOpen = false;
+        onCurrentNoteClosed = null;
+
         noteContainer.style.display = DisplayStyle.None;
         noteContainer.pickingMode = PickingMode.Ignore;
+
+        if (wasOpen)
+            closedCallback?.Invoke();
     }
 }

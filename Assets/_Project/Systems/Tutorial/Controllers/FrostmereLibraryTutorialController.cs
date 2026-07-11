@@ -39,6 +39,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     [SerializeField]
     private Transform npcPlayerDestination;
 
+    [SerializeField]
+    private GameObject restrictedArchivesExitBlocker;
+
     private const int requiredArchivesProgress = 3;
 
     private int archivesProgress;
@@ -272,6 +275,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
         RegisterSearchEvents();
 
+        SetRestrictedArchivesExitBlockerActive(true);
         UpdateSearchObjective();
         EnableSearchHUD();
         EnableTransformation();
@@ -329,6 +333,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
             return;
 
         npcReturning = true;
+        DisablePlayerMovement();
 
         ObjectivesUI.Instance?.SetObjective(
             "Searching for Answers",
@@ -346,7 +351,10 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     private void ReturnNpc()
     {
         if (tutorialNpc == null)
+        {
+            OnNpcReturned();
             return;
+        }
 
         WalkNpcTo(
             npcPlayerDestination,
@@ -355,8 +363,23 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnNpcReturned()
     {
+        SetRestrictedArchivesExitBlockerActive(false);
+        FaceCharacters();
+
         TutorialManager.Instance.SetState(
             TutorialState.RevealIdentity);
+    }
+
+    private void SetRestrictedArchivesExitBlockerActive(bool active)
+    {
+        if (restrictedArchivesExitBlocker == null)
+        {
+            restrictedArchivesExitBlocker =
+                GameObject.Find("RestrictedArchivesExitBlocker");
+        }
+
+        if (restrictedArchivesExitBlocker != null)
+            restrictedArchivesExitBlocker.SetActive(active);
     }
 
     private void HandleTransformationCompleted(
