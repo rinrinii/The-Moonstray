@@ -10,4 +10,10 @@ public class DialogueStage
     public bool advanceAfterDialogue;
 
     public int nextStage;
+
+    public string progressionFlagOnComplete;
+
+    public string objectiveTitleOnComplete;
+
+    public string objectiveDescriptionOnComplete;
 }

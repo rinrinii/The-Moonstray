@@ -28,6 +28,8 @@ public class QuestBoardController : MonoBehaviour
 
     private int currentPage = 0;
     private MockQuest selectedQuest;
+    private readonly PlayerMovementFreezeHandle movementFreeze =
+        new();
 
     private readonly List<MockQuest> mockQuests = new()
     {
@@ -118,6 +120,7 @@ public class QuestBoardController : MonoBehaviour
             return;
 
         questBoardRoot.style.display = DisplayStyle.Flex;
+        movementFreeze.Acquire();
         CloseQuestDetails();
         PopulateQuestBoard();
     }
@@ -128,6 +131,7 @@ public class QuestBoardController : MonoBehaviour
             questBoardRoot.style.display = DisplayStyle.None;
 
         CloseQuestDetails();
+        movementFreeze.Release();
     }
 
     private void PopulateQuestBoard()

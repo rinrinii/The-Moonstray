@@ -8,6 +8,14 @@ public class TutorialExitBlockerDialogue : MonoBehaviour
 
     private bool playerInside;
 
+    public void SetDialogueID(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+
+        dialogueID = id;
+    }
+
     private void Reset()
     {
         BoxCollider trigger = GetComponent<BoxCollider>();

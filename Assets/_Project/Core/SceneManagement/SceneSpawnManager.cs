@@ -33,10 +33,13 @@ public class SceneSpawnManager : MonoBehaviour
                     cc.enabled = false;
 
                 player.transform.position = point.transform.position;
+                player.transform.rotation = point.transform.rotation;
                 RespawnManager.Instance?.SetCurrentSpawn(point.SpawnID);
 
                 if (cc != null)
                     cc.enabled = true;
+
+                ResetPlayerTeleportState(player);
 
                 Debug.Log($"Moved player to {player.transform.position}");
             }
@@ -47,6 +50,15 @@ public class SceneSpawnManager : MonoBehaviour
         SceneLoader.PendingSpawnID = null;
 
         CompleteTutorialIfMoonveilReached();
+    }
+
+    private void ResetPlayerTeleportState(GameObject player)
+    {
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement?.ResetVerticalVelocity();
+
+        FallDamage fallDamage = player.GetComponent<FallDamage>();
+        fallDamage?.ResetFallTracking();
     }
 
     private void CompleteTutorialIfMoonveilReached()
@@ -61,6 +73,15 @@ public class SceneSpawnManager : MonoBehaviour
         }
 
         ObjectivesUI.Instance?.Clear();
-        TutorialManager.Instance.FinishTutorial();
+
+        if (GameProgressionManager.Instance != null)
+        {
+            GameProgressionManager.Instance.CompleteTutorialAndBeginChapterOne();
+        }
+        else
+        {
+            TutorialManager.Instance.FinishTutorial();
+            FindFirstObjectByType<PlayerHealth>()?.RestoreFullHealth();
+        }
     }
 }

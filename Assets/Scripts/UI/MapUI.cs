@@ -38,22 +38,8 @@ public class MapUI : MonoBehaviour
 
     private void Start()
     {
-        var ui = GameplayUIManager.Instance;
-
-        mapRoot = ui.MapRoot;
-        VisualElement root = ui.RootVisualElement;
-
-        mapImageContainer = root.Q<VisualElement>("MapImageContainer");
-        mapImage = root.Q<Image>("MapImage");
-        worldMapBtn = root.Q<Button>("WorldMap-Button");
-        closeButton = mapRoot?.Q<Button>("CloseButton");
-        regionTitleLabel = root.Q<Label>("regionTitle-Label");
-
-        if (worldMapBtn != null)
-            worldMapBtn.clicked += OnWorldMapTogglePressed;
-
-        if (closeButton != null)
-            closeButton.clicked += CloseMap;
+        RefreshReferences();
+        BindControlCallbacks();
 
         SetupMapImage();
         LoadSceneMap();
@@ -70,6 +56,16 @@ public class MapUI : MonoBehaviour
         mapOpen = false;
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void OnDestroy()
     {
         if (worldMapBtn != null)
@@ -77,6 +73,50 @@ public class MapUI : MonoBehaviour
 
         if (closeButton != null)
             closeButton.clicked -= CloseMap;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshReferences();
+        BindControlCallbacks();
+        SetupMapImage();
+        LoadSceneMap();
+        CloseMap();
+    }
+
+    private void RefreshReferences()
+    {
+        var ui = GameplayUIManager.Instance;
+
+        if (ui == null)
+            return;
+
+        mapRoot = ui.MapRoot;
+        VisualElement root = ui.RootVisualElement;
+
+        if (root == null)
+            return;
+
+        mapImageContainer = root.Q<VisualElement>("MapImageContainer");
+        mapImage = root.Q<Image>("MapImage");
+        worldMapBtn = root.Q<Button>("WorldMap-Button");
+        closeButton = mapRoot?.Q<Button>("CloseButton");
+        regionTitleLabel = root.Q<Label>("regionTitle-Label");
+    }
+
+    private void BindControlCallbacks()
+    {
+        if (worldMapBtn != null)
+        {
+            worldMapBtn.clicked -= OnWorldMapTogglePressed;
+            worldMapBtn.clicked += OnWorldMapTogglePressed;
+        }
+
+        if (closeButton != null)
+        {
+            closeButton.clicked -= CloseMap;
+            closeButton.clicked += CloseMap;
+        }
     }
 
     private void Update()
@@ -156,6 +196,9 @@ public class MapUI : MonoBehaviour
         if (!hasMap)
             return;
 
+        RefreshReferences();
+        LoadSceneMap();
+
         if (mapRoot == null)
             return;
 
@@ -181,35 +224,80 @@ public class MapUI : MonoBehaviour
     private void LoadSceneMap()
     {
         string scene = SceneManager.GetActiveScene().name;
+        MapData map = FindSceneMap(scene);
 
-        foreach (MapData map in sceneMaps)
+        if (map != null)
         {
-            if (map.sceneName == scene)
-            {
-                currentSceneMap = map.mapSprite;
-                currentRegionTitle = map.regionTitle;
+            currentSceneMap = map.mapSprite;
+            currentRegionTitle = string.IsNullOrWhiteSpace(map.regionTitle)
+                ? scene
+                : map.regionTitle;
 
-                showingWorldMap = false;
+            showingWorldMap = false;
 
-                SetMap(currentSceneMap);
-                SetRegionTitle(currentRegionTitle);
-                SetWorldMapButtonText("World Map");
+            if (currentSceneMap == null)
+                Debug.LogWarning(
+                    $"MapUI: Map data for scene '{scene}' has no sprite assigned.");
 
-                return;
-            }
+            SetMap(currentSceneMap);
+            SetRegionTitle(currentRegionTitle);
+            SetWorldMapButtonText("World Map");
+
+            return;
         }
 
         Debug.LogWarning($"MapUI: No map assigned for scene '{scene}'.");
+        currentSceneMap = null;
+        currentRegionTitle = scene;
+        showingWorldMap = false;
+        ClearMap();
         SetRegionTitle(scene);
+        SetWorldMapButtonText("World Map");
+    }
+
+    private MapData FindSceneMap(string scene)
+    {
+        if (sceneMaps != null)
+        {
+            foreach (MapData map in sceneMaps)
+            {
+                if (map != null && map.sceneName == scene)
+                    return map;
+            }
+        }
+
+        MapData[] resourceMaps = Resources.LoadAll<MapData>("Map");
+
+        foreach (MapData map in resourceMaps)
+        {
+            if (map != null && map.sceneName == scene)
+                return map;
+        }
+
+        return null;
     }
 
     private void SetMap(Sprite sprite)
     {
-        if (sprite == null || mapImage == null)
+        if (mapImage == null)
             return;
+
+        if (sprite == null)
+        {
+            ClearMap();
+            return;
+        }
 
         mapImage.image = sprite.texture;
         mapImage.scaleMode = ScaleMode.ScaleToFit;
+
+        ResetZoomAndPan();
+    }
+
+    private void ClearMap()
+    {
+        if (mapImage != null)
+            mapImage.image = null;
 
         ResetZoomAndPan();
     }
