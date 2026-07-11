@@ -103,9 +103,7 @@ public class GameplayUIManager : MonoBehaviour
         SettingsRoot = RootVisualElement.Q<VisualElement>("SettingsRoot");
 
         EndingChoiceContainer = RootVisualElement.Q<VisualElement>("EndingChoiceContainer");
-        SceneTitleContainer = RootVisualElement.Q<VisualElement>("SceneTitleContainer");
-        sceneTitleHeader = RootVisualElement.Q<Label>("SceneTitleHeader");
-        sceneTitleDescription = RootVisualElement.Q<Label>("SceneTitleDescription");
+        RefreshSceneTitleReferences();
 
         RestoreButton = RootVisualElement.Q<Button>("RestoreButton");
         DestroyButton = RootVisualElement.Q<Button>("DestroyButton");
@@ -182,6 +180,8 @@ public class GameplayUIManager : MonoBehaviour
 
     public void ShowSceneTitle(string header, string description)
     {
+        RefreshSceneTitleReferences();
+
         if (SceneTitleContainer == null ||
             sceneTitleHeader == null ||
             sceneTitleDescription == null)
@@ -191,6 +191,10 @@ public class GameplayUIManager : MonoBehaviour
 
         sceneTitleHeader.text = header;
         sceneTitleDescription.text = description;
+        sceneTitleDescription.style.display =
+            string.IsNullOrWhiteSpace(description)
+                ? DisplayStyle.None
+                : DisplayStyle.Flex;
 
         SceneTitleContainer.style.opacity = 1f;
         SceneTitleContainer.style.display = DisplayStyle.Flex;
@@ -237,11 +241,15 @@ public class GameplayUIManager : MonoBehaviour
             return false;
 
         TutorialManager tutorial = TutorialManager.Instance;
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        bool mainJourneyStarted =
+            progression != null
+                ? progression.HasStartedMainJourney
+                : tutorial != null && tutorial.IsTutorialFinished;
 
         if (!tutorialCompleteTitleShown &&
             scene.name == "Moonveil" &&
-            tutorial != null &&
-            tutorial.IsTutorialFinished)
+            mainJourneyStarted)
         {
             tutorialCompleteTitleShown = true;
             sceneTitlesUnlocked = true;
@@ -251,8 +259,7 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         if (!sceneTitlesUnlocked &&
-            tutorial != null &&
-            tutorial.IsTutorialFinished)
+            mainJourneyStarted)
         {
             sceneTitlesUnlocked = true;
         }
@@ -261,15 +268,22 @@ public class GameplayUIManager : MonoBehaviour
             return false;
 
         MapData mapData = FindSceneMap(scene.name);
+        string sceneName = string.IsNullOrWhiteSpace(scene.name)
+            ? string.Empty
+            : scene.name;
 
         header = mapData != null &&
             !string.IsNullOrWhiteSpace(mapData.regionTitle)
                 ? mapData.regionTitle
-                : scene.name;
+                : sceneName;
 
-        description = scene.name;
+        description =
+            string.IsNullOrWhiteSpace(sceneName) ||
+            string.Equals(header, sceneName, System.StringComparison.OrdinalIgnoreCase)
+                ? string.Empty
+                : sceneName;
 
-        return true;
+        return !string.IsNullOrWhiteSpace(header);
     }
 
     private MapData FindSceneMap(string sceneName)
@@ -287,11 +301,23 @@ public class GameplayUIManager : MonoBehaviour
 
     private void HideSceneTitle()
     {
+        RefreshSceneTitleReferences();
+
         if (SceneTitleContainer == null)
             return;
 
         SceneTitleContainer.style.opacity = 0f;
         SceneTitleContainer.style.display = DisplayStyle.None;
+    }
+
+    private void RefreshSceneTitleReferences()
+    {
+        if (RootVisualElement == null)
+            return;
+
+        SceneTitleContainer ??= RootVisualElement.Q<VisualElement>("SceneTitleContainer");
+        sceneTitleHeader ??= RootVisualElement.Q<Label>("SceneTitleHeader");
+        sceneTitleDescription ??= RootVisualElement.Q<Label>("SceneTitleDescription");
     }
 
     public void SuppressSecondaryPanels(MonoBehaviour except = null)

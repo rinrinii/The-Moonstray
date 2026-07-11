@@ -14,6 +14,8 @@ public class NoteUI : MonoBehaviour
     private Button closeButton;
     private Action onCurrentNoteClosed;
     private bool isOpen;
+    private readonly PlayerMovementFreezeHandle movementFreeze =
+        new();
 
     private void Awake()
     {
@@ -116,6 +118,7 @@ public class NoteUI : MonoBehaviour
         noteContent.text = content;
         onCurrentNoteClosed = onClosed;
         isOpen = true;
+        movementFreeze.Acquire();
 
         noteContainer.style.display = DisplayStyle.Flex;
         noteContainer.pickingMode = PickingMode.Position;
@@ -139,6 +142,7 @@ public class NoteUI : MonoBehaviour
 
         noteContainer.style.display = DisplayStyle.None;
         noteContainer.pickingMode = PickingMode.Ignore;
+        movementFreeze.Release();
 
         if (wasOpen)
             closedCallback?.Invoke();

@@ -16,6 +16,19 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
     private bool freezePlayerDuringDialogue = true;
 
     public int CurrentStage => currentStage;
+    public bool HasStages => stages != null && stages.Count > 0;
+
+    public void ConfigureStages(
+        List<DialogueStage> configuredStages,
+        int startingStage = 0,
+        bool replaceExisting = false)
+    {
+        if (!replaceExisting && HasStages)
+            return;
+
+        stages = configuredStages ?? new List<DialogueStage>();
+        currentStage = Mathf.Clamp(startingStage, 0, Mathf.Max(0, stages.Count - 1));
+    }
 
     public void OnInteract()
     {
@@ -61,6 +74,8 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
             stage.dialogueID,
             () =>
             {
+                ApplyCompletionEffects(stage);
+
                 if (stage.advanceAfterDialogue)
                 {
                     SetStage(stage.nextStage);
@@ -80,6 +95,23 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
             !DialogueManager.Instance.IsDialogueActive)
         {
             playerMovement.enabled = true;
+        }
+    }
+
+    private void ApplyCompletionEffects(DialogueStage stage)
+    {
+        if (!string.IsNullOrWhiteSpace(stage.progressionFlagOnComplete))
+        {
+            GameProgressionManager.Instance?.SetFlag(
+                stage.progressionFlagOnComplete);
+        }
+
+        if (!string.IsNullOrWhiteSpace(stage.objectiveTitleOnComplete) ||
+            !string.IsNullOrWhiteSpace(stage.objectiveDescriptionOnComplete))
+        {
+            ObjectivesUI.Instance?.SetObjective(
+                stage.objectiveTitleOnComplete,
+                stage.objectiveDescriptionOnComplete);
         }
     }
 
