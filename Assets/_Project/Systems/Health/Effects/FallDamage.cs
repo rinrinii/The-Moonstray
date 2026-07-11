@@ -11,6 +11,7 @@ public class FallDamage : MonoBehaviour
     private PlayerClimbing climbing;
 
     private bool wasGrounded;
+    private bool ignoreNextLanding;
 
     private float fallStartHeight;
 
@@ -68,6 +69,14 @@ public class FallDamage : MonoBehaviour
                 fallStartHeight -
                 transform.position.y;
 
+            if (ignoreNextLanding)
+            {
+                ignoreNextLanding = false;
+                fallStartHeight = transform.position.y;
+                wasGrounded = isGrounded;
+                return;
+            }
+
             if (fallDistance >
                 minimumFallDistance)
             {
@@ -95,5 +104,12 @@ public class FallDamage : MonoBehaviour
 
         wasGrounded =
             isGrounded;
+    }
+
+    public void ResetFallTracking()
+    {
+        fallStartHeight = transform.position.y;
+        wasGrounded = controller != null && controller.isGrounded;
+        ignoreNextLanding = true;
     }
 }

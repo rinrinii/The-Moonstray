@@ -94,6 +94,8 @@ public class RespawnManager : MonoBehaviour
             if (cc != null)
                 cc.enabled = true;
 
+            ResetPlayerTeleportState(playerHealth.gameObject);
+
             // Restore gameplay state.
             playerHealth.RestoreFullHealth();
 
@@ -118,5 +120,14 @@ public class RespawnManager : MonoBehaviour
     private PlayerHealth FindPlayer()
     {
         return FindFirstObjectByType<PlayerHealth>();
+    }
+
+    private void ResetPlayerTeleportState(GameObject player)
+    {
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement?.ResetVerticalVelocity();
+
+        FallDamage fallDamage = player.GetComponent<FallDamage>();
+        fallDamage?.ResetFallTracking();
     }
 }

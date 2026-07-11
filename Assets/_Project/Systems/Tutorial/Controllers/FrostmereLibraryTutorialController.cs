@@ -514,6 +514,12 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (characterController != null)
             characterController.enabled = true;
 
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        movement?.ResetVerticalVelocity();
+
+        FallDamage fallDamage = player.GetComponent<FallDamage>();
+        fallDamage?.ResetFallTracking();
+
         Debug.Log($"Moved player to Reading Wing spawn at {player.position}.");
     }
 
