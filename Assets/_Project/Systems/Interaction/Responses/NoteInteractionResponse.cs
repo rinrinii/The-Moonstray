@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 {
+    [SerializeField] private NoteData noteData;
+
     [SerializeField] private string noteTitle;
 
     [TextArea(5, 15)]
@@ -21,32 +23,39 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
         hasBeenRead = true;
 
-        Debug.Log("NoteInteractionResponse fired: " + noteTitle);
+        string title = noteData != null ? noteData.title : noteTitle;
+        string content = noteData != null ? noteData.content : noteContent;
+
+        Debug.Log("NoteInteractionResponse fired: " + title);
 
         if (NoteUI.Instance != null)
         {
-            NoteUI.Instance.OpenNote(noteTitle, noteContent);
+            NoteUI.Instance.OpenNote(title, content, NotifyNoteRead);
         }
         else
         {
             Debug.LogError("NoteUI.Instance missing");
+            NotifyNoteRead();
         }
 
         if (JournalController.Instance != null)
         {
-            JournalController.Instance.AddNote(noteTitle, noteContent);
+            JournalController.Instance.AddNote(title, content);
         }
         else
         {
             Debug.LogError("JournalController.Instance missing");
         }
 
-        OnNoteRead?.Invoke();
-
         if (disableAfterPickup)
         {
             DisableNoteObject();
         }
+    }
+
+    private void NotifyNoteRead()
+    {
+        OnNoteRead?.Invoke();
     }
 
     private void DisableNoteObject()

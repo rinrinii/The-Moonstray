@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -21,6 +22,7 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement NotePopupRoot { get; private set; }
     public VisualElement SettingsRoot { get; private set; }
     public VisualElement EndingChoiceContainer { get; private set; }
+    public VisualElement SceneTitleContainer { get; private set; }
 
     public Button RestoreButton { get; private set; }
     public Button DestroyButton { get; private set; }
@@ -40,6 +42,19 @@ public class GameplayUIManager : MonoBehaviour
     // UI Controllers
     public PromptUI Prompt { get; private set; }
     public ObjectivesUI Objectives { get; private set; }
+
+    private Label sceneTitleHeader;
+    private Label sceneTitleDescription;
+    private Coroutine sceneTitleRoutine;
+    private bool sceneTitlesUnlocked;
+    private bool tutorialCompleteTitleShown;
+
+    [Header("Scene Title Panel")]
+    [SerializeField]
+    private float sceneTitleInitialDelay = 0.75f;
+
+    [SerializeField]
+    private float sceneTitleVisibleSeconds = 3f;
 
     // Public Sub-Controller properties 
     public MapUI Map { get; private set; }
@@ -88,6 +103,9 @@ public class GameplayUIManager : MonoBehaviour
         SettingsRoot = RootVisualElement.Q<VisualElement>("SettingsRoot");
 
         EndingChoiceContainer = RootVisualElement.Q<VisualElement>("EndingChoiceContainer");
+        SceneTitleContainer = RootVisualElement.Q<VisualElement>("SceneTitleContainer");
+        sceneTitleHeader = RootVisualElement.Q<Label>("SceneTitleHeader");
+        sceneTitleDescription = RootVisualElement.Q<Label>("SceneTitleDescription");
 
         RestoreButton = RootVisualElement.Q<Button>("RestoreButton");
         DestroyButton = RootVisualElement.Q<Button>("DestroyButton");
@@ -116,6 +134,11 @@ public class GameplayUIManager : MonoBehaviour
         UpdateVisibilityForScene(SceneManager.GetActiveScene());
     }
 
+    private void Start()
+    {
+        QueueSceneTitle(SceneManager.GetActiveScene());
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -129,6 +152,7 @@ public class GameplayUIManager : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateVisibilityForScene(scene);
+        QueueSceneTitle(scene);
     }
 
     private void UpdateVisibilityForScene(Scene scene)
@@ -153,6 +177,121 @@ public class GameplayUIManager : MonoBehaviour
         if (NotePopupRoot != null) NotePopupRoot.style.display = DisplayStyle.None;
         if (EndingChoiceContainer != null)
             EndingChoiceContainer.style.display = DisplayStyle.None;
+        HideSceneTitle();
+    }
+
+    public void ShowSceneTitle(string header, string description)
+    {
+        if (SceneTitleContainer == null ||
+            sceneTitleHeader == null ||
+            sceneTitleDescription == null)
+        {
+            return;
+        }
+
+        sceneTitleHeader.text = header;
+        sceneTitleDescription.text = description;
+
+        SceneTitleContainer.style.opacity = 1f;
+        SceneTitleContainer.style.display = DisplayStyle.Flex;
+    }
+
+    private void QueueSceneTitle(Scene scene)
+    {
+        if (sceneTitleRoutine != null)
+            StopCoroutine(sceneTitleRoutine);
+
+        sceneTitleRoutine = StartCoroutine(ShowSceneTitleAfterSceneReady(scene));
+    }
+
+    private IEnumerator ShowSceneTitleAfterSceneReady(Scene scene)
+    {
+        HideSceneTitle();
+
+        yield return null;
+        yield return new WaitForSecondsRealtime(sceneTitleInitialDelay);
+
+        if (!ShouldShowSceneTitle(scene, out string header, out string description))
+        {
+            sceneTitleRoutine = null;
+            yield break;
+        }
+
+        ShowSceneTitle(header, description);
+
+        yield return new WaitForSecondsRealtime(sceneTitleVisibleSeconds);
+
+        HideSceneTitle();
+        sceneTitleRoutine = null;
+    }
+
+    private bool ShouldShowSceneTitle(
+        Scene scene,
+        out string header,
+        out string description)
+    {
+        header = string.Empty;
+        description = string.Empty;
+
+        if (scene.name == "LoadingScene" || scene.name == "MainMenu")
+            return false;
+
+        TutorialManager tutorial = TutorialManager.Instance;
+
+        if (!tutorialCompleteTitleShown &&
+            scene.name == "Moonveil" &&
+            tutorial != null &&
+            tutorial.IsTutorialFinished)
+        {
+            tutorialCompleteTitleShown = true;
+            sceneTitlesUnlocked = true;
+            header = "Tutorial Complete";
+            description = "Begin Your Journey";
+            return true;
+        }
+
+        if (!sceneTitlesUnlocked &&
+            tutorial != null &&
+            tutorial.IsTutorialFinished)
+        {
+            sceneTitlesUnlocked = true;
+        }
+
+        if (!sceneTitlesUnlocked)
+            return false;
+
+        MapData mapData = FindSceneMap(scene.name);
+
+        header = mapData != null &&
+            !string.IsNullOrWhiteSpace(mapData.regionTitle)
+                ? mapData.regionTitle
+                : scene.name;
+
+        description = scene.name;
+
+        return true;
+    }
+
+    private MapData FindSceneMap(string sceneName)
+    {
+        MapData[] maps = Resources.LoadAll<MapData>("Map");
+
+        foreach (MapData map in maps)
+        {
+            if (map != null && map.sceneName == sceneName)
+                return map;
+        }
+
+        return null;
+    }
+
+    private void HideSceneTitle()
+    {
+        if (SceneTitleContainer == null)
+            return;
+
+        SceneTitleContainer.style.opacity = 0f;
+        SceneTitleContainer.style.display = DisplayStyle.None;
     }
 
     public void SuppressSecondaryPanels(MonoBehaviour except = null)
