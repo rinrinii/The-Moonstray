@@ -9,6 +9,7 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
     private const string FarmlandsScene = "Outer Farmlands";
     private const string VillageBasinScene = "Village Basin";
     private const string OvergrowthFieldsScene = "Overgrowth Fields";
+    private const string ViridianEstateScene = "Viridian Estate";
     private static bool registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -64,6 +65,12 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             return;
         }
 
+        if (scene.name == ViridianEstateScene)
+        {
+            ConfigureViridianEstate(progression);
+            return;
+        }
+
         if (scene.name != FarmlandsScene)
             return;
 
@@ -88,6 +95,57 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             "Visit the Village Basin to obtain more clues.");
 
         RestoreCurrentObjective(progression);
+    }
+
+    private static void ConfigureViridianEstate(
+        GameProgressionManager progression)
+    {
+        if (!progression.HasFlag(
+            GameProgressionFlags.Chapter1OvergrowthCropTwoInspected))
+        {
+            return;
+        }
+
+        GameObject viridian = GameObject.Find("Viridian-rig");
+        if (viridian == null)
+            return;
+
+        DialogueStageInteraction interaction =
+            viridian.GetComponent<DialogueStageInteraction>();
+        if (interaction == null)
+            return;
+
+        int startingStage = progression.HasFlag(
+            GameProgressionFlags.Chapter1ViridianIntroComplete) ? 1 : 0;
+
+        interaction.ConfigureStages(
+            new List<DialogueStage>
+            {
+                new()
+                {
+                    stageName = "ViridianIntro",
+                    dialogueID = "chapter1.viridianIntro",
+                    advanceAfterDialogue = true,
+                    nextStage = 1,
+                    progressionFlagOnComplete =
+                        GameProgressionFlags.Chapter1ViridianIntroComplete,
+                    objectiveTitleOnComplete = QuestTitle,
+                    objectiveDescriptionOnComplete =
+                        "Proceed to the Restricted Farmlands."
+                },
+                new()
+                {
+                    stageName = "ViridianRepeat",
+                    dialogueID = "chapter1.viridianRepeat"
+                }
+            },
+            startingStage,
+            true);
+
+        if (startingStage == 1)
+            SetObjective("Proceed to the Restricted Farmlands.");
+        else
+            SetObjective("Speak with Viridian, the Harvest Steward.");
     }
 
     private static void ConfigureOvergrowthFields(
