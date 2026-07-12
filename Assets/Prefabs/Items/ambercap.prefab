@@ -250,6 +250,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
   objectID: ambercap
+  useInstanceID: 1
+  instanceID: 
   actions:
   - requiredState: 0
     nextState: 1
@@ -267,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 1
   interactionType: 2
 --- !u!114 &4852644147317256256
 MonoBehaviour:

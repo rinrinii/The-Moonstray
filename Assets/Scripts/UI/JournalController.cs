@@ -15,13 +15,19 @@ public class JournalController : MonoBehaviour
     private VisualElement sideQuestListContainer;
 
     private ScrollView noteListContainer;
+    private ScrollView noteContentContainer;
     private Label noteNameLabel;
     private Label noteDescriptionLabel;
 
     private Label questTitleLabel;
     private Label questDetailsLabel;
     private Label questConditionLabel;
+    private Label questRewardsLabel;
+    private Label questSubmitStatusLabel;
+    private ScrollView questDetailsScroll;
+    private Button submitQuestButton;
     private Button closeButton;
+    private QuestState selectedQuest;
 
     [SerializeField]
     private bool unlocked = false;
@@ -111,14 +117,49 @@ public class JournalController : MonoBehaviour
         questConditionLabel =
             root.Q<Label>("QuestCondition");
 
+        questRewardsLabel =
+            root.Q<Label>("QuestRewards");
+
+        questSubmitStatusLabel =
+            root.Q<Label>("QuestSubmitStatus");
+
+        questDetailsScroll =
+            root.Q<ScrollView>("QuestDetailsScroll");
+
+        submitQuestButton =
+            root.Q<Button>("SubmitQuestButton");
+
+        SetupScrollView(root.Q<ScrollView>("MainQuestList-Container"));
+        SetupScrollView(root.Q<ScrollView>("SideQuestList-Container"));
+        SetupScrollView(questDetailsScroll);
+
         noteListContainer =
             root.Q<ScrollView>("NoteList-Container");
+
+        noteContentContainer =
+            root.Q<ScrollView>("NoteContentContainer");
+
+        SetupScrollView(noteContentContainer);
+        SetupScrollView(noteListContainer);
 
         noteNameLabel =
             root.Q<Label>("NoteNameLabel");
 
         noteDescriptionLabel =
             root.Q<Label>("NoteDescription");
+
+        if (noteNameLabel != null)
+        {
+            noteNameLabel.style.whiteSpace = WhiteSpace.Normal;
+            noteNameLabel.style.unityTextAlign = TextAnchor.UpperCenter;
+            noteNameLabel.style.alignSelf = Align.Stretch;
+        }
+
+        if (noteDescriptionLabel != null)
+        {
+            noteDescriptionLabel.style.whiteSpace = WhiteSpace.Normal;
+            noteDescriptionLabel.style.alignSelf = Align.Stretch;
+        }
 
         closeButton =
             root.Q<Button>("CloseButton");
@@ -130,14 +171,21 @@ public class JournalController : MonoBehaviour
             closeButton.clicked += CloseJournal;
         }
 
+        if (submitQuestButton != null)
+        {
+            submitQuestButton.clicked -= SubmitSelectedQuest;
+            submitQuestButton.clicked += SubmitSelectedQuest;
+            submitQuestButton.style.display = DisplayStyle.None;
+        }
+
         ClearMockElements();
         RenderNotes();
     }
 
     private void ClearMockElements()
     {
-        mainQuestListContainer?.Clear();
-        sideQuestListContainer?.Clear();
+        ClearContainer(mainQuestListContainer);
+        ClearContainer(sideQuestListContainer);
     }
 
     public void OpenJournal()
@@ -179,6 +227,28 @@ public class JournalController : MonoBehaviour
         RenderNotes();
     }
 
+    public bool HasNote(NoteData noteData)
+    {
+        if (noteData == null)
+            return false;
+
+        return HasNote(noteData.title);
+    }
+
+    public bool HasNote(string title)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            return false;
+
+        foreach (JournalNote note in notes)
+        {
+            if (note.title == title)
+                return true;
+        }
+
+        return false;
+    }
+
     private void RenderNotes()
     {
         if (noteListContainer == null)
@@ -195,6 +265,9 @@ public class JournalController : MonoBehaviour
 
                 if (noteDescriptionLabel != null)
                     noteDescriptionLabel.text = note.content;
+
+                if (noteContentContainer != null)
+                    noteContentContainer.scrollOffset = Vector2.zero;
             });
 
             noteListContainer.contentContainer.Add(entry);
@@ -205,26 +278,29 @@ public class JournalController : MonoBehaviour
     {
         ClearMockElements();
 
-        for (int i = 1; i <= 3; i++)
+        QuestState mainQuest = QuestManager.Instance?.CurrentMainQuest;
+
+        if (mainQuest != null)
         {
-            string questTitle =
-                $"Blight Investigation Task #{i}";
-
-            string abstractSummary =
-                $"Details for step {i}: Cleanse the remaining hazard metrics scattered across the sandbox quadrants.";
-
-            string goalCondition =
-                $"Status: 0 / {i} Cleansed";
-
-            VisualElement entry = CreateJournalEntry(questTitle, () =>
+            VisualElement mainQuestEntry = CreateJournalEntry(mainQuest.Title, () =>
             {
-                PopulateFocusedQuestView(
-                    questTitle,
-                    abstractSummary,
-                    goalCondition);
+                PopulateFocusedQuestView(mainQuest);
             });
 
-            mainQuestListContainer?.Add(entry);
+            AddToContainer(mainQuestListContainer, mainQuestEntry);
+        }
+
+        if (QuestManager.Instance == null)
+            return;
+
+        foreach (QuestState sideQuest in QuestManager.Instance.SideQuests)
+        {
+            VisualElement entry = CreateJournalEntry(sideQuest.Title, () =>
+            {
+                PopulateFocusedQuestView(sideQuest);
+            });
+
+            AddToContainer(sideQuestListContainer, entry);
         }
     }
 
@@ -256,6 +332,10 @@ public class JournalController : MonoBehaviour
             entryButton.text = title;
             entryButton.clicked += () => onClick?.Invoke();
             entryButton.pickingMode = PickingMode.Position;
+            entryButton.style.whiteSpace = WhiteSpace.Normal;
+            entryButton.style.unityTextAlign = TextAnchor.MiddleLeft;
+            entryButton.style.alignSelf = Align.Stretch;
+            entryButton.style.width = Length.Percent(100);
         }
         else
         {
@@ -263,6 +343,8 @@ public class JournalController : MonoBehaviour
         }
 
         root.pickingMode = PickingMode.Position;
+        root.style.alignSelf = Align.Stretch;
+        root.style.width = Length.Percent(100);
 
         return root;
     }
@@ -272,6 +354,8 @@ public class JournalController : MonoBehaviour
         string details,
         string condition)
     {
+        selectedQuest = null;
+
         if (questTitleLabel != null)
             questTitleLabel.text = title;
 
@@ -280,6 +364,124 @@ public class JournalController : MonoBehaviour
 
         if (questConditionLabel != null)
             questConditionLabel.text = condition;
+
+        if (questRewardsLabel != null)
+            questRewardsLabel.text = "Nothing here...";
+
+        if (questSubmitStatusLabel != null)
+            questSubmitStatusLabel.text = string.Empty;
+
+        if (submitQuestButton != null)
+            submitQuestButton.style.display = DisplayStyle.None;
+
+        if (questDetailsScroll != null)
+            questDetailsScroll.scrollOffset = Vector2.zero;
+    }
+
+    private void PopulateFocusedQuestView(QuestState quest)
+    {
+        if (quest == null)
+            return;
+
+        selectedQuest = quest;
+
+        if (questTitleLabel != null)
+            questTitleLabel.text = quest.Title;
+
+        if (questDetailsLabel != null)
+            questDetailsLabel.text = string.IsNullOrWhiteSpace(quest.Description)
+                ? "Nothing here..."
+                : quest.Description;
+
+        if (questConditionLabel != null)
+            questConditionLabel.text = string.IsNullOrWhiteSpace(quest.Conditions)
+                ? "Nothing here..."
+                : quest.Conditions;
+
+        if (questRewardsLabel != null)
+            questRewardsLabel.text = string.IsNullOrWhiteSpace(quest.Rewards)
+                ? "Nothing here..."
+                : quest.Rewards;
+
+        if (questSubmitStatusLabel != null)
+            questSubmitStatusLabel.text = string.Empty;
+
+        if (submitQuestButton != null)
+        {
+            bool canSubmit = quest.Data != null && !quest.Completed;
+            submitQuestButton.style.display =
+                canSubmit ? DisplayStyle.Flex : DisplayStyle.None;
+            submitQuestButton.SetEnabled(canSubmit);
+        }
+
+        if (questDetailsScroll != null)
+            questDetailsScroll.scrollOffset = Vector2.zero;
+    }
+
+    private void SubmitSelectedQuest()
+    {
+        if (selectedQuest == null || selectedQuest.Data == null)
+            return;
+
+        if (QuestManager.Instance == null)
+        {
+            if (questSubmitStatusLabel != null)
+                questSubmitStatusLabel.text = "Quest manager is unavailable.";
+
+            return;
+        }
+
+        if (!QuestManager.Instance.SubmitSideQuest(
+                selectedQuest.Data,
+                out string failureReason))
+        {
+            if (questSubmitStatusLabel != null)
+                questSubmitStatusLabel.text = failureReason;
+
+            return;
+        }
+
+        if (questSubmitStatusLabel != null)
+            questSubmitStatusLabel.text = "Quest complete.";
+
+        if (submitQuestButton != null)
+            submitQuestButton.style.display = DisplayStyle.None;
+
+        selectedQuest = null;
+        RenderActiveJournalData();
+    }
+
+    private void SetupScrollView(ScrollView scrollView)
+    {
+        if (scrollView == null)
+            return;
+
+        scrollView.verticalScrollerVisibility =
+            ScrollerVisibility.Auto;
+        scrollView.horizontalScrollerVisibility =
+            ScrollerVisibility.Hidden;
+    }
+
+    private void ClearContainer(VisualElement container)
+    {
+        if (container == null)
+            return;
+
+        if (container is ScrollView scrollView)
+            scrollView.contentContainer.Clear();
+        else
+            container.Clear();
+    }
+
+    private void AddToContainer(VisualElement container, VisualElement child)
+    {
+        if (container == null || child == null)
+            return;
+
+        if (container is ScrollView scrollView)
+            scrollView.contentContainer.Add(child);
+        else
+            container.Add(child);
     }
 
     public bool IsJournalActive()

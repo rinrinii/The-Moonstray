@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -18,9 +19,11 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement JournalContainer { get; private set; }
     public VisualElement MapRoot { get; private set; }
     public VisualElement InventoryRoot { get; private set; }
+    public VisualElement ShopRoot { get; private set; }
     public VisualElement NotePopupRoot { get; private set; }
     public VisualElement SettingsRoot { get; private set; }
     public VisualElement EndingChoiceContainer { get; private set; }
+    public VisualElement SceneTitleContainer { get; private set; }
 
     public Button RestoreButton { get; private set; }
     public Button DestroyButton { get; private set; }
@@ -41,10 +44,24 @@ public class GameplayUIManager : MonoBehaviour
     public PromptUI Prompt { get; private set; }
     public ObjectivesUI Objectives { get; private set; }
 
+    private Label sceneTitleHeader;
+    private Label sceneTitleDescription;
+    private Coroutine sceneTitleRoutine;
+    private bool sceneTitlesUnlocked;
+    private bool tutorialCompleteTitleShown;
+
+    [Header("Scene Title Panel")]
+    [SerializeField]
+    private float sceneTitleInitialDelay = 0.75f;
+
+    [SerializeField]
+    private float sceneTitleVisibleSeconds = 3f;
+
     // Public Sub-Controller properties 
     public MapUI Map { get; private set; }
     public JournalController Journal { get; private set; }
     public InventoryUI Inventory { get; private set; }
+    public ShopUI Shop { get; private set; }
     public NoteUI Note { get; private set; }
     public GameOverUI GameOver { get; private set; }
     public QuestBoardController QuestBoard { get; private set; }
@@ -84,10 +101,12 @@ public class GameplayUIManager : MonoBehaviour
         JournalContainer = RootVisualElement.Q<VisualElement>("JournalContainer");
         MapRoot = RootVisualElement.Q<VisualElement>("MapRoot");
         InventoryRoot = RootVisualElement.Q<VisualElement>("InventoryRoot");
+        ShopRoot = RootVisualElement.Q<VisualElement>("ShopRoot");
         NotePopupRoot = RootVisualElement.Q<VisualElement>("NotePopupRoot");
         SettingsRoot = RootVisualElement.Q<VisualElement>("SettingsRoot");
 
         EndingChoiceContainer = RootVisualElement.Q<VisualElement>("EndingChoiceContainer");
+        RefreshSceneTitleReferences();
 
         RestoreButton = RootVisualElement.Q<Button>("RestoreButton");
         DestroyButton = RootVisualElement.Q<Button>("DestroyButton");
@@ -96,6 +115,7 @@ public class GameplayUIManager : MonoBehaviour
         Map = GetComponent<MapUI>();
         Journal = GetComponent<JournalController>();
         Inventory = GetComponent<InventoryUI>();
+        Shop = GetComponent<ShopUI>() ?? gameObject.AddComponent<ShopUI>();
         Note = GetComponent<NoteUI>();
         GameOver = GetComponent<GameOverUI>();
         QuestBoard = GetComponent<QuestBoardController>();
@@ -116,6 +136,11 @@ public class GameplayUIManager : MonoBehaviour
         UpdateVisibilityForScene(SceneManager.GetActiveScene());
     }
 
+    private void Start()
+    {
+        QueueSceneTitle(SceneManager.GetActiveScene());
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -129,6 +154,7 @@ public class GameplayUIManager : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateVisibilityForScene(scene);
+        QueueSceneTitle(scene);
     }
 
     private void UpdateVisibilityForScene(Scene scene)
@@ -150,9 +176,153 @@ public class GameplayUIManager : MonoBehaviour
         if (JournalContainer != null) JournalContainer.style.display = DisplayStyle.None;
         if (MapRoot != null) MapRoot.style.display = DisplayStyle.None;
         if (InventoryRoot != null) InventoryRoot.style.display = DisplayStyle.None;
+        if (ShopRoot != null) ShopRoot.style.display = DisplayStyle.None;
         if (NotePopupRoot != null) NotePopupRoot.style.display = DisplayStyle.None;
         if (EndingChoiceContainer != null)
             EndingChoiceContainer.style.display = DisplayStyle.None;
+        HideSceneTitle();
+    }
+
+    public void ShowSceneTitle(string header, string description)
+    {
+        RefreshSceneTitleReferences();
+
+        if (SceneTitleContainer == null ||
+            sceneTitleHeader == null ||
+            sceneTitleDescription == null)
+        {
+            return;
+        }
+
+        sceneTitleHeader.text = header;
+        sceneTitleDescription.text = description;
+        sceneTitleDescription.style.display =
+            string.IsNullOrWhiteSpace(description)
+                ? DisplayStyle.None
+                : DisplayStyle.Flex;
+
+        SceneTitleContainer.style.opacity = 1f;
+        SceneTitleContainer.style.display = DisplayStyle.Flex;
+    }
+
+    private void QueueSceneTitle(Scene scene)
+    {
+        if (sceneTitleRoutine != null)
+            StopCoroutine(sceneTitleRoutine);
+
+        sceneTitleRoutine = StartCoroutine(ShowSceneTitleAfterSceneReady(scene));
+    }
+
+    private IEnumerator ShowSceneTitleAfterSceneReady(Scene scene)
+    {
+        HideSceneTitle();
+
+        yield return null;
+        yield return new WaitForSecondsRealtime(sceneTitleInitialDelay);
+
+        if (!ShouldShowSceneTitle(scene, out string header, out string description))
+        {
+            sceneTitleRoutine = null;
+            yield break;
+        }
+
+        ShowSceneTitle(header, description);
+
+        yield return new WaitForSecondsRealtime(sceneTitleVisibleSeconds);
+
+        HideSceneTitle();
+        sceneTitleRoutine = null;
+    }
+
+    private bool ShouldShowSceneTitle(
+        Scene scene,
+        out string header,
+        out string description)
+    {
+        header = string.Empty;
+        description = string.Empty;
+
+        if (scene.name == "LoadingScene" || scene.name == "MainMenu")
+            return false;
+
+        TutorialManager tutorial = TutorialManager.Instance;
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        bool mainJourneyStarted =
+            progression != null
+                ? progression.HasStartedMainJourney
+                : tutorial != null && tutorial.IsTutorialFinished;
+
+        if (!tutorialCompleteTitleShown &&
+            scene.name == "Moonveil" &&
+            mainJourneyStarted)
+        {
+            tutorialCompleteTitleShown = true;
+            sceneTitlesUnlocked = true;
+            header = "Tutorial Complete";
+            description = "Begin Your Journey";
+            return true;
+        }
+
+        if (!sceneTitlesUnlocked &&
+            mainJourneyStarted)
+        {
+            sceneTitlesUnlocked = true;
+        }
+
+        if (!sceneTitlesUnlocked)
+            return false;
+
+        MapData mapData = FindSceneMap(scene.name);
+        string sceneName = string.IsNullOrWhiteSpace(scene.name)
+            ? string.Empty
+            : scene.name;
+
+        header = mapData != null &&
+            !string.IsNullOrWhiteSpace(mapData.regionTitle)
+                ? mapData.regionTitle
+                : sceneName;
+
+        description =
+            string.IsNullOrWhiteSpace(sceneName) ||
+            string.Equals(header, sceneName, System.StringComparison.OrdinalIgnoreCase)
+                ? string.Empty
+                : sceneName;
+
+        return !string.IsNullOrWhiteSpace(header);
+    }
+
+    private MapData FindSceneMap(string sceneName)
+    {
+        MapData[] maps = Resources.LoadAll<MapData>("Map");
+
+        foreach (MapData map in maps)
+        {
+            if (map != null && map.sceneName == sceneName)
+                return map;
+        }
+
+        return null;
+    }
+
+    private void HideSceneTitle()
+    {
+        RefreshSceneTitleReferences();
+
+        if (SceneTitleContainer == null)
+            return;
+
+        SceneTitleContainer.style.opacity = 0f;
+        SceneTitleContainer.style.display = DisplayStyle.None;
+    }
+
+    private void RefreshSceneTitleReferences()
+    {
+        if (RootVisualElement == null)
+            return;
+
+        SceneTitleContainer ??= RootVisualElement.Q<VisualElement>("SceneTitleContainer");
+        sceneTitleHeader ??= RootVisualElement.Q<Label>("SceneTitleHeader");
+        sceneTitleDescription ??= RootVisualElement.Q<Label>("SceneTitleDescription");
     }
 
     public void SuppressSecondaryPanels(MonoBehaviour except = null)
@@ -165,6 +335,9 @@ public class GameplayUIManager : MonoBehaviour
 
         if (Inventory != null && Inventory != except)
             Inventory.CloseInventory();
+
+        if (Shop != null && Shop != except)
+            Shop.CloseShop();
 
         if (Note != null && Note != except)
             Note.CloseNote();

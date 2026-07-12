@@ -14,6 +14,7 @@ public class InventoryUI : MonoBehaviour
     private VisualElement infoPanel;
     private Label nameLabel;
     private Label descLabel;
+    private Label walletLabel;
     private VisualElement icon;
     private Button useButton;
     private Button closeButton;
@@ -64,6 +65,7 @@ public class InventoryUI : MonoBehaviour
         infoPanel = searchRoot.Q<VisualElement>("InfoPanel");
         nameLabel = searchRoot.Q<Label>("ItemNameLabel");
         descLabel = searchRoot.Q<Label>("ItemDescriptionLabel");
+        walletLabel = root.Q<Label>("InventoryWalletLabel");
         icon = searchRoot.Q<VisualElement>("ItemIcon");
         useButton = searchRoot.Q<Button>("UseButton");
         closeButton = root.Q<Button>("CloseButton");
@@ -76,6 +78,8 @@ public class InventoryUI : MonoBehaviour
         if (fragmentGrid == null) Debug.LogWarning("InventoryUI: fragmentGrid (FragmentSlotLayer) NOT FOUND");
         if (useButton == null) Debug.LogWarning("InventoryUI: useButton NOT FOUND");
         if (nameLabel == null) Debug.LogWarning("InventoryUI: nameLabel NOT FOUND");
+
+        RefreshWallet();
     }
 
     void HookButtons()
@@ -135,6 +139,9 @@ public class InventoryUI : MonoBehaviour
     {
         if (InventorySystem.Instance != null)
             InventorySystem.Instance.OnInventoryChanged -= RefreshUI;
+
+        if (MoonCoinWallet.Instance != null)
+            MoonCoinWallet.Instance.OnMoonCoinsChanged -= HandleMoonCoinsChanged;
     }
 
     public void Open()
@@ -156,6 +163,8 @@ public class InventoryUI : MonoBehaviour
         inventoryRoot.pickingMode = PickingMode.Position;
         inventoryWindow.pickingMode = PickingMode.Position;
 
+        SubscribeWallet();
+        RefreshWallet();
         RefreshUI();
     }
 
@@ -289,5 +298,31 @@ public class InventoryUI : MonoBehaviour
         unlocked = true;
 
         Debug.Log($"{nameof(InventoryUI)} unlocked.");
+    }
+
+    private void SubscribeWallet()
+    {
+        if (MoonCoinWallet.Instance == null)
+            return;
+
+        MoonCoinWallet.Instance.OnMoonCoinsChanged -= HandleMoonCoinsChanged;
+        MoonCoinWallet.Instance.OnMoonCoinsChanged += HandleMoonCoinsChanged;
+    }
+
+    private void HandleMoonCoinsChanged(int amount)
+    {
+        RefreshWallet();
+    }
+
+    private void RefreshWallet()
+    {
+        if (walletLabel == null)
+            return;
+
+        int coins = MoonCoinWallet.Instance != null
+            ? MoonCoinWallet.Instance.MoonCoins
+            : 0;
+
+        walletLabel.text = $"{coins} Moon Coins";
     }
 }

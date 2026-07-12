@@ -4,15 +4,69 @@ using UnityEngine;
 
 public class DialogueDatabase : MonoBehaviour
 {
+    [Tooltip("Legacy single-file dialogue source. Prefer Dialogue XML Files for new content.")]
     [SerializeField] private TextAsset dialogueXML;
 
-    private XmlDocument xmlDoc;
+    [SerializeField] private TextAsset[] dialogueXMLFiles;
+
+    private readonly Dictionary<string, XmlNode> dialogueNodes = new();
+    private readonly List<XmlDocument> loadedDocuments = new();
 
     private void Awake()
     {
-        xmlDoc = new XmlDocument();
+        BuildDialogueIndex();
+    }
 
-        xmlDoc.LoadXml(dialogueXML.text);
+    private void BuildDialogueIndex()
+    {
+        dialogueNodes.Clear();
+        loadedDocuments.Clear();
+
+        if (dialogueXML != null)
+            LoadDialogueXML(dialogueXML);
+
+        if (dialogueXMLFiles == null)
+            return;
+
+        foreach (TextAsset dialogueFile in dialogueXMLFiles)
+            LoadDialogueXML(dialogueFile);
+    }
+
+    private void LoadDialogueXML(TextAsset dialogueFile)
+    {
+        if (dialogueFile == null)
+            return;
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(dialogueFile.text);
+        loadedDocuments.Add(xmlDoc);
+
+        XmlNodeList nodes =
+            xmlDoc.SelectNodes("/GameDialogue/Dialogue");
+
+        if (nodes == null)
+            return;
+
+        foreach (XmlNode node in nodes)
+        {
+            string id = node.Attributes?["id"]?.Value;
+
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                Debug.LogWarning(
+                    $"{dialogueFile.name} contains a Dialogue with no id.");
+                continue;
+            }
+
+            if (dialogueNodes.ContainsKey(id))
+            {
+                Debug.LogWarning(
+                    $"Duplicate dialogue id '{id}' found in {dialogueFile.name}. Keeping the first definition.");
+                continue;
+            }
+
+            dialogueNodes.Add(id, node);
+        }
     }
 
     public List<DialogueLine> GetDialogue(string dialogueID)
@@ -20,12 +74,7 @@ public class DialogueDatabase : MonoBehaviour
         List<DialogueLine> result =
             new List<DialogueLine>();
 
-        XmlNode dialogueNode =
-            xmlDoc.SelectSingleNode(
-                $"/GameDialogue/Dialogue[@id='{dialogueID}']"
-            );
-
-        if (dialogueNode == null)
+        if (!dialogueNodes.TryGetValue(dialogueID, out XmlNode dialogueNode))
         {
             Debug.LogWarning(
                 $"Dialogue not found: {dialogueID}"

@@ -72,7 +72,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6664358993437552698, guid: 1bbf1e975e803a54a9a24f48a5c9c43d, type: 3}
+  - {fileID: 2100000, guid: 797db2d9c5a33a24c84aeea9ab068cd9, type: 2}
   - {fileID: 2100000, guid: 980b386023257874188534f61882d723, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 1
   interactionType: 2
 --- !u!114 &6840345733924660890
 MonoBehaviour:
