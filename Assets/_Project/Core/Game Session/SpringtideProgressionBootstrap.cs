@@ -7,6 +7,7 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
     private const string QuestTitle = "For Every Garden Buries a Secret";
     private const string BloombridgeScene = "Bloombridge Path";
     private const string FarmlandsScene = "Outer Farmlands";
+    private const string VillageBasinScene = "Village Basin";
     private static bool registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -50,6 +51,12 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             return;
         }
 
+        if (scene.name == VillageBasinScene)
+        {
+            ConfigureVillageBasin(progression);
+            return;
+        }
+
         if (scene.name != FarmlandsScene)
             return;
 
@@ -74,6 +81,45 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             "Visit the Village Basin to obtain more clues.");
 
         RestoreCurrentObjective(progression);
+    }
+
+    private static void ConfigureVillageBasin(
+        GameProgressionManager progression)
+    {
+        if (!progression.HasFlag(
+            GameProgressionFlags.Chapter1GreenhouseInspected))
+        {
+            return;
+        }
+
+        ObjectStateInteraction[] interactions =
+            Object.FindObjectsByType<ObjectStateInteraction>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+        foreach (ObjectStateInteraction stateInteraction in interactions)
+        {
+            if (stateInteraction.ObjectID != "restoreDestroyedIrrigation2")
+                continue;
+
+            RestoreBehaviour restore =
+                stateInteraction.GetComponent<RestoreBehaviour>();
+            if (restore == null)
+                continue;
+
+            restore.PrepareRuntimeReplacement();
+
+            VillageBasinIrrigationQuest quest =
+                stateInteraction.GetComponent<VillageBasinIrrigationQuest>();
+            if (quest == null)
+            {
+                quest = stateInteraction.gameObject.AddComponent<
+                    VillageBasinIrrigationQuest>();
+            }
+
+            quest.Configure(restore, Resources.Load<ItemData>("Items/Shovel"));
+            break;
+        }
     }
 
     private static void ConfigureFarmer(GameProgressionManager progression)

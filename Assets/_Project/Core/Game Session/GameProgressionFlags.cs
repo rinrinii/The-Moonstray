@@ -23,4 +23,13 @@ public static class GameProgressionFlags
 
     public const string Chapter1GreenhouseInspected =
         "chapter1.greenhouseInspected";
+
+    public const string Chapter1VillageIrrigationInspected =
+        "chapter1.villageIrrigationInspected";
+
+    public const string Chapter1ShovelObtained =
+        "chapter1.shovelObtained";
+
+    public const string Chapter1VillageIrrigationRestored =
+        "chapter1.villageIrrigationRestored";
 }
