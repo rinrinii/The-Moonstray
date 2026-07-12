@@ -10325,7 +10325,7 @@ PrefabInstance:
       addedObject: {fileID: 1104500552}
     - targetCorrespondingSourceObject: {fileID: 1160024901267817761, guid: 919a56ca31692594483100e51dd0601c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1104500551}
+      addedObject: {fileID: 1104500555}
   m_SourcePrefab: {fileID: 100100000, guid: 919a56ca31692594483100e51dd0601c, type: 3}
 --- !u!4 &1104500549 stripped
 Transform:
@@ -10337,22 +10337,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1160024901267817761, guid: 919a56ca31692594483100e51dd0601c, type: 3}
   m_PrefabInstance: {fileID: 1104500548}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1104500551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1104500550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a5a3e5176510d54e82db954866f3136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueStageInteraction
-  stages: []
-  currentStage: 0
-  facePlayerOnInteract: 1
-  freezePlayerDuringDialogue: 1
 --- !u!114 &1104500552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10368,6 +10352,18 @@ MonoBehaviour:
   isInteractable: 1
   requiredForm: 1
   interactionType: 0
+--- !u!114 &1104500555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104500550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058c830a38ad2724ab2b491ee5f0a73f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopInteractionResponse
 --- !u!1 &1123051312
 GameObject:
   m_ObjectHideFlags: 0

@@ -126,11 +126,32 @@ public class JournalController : MonoBehaviour
                 ScrollerVisibility.Hidden;
         }
 
+        if (noteListContainer != null)
+        {
+            noteListContainer.verticalScrollerVisibility =
+                ScrollerVisibility.Auto;
+            noteListContainer.horizontalScrollerVisibility =
+                ScrollerVisibility.Hidden;
+        }
+
         noteNameLabel =
             root.Q<Label>("NoteNameLabel");
 
         noteDescriptionLabel =
             root.Q<Label>("NoteDescription");
+
+        if (noteNameLabel != null)
+        {
+            noteNameLabel.style.whiteSpace = WhiteSpace.Normal;
+            noteNameLabel.style.unityTextAlign = TextAnchor.UpperCenter;
+            noteNameLabel.style.alignSelf = Align.Stretch;
+        }
+
+        if (noteDescriptionLabel != null)
+        {
+            noteDescriptionLabel.style.whiteSpace = WhiteSpace.Normal;
+            noteDescriptionLabel.style.alignSelf = Align.Stretch;
+        }
 
         closeButton =
             root.Q<Button>("CloseButton");
@@ -271,6 +292,10 @@ public class JournalController : MonoBehaviour
             entryButton.text = title;
             entryButton.clicked += () => onClick?.Invoke();
             entryButton.pickingMode = PickingMode.Position;
+            entryButton.style.whiteSpace = WhiteSpace.Normal;
+            entryButton.style.unityTextAlign = TextAnchor.MiddleLeft;
+            entryButton.style.alignSelf = Align.Stretch;
+            entryButton.style.width = Length.Percent(100);
         }
         else
         {
@@ -278,6 +303,8 @@ public class JournalController : MonoBehaviour
         }
 
         root.pickingMode = PickingMode.Position;
+        root.style.alignSelf = Align.Stretch;
+        root.style.width = Length.Percent(100);
 
         return root;
     }
