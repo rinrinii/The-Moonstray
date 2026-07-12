@@ -350,7 +350,11 @@ public class PlayerMovement : MonoBehaviour
                     );
 
                 AudioManager.Instance?.PlaySFX("JumpLand");
-                AudioManager.Instance?.PlaySFX("LightGrunt");
+
+                if (!transformation.IsWolf)
+                {
+                    AudioManager.Instance?.PlaySFX("LightGrunt");
+                }
 
                 if (doubleJump)
                 {

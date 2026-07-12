@@ -90,6 +90,17 @@ public class AudioManager : MonoBehaviour
 
     #endregion
 
+    public void SetSFXVolume(float value)
+    {
+        value = Mathf.Clamp01(value);
+
+        if (sfxSource != null)
+            sfxSource.volume = value;
+
+        if (uiSource != null)
+            uiSource.volume = value;
+    }
+
     private void Play(string id, AudioSource source)
     {
         if (source == null)

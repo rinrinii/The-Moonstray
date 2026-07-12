@@ -244,7 +244,12 @@ public class SettingsController : MonoBehaviour
 
     private void ApplySFXVolume(float value)
     {
-        Debug.Log("SFX Volume: " + Mathf.Clamp01(value));
+        value = Mathf.Clamp01(value);
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.SetSFXVolume(value);
+        else
+            Debug.LogWarning("AudioManager.Instance is missing.");
     }
 
     private void SaveSettings()
