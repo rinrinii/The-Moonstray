@@ -11,6 +11,8 @@ public class ObjectStateInteraction : MonoBehaviour, IInteractionResponse
 
     private string cachedStateID;
 
+    public string ObjectID => objectID;
+
     private void Start()
     {
         cachedStateID = GetStateID();

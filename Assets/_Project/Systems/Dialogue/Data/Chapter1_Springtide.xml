@@ -1,2 +1,34 @@
 <GameDialogue>
+	<Dialogue id="chapter1.farmerIntro">
+		<Line speaker="Serin" portrait="serin-human">These fields... they look like they've been abandoned. What happened here?</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">We didn't abandon them... not willingly.</Line>
+		<Line speaker="Serin" portrait="serin-human">Then why are the crops failing?</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">That's the strange part... they're not. They grow faster than ever.</Line>
+		<Line speaker="Serin" portrait="serin-human">...That doesn't sound like a problem.</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">It is when they rot just as fast. Healthy one day, then black and mush the next.</Line>
+		<Line speaker="Serin" portrait="serin-human">How about the irrigation canals?</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">Some dried up. Others... carry something foul. We stopped trusting the water.</Line>
+		<Line speaker="Serin" portrait="serin-human">Has anything like this happened before?</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">Never. The harvests used to follow the seasons... steady and predictable. Now it's like the land's being forced to grow.</Line>
+		<Line speaker="Serin" portrait="serin-human">Forced... by what?</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">...</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">They say the Steward's relic keeps the land "blessed."</Line>
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">...but blessings shouldn't feel like this.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.farmerRepeat">
+		<Line speaker="Farmer" portrait="farmerNPC-portrait">...I wonder if we can still earn enough for the next season.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.inspectWitheredCrops">
+		<Line type="narration">The crops seem to be growing unnaturally. Spots of decay decorate the fields despite their size.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.inspectDamagedIrrigation">
+		<Line speaker="Serin" portrait="serin-human">This doesn't seem to be working correctly.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.inspectAbandonedGreenhouse">
+		<Line type="narration">The greenhouse may hold clues about the region's declining harvest. I should search the area for signs of what happened.</Line>
+	</Dialogue>
 </GameDialogue>
