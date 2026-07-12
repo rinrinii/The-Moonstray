@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
+  m_Name: The First Signs
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  region: 0
+  questTitle: The First Signs
+  description: The old irrigation records may explain why the canals failed despite
+    the water flowing normally. If you come across the inspection report, please
+    return it. It could help us understand what truly happened.
+  requirements:
+  - type: 1
+    item: {fileID: 11400000, guid: 12e2c544c6688434cbf108ac811ac330, type: 2}
+    note: {fileID: 11400000, guid: d69b291239f88a94db7c639d309b7c89, type: 2}
+    amount: 1
+  requiredItems: []
+  requiredNotes: []
+  reward: 
+  moonCoinReward: 30
+  rewardItems:
+  - item: {fileID: 11400000, guid: 37d4374ad3e40a341ba117c4afce11f4, type: 2}
+    amount: 1
+  rewardNotes: []
+  rewardUpgrades: 
