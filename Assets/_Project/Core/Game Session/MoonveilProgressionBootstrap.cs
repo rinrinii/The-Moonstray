@@ -31,6 +31,7 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
         if (scene.name != MoonveilSceneName)
             return;
 
+        ConfigureEndingTrigger();
         ConfigureGuide();
         ConfigureQuestObjective();
         ConfigureBlocker(
@@ -53,6 +54,27 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
             GameProgressionStage.Chapter4Winter,
             "",
             "progression.blockedExit");
+    }
+
+    private static void ConfigureEndingTrigger()
+    {
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        if (progression == null ||
+            !progression.IsAtLeast(GameProgressionStage.FinalSequence))
+        {
+            return;
+        }
+
+        EndingTrigger[] endingTriggers =
+            Object.FindObjectsByType<EndingTrigger>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+        foreach (EndingTrigger endingTrigger in endingTriggers)
+        {
+            endingTrigger.gameObject.SetActive(true);
+            break;
+        }
     }
 
     private static void ConfigureGuide()
