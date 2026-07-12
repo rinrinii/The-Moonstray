@@ -19,6 +19,7 @@ public class GameplayUIManager : MonoBehaviour
     public VisualElement JournalContainer { get; private set; }
     public VisualElement MapRoot { get; private set; }
     public VisualElement InventoryRoot { get; private set; }
+    public VisualElement ShopRoot { get; private set; }
     public VisualElement NotePopupRoot { get; private set; }
     public VisualElement SettingsRoot { get; private set; }
     public VisualElement EndingChoiceContainer { get; private set; }
@@ -60,6 +61,7 @@ public class GameplayUIManager : MonoBehaviour
     public MapUI Map { get; private set; }
     public JournalController Journal { get; private set; }
     public InventoryUI Inventory { get; private set; }
+    public ShopUI Shop { get; private set; }
     public NoteUI Note { get; private set; }
     public GameOverUI GameOver { get; private set; }
     public QuestBoardController QuestBoard { get; private set; }
@@ -99,6 +101,7 @@ public class GameplayUIManager : MonoBehaviour
         JournalContainer = RootVisualElement.Q<VisualElement>("JournalContainer");
         MapRoot = RootVisualElement.Q<VisualElement>("MapRoot");
         InventoryRoot = RootVisualElement.Q<VisualElement>("InventoryRoot");
+        ShopRoot = RootVisualElement.Q<VisualElement>("ShopRoot");
         NotePopupRoot = RootVisualElement.Q<VisualElement>("NotePopupRoot");
         SettingsRoot = RootVisualElement.Q<VisualElement>("SettingsRoot");
 
@@ -112,6 +115,7 @@ public class GameplayUIManager : MonoBehaviour
         Map = GetComponent<MapUI>();
         Journal = GetComponent<JournalController>();
         Inventory = GetComponent<InventoryUI>();
+        Shop = GetComponent<ShopUI>() ?? gameObject.AddComponent<ShopUI>();
         Note = GetComponent<NoteUI>();
         GameOver = GetComponent<GameOverUI>();
         QuestBoard = GetComponent<QuestBoardController>();
@@ -172,6 +176,7 @@ public class GameplayUIManager : MonoBehaviour
         if (JournalContainer != null) JournalContainer.style.display = DisplayStyle.None;
         if (MapRoot != null) MapRoot.style.display = DisplayStyle.None;
         if (InventoryRoot != null) InventoryRoot.style.display = DisplayStyle.None;
+        if (ShopRoot != null) ShopRoot.style.display = DisplayStyle.None;
         if (NotePopupRoot != null) NotePopupRoot.style.display = DisplayStyle.None;
         if (EndingChoiceContainer != null)
             EndingChoiceContainer.style.display = DisplayStyle.None;
@@ -330,6 +335,9 @@ public class GameplayUIManager : MonoBehaviour
 
         if (Inventory != null && Inventory != except)
             Inventory.CloseInventory();
+
+        if (Shop != null && Shop != except)
+            Shop.CloseShop();
 
         if (Note != null && Note != except)
             Note.CloseNote();
