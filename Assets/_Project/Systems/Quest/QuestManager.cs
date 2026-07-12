@@ -108,11 +108,25 @@ public class QuestManager : MonoBehaviour
             return false;
         }
 
-        if (!HasRequiredItems(questData, out failureReason))
-            return false;
+        bool hasRequiredItems =
+            HasRequiredItems(questData, out string missingItemsReason);
 
-        if (!HasRequiredNotes(questData, out failureReason))
+        bool hasRequiredNotes =
+            HasRequiredNotes(questData, out string missingNotesReason);
+
+        if (!hasRequiredItems || !hasRequiredNotes)
+        {
+            List<string> failureReasons = new();
+
+            if (!string.IsNullOrWhiteSpace(missingItemsReason))
+                failureReasons.Add(missingItemsReason);
+
+            if (!string.IsNullOrWhiteSpace(missingNotesReason))
+                failureReasons.Add(missingNotesReason);
+
+            failureReason = string.Join("\n", failureReasons);
             return false;
+        }
 
         return true;
     }
@@ -146,22 +160,26 @@ public class QuestManager : MonoBehaviour
             return false;
         }
 
+        List<string> missingItems = new();
+
         foreach (QuestItemAmount requiredItem in questData.requiredItems)
         {
             if (requiredItem == null || requiredItem.item == null)
                 continue;
 
             int requiredAmount = Mathf.Max(1, requiredItem.amount);
+            int availableAmount = CountInventoryItem(requiredItem.item);
 
-            if (CountInventoryItem(requiredItem.item) < requiredAmount)
-            {
-                failureReason =
-                    $"Missing {requiredAmount} x {requiredItem.item.itemName}.";
-                return false;
-            }
+            if (availableAmount < requiredAmount)
+                missingItems.Add(
+                    $"Missing {requiredAmount - availableAmount} x {requiredItem.item.itemName}");
         }
 
-        return true;
+        if (missingItems.Count == 0)
+            return true;
+
+        failureReason = string.Join("\n", missingItems) + ".";
+        return false;
     }
 
     private bool HasRequiredNotes(QuestData questData, out string failureReason)
@@ -180,19 +198,22 @@ public class QuestManager : MonoBehaviour
             return false;
         }
 
+        List<string> missingNotes = new();
+
         foreach (NoteData note in questData.requiredNotes)
         {
             if (note == null)
                 continue;
 
             if (!JournalController.Instance.HasNote(note))
-            {
-                failureReason = $"Missing journal entry: {note.title}.";
-                return false;
-            }
+                missingNotes.Add($"Missing journal entry: {note.title}");
         }
 
-        return true;
+        if (missingNotes.Count == 0)
+            return true;
+
+        failureReason = string.Join("\n", missingNotes) + ".";
+        return false;
     }
 
     private int CountInventoryItem(ItemData item)
