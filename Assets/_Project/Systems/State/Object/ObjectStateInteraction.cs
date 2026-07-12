@@ -9,13 +9,38 @@ public class ObjectStateInteraction : MonoBehaviour, IInteractionResponse
 
     [SerializeField] private List<ObjectStateAction> actions;
 
+    private string cachedStateID;
+
+    private void Start()
+    {
+        cachedStateID = GetStateID();
+
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnObjectStateChanged += HandleObjectStateChanged;
+
+        RefreshState();
+    }
+
+    private void OnDestroy()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnObjectStateChanged -= HandleObjectStateChanged;
+    }
+
     public void OnInteract()
     {
         string stateID = GetStateID();
+        cachedStateID = stateID;
 
         if (string.IsNullOrEmpty(stateID))
         {
             Debug.LogWarning("Object ID missing.");
+            return;
+        }
+
+        if (GameStateManager.Instance == null)
+        {
+            Debug.LogWarning("GameStateManager missing.");
             return;
         }
 
@@ -33,6 +58,47 @@ public class ObjectStateInteraction : MonoBehaviour, IInteractionResponse
         Debug.Log($"No matching object state for {stateID}: {currentState}");
     }
 
+    private void RefreshState()
+    {
+        if (string.IsNullOrEmpty(cachedStateID) ||
+            GameStateManager.Instance == null)
+        {
+            return;
+        }
+
+        int currentState = GameStateManager.Instance.GetState(cachedStateID);
+
+        if (HasActionForState(currentState))
+            return;
+
+        CollectBehaviour collectBehaviour =
+            GetComponent<CollectBehaviour>();
+
+        collectBehaviour?.ApplyCollectedState();
+    }
+
+    private bool HasActionForState(int state)
+    {
+        if (actions == null)
+            return false;
+
+        foreach (ObjectStateAction action in actions)
+        {
+            if (action != null && action.requiredState == state)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void HandleObjectStateChanged(string changedObjectID, int newState)
+    {
+        if (changedObjectID != cachedStateID)
+            return;
+
+        RefreshState();
+    }
+
     private string GetStateID()
     {
         if (!useInstanceID)
@@ -41,10 +107,12 @@ public class ObjectStateInteraction : MonoBehaviour, IInteractionResponse
         if (string.IsNullOrEmpty(instanceID))
             EnsureInstanceID();
 
-        if (string.IsNullOrEmpty(objectID))
-            return instanceID;
+        string instanceKey = GetSceneInstanceKey();
 
-        return $"{objectID}:{instanceID}";
+        if (string.IsNullOrEmpty(objectID))
+            return instanceKey;
+
+        return $"{objectID}:{instanceKey}";
     }
 
     private void EnsureInstanceID()
@@ -53,6 +121,32 @@ public class ObjectStateInteraction : MonoBehaviour, IInteractionResponse
             return;
 
         instanceID = System.Guid.NewGuid().ToString("N");
+    }
+
+    private string GetSceneInstanceKey()
+    {
+        string sceneName = gameObject.scene.IsValid()
+            ? gameObject.scene.name
+            : "NoScene";
+
+        return $"{sceneName}/{GetTransformPath(transform)}:{instanceID}";
+    }
+
+    private static string GetTransformPath(Transform current)
+    {
+        if (current == null)
+            return string.Empty;
+
+        string path = $"{current.name}[{current.GetSiblingIndex()}]";
+        Transform parent = current.parent;
+
+        while (parent != null)
+        {
+            path = $"{parent.name}[{parent.GetSiblingIndex()}]/{path}";
+            parent = parent.parent;
+        }
+
+        return path;
     }
 
 #if UNITY_EDITOR

@@ -25,11 +25,14 @@ public class InventorySystem : MonoBehaviour
 
     public bool Add(ItemData item, int amount = 1)
     {
+        if (item == null || amount <= 0)
+            return false;
+
         if (item.stackable)
         {
             foreach (var slot in slots)
             {
-                if (slot.item == item)
+                if (IsSameItem(slot.item, item))
                 {
                     slot.amount += amount;
                     OnInventoryChanged?.Invoke(); 
@@ -48,9 +51,12 @@ public class InventorySystem : MonoBehaviour
 
     public bool Remove(ItemData item, int amount = 1)
     {
+        if (item == null || amount <= 0)
+            return false;
+
         for (int i = 0; i < slots.Count; i++)
         {
-            if (slots[i].item == item)
+            if (IsSameItem(slots[i].item, item))
             {
                 slots[i].amount -= amount;
                 if (slots[i].amount <= 0)
@@ -60,5 +66,20 @@ public class InventorySystem : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private bool IsSameItem(ItemData first, ItemData second)
+    {
+        if (first == null || second == null)
+            return false;
+
+        if (first == second)
+            return true;
+
+        if (first.itemID != 0 && first.itemID == second.itemID)
+            return true;
+
+        return !string.IsNullOrWhiteSpace(first.itemName) &&
+            first.itemName == second.itemName;
     }
 }

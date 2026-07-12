@@ -3,6 +3,9 @@ using UnityEngine.UIElements;
 
 public class InventoryUI : MonoBehaviour
 {
+    private const string HealthPotionItemName = "Health Potion";
+    private const float HealthPotionRestoreAmount = 25f;
+
     [SerializeField] private VisualTreeAsset itemSlotTemplate;
 
     private VisualElement inventoryRoot;
@@ -286,8 +289,35 @@ public class InventoryUI : MonoBehaviour
     {
         if (selectedItem == null || InventorySystem.Instance == null) return;
 
+        if (!ApplyItemUse(selectedItem))
+            return;
+
         InventorySystem.Instance.Remove(selectedItem);
         RefreshUI();
+    }
+
+    private bool ApplyItemUse(ItemData item)
+    {
+        if (item == null)
+            return false;
+
+        if (item.itemName == HealthPotionItemName)
+        {
+            PlayerHealth playerHealth =
+                FindFirstObjectByType<PlayerHealth>();
+
+            if (playerHealth == null)
+            {
+                Debug.LogWarning("InventoryUI: PlayerHealth not found.");
+                return false;
+            }
+
+            playerHealth.Heal(HealthPotionRestoreAmount);
+            return true;
+        }
+
+        Debug.LogWarning($"InventoryUI: No use effect configured for {item.itemName}.");
+        return false;
     }
 
     public void Unlock()
