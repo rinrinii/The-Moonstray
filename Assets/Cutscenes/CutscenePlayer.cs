@@ -51,6 +51,18 @@ public class CutscenePlayer : MonoBehaviour
         videoPlayer.Prepare();
     }
 
+    public void Play(VideoClip clip, Action finishedCallback)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("CutscenePlayer: Video clip is missing.");
+            return;
+        }
+
+        videoPlayer.clip = clip;
+        Play(finishedCallback);
+    }
+
     private void HandlePrepared(VideoPlayer vp)
     {
         videoPlayer.prepareCompleted -= HandlePrepared;

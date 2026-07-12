@@ -9,6 +9,8 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
     private const string FarmlandsScene = "Outer Farmlands";
     private const string VillageBasinScene = "Village Basin";
     private const string OvergrowthFieldsScene = "Overgrowth Fields";
+    private const string ViridianEstateScene = "Viridian Estate";
+    private const string RestrictedFarmlandsScene = "Restricted Farmlands";
     private static bool registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -64,6 +66,25 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             return;
         }
 
+        if (progression.HasFlag(
+            GameProgressionFlags.Chapter1VerdantShardObtained))
+        {
+            AbilityManager.Instance?.UnlockAbility(AbilityType.Dash);
+        }
+
+        if (scene.name == ViridianEstateScene)
+        {
+            ConfigureViridianEstate(progression);
+            return;
+        }
+
+
+        if (scene.name == RestrictedFarmlandsScene)
+        {
+            ConfigureRestrictedFarmlands(progression);
+            return;
+        }
+
         if (scene.name != FarmlandsScene)
             return;
 
@@ -88,6 +109,113 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             "Visit the Village Basin to obtain more clues.");
 
         RestoreCurrentObjective(progression);
+    }
+
+    private static void ConfigureViridianEstate(
+        GameProgressionManager progression)
+    {
+        if (!progression.HasFlag(
+            GameProgressionFlags.Chapter1OvergrowthCropTwoInspected))
+        {
+            return;
+        }
+
+        GameObject viridian = GameObject.Find("Viridian-rig");
+        if (viridian == null)
+            return;
+
+        DialogueStageInteraction interaction =
+            viridian.GetComponent<DialogueStageInteraction>();
+        if (interaction == null)
+            return;
+
+        int startingStage = progression.HasFlag(
+            GameProgressionFlags.Chapter1ViridianIntroComplete) ? 1 : 0;
+
+        interaction.ConfigureStages(
+            new List<DialogueStage>
+            {
+                new()
+                {
+                    stageName = "ViridianIntro",
+                    dialogueID = "chapter1.viridianIntro",
+                    advanceAfterDialogue = true,
+                    nextStage = 1,
+                    progressionFlagOnComplete =
+                        GameProgressionFlags.Chapter1ViridianIntroComplete,
+                    objectiveTitleOnComplete = QuestTitle,
+                    objectiveDescriptionOnComplete =
+                        "Proceed to the Restricted Farmlands."
+                },
+                new()
+                {
+                    stageName = "ViridianRepeat",
+                    dialogueID = "chapter1.viridianRepeat"
+                }
+            },
+            startingStage,
+            true);
+
+        if (startingStage == 1)
+            SetObjective("Proceed to the Restricted Farmlands.");
+        else
+            SetObjective("Speak with Viridian, the Harvest Steward.");
+    }
+
+    private static void ConfigureRestrictedFarmlands(
+        GameProgressionManager progression)
+    {
+        if (!progression.HasFlag(
+            GameProgressionFlags.Chapter1ViridianIntroComplete))
+        {
+            return;
+        }
+
+        ObjectStateInteraction[] interactions =
+            Object.FindObjectsByType<ObjectStateInteraction>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+        foreach (ObjectStateInteraction stateInteraction in interactions)
+        {
+            if (stateInteraction.ObjectID != "irrigationWheel")
+                continue;
+
+            RestrictedFarmlandsQuestInteraction quest =
+                stateInteraction.GetComponent<
+                    RestrictedFarmlandsQuestInteraction>();
+            if (quest == null)
+            {
+                quest = stateInteraction.gameObject.AddComponent<
+                    RestrictedFarmlandsQuestInteraction>();
+            }
+
+            GameObject water = GameObject.Find("Water");
+            quest.Configure(
+                water,
+                Resources.Load<ItemData>("Items/Fragments/Verdant Shard"));
+            break;
+        }
+
+        if (progression.HasFlag(
+            GameProgressionFlags.Chapter1VerdantShardObtained))
+        {
+            waterStateObjectiveComplete();
+        }
+        else if (progression.HasFlag(
+            GameProgressionFlags.Chapter1RestrictedWheelInspected))
+        {
+            SetObjective("Interact with the irrigation wheel again.");
+        }
+        else
+        {
+            SetObjective("Interact with the irrigation wheel.");
+        }
+
+        static void waterStateObjectiveComplete()
+        {
+            SetObjective("The truth beneath the farmland has been revealed.");
+        }
     }
 
     private static void ConfigureOvergrowthFields(
@@ -293,6 +421,94 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             SetObjective("Examine the withered crops.");
         else
             SetObjective("Talk to the Farmer.");
+    }
+
+    private static void SetObjective(string description)
+    {
+        ObjectivesUI.Instance?.SetObjective(QuestTitle, description);
+    }
+}
+
+public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
+    IInteractionResponse
+{
+    private const string QuestTitle = "For Every Garden Buries a Secret";
+    private GameObject water;
+    private ItemData verdantShard;
+    private bool configured;
+    private bool transitioning;
+
+    public void Configure(
+        GameObject configuredWater,
+        ItemData configuredVerdantShard)
+    {
+        water = configuredWater;
+        verdantShard = configuredVerdantShard;
+        configured = true;
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        if (progression != null && progression.HasFlag(
+            GameProgressionFlags.Chapter1VerdantShardObtained))
+        {
+            water?.SetActive(false);
+            AbilityManager.Instance?.UnlockAbility(AbilityType.Dash);
+        }
+    }
+
+    public void OnInteract()
+    {
+        if (!configured || transitioning || DialogueManager.Instance == null ||
+            DialogueManager.Instance.IsDialogueActive)
+            return;
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        if (progression == null || !progression.HasFlag(
+            GameProgressionFlags.Chapter1ViridianIntroComplete) ||
+            progression.HasFlag(GameProgressionFlags.Chapter1VerdantShardObtained))
+            return;
+        if (!progression.HasFlag(
+            GameProgressionFlags.Chapter1RestrictedWheelInspected))
+        {
+            DialogueManager.Instance.StartDialogue(
+                "chapter1.inspectRestrictedIrrigationWheel", () =>
+                {
+                    progression.SetFlag(
+                        GameProgressionFlags.Chapter1RestrictedWheelInspected);
+                    SetObjective("Interact with the irrigation wheel again.");
+                });
+            return;
+        }
+        RevealTruth(progression);
+    }
+
+    private void RevealTruth(GameProgressionManager progression)
+    {
+        transitioning = true;
+        void ChangeSceneState()
+        {
+            water?.SetActive(false);
+            void ContinueDialogue()
+            {
+                DialogueManager.Instance?.StartDialogue(
+                    "chapter1.restrictedFarmlandsTruth",
+                    () => CompleteObjective(progression));
+            }
+            if (ScreenFade.Instance != null)
+                ScreenFade.Instance.FadeIn(ContinueDialogue);
+            else
+                ContinueDialogue();
+        }
+        if (ScreenFade.Instance != null)
+            ScreenFade.Instance.FadeOut(ChangeSceneState);
+        else
+            ChangeSceneState();
+    }
+
+    private void CompleteObjective(GameProgressionManager progression)
+    {
+        InventorySystem.Instance?.Add(verdantShard);
+        AbilityManager.Instance?.UnlockAbility(AbilityType.Dash);
+        progression.SetFlag(GameProgressionFlags.Chapter1VerdantShardObtained);
+        SetObjective("The truth beneath the farmland has been revealed.");
+        transitioning = false;
     }
 
     private static void SetObjective(string description)

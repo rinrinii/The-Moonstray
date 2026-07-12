@@ -79,6 +79,19 @@ public class GameProgressionManager : MonoBehaviour
         SceneManager.sceneLoaded -= HandleSceneLoaded;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F6))
+            TeleportToFinalSequence();
+    }
+
+    private void TeleportToFinalSequence()
+    {
+        SetFlag(GameProgressionFlags.Chapter1GuideIntroComplete);
+        BeginFinalSequence();
+        SceneLoader.LoadScene("Moonveil", "CenterMoonveil");
+    }
+
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TryCompleteTutorialAtMoonveil(scene.name);

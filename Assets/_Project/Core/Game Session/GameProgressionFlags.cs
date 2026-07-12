@@ -44,4 +44,13 @@ public static class GameProgressionFlags
 
     public const string Chapter1RuinedGardenRestored =
         "chapter1.ruinedGardenRestored";
+
+    public const string Chapter1ViridianIntroComplete =
+        "chapter1.viridianIntroComplete";
+
+    public const string Chapter1RestrictedWheelInspected =
+        "chapter1.restrictedWheelInspected";
+
+    public const string Chapter1VerdantShardObtained =
+        "chapter1.verdantShardObtained";
 }
