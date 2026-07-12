@@ -16,6 +16,11 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
     public static event Action OnNoteRead;
 
+    private void Start()
+    {
+        ApplyCollectedStateIfNeeded();
+    }
+
     public void OnInteract()
     {
         if (hasBeenRead)
@@ -23,8 +28,8 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
         hasBeenRead = true;
 
-        string title = noteData != null ? noteData.title : noteTitle;
-        string content = noteData != null ? noteData.content : noteContent;
+        string title = GetNoteTitle();
+        string content = GetNoteContent();
 
         Debug.Log("NoteInteractionResponse fired: " + title);
 
@@ -53,6 +58,26 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
         }
     }
 
+    private void ApplyCollectedStateIfNeeded()
+    {
+        if (!disableAfterPickup ||
+            JournalController.Instance == null)
+        {
+            return;
+        }
+
+        string title = GetNoteTitle();
+
+        if (string.IsNullOrWhiteSpace(title) ||
+            !JournalController.Instance.HasNote(title))
+        {
+            return;
+        }
+
+        hasBeenRead = true;
+        DisableNoteObject();
+    }
+
     private void NotifyNoteRead()
     {
         OnNoteRead?.Invoke();
@@ -60,14 +85,16 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
     private void DisableNoteObject()
     {
-        Collider col = GetComponent<Collider>();
+        Collider[] colliders =
+            GetComponentsInChildren<Collider>(true);
 
-        if (col != null)
+        foreach (Collider col in colliders)
             col.enabled = false;
 
-        Renderer rend = GetComponent<Renderer>();
+        Renderer[] renderers =
+            GetComponentsInChildren<Renderer>(true);
 
-        if (rend != null)
+        foreach (Renderer rend in renderers)
             rend.enabled = false;
 
         Transform highlightAnchor =
@@ -75,5 +102,15 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
         if (highlightAnchor != null)
             highlightAnchor.gameObject.SetActive(false);
+    }
+
+    private string GetNoteTitle()
+    {
+        return noteData != null ? noteData.title : noteTitle;
+    }
+
+    private string GetNoteContent()
+    {
+        return noteData != null ? noteData.content : noteContent;
     }
 }

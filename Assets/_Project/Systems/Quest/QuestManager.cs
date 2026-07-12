@@ -198,11 +198,26 @@ public class QuestManager : MonoBehaviour
 
         foreach (InventorySystem.Slot slot in InventorySystem.Instance.slots)
         {
-            if (slot.item == item)
+            if (IsSameItem(slot.item, item))
                 count += slot.amount;
         }
 
         return count;
+    }
+
+    private bool IsSameItem(ItemData first, ItemData second)
+    {
+        if (first == null || second == null)
+            return false;
+
+        if (first == second)
+            return true;
+
+        if (first.itemID != 0 && first.itemID == second.itemID)
+            return true;
+
+        return !string.IsNullOrWhiteSpace(first.itemName) &&
+            first.itemName == second.itemName;
     }
 
     private void ConsumeRequiredItems(QuestData questData)
