@@ -108,25 +108,8 @@ public class QuestManager : MonoBehaviour
             return false;
         }
 
-        bool hasRequiredItems =
-            HasRequiredItems(questData, out string missingItemsReason);
-
-        bool hasRequiredNotes =
-            HasRequiredNotes(questData, out string missingNotesReason);
-
-        if (!hasRequiredItems || !hasRequiredNotes)
-        {
-            List<string> failureReasons = new();
-
-            if (!string.IsNullOrWhiteSpace(missingItemsReason))
-                failureReasons.Add(missingItemsReason);
-
-            if (!string.IsNullOrWhiteSpace(missingNotesReason))
-                failureReasons.Add(missingNotesReason);
-
-            failureReason = string.Join("\n", failureReasons);
+        if (!HasRequirements(questData, out failureReason))
             return false;
-        }
 
         return true;
     }
@@ -144,75 +127,65 @@ public class QuestManager : MonoBehaviour
         return true;
     }
 
-    private bool HasRequiredItems(QuestData questData, out string failureReason)
+    private bool HasRequirements(QuestData questData, out string failureReason)
     {
         failureReason = string.Empty;
 
-        if (questData.requiredItems == null ||
-            questData.requiredItems.Count == 0)
+        IReadOnlyList<QuestRequirement> requirements =
+            questData.Requirements;
+
+        if (requirements == null || requirements.Count == 0)
         {
             return true;
         }
 
-        if (InventorySystem.Instance == null)
-        {
-            failureReason = "Inventory is unavailable.";
-            return false;
-        }
+        List<string> missingRequirements = new();
 
-        List<string> missingItems = new();
-
-        foreach (QuestItemAmount requiredItem in questData.requiredItems)
+        foreach (QuestRequirement requirement in requirements)
         {
-            if (requiredItem == null || requiredItem.item == null)
+            if (requirement == null || !requirement.IsValid)
                 continue;
 
-            int requiredAmount = Mathf.Max(1, requiredItem.amount);
-            int availableAmount = CountInventoryItem(requiredItem.item);
+            if (requirement.IsItem)
+            {
+                if (InventorySystem.Instance == null)
+                {
+                    failureReason = "Inventory is unavailable.";
+                    return false;
+                }
 
-            if (availableAmount < requiredAmount)
-                missingItems.Add(
-                    $"Missing {requiredAmount - availableAmount} x {requiredItem.item.itemName}");
-        }
+                int requiredAmount = Mathf.Max(1, requirement.amount);
+                int availableAmount = CountInventoryItem(requirement.item);
 
-        if (missingItems.Count == 0)
-            return true;
+                if (availableAmount < requiredAmount)
+                {
+                    missingRequirements.Add(
+                        $"Missing {requiredAmount - availableAmount} x {requirement.item.itemName}");
+                }
 
-        failureReason = string.Join("\n", missingItems) + ".";
-        return false;
-    }
-
-    private bool HasRequiredNotes(QuestData questData, out string failureReason)
-    {
-        failureReason = string.Empty;
-
-        if (questData.requiredNotes == null ||
-            questData.requiredNotes.Count == 0)
-        {
-            return true;
-        }
-
-        if (JournalController.Instance == null)
-        {
-            failureReason = "Journal is unavailable.";
-            return false;
-        }
-
-        List<string> missingNotes = new();
-
-        foreach (NoteData note in questData.requiredNotes)
-        {
-            if (note == null)
                 continue;
+            }
 
-            if (!JournalController.Instance.HasNote(note))
-                missingNotes.Add($"Missing journal entry: {note.title}");
+            if (requirement.IsNote)
+            {
+                if (JournalController.Instance == null)
+                {
+                    failureReason = "Journal is unavailable.";
+                    return false;
+                }
+
+                if (!JournalController.Instance.HasNote(requirement.note))
+                {
+                    missingRequirements.Add(
+                        $"Missing journal entry: {requirement.note.title}");
+                }
+            }
         }
 
-        if (missingNotes.Count == 0)
+        if (missingRequirements.Count == 0)
             return true;
 
-        failureReason = string.Join("\n", missingNotes) + ".";
+        failureReason = string.Join("\n", missingRequirements) + ".";
         return false;
     }
 
@@ -235,19 +208,19 @@ public class QuestManager : MonoBehaviour
     private void ConsumeRequiredItems(QuestData questData)
     {
         if (InventorySystem.Instance == null ||
-            questData.requiredItems == null)
+            questData.Requirements == null)
         {
             return;
         }
 
-        foreach (QuestItemAmount requiredItem in questData.requiredItems)
+        foreach (QuestRequirement requirement in questData.Requirements)
         {
-            if (requiredItem == null || requiredItem.item == null)
+            if (requirement == null || !requirement.IsItem)
                 continue;
 
             InventorySystem.Instance.Remove(
-                requiredItem.item,
-                Mathf.Max(1, requiredItem.amount));
+                requirement.item,
+                Mathf.Max(1, requirement.amount));
         }
     }
 

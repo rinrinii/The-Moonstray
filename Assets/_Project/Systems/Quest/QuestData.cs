@@ -13,8 +13,10 @@ public class QuestData : ScriptableObject
     [TextArea(5, 20)]
     public string description;
 
-    public List<QuestItemAmount> requiredItems = new();
-    public List<NoteData> requiredNotes = new();
+    public List<QuestRequirement> requirements = new();
+
+    [HideInInspector] public List<QuestItemAmount> requiredItems = new();
+    [HideInInspector] public List<NoteData> requiredNotes = new();
 
     [Header("Legacy Display Reward")]
     [TextArea(2, 8)]
@@ -37,22 +39,7 @@ public class QuestData : ScriptableObject
         {
             StringBuilder builder = new();
 
-            AppendItemAmounts(builder, requiredItems);
-
-            if (requiredNotes != null)
-            {
-                foreach (NoteData note in requiredNotes)
-                {
-                    if (note == null)
-                        continue;
-
-                    if (builder.Length > 0)
-                        builder.AppendLine();
-
-                    builder.Append("Journal: ");
-                    builder.Append(note.title);
-                }
-            }
+            AppendRequirements(builder, Requirements);
 
             return builder.Length > 0
                 ? builder.ToString()
@@ -62,6 +49,17 @@ public class QuestData : ScriptableObject
 
     public string RewardText =>
         BuildRewardText();
+
+    public IReadOnlyList<QuestRequirement> Requirements
+    {
+        get
+        {
+            if (requirements != null && requirements.Count > 0)
+                return requirements;
+
+            return BuildLegacyRequirements();
+        }
+    }
 
     public GameProgressionStage UnlockStage => region switch
     {
@@ -142,6 +140,75 @@ public class QuestData : ScriptableObject
             builder.Append(itemAmount.item.itemName);
         }
     }
+
+    private static void AppendRequirements(
+        StringBuilder builder,
+        IReadOnlyList<QuestRequirement> questRequirements)
+    {
+        if (questRequirements == null)
+            return;
+
+        foreach (QuestRequirement requirement in questRequirements)
+        {
+            if (requirement == null || !requirement.IsValid)
+                continue;
+
+            if (builder.Length > 0)
+                builder.AppendLine();
+
+            builder.Append(requirement.DisplayText);
+        }
+    }
+
+    private List<QuestRequirement> BuildLegacyRequirements()
+    {
+        List<QuestRequirement> legacyRequirements = new();
+
+        if (requiredItems != null)
+        {
+            foreach (QuestItemAmount itemAmount in requiredItems)
+            {
+                if (itemAmount == null || itemAmount.item == null)
+                    continue;
+
+                legacyRequirements.Add(QuestRequirement.ForItem(
+                    itemAmount.item,
+                    itemAmount.amount));
+            }
+        }
+
+        if (requiredNotes != null)
+        {
+            foreach (NoteData note in requiredNotes)
+            {
+                if (note == null)
+                    continue;
+
+                legacyRequirements.Add(QuestRequirement.ForNote(note));
+            }
+        }
+
+        return legacyRequirements;
+    }
+
+    private void OnValidate()
+    {
+        if (requirements == null)
+            requirements = new List<QuestRequirement>();
+
+        if (requirements.Count > 0)
+            return;
+
+        IReadOnlyList<QuestRequirement> legacyRequirements =
+            BuildLegacyRequirements();
+
+        if (legacyRequirements.Count == 0)
+            return;
+
+        requirements.AddRange(legacyRequirements);
+        requiredItems?.Clear();
+        requiredNotes?.Clear();
+    }
 }
 
 [Serializable]
@@ -149,6 +216,64 @@ public class QuestItemAmount
 {
     public ItemData item;
     public int amount = 1;
+}
+
+[Serializable]
+public class QuestRequirement
+{
+    public QuestRequirementType type = QuestRequirementType.Item;
+    public ItemData item;
+    public NoteData note;
+    public int amount = 1;
+
+    public bool IsItem =>
+        type == QuestRequirementType.Item && item != null;
+
+    public bool IsNote =>
+        type == QuestRequirementType.Note && note != null;
+
+    public bool IsValid =>
+        IsItem || IsNote;
+
+    public string DisplayText
+    {
+        get
+        {
+            if (IsItem)
+                return $"{Mathf.Max(1, amount)} x {item.itemName}";
+
+            if (IsNote)
+                return $"Journal: {note.title}";
+
+            return string.Empty;
+        }
+    }
+
+    public static QuestRequirement ForItem(ItemData item, int amount)
+    {
+        return new QuestRequirement
+        {
+            type = QuestRequirementType.Item,
+            item = item,
+            amount = Mathf.Max(1, amount)
+        };
+    }
+
+    public static QuestRequirement ForNote(NoteData note)
+    {
+        return new QuestRequirement
+        {
+            type = QuestRequirementType.Note,
+            note = note,
+            amount = 1
+        };
+    }
+}
+
+public enum QuestRequirementType
+{
+    Item,
+    Note
 }
 
 public enum QuestRegion
