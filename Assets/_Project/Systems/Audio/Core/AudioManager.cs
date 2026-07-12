@@ -7,7 +7,8 @@ public class AudioManager : MonoBehaviour
     [Header("Library")]
     [SerializeField] private SFXLibrary sfxLibrary;
 
-    [Header("Sources")]
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource ambientSource;
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource uiSource;
 
@@ -20,17 +21,74 @@ public class AudioManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+
+    #region SFX
 
     public void PlaySFX(string id)
     {
         Play(id, sfxSource);
     }
 
+    #endregion
+
+    #region UI
+
     public void PlayUI(string id)
     {
         Play(id, uiSource);
     }
+
+    #endregion
+
+    #region Ambient
+
+    public void PlayAmbient(string id)
+    {
+        if (ambientSource == null)
+        {
+            Debug.LogWarning("Ambient Source is missing.");
+            return;
+        }
+
+        if (sfxLibrary == null)
+        {
+            Debug.LogWarning("SFX Library is missing.");
+            return;
+        }
+
+        SFXSet set = sfxLibrary.GetSFXSet(id);
+
+        if (set == null)
+            return;
+
+        AudioClip clip = set.GetRandomClip();
+
+        if (clip == null)
+            return;
+
+        // Don't restart the same ambience
+        if (ambientSource.clip == clip && ambientSource.isPlaying)
+            return;
+
+        ambientSource.Stop();
+
+        ambientSource.clip = clip;
+        ambientSource.loop = true;
+        ambientSource.volume = set.Volume;
+        ambientSource.pitch = 1f;
+
+        ambientSource.Play();
+    }
+
+    public void StopAmbient()
+    {
+        if (ambientSource != null)
+            ambientSource.Stop();
+    }
+
+    #endregion
 
     private void Play(string id, AudioSource source)
     {
