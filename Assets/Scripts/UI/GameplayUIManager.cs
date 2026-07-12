@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class GameplayUIManager : MonoBehaviour
 {
+    private const string MoonveilSceneName = "Moonveil";
+
     public static GameplayUIManager Instance { get; private set; }
 
     private UIDocument uiDocument;
@@ -48,7 +50,6 @@ public class GameplayUIManager : MonoBehaviour
     private Label sceneTitleDescription;
     private Coroutine sceneTitleRoutine;
     private bool sceneTitlesUnlocked;
-    private bool tutorialCompleteTitleShown;
 
     [Header("Scene Title Panel")]
     [SerializeField]
@@ -252,25 +253,16 @@ public class GameplayUIManager : MonoBehaviour
                 ? progression.HasStartedMainJourney
                 : tutorial != null && tutorial.IsTutorialFinished;
 
-        if (!tutorialCompleteTitleShown &&
-            scene.name == "Moonveil" &&
-            mainJourneyStarted)
-        {
-            tutorialCompleteTitleShown = true;
-            sceneTitlesUnlocked = true;
-            header = "Tutorial Complete";
-            description = "Begin Your Journey";
-            return true;
-        }
-
-        if (!sceneTitlesUnlocked &&
-            mainJourneyStarted)
-        {
-            sceneTitlesUnlocked = true;
-        }
+        if (!mainJourneyStarted)
+            return false;
 
         if (!sceneTitlesUnlocked)
-            return false;
+        {
+            if (scene.name != MoonveilSceneName)
+                return false;
+
+            sceneTitlesUnlocked = true;
+        }
 
         MapData mapData = FindSceneMap(scene.name);
         string sceneName = string.IsNullOrWhiteSpace(scene.name)

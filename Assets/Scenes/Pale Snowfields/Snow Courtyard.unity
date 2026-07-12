@@ -509,6 +509,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
   objectID: clocktower
+  useInstanceID: 0
+  instanceID: 
   actions:
   - requiredState: 0
     nextState: 1
@@ -848,7 +850,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e0ca41b4c8069c45b36e9deea490190, type: 2}
+  - {fileID: 2100000, guid: dcd31d25f9c1efd45a4fddaded91299e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2391,7 +2393,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5e0ca41b4c8069c45b36e9deea490190, type: 2}
+  - {fileID: 2100000, guid: dcd31d25f9c1efd45a4fddaded91299e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8706,6 +8708,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
   objectID: frozenFountain
+  useInstanceID: 0
+  instanceID: 
   actions:
   - requiredState: 0
     nextState: 1
