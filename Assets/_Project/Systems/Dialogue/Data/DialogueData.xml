@@ -343,6 +343,58 @@
 			If your journey allows for it, consider lending them your aid.
 		</Line>
 	</Dialogue>
+	
+	<!-- ========== shop/merchant npc dialogue ========== -->
+
+	<Dialogue id="chapter1.shopWelcome">
+		<Line speaker="Merchant">
+			Ah, a new face. Not many arrive here looking quite as worn as you.
+		</Line>
+
+		<Line speaker="Merchant">
+			Here, have this.
+		</Line>
+
+		<Line type="narration">
+			Obtained 3 health potions.
+		</Line>
+
+		<Line speaker="Merchant">
+			Moonwell has a habit of looking after new arrivals. Consider it a welcome.
+		</Line>
+
+		<Line speaker="Serin" portrait="serin-human">
+			You're giving these away?
+		</Line>
+
+		<Line speaker="Merchant">
+			Hardly. Well, you can also think of it as an investment. Travelers who survive tend to become returning customers.
+		</Line>
+
+		<Line speaker="Merchant">
+			Now then... take a look around. You might find something useful for the road.
+		</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.shopRepeat1">
+		<Line speaker="Merchant">
+			What can I do for you today?
+		</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.shopRepeat2">
+		<Line speaker="Merchant">
+			Anything you're looking for?
+		</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.shopRepeat3">
+		<Line speaker="Merchant">
+			Back already?
+		</Line>
+	</Dialogue>
+
+	<!-- ========== shop/merchant npc dialogue ========== -->
 
 	<Dialogue id="chapter1.blockedSpringExit">
 		<Line speaker="Serin" portrait="serin-current">
