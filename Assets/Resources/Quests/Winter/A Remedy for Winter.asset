@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
+  m_Name: A Remedy for Winter
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  region: 3
+  questTitle: A Remedy for Winter
+  description: An old apothecary's flask capable of preserving concentrated restorative
+    brews has been lost beneath the snow. Recover it so medicine can once again be
+    prepared for stranded travelers.
+  requirements:
+  - type: 0
+    item: {fileID: 11400000, guid: 876f6ec7a6b3008439c21160c3adb029, type: 2}
+    note: {fileID: 0}
+    amount: 1
+  - type: 0
+    item: {fileID: 11400000, guid: 41b5bb64c6062574fb9eac3ffb2cd493, type: 2}
+    note: {fileID: 0}
+    amount: 5
+  requiredItems: []
+  requiredNotes: []
+  reward: 
+  moonCoinReward: 30
+  rewardItems: []
+  rewardNotes: []
+  rewardUpgrades: 07000000
