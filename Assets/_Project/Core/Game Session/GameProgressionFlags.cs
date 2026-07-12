@@ -32,4 +32,16 @@ public static class GameProgressionFlags
 
     public const string Chapter1VillageIrrigationRestored =
         "chapter1.villageIrrigationRestored";
+
+    public const string Chapter1OvergrowthCropOneInspected =
+        "chapter1.overgrowthCropOneInspected";
+
+    public const string Chapter1OvergrowthCropTwoInspected =
+        "chapter1.overgrowthCropTwoInspected";
+
+    public const string Chapter1RuinedGardenInspected =
+        "chapter1.ruinedGardenInspected";
+
+    public const string Chapter1RuinedGardenRestored =
+        "chapter1.ruinedGardenRestored";
 }

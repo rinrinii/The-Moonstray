@@ -8,6 +8,7 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
     private const string BloombridgeScene = "Bloombridge Path";
     private const string FarmlandsScene = "Outer Farmlands";
     private const string VillageBasinScene = "Village Basin";
+    private const string OvergrowthFieldsScene = "Overgrowth Fields";
     private static bool registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -57,6 +58,12 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             return;
         }
 
+        if (scene.name == OvergrowthFieldsScene)
+        {
+            ConfigureOvergrowthFields(progression);
+            return;
+        }
+
         if (scene.name != FarmlandsScene)
             return;
 
@@ -81,6 +88,95 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             "Visit the Village Basin to obtain more clues.");
 
         RestoreCurrentObjective(progression);
+    }
+
+    private static void ConfigureOvergrowthFields(
+        GameProgressionManager progression)
+    {
+        if (!progression.HasFlag(
+            GameProgressionFlags.Chapter1VillageIrrigationRestored))
+        {
+            return;
+        }
+
+        ObjectStateInteraction[] interactions =
+            Object.FindObjectsByType<ObjectStateInteraction>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+        foreach (ObjectStateInteraction stateInteraction in interactions)
+        {
+            if (stateInteraction.ObjectID == "inspectRottenCrop2")
+            {
+                ConfigureOvergrowthInteraction(
+                    stateInteraction.gameObject,
+                    OvergrowthFieldsQuestInteraction.Step.CropOne,
+                    null);
+            }
+            else if (stateInteraction.ObjectID == "inspectRottenCrop3")
+            {
+                ConfigureOvergrowthInteraction(
+                    stateInteraction.gameObject,
+                    OvergrowthFieldsQuestInteraction.Step.CropTwo,
+                    null);
+            }
+        }
+
+        RestoreBehaviour[] restoreBehaviours =
+            Object.FindObjectsByType<RestoreBehaviour>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+        foreach (RestoreBehaviour restore in restoreBehaviours)
+        {
+            if (restore.gameObject.name != "ruined-garden 1")
+                continue;
+
+            restore.PrepareRuntimeReplacement();
+            ConfigureOvergrowthInteraction(
+                restore.gameObject,
+                OvergrowthFieldsQuestInteraction.Step.RuinedGarden,
+                restore);
+            break;
+        }
+
+        RestoreOvergrowthObjective(progression);
+    }
+
+    private static void ConfigureOvergrowthInteraction(
+        GameObject target,
+        OvergrowthFieldsQuestInteraction.Step step,
+        RestoreBehaviour restore)
+    {
+        OvergrowthFieldsQuestInteraction interaction =
+            target.GetComponent<OvergrowthFieldsQuestInteraction>();
+        if (interaction == null)
+            interaction = target.AddComponent<OvergrowthFieldsQuestInteraction>();
+
+        interaction.Configure(
+            step,
+            restore,
+            Resources.Load<ItemData>("Items/lumberBundle"),
+            Resources.Load<ItemData>("Items/stonePile"));
+    }
+
+    private static void RestoreOvergrowthObjective(
+        GameProgressionManager progression)
+    {
+        if (progression.HasFlag(
+            GameProgressionFlags.Chapter1OvergrowthCropTwoInspected))
+        {
+            SetObjective("Look for the Harvest Steward of Springtide Meadows.");
+        }
+        else if (progression.HasFlag(
+            GameProgressionFlags.Chapter1OvergrowthCropOneInspected))
+        {
+            SetObjective("Inspect the rotting crops. (1/2)");
+        }
+        else
+        {
+            SetObjective("Inspect the rotting crops. (0/2)");
+        }
     }
 
     private static void ConfigureVillageBasin(
