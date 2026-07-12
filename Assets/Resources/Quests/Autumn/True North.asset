@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
+  m_Name: True North
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  region: 2
+  questTitle: True North
+  description: An inspector's compass was once capable of detecting hidden impurities
+    beneath the crystal veins. Recover it before the forest claims it forever.
+  requirements:
+  - type: 0
+    item: {fileID: 11400000, guid: 398ff57c390d3f84887375b2159d59f0, type: 2}
+    note: {fileID: 0}
+    amount: 1
+  - type: 0
+    item: {fileID: 11400000, guid: da44fb1f987d8ce4594ec1240fa579ae, type: 2}
+    note: {fileID: 0}
+    amount: 5
+  requiredItems: []
+  requiredNotes: []
+  reward: 
+  moonCoinReward: 30
+  rewardItems: []
+  rewardNotes: []
+  rewardUpgrades: 05000000

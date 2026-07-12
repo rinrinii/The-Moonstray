@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
+  m_Name: Call through the Storm
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  region: 3
+  questTitle: Call through the Storm
+  description: Travelers once relied on ceremonial horns to guide one another through
+    blizzards. Recover one from the abandoned expedition routes.
+  requirements:
+  - type: 0
+    item: {fileID: 11400000, guid: b3013ab2b0bc7dd4a82daa600ef4811c, type: 2}
+    note: {fileID: 0}
+    amount: 1
+  - type: 0
+    item: {fileID: 11400000, guid: 41b5bb64c6062574fb9eac3ffb2cd493, type: 2}
+    note: {fileID: 0}
+    amount: 5
+  requiredItems: []
+  requiredNotes: []
+  reward: 
+  moonCoinReward: 30
+  rewardItems: []
+  rewardNotes: []
+  rewardUpgrades: 06000000
