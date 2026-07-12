@@ -30,6 +30,10 @@ public class InteractableObject : MonoBehaviour, IInteractable
         if (!isInteractable)
             return;
 
+        // Runtime progression bootstraps can add responses after this object's
+        // Awake has run, so refresh the cache at the moment of interaction.
+        responses = GetComponents<IInteractionResponse>();
+
         foreach (var response in responses)
         {
             Debug.Log($"Executing {response.GetType().Name}");
