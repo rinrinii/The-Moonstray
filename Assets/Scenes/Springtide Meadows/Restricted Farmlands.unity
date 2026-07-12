@@ -2767,6 +2767,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6916536129145121492, guid: 37d87f1891e194844ad593c8910c56d8, type: 3}
   m_PrefabInstance: {fileID: 210907600}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &239947949
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 590104091}
+    m_Modifications:
+    - target: {fileID: 4540155630511193306, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_Name
+      value: PriorityArrowMarker
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+--- !u!4 &239947950 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7998012216853463613, guid: db98d40e38b153d4c93b99cdbbb58935, type: 3}
+  m_PrefabInstance: {fileID: 239947949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &247023509
 GameObject:
   m_ObjectHideFlags: 0
@@ -5408,6 +5474,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8efc3ecf580f3584da2dca196d5f2088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneSpawnManager
+--- !u!1 &590104090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590104091}
+  m_Layer: 3
+  m_Name: HighlightAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590104091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590104090}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 239947950}
+  m_Father: {fileID: 772740608}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &594986804
 GameObject:
   m_ObjectHideFlags: 0
@@ -7593,6 +7691,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: irrigationWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1128990033840756910, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
@@ -7651,9 +7753,124 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1128990033840756910, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 590104091}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772740612}
+    - targetCorrespondingSourceObject: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772740611}
+    - targetCorrespondingSourceObject: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772740610}
+    - targetCorrespondingSourceObject: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772740609}
+    - targetCorrespondingSourceObject: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772740613}
   m_SourcePrefab: {fileID: 100100000, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+--- !u!1 &772740606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 351609356748882452, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+  m_PrefabInstance: {fileID: 772740605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &772740607 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8230422161274491577, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+  m_PrefabInstance: {fileID: 772740605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &772740608 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1128990033840756910, guid: 94a5e58129f518a4fa3ba29eb7e7f69e, type: 3}
+  m_PrefabInstance: {fileID: 772740605}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &772740609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772740606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357ed8adb1d28a8479acd59c4fbc17c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetHighlightBehaviour
+  targetRenderer: {fileID: 772740607}
+  highlightColor: {r: 1, g: 0.95, b: 0.35, a: 1}
+  highlightOutlineWidth: 20
+--- !u!114 &772740610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772740606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74446cb7004b94c9a054ca52efa748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectStateHighlightMarker
+  objectID: irrigationWheel
+  visibleState: 0
+  highlightAnchor: {fileID: 590104090}
+--- !u!114 &772740611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772740606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291a57a1a8a4b6b489539e8eaf276b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
+  objectID: irrigationWheel
+  useInstanceID: 0
+  instanceID: 
+  actions: []
+--- !u!114 &772740612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772740606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37f8b661a1da4ce4ab1cf43863c7395b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
+  isInteractable: 1
+  requiredForm: 1
+  interactionType: 1
+--- !u!65 &772740613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772740606}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &776422336
 PrefabInstance:
   m_ObjectHideFlags: 0
