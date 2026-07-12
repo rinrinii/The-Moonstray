@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 4843436690564895415}
   - component: {fileID: 5156241388022493457}
   m_Layer: 3
-  m_Name: record
+  m_Name: documentRecord
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 1
   interactionType: 2
 --- !u!114 &4843436690564895415
 MonoBehaviour:
@@ -277,10 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17184edc10d17241bdf67cc7d35a909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteInteractionResponse
-  noteTitle: Sample Record
-  noteContent: '[insert text here]'
-  objectsToDisable:
-  - {fileID: 5991408966569899432}
+  noteData: {fileID: 0}
+  noteTitle: 
+  noteContent: 
   disableAfterPickup: 1
 --- !u!1 &5991408966569899432
 GameObject:

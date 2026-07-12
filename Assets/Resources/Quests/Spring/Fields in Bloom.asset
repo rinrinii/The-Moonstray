@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
+  m_Name: Fields in Bloom
+  m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  region: 0
+  questTitle: Fields in Bloom
+  description: Our medicinal stores have nearly run dry... We need fresh Dewbells
+    to prepare more remedies soon.
+  requiredItems:
+  - item: {fileID: 11400000, guid: 60334587879280d4a94083c9e857bba6, type: 2}
+    amount: 8
+  requiredNotes: []
+  reward: 
+  moonCoinReward: 20
+  rewardItems:
+  - item: {fileID: 11400000, guid: 37d4374ad3e40a341ba117c4afce11f4, type: 2}
+    amount: 1
+  rewardNotes: []
+  rewardUpgrades: 

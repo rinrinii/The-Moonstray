@@ -282,6 +282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
   objectID: healthPotion
+  useInstanceID: 1
+  instanceID: 3ca027295a3546fb8b03c120d7d5d6a9
   actions:
   - requiredState: 0
     nextState: 1
@@ -315,6 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 1
   interactionType: 2
 --- !u!114 &6687941274044778730
 MonoBehaviour:
