@@ -45,4 +45,15 @@ public class CollectBehaviour : MonoBehaviour, IObjectBehaviour
         Debug.Log(message);
         targetObject.SetActive(false);
     }
+
+    public void ApplyCollectedState()
+    {
+        if (targetObject == null)
+        {
+            Debug.LogWarning("CollectBehaviour: targetObject missing.");
+            return;
+        }
+
+        targetObject.SetActive(false);
+    }
 }

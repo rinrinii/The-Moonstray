@@ -78,6 +78,9 @@ public class PlayerMovement : MonoBehaviour
     public void PlayInteractionAnimation(
         InteractionType type)
     {
+        if (currentAnim == null)
+            UpdateAnimator();
+
         if (currentAnim == null) return;
 
         if (type == InteractionType.None)

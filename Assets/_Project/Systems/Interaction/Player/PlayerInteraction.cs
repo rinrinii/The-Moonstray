@@ -62,11 +62,11 @@ public class PlayerInteraction : MonoBehaviour
                                 return;
                             break;
                     }
-
-                    playerMovement.PlayInteractionAnimation(
-                        interactableObject.interactionType
-                    );
                 }
+
+                playerMovement?.PlayInteractionAnimation(
+                    interactableObject.interactionType
+                );
             }
 
             currentInteractable.Interact();
