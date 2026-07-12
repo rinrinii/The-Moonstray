@@ -349,6 +349,9 @@ public class PlayerMovement : MonoBehaviour
                         transformation.GetGravity()
                     );
 
+                AudioManager.Instance?.PlaySFX("JumpLand");
+                AudioManager.Instance?.PlaySFX("LightGrunt");
+
                 if (doubleJump)
                 {
                     hasDoubleJumped = true;

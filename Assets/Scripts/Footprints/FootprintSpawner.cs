@@ -171,6 +171,8 @@ public class FootprintSpawner : MonoBehaviour
             );
         }
 
+        AudioManager.Instance?.PlaySFX("WalkSnow");
+
         if (FootprintManager.Instance != null)
         {
             FootprintManager.Instance.RegisterFootprint(obj);

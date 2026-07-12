@@ -166,6 +166,8 @@ public class PauseMenuController : MonoBehaviour
 
     public void ResumeGame()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         isPaused = false;
         settingsOpen = false;
 
@@ -186,11 +188,15 @@ public class PauseMenuController : MonoBehaviour
 
     private void SaveGameProgress()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         Debug.Log("Saving game progress...");
     }
 
     private void OpenOptionsOverlay()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         settingsOpen = true;
 
         if (pauseContainer != null)
@@ -207,6 +213,8 @@ public class PauseMenuController : MonoBehaviour
 
     private void CloseOptionsOverlay()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         settingsOpen = false;
 
         settingsController?.RevertToSavedSettings();
@@ -220,6 +228,8 @@ public class PauseMenuController : MonoBehaviour
 
     private void ReturnToTitleScreen()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         Time.timeScale = 1f;
 
         PersistentRoot.DestroyPersistentSystems();
