@@ -7,18 +7,25 @@ public class QuestBoardController : MonoBehaviour
     [Header("Templates")]
     [SerializeField] private VisualTreeAsset questNoteTemplate;
 
+    [Header("Quest Data")]
+    [Tooltip("Optional explicit board list. If empty, quests are loaded from Resources/Quests.")]
+    [SerializeField] private QuestData[] boardQuests;
+
     [Header("Settings")]
     [SerializeField] private int notesPerPage = 3;
-    [SerializeField] private float noteWidth = 180f;
-    [SerializeField] private float noteHeight = 220f;
+    [SerializeField] private float noteWidth = 260f;
+    [SerializeField] private float noteHeight = 340f;
 
     private VisualElement questBoardRoot;
     private VisualElement questContainer;
     private VisualElement questDetailsPanel;
 
+    private ScrollView detailDescriptionScroll;
     private Label detailTitle;
     private Label detailDescription;
+    private Label detailRequiredItems;
     private Label detailReward;
+    private Label detailStatus;
 
     private Button closeButton;
     private Button detailCloseButton;
@@ -27,18 +34,10 @@ public class QuestBoardController : MonoBehaviour
     private Button nextPageButton;
 
     private int currentPage = 0;
-    private MockQuest selectedQuest;
+    private QuestData selectedQuest;
+    private readonly List<QuestData> availableQuests = new();
     private readonly PlayerMovementFreezeHandle movementFreeze =
         new();
-
-    private readonly List<MockQuest> mockQuests = new()
-    {
-        new MockQuest("Gather Moonflowers", "Collect 5 moonflowers near Springtide Meadows.", "10 Moon Coins"),
-        new MockQuest("Lost Satchel", "Find the missing satchel near the village path.", "Healing Herb"),
-        new MockQuest("Repair the Lantern", "Gather materials to repair the old village lantern.", "Lantern Charm"),
-        new MockQuest("Winter Tracks", "Investigate strange tracks in the Pale Snowfields.", "Wolf Fragment"),
-        new MockQuest("Herbal Help", "Bring herbs to the village healer.", "Potion Bundle")
-    };
 
     private void Start()
     {
@@ -56,9 +55,12 @@ public class QuestBoardController : MonoBehaviour
         questContainer = root.Q<VisualElement>("QuestContainer");
         questDetailsPanel = root.Q<VisualElement>("QuestDetailsPanel");
 
+        detailDescriptionScroll = root.Q<ScrollView>("DetailDescriptionScroll");
         detailTitle = root.Q<Label>("DetailTitle");
         detailDescription = root.Q<Label>("DetailDescription");
+        detailRequiredItems = root.Q<Label>("DetailRequiredItems");
         detailReward = root.Q<Label>("DetailReward");
+        detailStatus = root.Q<Label>("DetailStatus");
 
         closeButton = root.Q<Button>("BoardCloseButton");
         detailCloseButton = root.Q<Button>("DetailCloseButton");
@@ -71,12 +73,22 @@ public class QuestBoardController : MonoBehaviour
         if (questDetailsPanel == null) Debug.LogError("QuestDetailsPanel not found.");
         if (detailTitle == null) Debug.LogError("DetailTitle not found.");
         if (detailDescription == null) Debug.LogError("DetailDescription not found.");
+        if (detailRequiredItems == null) Debug.LogError("DetailRequiredItems not found.");
         if (detailReward == null) Debug.LogError("DetailReward not found.");
+        if (detailStatus == null) Debug.LogWarning("DetailStatus not found.");
         if (closeButton == null) Debug.LogError("CloseButton not found.");
         if (detailCloseButton == null) Debug.LogError("DetailCloseButton not found.");
         if (acceptButton == null) Debug.LogError("AcceptButton not found.");
         if (prevPageButton == null) Debug.LogError("PrevPageButton not found.");
         if (nextPageButton == null) Debug.LogError("NextPageButton not found.");
+
+        if (detailDescriptionScroll != null)
+        {
+            detailDescriptionScroll.verticalScrollerVisibility =
+                ScrollerVisibility.Auto;
+            detailDescriptionScroll.horizontalScrollerVisibility =
+                ScrollerVisibility.Hidden;
+        }
 
         if (closeButton != null)
             closeButton.clicked += CloseBoard;
@@ -98,6 +110,7 @@ public class QuestBoardController : MonoBehaviour
         if (questDetailsPanel != null)
             questDetailsPanel.style.display = DisplayStyle.None;
 
+        RefreshAvailableQuests();
         PopulateQuestBoard();
         CloseBoard();
     }
@@ -122,6 +135,7 @@ public class QuestBoardController : MonoBehaviour
         questBoardRoot.style.display = DisplayStyle.Flex;
         movementFreeze.Acquire();
         CloseQuestDetails();
+        RefreshAvailableQuests();
         PopulateQuestBoard();
     }
 
@@ -134,6 +148,48 @@ public class QuestBoardController : MonoBehaviour
         movementFreeze.Release();
     }
 
+    private void RefreshAvailableQuests()
+    {
+        availableQuests.Clear();
+        HashSet<QuestData> seenQuests = new();
+
+        if (boardQuests != null && boardQuests.Length > 0)
+        {
+            foreach (QuestData quest in boardQuests)
+                AddAvailableQuest(quest, seenQuests);
+        }
+        else
+        {
+            QuestData[] resourceQuests = Resources.LoadAll<QuestData>("Quests");
+
+            System.Array.Sort(resourceQuests, (a, b) =>
+                string.Compare(
+                    a.DisplayTitle,
+                    b.DisplayTitle,
+                    System.StringComparison.OrdinalIgnoreCase));
+
+            foreach (QuestData quest in resourceQuests)
+                AddAvailableQuest(quest, seenQuests);
+        }
+    }
+
+    private void AddAvailableQuest(QuestData quest, HashSet<QuestData> seenQuests)
+    {
+        if (quest == null || seenQuests.Contains(quest))
+            return;
+
+        seenQuests.Add(quest);
+
+        if (QuestManager.Instance != null &&
+            (!QuestManager.Instance.CanShowSideQuest(quest) ||
+             QuestManager.Instance.HasSideQuest(quest)))
+        {
+            return;
+        }
+
+        availableQuests.Add(quest);
+    }
+
     private void PopulateQuestBoard()
     {
         if (questContainer == null || questNoteTemplate == null)
@@ -141,7 +197,7 @@ public class QuestBoardController : MonoBehaviour
 
         questContainer.Clear();
 
-        int totalPages = Mathf.CeilToInt((float)mockQuests.Count / notesPerPage);
+        int totalPages = Mathf.CeilToInt((float)availableQuests.Count / notesPerPage);
 
         if (totalPages <= 0)
         {
@@ -152,11 +208,11 @@ public class QuestBoardController : MonoBehaviour
         currentPage = Mathf.Clamp(currentPage, 0, totalPages - 1);
 
         int startIndex = currentPage * notesPerPage;
-        int endIndex = Mathf.Min(startIndex + notesPerPage, mockQuests.Count);
+        int endIndex = Mathf.Min(startIndex + notesPerPage, availableQuests.Count);
 
         for (int i = startIndex; i < endIndex; i++)
         {
-            MockQuest quest = mockQuests[i];
+            QuestData quest = availableQuests[i];
             TemplateContainer template = questNoteTemplate.Instantiate();
 
             VisualElement note = template.Q<VisualElement>("QuestNoteRoot");
@@ -164,13 +220,14 @@ public class QuestBoardController : MonoBehaviour
 
             note.RemoveFromHierarchy();
 
+            note.style.width = noteWidth;
+            note.style.height = noteHeight;
             note.style.marginLeft = 8;
             note.style.marginRight = 8;
 
-
             if (noteButton != null)
             {
-                noteButton.text = quest.Title;
+                noteButton.text = quest.DisplayTitle;
 
                 noteButton.style.width = Length.Percent(100);
                 noteButton.style.height = Length.Percent(100);
@@ -178,7 +235,7 @@ public class QuestBoardController : MonoBehaviour
                 noteButton.style.overflow = Overflow.Hidden;
                 noteButton.style.textOverflow = TextOverflow.Ellipsis;
 
-                MockQuest capturedQuest = quest;
+                QuestData capturedQuest = quest;
 
                 noteButton.clicked += () =>
                 {
@@ -205,18 +262,31 @@ public class QuestBoardController : MonoBehaviour
             nextPageButton.SetEnabled(canGoNext);
     }
 
-    private void ShowQuestDetails(MockQuest quest)
+    private void ShowQuestDetails(QuestData quest)
     {
         selectedQuest = quest;
 
         if (detailTitle != null)
-            detailTitle.text = quest.Title;
+            detailTitle.text = quest.DisplayTitle;
 
         if (detailDescription != null)
-            detailDescription.text = quest.Description;
+            detailDescription.text = string.IsNullOrWhiteSpace(quest.description)
+                ? "No description listed."
+                : quest.description;
+
+        if (detailRequiredItems != null)
+            detailRequiredItems.text = quest.RequiredItemsText;
 
         if (detailReward != null)
-            detailReward.text = "Reward: " + quest.Reward;
+            detailReward.text = quest.RewardText;
+
+        RefreshActionButton();
+
+        if (detailStatus != null)
+            detailStatus.text = string.Empty;
+
+        if (detailDescriptionScroll != null)
+            detailDescriptionScroll.scrollOffset = Vector2.zero;
 
         if (questDetailsPanel != null)
             questDetailsPanel.style.display = DisplayStyle.Flex;
@@ -230,15 +300,41 @@ public class QuestBoardController : MonoBehaviour
             questDetailsPanel.style.display = DisplayStyle.None;
     }
 
+    private void RefreshActionButton()
+    {
+        if (acceptButton == null || selectedQuest == null)
+            return;
+
+        bool accepted = QuestManager.Instance != null &&
+            QuestManager.Instance.HasSideQuest(selectedQuest);
+
+        acceptButton.text = accepted
+            ? "Accepted"
+            : "Accept Quest";
+
+        acceptButton.SetEnabled(!accepted);
+    }
+
     private void AcceptSelectedQuest()
     {
         if (selectedQuest == null)
             return;
 
-        Debug.Log("Accepted quest: " + selectedQuest.Title);
+        if (QuestManager.Instance == null)
+        {
+            Debug.LogError("QuestBoardController could not find QuestManager.");
+            return;
+        }
 
-        mockQuests.Remove(selectedQuest);
+        if (QuestManager.Instance.AcceptSideQuest(selectedQuest))
+        {
+            Debug.Log("Accepted quest: " + selectedQuest.DisplayTitle);
 
+            if (detailStatus != null)
+                detailStatus.text = "Quest accepted.";
+        }
+
+        RefreshAvailableQuests();
         CloseQuestDetails();
         PopulateQuestBoard();
     }
@@ -253,19 +349,5 @@ public class QuestBoardController : MonoBehaviour
     {
         currentPage--;
         PopulateQuestBoard();
-    }
-
-    private class MockQuest
-    {
-        public string Title;
-        public string Description;
-        public string Reward;
-
-        public MockQuest(string title, string description, string reward)
-        {
-            Title = title;
-            Description = description;
-            Reward = reward;
-        }
     }
 }
