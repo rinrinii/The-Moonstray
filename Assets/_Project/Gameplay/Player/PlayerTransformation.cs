@@ -258,9 +258,15 @@ public class PlayerTransformation : MonoBehaviour
         float targetTemperature = turningToWolf ? nightTemperature : dayTemperature;
 
         if (turningToWolf)
+        {
+            AudioManager.Instance?.PlaySFX("HumanWolf");
             HumanAnimator.SetBool("IsTransforming", true);
+        }
         else
+        {
+            AudioManager.Instance?.PlaySFX("WolfHuman");
             WolfAnimator.SetBool("IsTransforming", true);
+        }
 
         while (time < transitionDuration)
         {

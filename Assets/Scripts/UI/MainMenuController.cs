@@ -70,12 +70,16 @@ public class MainMenuController : MonoBehaviour
 
     private void OnContinuePressed()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         sessionInitializer.CreateSession();
         LoadGameplayScene();
     }
 
     private void OnNewGamePressed()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         Debug.Log("MAIN MENU: New Game");
 
         sessionInitializer.CreateSession();
@@ -92,6 +96,8 @@ public class MainMenuController : MonoBehaviour
 
     private void OpenSettings()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         if (mainMenuPanel != null)
             mainMenuPanel.style.display = DisplayStyle.None;
 
@@ -103,6 +109,8 @@ public class MainMenuController : MonoBehaviour
 
     private void CloseSettings()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
         settingsController?.RevertToSavedSettings();
 
         if (settingsPanel != null)
@@ -114,6 +122,8 @@ public class MainMenuController : MonoBehaviour
 
     private void CloseGame()
     {
+        AudioManager.Instance?.PlayUI("Button3");
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

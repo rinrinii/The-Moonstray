@@ -349,6 +349,13 @@ public class PlayerMovement : MonoBehaviour
                         transformation.GetGravity()
                     );
 
+                AudioManager.Instance?.PlaySFX("JumpLand");
+
+                if (!transformation.IsWolf)
+                {
+                    AudioManager.Instance?.PlaySFX("LightGrunt");
+                }
+
                 if (doubleJump)
                 {
                     hasDoubleJumped = true;
