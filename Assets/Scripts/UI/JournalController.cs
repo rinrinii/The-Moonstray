@@ -26,6 +26,7 @@ public class JournalController : MonoBehaviour
     private Label questSubmitStatusLabel;
     private ScrollView questDetailsScroll;
     private Button submitQuestButton;
+    private Button trackQuestButton;
     private Button closeButton;
     private QuestState selectedQuest;
 
@@ -129,6 +130,9 @@ public class JournalController : MonoBehaviour
         submitQuestButton =
             root.Q<Button>("SubmitQuestButton");
 
+        trackQuestButton =
+            root.Q<Button>("TrackQuestButton");
+
         SetupScrollView(root.Q<ScrollView>("MainQuestList-Container"));
         SetupScrollView(root.Q<ScrollView>("SideQuestList-Container"));
         SetupScrollView(questDetailsScroll);
@@ -176,6 +180,13 @@ public class JournalController : MonoBehaviour
             submitQuestButton.clicked -= SubmitSelectedQuest;
             submitQuestButton.clicked += SubmitSelectedQuest;
             submitQuestButton.style.display = DisplayStyle.None;
+        }
+
+        if (trackQuestButton != null)
+        {
+            trackQuestButton.clicked -= TrackSelectedQuest;
+            trackQuestButton.clicked += TrackSelectedQuest;
+            trackQuestButton.style.display = DisplayStyle.None;
         }
 
         ClearMockElements();
@@ -374,6 +385,9 @@ public class JournalController : MonoBehaviour
         if (submitQuestButton != null)
             submitQuestButton.style.display = DisplayStyle.None;
 
+        if (trackQuestButton != null)
+            trackQuestButton.style.display = DisplayStyle.None;
+
         if (questDetailsScroll != null)
             questDetailsScroll.scrollOffset = Vector2.zero;
     }
@@ -414,6 +428,20 @@ public class JournalController : MonoBehaviour
             submitQuestButton.SetEnabled(canSubmit);
         }
 
+        if (trackQuestButton != null)
+        {
+            bool canTrack =
+                quest != null &&
+                !quest.Completed;
+
+            trackQuestButton.style.display =
+                canTrack
+                    ? DisplayStyle.Flex
+                    : DisplayStyle.None;
+
+            trackQuestButton.SetEnabled(canTrack);
+        }
+
         if (questDetailsScroll != null)
             questDetailsScroll.scrollOffset = Vector2.zero;
     }
@@ -449,6 +477,14 @@ public class JournalController : MonoBehaviour
 
         selectedQuest = null;
         RenderActiveJournalData();
+    }
+
+    private void TrackSelectedQuest()
+    {
+        if (selectedQuest == null)
+            return;
+
+        Debug.Log($"Tracking quest: {selectedQuest.Title}");
     }
 
     private void SetupScrollView(ScrollView scrollView)
