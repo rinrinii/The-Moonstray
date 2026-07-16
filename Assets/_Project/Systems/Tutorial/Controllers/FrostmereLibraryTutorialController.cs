@@ -295,7 +295,6 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
             return;
 
         HUDController.Instance.SetObjectivesVisible(true);
-        HUDController.Instance.SetTopRightHUDVisible(true);
         HUDController.Instance.SetBottomRightHUDVisible(true);
     }
 

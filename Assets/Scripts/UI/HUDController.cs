@@ -208,7 +208,12 @@ public class HUDController : MonoBehaviour
 
     public void SetTopRightHUDVisible(bool visible)
     {
-        GameplayUIManager.Instance?.SetTopRightHUDVisible(visible);
+        SetBottomCenterPromptHUDVisible(visible);
+    }
+
+    public void SetBottomCenterPromptHUDVisible(bool visible)
+    {
+        GameplayUIManager.Instance?.SetBottomCenterPromptHUDVisible(visible);
     }
 
     public void SetBottomLeftHUDVisible(bool visible)

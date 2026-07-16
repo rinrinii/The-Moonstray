@@ -32,7 +32,7 @@ public class GameplayUIManager : MonoBehaviour
 
     // HUD Sections
     public VisualElement ObjectivesPanel { get; private set; }
-    public VisualElement TopRightHUD { get; private set; }
+    public VisualElement BottomCenterPromptHUD { get; private set; }
     public VisualElement BottomLeftHUD { get; private set; }
     public VisualElement BottomRightHUD { get; private set; }
 
@@ -84,7 +84,7 @@ public class GameplayUIManager : MonoBehaviour
         // =========================================
 
         ObjectivesPanel = RootVisualElement.Q<VisualElement>("ObjectivesPanel");
-        TopRightHUD = RootVisualElement.Q<VisualElement>("TopRightHUD");
+        BottomCenterPromptHUD = RootVisualElement.Q<VisualElement>("BottomCenterPromptHUD");
         BottomLeftHUD = RootVisualElement.Q<VisualElement>("BottomLeftHUD");
         BottomRightHUD = RootVisualElement.Q<VisualElement>("BottomRightHUD");
 
@@ -360,7 +360,12 @@ public class GameplayUIManager : MonoBehaviour
 
     public void SetTopRightHUDVisible(bool visible)
     {
-        SetVisible(TopRightHUD, visible);
+        SetBottomCenterPromptHUDVisible(visible);
+    }
+
+    public void SetBottomCenterPromptHUDVisible(bool visible)
+    {
+        SetVisible(BottomCenterPromptHUD, visible);
     }
 
     public void SetBottomLeftHUDVisible(bool visible)
