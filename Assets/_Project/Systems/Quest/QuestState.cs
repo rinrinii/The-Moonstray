@@ -11,6 +11,8 @@ public class QuestState
     public string Rewards;
     public QuestData Data;
     public bool Completed;
+    public bool IsObjectiveLog;
+    public long LastUpdatedOrder;
 
     public List<QuestObjective> Objectives =
         new();

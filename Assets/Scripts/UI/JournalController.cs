@@ -213,6 +213,7 @@ public class JournalController : MonoBehaviour
         journalContainer.style.display = DisplayStyle.Flex;
         journalContainer.pickingMode = PickingMode.Position;
 
+        selectedQuest = null;
         RenderActiveJournalData();
         RenderNotes();
     }
@@ -289,17 +290,37 @@ public class JournalController : MonoBehaviour
     {
         ClearMockElements();
 
+        List<QuestState> mainQuests = new();
+
         QuestState mainQuest = QuestManager.Instance?.CurrentMainQuest;
 
         if (mainQuest != null)
+            mainQuests.Add(mainQuest);
+
+        if (QuestManager.Instance != null)
         {
-            VisualElement mainQuestEntry = CreateJournalEntry(mainQuest.Title, () =>
+            foreach (QuestState objectiveQuest in
+                     QuestManager.Instance.ObjectiveJournalQuests)
             {
-                PopulateFocusedQuestView(mainQuest);
+                mainQuests.Add(objectiveQuest);
+            }
+        }
+
+        mainQuests.Sort((left, right) =>
+            right.LastUpdatedOrder.CompareTo(left.LastUpdatedOrder));
+
+        foreach (QuestState quest in mainQuests)
+        {
+            VisualElement mainQuestEntry = CreateJournalEntry(quest.Title, () =>
+            {
+                PopulateFocusedQuestView(quest);
             });
 
             AddToContainer(mainQuestListContainer, mainQuestEntry);
         }
+
+        if (selectedQuest == null && mainQuests.Count > 0)
+            PopulateFocusedQuestView(mainQuests[0]);
 
         if (QuestManager.Instance == null)
             return;

@@ -79,6 +79,11 @@ public class SnowCourtyardTutorialController : MonoBehaviour
             "Explore the courtyard."
         );
 
+        PromptUI.Instance?.Show(
+            "[E] Interact",
+            "Press E to inspect objects."
+        );
+
         Debug.Log("Objective set");
     }
 
@@ -109,6 +114,11 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
         inspectionsCompleted++;
 
+        // The interaction prompt has served its purpose once the player
+        // successfully inspects an object for the first time.
+        if (inspectionsCompleted == 1)
+            PromptUI.Instance?.Hide();
+
         if (inspectionsCompleted < requiredInspections)
         {
             ObjectivesUI.Instance?.SetObjective(
@@ -126,6 +136,5 @@ public class SnowCourtyardTutorialController : MonoBehaviour
             "Leave the courtyard."
         );
 
-        PromptUI.Instance?.Hide();
     }
 }

@@ -13,11 +13,16 @@ public class QuestManager : MonoBehaviour
 
     private readonly List<QuestState> sideQuests = new();
     private readonly HashSet<QuestData> completedSideQuests = new();
+    private readonly List<QuestState> objectiveJournalQuests = new();
 
     private QuestData trackedQuestData;
+    private QuestState currentObjectiveJournalQuest;
+    private long questUpdateOrder;
 
     public QuestState CurrentMainQuest => currentMainQuest;
     public IReadOnlyList<QuestState> SideQuests => sideQuests;
+    public IReadOnlyList<QuestState> ObjectiveJournalQuests =>
+        objectiveJournalQuests;
     public QuestData TrackedQuestData => trackedQuestData;
 
     public int CurrentObjectiveIndex { get; private set; }
@@ -62,6 +67,130 @@ public class QuestManager : MonoBehaviour
         CurrentObjectiveIndex = 0;
 
         RaiseUpdated();
+    }
+
+    public QuestState RecordObjectiveForJournal(
+        string title,
+        string description)
+    {
+        if (string.IsNullOrWhiteSpace(title) ||
+            string.IsNullOrWhiteSpace(description))
+        {
+            return null;
+        }
+
+        QuestState quest = null;
+
+        foreach (QuestState candidate in objectiveJournalQuests)
+        {
+            if (candidate.Title == title)
+            {
+                quest = candidate;
+                break;
+            }
+        }
+
+        if (quest == null)
+        {
+            quest = new QuestState(title)
+            {
+                IsObjectiveLog = true
+            };
+
+            objectiveJournalQuests.Add(quest);
+        }
+
+        if (currentObjectiveJournalQuest != null &&
+            currentObjectiveJournalQuest != quest)
+        {
+            CompleteLatestObjective(currentObjectiveJournalQuest);
+            currentObjectiveJournalQuest.Completed = true;
+            RebuildObjectiveLogText(currentObjectiveJournalQuest);
+        }
+
+        UpdateObjectiveLogStep(quest, description);
+
+        quest.Completed = false;
+        currentObjectiveJournalQuest = quest;
+
+        RebuildObjectiveLogText(quest);
+        RaiseUpdated(quest);
+
+        return quest;
+    }
+
+    private static void UpdateObjectiveLogStep(
+        QuestState quest,
+        string description)
+    {
+        if (quest.Objectives.Count == 0)
+        {
+            quest.Objectives.Add(new QuestObjective(description));
+            return;
+        }
+
+        QuestObjective latest =
+            quest.Objectives[quest.Objectives.Count - 1];
+
+        if (GetObjectiveStepKey(latest.Text) ==
+            GetObjectiveStepKey(description))
+        {
+            latest.Text = description;
+            latest.Completed = false;
+            return;
+        }
+
+        latest.Completed = true;
+        quest.Objectives.Add(new QuestObjective(description));
+    }
+
+    private static string GetObjectiveStepKey(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return string.Empty;
+
+        int counterStart = text.LastIndexOf(" (");
+
+        if (counterStart >= 0 &&
+            text.EndsWith(")") &&
+            text.IndexOf('/', counterStart) >= 0)
+        {
+            return text.Substring(0, counterStart);
+        }
+
+        return text;
+    }
+
+    private static void CompleteLatestObjective(QuestState quest)
+    {
+        if (quest.Objectives.Count == 0)
+            return;
+
+        quest.Objectives[quest.Objectives.Count - 1].Completed = true;
+    }
+
+    private static void RebuildObjectiveLogText(QuestState quest)
+    {
+        if (quest.Objectives.Count == 0)
+            return;
+
+        QuestObjective latest =
+            quest.Objectives[quest.Objectives.Count - 1];
+
+        quest.Description = latest.Text;
+
+        System.Text.StringBuilder history = new();
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (history.Length > 0)
+                history.AppendLine();
+
+            history.Append(objective.Completed ? "Completed: " : "Current: ");
+            history.Append(objective.Text);
+        }
+
+        quest.Conditions = history.ToString();
     }
 
     public bool AcceptSideQuest(
@@ -689,9 +818,13 @@ public class QuestManager : MonoBehaviour
     private void RaiseUpdated(
         QuestState updatedQuest = null)
     {
+        QuestState quest = updatedQuest ?? currentMainQuest;
+
+        if (quest != null)
+            quest.LastUpdatedOrder = ++questUpdateOrder;
+
         OnQuestUpdated?.Invoke(
-            updatedQuest ??
-            currentMainQuest
+            quest
         );
     }
 }
