@@ -134,6 +134,14 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
             "Talk to the Guide.");
     }
 
+    public static void RefreshQuestObjective()
+    {
+        if (SceneManager.GetActiveScene().name != MoonveilSceneName)
+            return;
+
+        ConfigureQuestObjective();
+    }
+
     private static void ConfigureBlocker(
         string blockerName,
         GameProgressionStage unlockStage,

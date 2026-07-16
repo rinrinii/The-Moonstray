@@ -22,6 +22,7 @@ public class JournalController : MonoBehaviour
     private Label questTitleLabel;
     private Label questDetailsLabel;
     private Label questConditionLabel;
+    private Label questRewardsHeaderLabel;
     private Label questRewardsLabel;
     private Label questSubmitStatusLabel;
     private ScrollView questDetailsScroll;
@@ -117,6 +118,9 @@ public class JournalController : MonoBehaviour
 
         questConditionLabel =
             root.Q<Label>("QuestCondition");
+
+        questRewardsHeaderLabel =
+            root.Q<Label>("RewardsLabel");
 
         questRewardsLabel =
             root.Q<Label>("QuestRewards");
@@ -397,8 +401,7 @@ public class JournalController : MonoBehaviour
         if (questConditionLabel != null)
             questConditionLabel.text = condition;
 
-        if (questRewardsLabel != null)
-            questRewardsLabel.text = "Nothing here...";
+        SetRewardsVisible(false);
 
         if (questSubmitStatusLabel != null)
             questSubmitStatusLabel.text = string.Empty;
@@ -433,17 +436,25 @@ public class JournalController : MonoBehaviour
                 ? "Nothing here..."
                 : quest.Conditions;
 
-        if (questRewardsLabel != null)
+        bool isSideQuest =
+            quest.Data != null &&
+            quest.Data.category == QuestCategory.Side;
+
+        SetRewardsVisible(isSideQuest);
+
+        if (isSideQuest && questRewardsLabel != null)
+        {
             questRewardsLabel.text = string.IsNullOrWhiteSpace(quest.Rewards)
                 ? "Nothing here..."
                 : quest.Rewards;
+        }
 
         if (questSubmitStatusLabel != null)
             questSubmitStatusLabel.text = string.Empty;
 
         if (submitQuestButton != null)
         {
-            bool canSubmit = quest.Data != null && !quest.Completed;
+            bool canSubmit = isSideQuest && !quest.Completed;
             submitQuestButton.style.display =
                 canSubmit ? DisplayStyle.Flex : DisplayStyle.None;
             submitQuestButton.SetEnabled(canSubmit);
@@ -451,20 +462,29 @@ public class JournalController : MonoBehaviour
 
         if (trackQuestButton != null)
         {
-            bool canTrack =
-                quest != null &&
-                !quest.Completed;
-
-            trackQuestButton.style.display =
-                canTrack
-                    ? DisplayStyle.Flex
-                    : DisplayStyle.None;
-
-            trackQuestButton.SetEnabled(canTrack);
+            trackQuestButton.style.display = DisplayStyle.None;
+            trackQuestButton.SetEnabled(false);
         }
 
         if (questDetailsScroll != null)
             questDetailsScroll.scrollOffset = Vector2.zero;
+    }
+
+    private void SetRewardsVisible(bool visible)
+    {
+        DisplayStyle display =
+            visible ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (questRewardsHeaderLabel != null)
+            questRewardsHeaderLabel.style.display = display;
+
+        if (questRewardsLabel != null)
+        {
+            questRewardsLabel.style.display = display;
+
+            if (!visible)
+                questRewardsLabel.text = string.Empty;
+        }
     }
 
     private void SubmitSelectedQuest()

@@ -6,12 +6,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Moonstray/Quest")]
 public class QuestData : ScriptableObject
 {
+    [Header("Identity")]
+    public string questID;
+    public QuestCategory category = QuestCategory.Side;
+
     public QuestRegion region = QuestRegion.Spring;
 
     public string questTitle;
 
     [TextArea(5, 20)]
     public string description;
+
+    [Header("Ordered Objectives")]
+    public List<QuestObjectiveData> objectives = new();
 
     [Header("Map Tracking")]
     public string trackingSceneName;
@@ -216,6 +223,43 @@ public class QuestData : ScriptableObject
 }
 
 [Serializable]
+public class QuestObjectiveData
+{
+    public string objectiveID;
+
+    [TextArea(2, 5)]
+    public string description;
+
+    public QuestObjectiveType type = QuestObjectiveType.Custom;
+    public int requiredAmount = 1;
+    public string targetID;
+
+    [Header("Objective Tracking")]
+    public ObjectiveTrackingMode trackingMode = ObjectiveTrackingMode.None;
+    public string trackingMarkerID;
+    public string targetScene;
+    public bool hideInsideArea = true;
+    [Min(0f)] public float areaRadius = 10f;
+
+    public string FormatProgress(int currentAmount)
+    {
+        int required = Mathf.Max(1, requiredAmount);
+
+        return required > 1
+            ? $"{description} ({Mathf.Clamp(currentAmount, 0, required)}/{required})"
+            : description;
+    }
+}
+
+public enum ObjectiveTrackingMode
+{
+    None,
+    SpecificTarget,
+    SearchArea,
+    SceneExit
+}
+
+[Serializable]
 public class QuestItemAmount
 {
     public ItemData item;
@@ -286,4 +330,22 @@ public enum QuestRegion
     Summer,
     Autumn,
     Winter
+}
+
+public enum QuestCategory
+{
+    Main,
+    Side,
+    Tutorial
+}
+
+public enum QuestObjectiveType
+{
+    Custom,
+    Travel,
+    Interact,
+    Collect,
+    ReadNote,
+    Transform,
+    Dialogue
 }

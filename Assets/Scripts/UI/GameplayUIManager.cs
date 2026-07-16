@@ -83,7 +83,7 @@ public class GameplayUIManager : MonoBehaviour
         // HUD
         // =========================================
 
-        ObjectivesPanel = RootVisualElement.Q<VisualElement>("ObjectivesPanel");
+        ObjectivesPanel = RootVisualElement.Q<VisualElement>("ObjectivesHUDGroup");
         BottomCenterPromptHUD = RootVisualElement.Q<VisualElement>("BottomCenterPromptHUD");
         BottomLeftHUD = RootVisualElement.Q<VisualElement>("BottomLeftHUD");
         BottomRightHUD = RootVisualElement.Q<VisualElement>("BottomRightHUD");

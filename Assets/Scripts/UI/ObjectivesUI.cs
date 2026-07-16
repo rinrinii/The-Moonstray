@@ -5,11 +5,12 @@ using UnityEngine.UIElements;
 public class ObjectivesUI : MonoBehaviour
 {
     private VisualElement panel;
-
-    private VisualElement sideQuestContainer;
+    private VisualElement hudGroup;
 
     private Label titleLabel;
     private Label descriptionLabel;
+
+    public QuestObjectiveData CurrentObjectiveData { get; private set; }
 
     public static ObjectivesUI Instance { get; private set; }
 
@@ -27,18 +28,13 @@ public class ObjectivesUI : MonoBehaviour
     public void Initialize(VisualElement root)
     {
         panel = root.Q<VisualElement>("ObjectivesPanel");
-
-        sideQuestContainer =
-            root.Q<VisualElement>("SideQuestContainer");
+        hudGroup = root.Q<VisualElement>("ObjectivesHUDGroup");
 
         titleLabel =
             root.Q<Label>("MainQuestTitle");
 
         descriptionLabel =
             root.Q<Label>("MainQuestDescription");
-
-        if (sideQuestContainer != null)
-            sideQuestContainer.style.display = DisplayStyle.None;
 
         Hide();
 
@@ -66,9 +62,12 @@ public class ObjectivesUI : MonoBehaviour
 
         if (quest.IsObjectiveLog)
         {
-            descriptionLabel.text = quest.Description;
+            descriptionLabel.text = quest.CurrentObjectiveText;
+            CurrentObjectiveData = FindCurrentObjectiveData(quest);
             return;
         }
+
+        CurrentObjectiveData = null;
 
         StringBuilder builder = new();
 
@@ -85,7 +84,7 @@ public class ObjectivesUI : MonoBehaviour
         if (panel == null)
             return;
 
-        panel.style.display = DisplayStyle.Flex;
+        hudGroup.style.display = DisplayStyle.Flex;
     }
 
     public void Hide()
@@ -95,8 +94,9 @@ public class ObjectivesUI : MonoBehaviour
 
         titleLabel.text = string.Empty;
         descriptionLabel.text = string.Empty;
+        CurrentObjectiveData = null;
 
-        panel.style.display = DisplayStyle.None;
+        hudGroup.style.display = DisplayStyle.None;
     }
 
     public void Clear()
@@ -113,9 +113,46 @@ public class ObjectivesUI : MonoBehaviour
 
         titleLabel.text = title;
         descriptionLabel.text = description;
+        CurrentObjectiveData = null;
 
         QuestManager.Instance?.RecordObjectiveForJournal(
             title,
             description);
+    }
+
+    public void SetObjective(
+        string questID,
+        string objectiveID,
+        int currentAmount)
+    {
+        QuestState quest = QuestManager.Instance?.ActivateObjective(
+            questID,
+            objectiveID,
+            currentAmount);
+
+        if (quest == null)
+            return;
+
+        Show();
+        titleLabel.text = quest.Title;
+        descriptionLabel.text = quest.CurrentObjectiveText;
+        CurrentObjectiveData = FindCurrentObjectiveData(quest);
+    }
+
+    private static QuestObjectiveData FindCurrentObjectiveData(QuestState quest)
+    {
+        if (quest?.Data?.objectives == null)
+            return null;
+
+        foreach (QuestObjectiveData objective in quest.Data.objectives)
+        {
+            if (objective != null &&
+                objective.objectiveID == quest.CurrentObjectiveID)
+            {
+                return objective;
+            }
+        }
+
+        return null;
     }
 }
