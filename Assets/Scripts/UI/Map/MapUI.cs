@@ -14,6 +14,10 @@ public class MapUI : MonoBehaviour
     [SerializeField] private float maxZoom = 2.5f;
     [SerializeField] private float zoomSpeed = 0.2f;
 
+    [SerializeField] private Transform player;
+    private VisualElement mapPlayerArrow;
+    private MapData currentMapData;
+
     [SerializeField]
     private bool hasMap = false;
     public bool HasMap => hasMap;
@@ -35,6 +39,13 @@ public class MapUI : MonoBehaviour
     private Vector2 mapOffset = Vector2.zero;
     private Vector2 dragStart;
     private bool dragging;
+
+    public MapData CurrentMapData => currentMapData;
+    public VisualElement MapImageContainer => mapImageContainer;
+    public Sprite CurrentSceneMap => currentSceneMap;
+    public float CurrentZoom => currentZoom;
+    public Vector2 MapOffset => mapOffset;
+    public bool ShowingWorldMap => showingWorldMap;
 
     private void Start()
     {
@@ -102,6 +113,7 @@ public class MapUI : MonoBehaviour
         worldMapBtn = root.Q<Button>("WorldMap-Button");
         closeButton = mapRoot?.Q<Button>("CloseButton");
         regionTitleLabel = root.Q<Label>("regionTitle-Label");
+        mapPlayerArrow = root.Q<VisualElement>("MapPlayerArrow");
     }
 
     private void BindControlCallbacks()
@@ -153,6 +165,7 @@ public class MapUI : MonoBehaviour
         if (!mapOpen)
             return;
 
+        UpdatePlayerMarker();
         HandleZoom();
         HandleDrag();
     }
@@ -225,6 +238,7 @@ public class MapUI : MonoBehaviour
     {
         string scene = SceneManager.GetActiveScene().name;
         MapData map = FindSceneMap(scene);
+        currentMapData = map;
 
         if (map != null)
         {
@@ -409,5 +423,113 @@ public class MapUI : MonoBehaviour
     public bool IsMapActive()
     {
         return mapOpen;
+    }
+
+    private void UpdatePlayerMarker()
+    {
+        if (player == null ||
+            currentMapData == null ||
+            currentSceneMap == null ||
+            mapImageContainer == null ||
+            mapPlayerArrow == null)
+        {
+            return;
+        }
+
+        float containerWidth =
+            mapImageContainer.resolvedStyle.width;
+
+        float containerHeight =
+            mapImageContainer.resolvedStyle.height;
+
+        if (containerWidth <= 0f ||
+            containerHeight <= 0f)
+        {
+            return;
+        }
+
+        float spriteWidth =
+            currentSceneMap.rect.width;
+
+        float spriteHeight =
+            currentSceneMap.rect.height;
+
+        float spriteAspect =
+            spriteWidth / spriteHeight;
+
+        float containerAspect =
+            containerWidth / containerHeight;
+
+        float displayedWidth;
+        float displayedHeight;
+        float imageOffsetX;
+        float imageOffsetY;
+
+        if (spriteAspect > containerAspect)
+        {
+            displayedWidth = containerWidth;
+            displayedHeight = displayedWidth / spriteAspect;
+
+            imageOffsetX = 0f;
+            imageOffsetY =
+                (containerHeight - displayedHeight) * 0.5f;
+        }
+        else
+        {
+            displayedHeight = containerHeight;
+            displayedWidth = displayedHeight * spriteAspect;
+
+            imageOffsetX =
+                (containerWidth - displayedWidth) * 0.5f;
+
+            imageOffsetY = 0f;
+        }
+
+        float normalizedX =
+            Mathf.InverseLerp(
+                currentMapData.worldMin.x,
+                currentMapData.worldMax.x,
+                player.position.x
+            );
+
+        float normalizedY =
+            Mathf.InverseLerp(
+                currentMapData.worldMin.y,
+                currentMapData.worldMax.y,
+                player.position.z
+            );
+
+        float markerX =
+            imageOffsetX +
+            normalizedX * displayedWidth;
+
+        float markerY =
+            imageOffsetY +
+            (1f - normalizedY) * displayedHeight;
+
+        float centerX = containerWidth * 0.5f;
+        float centerY = containerHeight * 0.5f;
+
+        markerX =
+            centerX +
+            (markerX - centerX) * currentZoom +
+            mapOffset.x;
+
+        markerY =
+            centerY +
+            (markerY - centerY) * currentZoom +
+            mapOffset.y;
+
+        float markerWidth =
+            mapPlayerArrow.resolvedStyle.width;
+
+        float markerHeight =
+            mapPlayerArrow.resolvedStyle.height;
+
+        mapPlayerArrow.style.left =
+            markerX - markerWidth * 0.5f;
+
+        mapPlayerArrow.style.top =
+            markerY - markerHeight * 0.5f;
     }
 }

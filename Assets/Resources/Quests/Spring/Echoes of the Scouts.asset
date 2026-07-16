@@ -17,11 +17,18 @@ MonoBehaviour:
   description: Before the Waning overtook Springtide, scouts scaled the towering
     vine walls using specialized climbing hooks. One of those hooks is believed to
     remain near the sunflower fields. Recover it so its techniques may be preserved.
-  requiredItems:
-  - item: {fileID: 11400000, guid: 1c89b2e09151f2c4e90b1c0af597e9bf, type: 2}
+  trackingSceneName: 
+  trackingMarkerID: 
+  requirements:
+  - type: 0
+    item: {fileID: 11400000, guid: 1c89b2e09151f2c4e90b1c0af597e9bf, type: 2}
+    note: {fileID: 0}
     amount: 1
-  - item: {fileID: 11400000, guid: 60334587879280d4a94083c9e857bba6, type: 2}
+  - type: 0
+    item: {fileID: 11400000, guid: 60334587879280d4a94083c9e857bba6, type: 2}
+    note: {fileID: 0}
     amount: 5
+  requiredItems: []
   requiredNotes: []
   reward: 
   moonCoinReward: 30

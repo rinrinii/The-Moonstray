@@ -64,6 +64,12 @@ public class ObjectivesUI : MonoBehaviour
 
         titleLabel.text = quest.Title;
 
+        if (quest.IsObjectiveLog)
+        {
+            descriptionLabel.text = quest.Description;
+            return;
+        }
+
         StringBuilder builder = new();
 
         for (int i = 0; i < quest.Objectives.Count; i++)
@@ -107,5 +113,9 @@ public class ObjectivesUI : MonoBehaviour
 
         titleLabel.text = title;
         descriptionLabel.text = description;
+
+        QuestManager.Instance?.RecordObjectiveForJournal(
+            title,
+            description);
     }
 }

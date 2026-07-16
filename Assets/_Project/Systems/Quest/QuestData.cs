@@ -13,6 +13,10 @@ public class QuestData : ScriptableObject
     [TextArea(5, 20)]
     public string description;
 
+    [Header("Map Tracking")]
+    public string trackingSceneName;
+    public string trackingMarkerID;
+
     public List<QuestRequirement> requirements = new();
 
     [HideInInspector] public List<QuestItemAmount> requiredItems = new();

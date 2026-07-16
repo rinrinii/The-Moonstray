@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FrostmereLibraryTutorialController : MonoBehaviour
 {
@@ -7,6 +9,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     private bool searchInitialized;
     private bool revealInitialized;
     private bool readingInitialized;
+
+    private readonly PlayerMovementFreezeHandle readingSequenceMovementLock =
+        new();
 
     #region Wake In Library
 
@@ -31,7 +36,10 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     [Header("Search Archives")]
     [SerializeField]
-    private TutorialPromptTrigger transformationTrigger;
+    private string restDialogueID = "intro.serinWake";
+
+    [SerializeField]
+    private float restPromptDelay = 2f;
 
     [SerializeField]
     private CollectBehaviour requiredArchiveObject;
@@ -51,6 +59,8 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     private bool hasTransformedToHuman;
 
     private bool npcReturning;
+    private bool awaitingRestInput;
+    private bool restSequenceStarted;
 
     #endregion
 
@@ -121,6 +131,30 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
         if (playerTransformation != null)
             playerTransformation.OnTransformationComplete -= HandleTransformationCompleted;
+
+        readingSequenceMovementLock.Release();
+    }
+
+    private void Update()
+    {
+        if (awaitingRestInput && Input.GetKeyDown(KeyCode.F))
+        {
+            BeginRestSequence();
+            return;
+        }
+
+        if (!searchInitialized)
+            return;
+
+        if (archiveObjectCollected && notesRead == 0 &&
+            Input.GetKeyDown(KeyCode.I))
+        {
+            PromptUI.Instance?.Hide();
+        }
+        else if (notesRead == 1 && Input.GetKeyDown(KeyCode.J))
+        {
+            PromptUI.Instance?.Hide();
+        }
     }
 
     private void HandleTutorialStateChanged(TutorialState state)
@@ -252,8 +286,6 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         TutorialManager.Instance.SetState(
             TutorialState.SearchArchives);
-
-        EnablePlayerMovement();
     }
 
     #endregion
@@ -272,20 +304,89 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         notesRead = 0;
         archivesProgress = 0;
         npcReturning = false;
+        awaitingRestInput = false;
+        restSequenceStarted = false;
 
         RegisterSearchEvents();
 
         SetRestrictedArchivesExitBlockerActive(true);
-        UpdateSearchObjective();
         EnableSearchHUD();
+        DisablePlayerMovement();
+        playerTransformation?.LockTransformation();
+        PromptUI.Instance?.Hide();
+
+        StartCoroutine(ShowRestPromptAfterDelay());
+    }
+
+    private IEnumerator ShowRestPromptAfterDelay()
+    {
+        yield return new WaitForSeconds(restPromptDelay);
+
+        ObjectivesUI.Instance?.SetObjective(
+            "Rest",
+            "Rest and gather your strength.");
+
+        PromptUI.Instance?.Show(
+            "[F] Rest",
+            "Press F to rest.");
+
+        awaitingRestInput = true;
+        EnablePlayerMovement();
+    }
+
+    private void BeginRestSequence()
+    {
+        if (restSequenceStarted)
+            return;
+
+        awaitingRestInput = false;
+        restSequenceStarted = true;
+
+        PromptUI.Instance?.Hide();
+        DisablePlayerMovement();
+
+        if (ScreenFade.Instance != null)
+            ScreenFade.Instance.FadeOut(OnRestFadeOutFinished);
+        else
+            OnRestFadeOutFinished();
+    }
+
+    private void OnRestFadeOutFinished()
+    {
+        ResolvePlayerReferences();
+        playerTransformation?.ForceHumanForm();
+
+        if (ScreenFade.Instance != null)
+            ScreenFade.Instance.FadeIn(OnRestFadeInFinished);
+        else
+            OnRestFadeInFinished();
+    }
+
+    private void OnRestFadeInFinished()
+    {
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.StartDialogue(
+                restDialogueID,
+                OnRestDialogueFinished);
+        else
+            OnRestDialogueFinished();
+    }
+
+    private void OnRestDialogueFinished()
+    {
+        UpdateSearchObjective();
         EnableTransformation();
-        EnableTransformationTutorial();
+        EnablePlayerMovement();
+
+        PromptUI.Instance?.Show(
+            "[E] Interact",
+            "Press E to interact.");
     }
 
     private void UpdateSearchObjective()
     {
         ObjectivesUI.Instance?.SetObjective(
-            "Searching for Answers",
+            "Echoes of the Past",
             $"Explore the archives ({archivesProgress}/{requiredArchivesProgress})");
     }
 
@@ -295,21 +396,26 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
             return;
 
         HUDController.Instance.SetObjectivesVisible(true);
-        HUDController.Instance.SetTopRightHUDVisible(true);
         HUDController.Instance.SetBottomRightHUDVisible(true);
+        SetMapShortcutVisible(false);
+    }
+
+    private void SetMapShortcutVisible(bool visible)
+    {
+        VisualElement mapShortcut =
+            GameplayUIManager.Instance?.RootVisualElement?.Q<VisualElement>(
+                "MinimapIcon");
+
+        if (mapShortcut != null)
+        {
+            mapShortcut.style.display =
+                visible ? DisplayStyle.Flex : DisplayStyle.None;
+        }
     }
 
     private void EnableTransformation()
     {
         playerTransformation?.UnlockTransformation();
-    }
-
-    private void EnableTransformationTutorial()
-    {
-        if (transformationTrigger != null)
-        {
-            transformationTrigger.gameObject.SetActive(true);
-        }
     }
 
     private void CheckSearchArchivesCompleted()
@@ -323,7 +429,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (!hasTransformedToHuman)
         {
             ObjectivesUI.Instance?.SetObjective(
-                "Searching for Answers",
+                "Echoes of the Past",
                 "Transform into your human form.");
 
             return;
@@ -333,10 +439,11 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
             return;
 
         npcReturning = true;
-        DisablePlayerMovement();
+        LockPlayerForReadingSequence();
+        PromptUI.Instance?.Hide();
 
         ObjectivesUI.Instance?.SetObjective(
-            "Searching for Answers",
+            "Echoes of the Past",
             "Wait for the student.");
 
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
@@ -408,6 +515,14 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         archivesProgress++;
 
         UpdateSearchObjective();
+
+        if (notesRead == 0)
+        {
+            PromptUI.Instance?.Show(
+                "[I] Inventory",
+                "Press I to open your inventory.");
+        }
+
         CheckSearchArchivesCompleted();
     }
 
@@ -420,6 +535,18 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         archivesProgress++;
 
         UpdateSearchObjective();
+
+        if (notesRead == 1)
+        {
+            PromptUI.Instance?.Show(
+                "[J] Journal",
+                "Press J to open your journal.");
+        }
+        else
+        {
+            PromptUI.Instance?.Hide();
+        }
+
         CheckSearchArchivesCompleted();
     }
 
@@ -433,6 +560,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
             return;
 
         revealInitialized = true;
+        LockPlayerForReadingSequence();
 
         if (DialogueManager.Instance != null)
         {
@@ -567,8 +695,14 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
             return;
 
         readingInitialized = true;
+        LockPlayerForReadingSequence();
 
         StartReadingDialogue1();
+    }
+
+    private void LockPlayerForReadingSequence()
+    {
+        readingSequenceMovementLock.Acquire();
     }
 
     private void StartReadingDialogue1()
@@ -580,9 +714,6 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnReadingDialogue1Finished()
     {
-        if (tutorialNpc == null)
-            return;
-
         WalkNpcTo(
             firstBookshelfPoint,
             OnReachedFirstBookshelf);
@@ -597,9 +728,6 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnReadingDialogue2Finished()
     {
-        if (tutorialNpc == null)
-            return;
-
         WalkNpcTo(
             secondBookshelfPoint,
             OnReachedSecondBookshelf);
@@ -660,10 +788,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     private void OnGiveMapDialogueFinished()
     {
         GameplayUIManager.Instance.Map?.Unlock();
-
-        ObjectivesUI.Instance?.SetObjective(
-            "Leaving the Past Behind",
-            "Leave the Frostmere Library.");
+        SetMapShortcutVisible(true);
 
         DialogueManager.Instance?.StartDialogue(
             farewellDialogueID,
@@ -672,7 +797,11 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void OnFarewellDialogueFinished()
     {
-        EnablePlayerMovement();
+        readingSequenceMovementLock.Release();
+
+        ObjectivesUI.Instance?.SetObjective(
+            "Leaving the Past Behind",
+            "Leave the Frostmere Library.");
 
         Debug.Log("Reading Wing sequence complete. Tutorial remains active until Moonveil.");
     }

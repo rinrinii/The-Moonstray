@@ -26,6 +26,7 @@ public class JournalController : MonoBehaviour
     private Label questSubmitStatusLabel;
     private ScrollView questDetailsScroll;
     private Button submitQuestButton;
+    private Button trackQuestButton;
     private Button closeButton;
     private QuestState selectedQuest;
 
@@ -129,6 +130,9 @@ public class JournalController : MonoBehaviour
         submitQuestButton =
             root.Q<Button>("SubmitQuestButton");
 
+        trackQuestButton =
+            root.Q<Button>("TrackQuestButton");
+
         SetupScrollView(root.Q<ScrollView>("MainQuestList-Container"));
         SetupScrollView(root.Q<ScrollView>("SideQuestList-Container"));
         SetupScrollView(questDetailsScroll);
@@ -178,6 +182,13 @@ public class JournalController : MonoBehaviour
             submitQuestButton.style.display = DisplayStyle.None;
         }
 
+        if (trackQuestButton != null)
+        {
+            trackQuestButton.clicked -= TrackSelectedQuest;
+            trackQuestButton.clicked += TrackSelectedQuest;
+            trackQuestButton.style.display = DisplayStyle.None;
+        }
+
         ClearMockElements();
         RenderNotes();
     }
@@ -202,6 +213,7 @@ public class JournalController : MonoBehaviour
         journalContainer.style.display = DisplayStyle.Flex;
         journalContainer.pickingMode = PickingMode.Position;
 
+        selectedQuest = null;
         RenderActiveJournalData();
         RenderNotes();
     }
@@ -278,17 +290,37 @@ public class JournalController : MonoBehaviour
     {
         ClearMockElements();
 
+        List<QuestState> mainQuests = new();
+
         QuestState mainQuest = QuestManager.Instance?.CurrentMainQuest;
 
         if (mainQuest != null)
+            mainQuests.Add(mainQuest);
+
+        if (QuestManager.Instance != null)
         {
-            VisualElement mainQuestEntry = CreateJournalEntry(mainQuest.Title, () =>
+            foreach (QuestState objectiveQuest in
+                     QuestManager.Instance.ObjectiveJournalQuests)
             {
-                PopulateFocusedQuestView(mainQuest);
+                mainQuests.Add(objectiveQuest);
+            }
+        }
+
+        mainQuests.Sort((left, right) =>
+            right.LastUpdatedOrder.CompareTo(left.LastUpdatedOrder));
+
+        foreach (QuestState quest in mainQuests)
+        {
+            VisualElement mainQuestEntry = CreateJournalEntry(quest.Title, () =>
+            {
+                PopulateFocusedQuestView(quest);
             });
 
             AddToContainer(mainQuestListContainer, mainQuestEntry);
         }
+
+        if (selectedQuest == null && mainQuests.Count > 0)
+            PopulateFocusedQuestView(mainQuests[0]);
 
         if (QuestManager.Instance == null)
             return;
@@ -374,6 +406,9 @@ public class JournalController : MonoBehaviour
         if (submitQuestButton != null)
             submitQuestButton.style.display = DisplayStyle.None;
 
+        if (trackQuestButton != null)
+            trackQuestButton.style.display = DisplayStyle.None;
+
         if (questDetailsScroll != null)
             questDetailsScroll.scrollOffset = Vector2.zero;
     }
@@ -414,6 +449,20 @@ public class JournalController : MonoBehaviour
             submitQuestButton.SetEnabled(canSubmit);
         }
 
+        if (trackQuestButton != null)
+        {
+            bool canTrack =
+                quest != null &&
+                !quest.Completed;
+
+            trackQuestButton.style.display =
+                canTrack
+                    ? DisplayStyle.Flex
+                    : DisplayStyle.None;
+
+            trackQuestButton.SetEnabled(canTrack);
+        }
+
         if (questDetailsScroll != null)
             questDetailsScroll.scrollOffset = Vector2.zero;
     }
@@ -449,6 +498,14 @@ public class JournalController : MonoBehaviour
 
         selectedQuest = null;
         RenderActiveJournalData();
+    }
+
+    private void TrackSelectedQuest()
+    {
+        if (selectedQuest == null)
+            return;
+
+        Debug.Log($"Tracking quest: {selectedQuest.Title}");
     }
 
     private void SetupScrollView(ScrollView scrollView)

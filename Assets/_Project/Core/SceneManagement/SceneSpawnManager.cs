@@ -49,7 +49,26 @@ public class SceneSpawnManager : MonoBehaviour
 
         SceneLoader.PendingSpawnID = null;
 
+        UpdatePostLibraryTutorialObjective();
         CompleteTutorialIfMoonveilReached();
+    }
+
+    private void UpdatePostLibraryTutorialObjective()
+    {
+        if (TutorialManager.Instance == null ||
+            TutorialManager.Instance.CurrentState != TutorialState.ReadingWing)
+        {
+            return;
+        }
+
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName == "Frostmere Library" || sceneName == "Moonveil")
+            return;
+
+        ObjectivesUI.Instance?.SetObjective(
+            "Leaving the Past Behind",
+            "Travel to Moonveil.");
     }
 
     private void ResetPlayerTeleportState(GameObject player)
