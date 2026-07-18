@@ -175,7 +175,9 @@ public class QuestBoardController : MonoBehaviour
 
     private void AddAvailableQuest(QuestData quest, HashSet<QuestData> seenQuests)
     {
-        if (quest == null || seenQuests.Contains(quest))
+        if (quest == null ||
+            quest.category != QuestCategory.Side ||
+            seenQuests.Contains(quest))
             return;
 
         seenQuests.Add(quest);

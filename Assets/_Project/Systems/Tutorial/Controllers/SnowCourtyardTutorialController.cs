@@ -75,9 +75,9 @@ public class SnowCourtyardTutorialController : MonoBehaviour
         Debug.Log("Before Objective");
 
         ObjectivesUI.Instance?.SetObjective(
-            "Snow Courtyard",
-            "Explore the courtyard."
-        );
+            "tutorial.searching_for_clues",
+            "explore_courtyard",
+            0);
 
         PromptUI.Instance?.Show(
             "[E] Interact",
@@ -122,9 +122,9 @@ public class SnowCourtyardTutorialController : MonoBehaviour
         if (inspectionsCompleted < requiredInspections)
         {
             ObjectivesUI.Instance?.SetObjective(
-                "Searching for Clues",
-                $"Explore the courtyard ({inspectionsCompleted}/{requiredInspections})"
-            );
+                "tutorial.searching_for_clues",
+                "explore_courtyard",
+                inspectionsCompleted);
 
             return;
         }
@@ -132,9 +132,9 @@ public class SnowCourtyardTutorialController : MonoBehaviour
         explorationComplete = true;
 
         ObjectivesUI.Instance?.SetObjective(
-            "Searching for Clues",
-            "Leave the courtyard."
-        );
+            "tutorial.searching_for_clues",
+            "leave_courtyard",
+            0);
 
     }
 }

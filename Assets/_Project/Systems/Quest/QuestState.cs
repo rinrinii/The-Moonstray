@@ -13,9 +13,26 @@ public class QuestState
     public bool Completed;
     public bool IsObjectiveLog;
     public long LastUpdatedOrder;
+    public string CurrentObjectiveID;
 
     public List<QuestObjective> Objectives =
         new();
+
+    public string CurrentObjectiveText
+    {
+        get
+        {
+            foreach (QuestObjective objective in Objectives)
+            {
+                if (objective.ObjectiveID == CurrentObjectiveID)
+                    return objective.Text;
+            }
+
+            return Objectives.Count > 0
+                ? Objectives[Objectives.Count - 1].Text
+                : string.Empty;
+        }
+    }
 
     public QuestState(string title, params string[] objectives)
     {
@@ -45,7 +62,25 @@ public class QuestState
         Conditions = data != null ? data.RequiredItemsText : string.Empty;
         Rewards = data != null ? data.RewardText : string.Empty;
 
-        if (!string.IsNullOrWhiteSpace(Conditions))
+        if (data != null && data.objectives != null && data.objectives.Count > 0)
+        {
+            IsObjectiveLog = true;
+
+            foreach (QuestObjectiveData objective in data.objectives)
+                Objectives.Add(new QuestObjective(objective));
+
+            QuestObjectiveData firstObjective = data.objectives[0];
+
+            if (firstObjective != null)
+            {
+                CurrentObjectiveID = firstObjective.objectiveID;
+                Conditions = $"Current: {firstObjective.description}";
+
+                if (!string.IsNullOrWhiteSpace(firstObjective.PossibleAreasText))
+                    Conditions += $"\n{firstObjective.PossibleAreasText}";
+            }
+        }
+        else if (!string.IsNullOrWhiteSpace(Conditions))
             Objectives.Add(new QuestObjective(Conditions));
     }
 }

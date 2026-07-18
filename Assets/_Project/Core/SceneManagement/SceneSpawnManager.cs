@@ -67,8 +67,9 @@ public class SceneSpawnManager : MonoBehaviour
             return;
 
         ObjectivesUI.Instance?.SetObjective(
-            "Leaving the Past Behind",
-            "Travel to Moonveil.");
+            "tutorial.leaving_the_past_behind",
+            "travel_moonveil",
+            0);
     }
 
     private void ResetPlayerTeleportState(GameObject player)
@@ -96,11 +97,17 @@ public class SceneSpawnManager : MonoBehaviour
         if (GameProgressionManager.Instance != null)
         {
             GameProgressionManager.Instance.CompleteTutorialAndBeginChapterOne();
+            MoonveilProgressionBootstrap.RefreshQuestObjective();
         }
         else
         {
             TutorialManager.Instance.FinishTutorial();
             FindFirstObjectByType<PlayerHealth>()?.RestoreFullHealth();
+
+            ObjectivesUI.Instance?.SetObjective(
+                "chapter1.new_beginnings",
+                "talk_to_guide",
+                0);
         }
     }
 }

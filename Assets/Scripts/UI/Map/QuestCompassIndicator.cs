@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class QuestCompassIndicator : MonoBehaviour
@@ -7,11 +9,17 @@ public class QuestCompassIndicator : MonoBehaviour
 
     [SerializeField] private Transform player;
     private Transform activeQuestTarget;
-    [SerializeField] private float edgeRadius = 0.56f;
     [SerializeField] private float rotationOffset;
+
+    private QuestObjectiveData trackedObjective;
+    private const float PulseDuration = 0.8f;
+    private const float PulseScale = 0.16f;
+    private float pulseEndTime;
 
     private VisualElement minimapContainer;
     private VisualElement compassArrow;
+
+    public bool IsInsideTrackedArea { get; private set; }
 
     private void Awake()
     {
@@ -32,7 +40,127 @@ public class QuestCompassIndicator : MonoBehaviour
 
     private void LateUpdate()
     {
+        HandleTrackingInput();
+        RefreshTrackedObjective();
         UpdateIndicator();
+    }
+
+    private void HandleTrackingInput()
+    {
+        if (Keyboard.current == null ||
+            !Keyboard.current.vKey.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        if (PauseMenuController.Instance != null &&
+            PauseMenuController.Instance.IsPaused())
+        {
+            return;
+        }
+
+        if (DialogueManager.Instance != null &&
+            DialogueManager.Instance.IsDialogueActive)
+        {
+            return;
+        }
+
+        QuestObjectiveData currentObjective =
+            ObjectivesUI.Instance?.CurrentObjectiveData;
+
+        if (currentObjective == null ||
+            currentObjective.trackingMode == ObjectiveTrackingMode.None)
+        {
+            StopTracking();
+            return;
+        }
+
+        trackedObjective = currentObjective;
+        ResolveObjectiveTarget();
+
+        if (activeQuestTarget != null)
+            pulseEndTime = Time.unscaledTime + PulseDuration;
+    }
+
+    private void RefreshTrackedObjective()
+    {
+        QuestObjectiveData currentObjective =
+            ObjectivesUI.Instance?.CurrentObjectiveData;
+
+        if (currentObjective == null ||
+            currentObjective.trackingMode == ObjectiveTrackingMode.None)
+        {
+            StopTracking();
+            return;
+        }
+
+        if (currentObjective != trackedObjective)
+        {
+            trackedObjective = currentObjective;
+        }
+
+        ResolveObjectiveTarget();
+    }
+
+    private void ResolveObjectiveTarget()
+    {
+        activeQuestTarget = null;
+
+        if (trackedObjective == null)
+            return;
+
+        string currentScene = SceneManager.GetActiveScene().name;
+        string targetScene = trackedObjective.targetScene;
+
+        if (!string.IsNullOrWhiteSpace(targetScene) &&
+            currentScene != targetScene)
+        {
+            activeQuestTarget = FindRouteTarget(currentScene, targetScene);
+            return;
+        }
+
+        if (trackedObjective.trackingMode == ObjectiveTrackingMode.SceneExit ||
+            string.IsNullOrWhiteSpace(trackedObjective.trackingMarkerID))
+        {
+            return;
+        }
+
+        MapMarkerTarget marker = MapMarkerTarget.FindByID(
+            trackedObjective.trackingMarkerID);
+
+        if (marker != null && marker.gameObject.activeInHierarchy)
+            activeQuestTarget = marker.transform;
+    }
+
+    private static Transform FindRouteTarget(
+        string currentScene,
+        string targetScene)
+    {
+        SceneTransitionTrigger[] transitions =
+            Object.FindObjectsByType<SceneTransitionTrigger>(
+                FindObjectsInactive.Exclude,
+                FindObjectsSortMode.None);
+
+        foreach (SceneTransitionTrigger transition in transitions)
+        {
+            if (transition.TargetScene == targetScene)
+                return transition.CompassTarget;
+        }
+
+        string nextScene = SceneRouteDatabase.FindNextScene(
+            currentScene,
+            targetScene);
+
+        if (string.IsNullOrWhiteSpace(nextScene))
+            return null;
+
+        foreach (SceneTransitionTrigger transition in transitions)
+        {
+            if (transition.TargetScene == nextScene)
+                return transition.CompassTarget;
+        }
+
+        return null;
     }
 
     private void RefreshReferences()
@@ -52,6 +180,8 @@ public class QuestCompassIndicator : MonoBehaviour
 
     private void UpdateIndicator()
     {
+        IsInsideTrackedArea = false;
+
         if (minimapContainer == null ||
             compassArrow == null)
         {
@@ -99,6 +229,17 @@ public class QuestCompassIndicator : MonoBehaviour
             return;
         }
 
+        if (trackedObjective != null &&
+            trackedObjective.trackingMode == ObjectiveTrackingMode.SearchArea &&
+            trackedObjective.hideInsideArea &&
+            direction.sqrMagnitude <=
+                trackedObjective.areaRadius * trackedObjective.areaRadius)
+        {
+            IsInsideTrackedArea = true;
+            compassArrow.style.display = DisplayStyle.None;
+            return;
+        }
+
         compassArrow.style.display =
             DisplayStyle.Flex;
 
@@ -109,43 +250,6 @@ public class QuestCompassIndicator : MonoBehaviour
             ) *
             Mathf.Rad2Deg +
             rotationOffset;
-
-        float centerX =
-            width * 0.5f;
-
-        float centerY =
-            height * 0.5f;
-
-        float radius =
-            Mathf.Min(width, height) *
-            edgeRadius;
-
-        float radians =
-            angle * Mathf.Deg2Rad;
-
-        float arrowX =
-            centerX +
-            Mathf.Sin(radians) *
-            radius;
-
-        float arrowY =
-            centerY -
-            Mathf.Cos(radians) *
-            radius;
-
-        float arrowWidth =
-            compassArrow.resolvedStyle.width;
-
-        float arrowHeight =
-            compassArrow.resolvedStyle.height;
-
-        compassArrow.style.left =
-            arrowX -
-            arrowWidth * 0.5f;
-
-        compassArrow.style.top =
-            arrowY -
-            arrowHeight * 0.5f;
 
         compassArrow.style.transformOrigin =
             new TransformOrigin(
@@ -161,6 +265,8 @@ public class QuestCompassIndicator : MonoBehaviour
                     AngleUnit.Degree
                 )
             );
+
+        ApplyPulse();
     }
 
     public void SetActiveQuestTarget(
@@ -171,6 +277,45 @@ public class QuestCompassIndicator : MonoBehaviour
 
     public void ClearActiveQuestTarget()
     {
+        StopTracking();
+    }
+
+    private void StopTracking()
+    {
+        trackedObjective = null;
         activeQuestTarget = null;
+        IsInsideTrackedArea = false;
+
+        if (compassArrow != null)
+        {
+            compassArrow.style.display = DisplayStyle.None;
+            compassArrow.style.scale = new Scale(Vector2.one);
+            compassArrow.style.opacity = 1f;
+        }
+    }
+
+    private void ApplyPulse()
+    {
+        if (compassArrow == null)
+            return;
+
+        float remaining = pulseEndTime - Time.unscaledTime;
+
+        if (remaining <= 0f)
+        {
+            compassArrow.style.scale = new Scale(Vector2.one);
+            compassArrow.style.opacity = 1f;
+            return;
+        }
+
+        float progress = 1f - remaining / PulseDuration;
+        float wave = Mathf.Sin(progress * Mathf.PI * 2f);
+        float pulse = wave * wave;
+        float scale = 1f + pulse * PulseScale;
+
+        compassArrow.style.scale =
+            new Scale(new Vector2(scale, scale));
+
+        compassArrow.style.opacity = 0.78f + pulse * 0.22f;
     }
 }

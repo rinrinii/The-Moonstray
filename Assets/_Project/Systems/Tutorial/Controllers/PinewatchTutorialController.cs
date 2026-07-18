@@ -59,9 +59,9 @@ public class PinewatchTutorialController : MonoBehaviour
 
         // Initial objective
         ObjectivesUI.Instance?.SetObjective(
-            "Finding Your Footing",
-            "Explore the trail."
-        );
+            "tutorial.finding_your_footing",
+            "explore_trail",
+            0);
 
         // Prompt is now handled by MovementTutorialTriggers.
         PromptUI.Instance?.Hide();

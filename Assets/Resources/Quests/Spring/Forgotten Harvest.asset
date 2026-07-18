@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
   m_Name: Forgotten Harvest
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  questID: 
+  category: 1
   region: 0
   questTitle: Forgotten Harvest
   description: I found references to a farmer's journal describing the first signs
     of the Waning, but the journal was never recovered. If it's still somewhere in
     the abandoned fields, I'd like to preserve it before nature claims it completely.
+  objectives: []
+  trackingSceneName: 
+  trackingMarkerID: 
   requirements:
   - type: 1
     item: {fileID: 0}

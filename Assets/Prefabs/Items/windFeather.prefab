@@ -115,7 +115,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.40990922, y: 0.029235085, z: 1.0139604}
+  m_Size: {x: 0.40990922, y: 0.2, z: 1.0139604}
   m_Center: {x: -0.007990703, y: -0.0013910094, z: -0.002995044}
 --- !u!114 &9183378552977534160
 MonoBehaviour:
@@ -130,6 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectStateInteraction
   objectID: windFeather
+  useInstanceID: 0
+  instanceID: 
   actions:
   - requiredState: 0
     nextState: 1
@@ -163,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   isInteractable: 1
+  requiredForm: 1
   interactionType: 2
 --- !u!114 &8552455862744262923
 MonoBehaviour:

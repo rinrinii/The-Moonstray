@@ -58,9 +58,9 @@ public class BlightTutorialController : MonoBehaviour
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
         ObjectivesUI.Instance?.SetObjective(
-            "Searching for Clues",
-            "Continue following the trail."
-        );
+            "tutorial.searching_for_clues",
+            "follow_trail",
+            0);
 
         PromptUI.Instance?.Hide();
     }

@@ -323,8 +323,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         yield return new WaitForSeconds(restPromptDelay);
 
         ObjectivesUI.Instance?.SetObjective(
-            "Rest",
-            "Rest and gather your strength.");
+            "tutorial.echoes_of_the_past",
+            "rest",
+            0);
 
         PromptUI.Instance?.Show(
             "[F] Rest",
@@ -386,8 +387,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     private void UpdateSearchObjective()
     {
         ObjectivesUI.Instance?.SetObjective(
-            "Echoes of the Past",
-            $"Explore the archives ({archivesProgress}/{requiredArchivesProgress})");
+            "tutorial.echoes_of_the_past",
+            "explore_archives",
+            archivesProgress);
     }
 
     private void EnableSearchHUD()
@@ -429,8 +431,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (!hasTransformedToHuman)
         {
             ObjectivesUI.Instance?.SetObjective(
-                "Echoes of the Past",
-                "Transform into your human form.");
+                "tutorial.echoes_of_the_past",
+                "transform_human",
+                0);
 
             return;
         }
@@ -443,8 +446,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         PromptUI.Instance?.Hide();
 
         ObjectivesUI.Instance?.SetObjective(
-            "Echoes of the Past",
-            "Wait for the student.");
+            "tutorial.echoes_of_the_past",
+            "wait_for_student",
+            0);
 
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
         NoteInteractionResponse.OnNoteRead -= HandleNoteRead;
@@ -800,8 +804,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         readingSequenceMovementLock.Release();
 
         ObjectivesUI.Instance?.SetObjective(
-            "Leaving the Past Behind",
-            "Leave the Frostmere Library.");
+            "tutorial.leaving_the_past_behind",
+            "leave_library",
+            0);
 
         Debug.Log("Reading Wing sequence complete. Tutorial remains active until Moonveil.");
     }

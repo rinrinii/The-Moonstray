@@ -24,9 +24,9 @@
                 </ui:VisualElement>
             </ui:ScrollView>
             <ui:Label text="" name="QuestSubmitStatus" style="color: rgb(90, 42, 36); -unity-font-definition: url(&quot;project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&amp;guid=1c68df65c086c5e4ab7422383dbcf6f7&amp;type=3#AlegreyaSans-Medium&quot;); font-size: 27%; padding-left: 5%; margin-top: 6px; white-space: normal; width: 90%; flex-shrink: 0;"/>
-            <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; flex-wrap: wrap; flex-direction: row; width: 90%; align-content: flex-end; right: -9%;">
-                <ui:Button text="Track  Quest" name="TrackQuestButton" class="journalButton" style="margin-top: 4px; width: 150px; height: 42px; align-self: flex-end; margin-right: 8%; flex-shrink: 0;"/>
-                <ui:Button text="Submit Quest" name="SubmitQuestButton" class="journalButton" style="margin-top: 4px; width: 150px; height: 42px; align-self: flex-end; margin-right: 8%; flex-shrink: 0;"/>
+            <ui:VisualElement name="ButtonsContainer" style="flex-grow: 1; flex-wrap: nowrap; flex-direction: row; width: 100%; align-content: flex-end; justify-content: flex-end;">
+                <ui:Button text="Track Quest" name="TrackQuestButton" class="journalButton" style="display: none; margin-top: 4px; margin-right: 4px; margin-left: 0; width: 140px; height: 42px; align-self: flex-end; flex-shrink: 1; font-size: 20px; padding-left: 6px; padding-right: 6px; white-space: nowrap;"/>
+                <ui:Button text="Submit Quest" name="SubmitQuestButton" class="journalButton" style="margin-top: 4px; margin-right: 0; margin-left: 0; width: 140px; height: 42px; align-self: flex-end; flex-shrink: 1; font-size: 20px; padding-left: 6px; padding-right: 6px; white-space: nowrap;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
