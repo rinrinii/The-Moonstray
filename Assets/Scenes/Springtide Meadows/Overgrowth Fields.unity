@@ -7857,6 +7857,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5034091863820907182, guid: 48daf708d0f2240409df0a9b20f1dcab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 873066403}
+    - targetCorrespondingSourceObject: {fileID: 5034091863820907182, guid: 48daf708d0f2240409df0a9b20f1dcab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 873066408}
   m_SourcePrefab: {fileID: 100100000, guid: 48daf708d0f2240409df0a9b20f1dcab, type: 3}
 --- !u!4 &873066400 stripped
 Transform:
@@ -7950,6 +7953,32 @@ MonoBehaviour:
   isInteractable: 1
   requiredForm: 1
   interactionType: 1
+--- !u!114 &873066408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873066402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f3210b8ae2147c4a9cd3fb68c4ff712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RestorationPuzzleInteraction
+  restoreBehaviour: {fileID: 873066404}
+  puzzleImage: {fileID: 2800000, guid: ebbb0e4883e0cd446ba23a4ee44528ce, type: 3}
+  requiredMaterials:
+  - item: {fileID: 11400000, guid: 3784b400c895d1a4da93499c1a9533e5, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: 10d53934150fe7d44bbe5a41c945c851, type: 2}
+    amount: 3
+  inspectionDialogueID: chapter1.inspectRuinedGarden
+  missingMaterialsDialogueID: chapter1.ruinedGardenMissingMaterials
+  restoredDialogueID: chapter1.restoreRuinedGarden
+  inspectedFlag: chapter1.ruinedGardenInspected
+  restoredFlag: chapter1.ruinedGardenRestored
+  objectiveTitle: For Every Garden Buries a Secret
+  gatherMaterialsObjective: Gather 3 Lumber Bundles and 3 Stone Piles.
 --- !u!1 &902859175
 GameObject:
   m_ObjectHideFlags: 0
@@ -16137,6 +16166,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3879109931412539635, guid: 719d61d1a2b35ff4f9f3996565b346c4, type: 3}
   m_PrefabInstance: {fileID: 1563605653}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1573050974
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 85.088165
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 68.500885
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 67.60959
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214972907063135441, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340002803601414675, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: m_Name
+      value: DontDestroyOnLoad
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253852879536781855, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
+      propertyPath: currentState
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 59f118dd8fa71d349a7ede633d9e04e0, type: 3}
 --- !u!1 &1579009034
 GameObject:
   m_ObjectHideFlags: 0
@@ -27648,3 +27738,4 @@ SceneRoots:
   - {fileID: 723057316}
   - {fileID: 1659824987}
   - {fileID: 290329332}
+  - {fileID: 1573050974}

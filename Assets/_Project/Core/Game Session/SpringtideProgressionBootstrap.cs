@@ -239,34 +239,14 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             {
                 ConfigureOvergrowthInteraction(
                     stateInteraction.gameObject,
-                    OvergrowthFieldsQuestInteraction.Step.CropOne,
-                    null);
+                    OvergrowthFieldsQuestInteraction.Step.CropOne);
             }
             else if (stateInteraction.ObjectID == "inspectRottenCrop3")
             {
                 ConfigureOvergrowthInteraction(
                     stateInteraction.gameObject,
-                    OvergrowthFieldsQuestInteraction.Step.CropTwo,
-                    null);
+                    OvergrowthFieldsQuestInteraction.Step.CropTwo);
             }
-        }
-
-        RestoreBehaviour[] restoreBehaviours =
-            Object.FindObjectsByType<RestoreBehaviour>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None);
-
-        foreach (RestoreBehaviour restore in restoreBehaviours)
-        {
-            if (restore.gameObject.name != "ruined-garden 1")
-                continue;
-
-            restore.PrepareRuntimeReplacement();
-            ConfigureOvergrowthInteraction(
-                restore.gameObject,
-                OvergrowthFieldsQuestInteraction.Step.RuinedGarden,
-                restore);
-            break;
         }
 
         if (progression != null)
@@ -275,19 +255,14 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
 
     private static void ConfigureOvergrowthInteraction(
         GameObject target,
-        OvergrowthFieldsQuestInteraction.Step step,
-        RestoreBehaviour restore)
+        OvergrowthFieldsQuestInteraction.Step step)
     {
         OvergrowthFieldsQuestInteraction interaction =
             target.GetComponent<OvergrowthFieldsQuestInteraction>();
         if (interaction == null)
             interaction = target.AddComponent<OvergrowthFieldsQuestInteraction>();
 
-        interaction.Configure(
-            step,
-            restore,
-            Resources.Load<ItemData>("Items/lumberBundle"),
-            Resources.Load<ItemData>("Items/stonePile"));
+        interaction.Configure(step);
     }
 
     private static void RestoreOvergrowthObjective(
