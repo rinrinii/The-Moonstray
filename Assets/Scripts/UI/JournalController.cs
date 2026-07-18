@@ -84,6 +84,15 @@ public class JournalController : MonoBehaviour
             return;
         }
 
+        if (GameplayUIManager.Instance != null &&
+            GameplayUIManager.Instance.IsPuzzleViewActive)
+        {
+            if (isJournalOpen)
+                CloseJournal();
+
+            return;
+        }
+
         if (DialogueManager.Instance != null &&
             DialogueManager.Instance.IsDialogueActive)
         {
@@ -208,7 +217,9 @@ public class JournalController : MonoBehaviour
 
     public void OpenJournal()
     {
-        if (!unlocked)
+        if (!unlocked ||
+            (GameplayUIManager.Instance != null &&
+             GameplayUIManager.Instance.IsPuzzleViewActive))
             return;
 
         if (journalContainer == null)
