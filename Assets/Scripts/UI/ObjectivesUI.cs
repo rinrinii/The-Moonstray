@@ -1,5 +1,6 @@
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class ObjectivesUI : MonoBehaviour
@@ -9,6 +10,9 @@ public class ObjectivesUI : MonoBehaviour
 
     private Label titleLabel;
     private Label descriptionLabel;
+    private VisualElement trackingHint;
+    private VisualElement trackingKeyIcon;
+    private Label trackingHintLabel;
 
     public QuestObjectiveData CurrentObjectiveData { get; private set; }
 
@@ -36,10 +40,17 @@ public class ObjectivesUI : MonoBehaviour
         descriptionLabel =
             root.Q<Label>("MainQuestDescription");
 
+        trackingHint = root.Q<VisualElement>("ObjectiveTrackingHint");
+        trackingKeyIcon = root.Q<VisualElement>("ObjectiveTrackingKeyIcon");
+        trackingHintLabel = root.Q<Label>("ObjectiveTrackingHintLabel");
+
         Hide();
 
         if (QuestManager.Instance != null)
+        {
             QuestManager.Instance.OnQuestUpdated += Refresh;
+            Refresh(QuestManager.Instance.GetDisplayedQuest());
+        }
     }
 
     private void OnDestroy()
@@ -48,8 +59,69 @@ public class ObjectivesUI : MonoBehaviour
             QuestManager.Instance.OnQuestUpdated -= Refresh;
     }
 
+    private void Update()
+    {
+        RefreshTrackingHint();
+    }
+
+    private void RefreshTrackingHint()
+    {
+        if (trackingHint == null)
+            return;
+
+        QuestObjectiveData objective = CurrentObjectiveData;
+
+        if (objective == null)
+        {
+            trackingHint.style.display = DisplayStyle.None;
+            return;
+        }
+
+        if (objective.trackingMode == ObjectiveTrackingMode.None)
+        {
+            bool isGeneralCollection =
+                objective.type == QuestObjectiveType.Collect;
+
+            trackingHint.style.display = isGeneralCollection
+                ? DisplayStyle.Flex
+                : DisplayStyle.None;
+
+            if (isGeneralCollection)
+            {
+                trackingKeyIcon.style.display = DisplayStyle.None;
+                bool isInPossibleArea =
+                    objective.possibleScenes != null &&
+                    objective.possibleScenes.Contains(
+                        SceneManager.GetActiveScene().name);
+
+                trackingHintLabel.text = isInPossibleArea
+                    ? "Currently in tracked location"
+                    : "Check journal for possible areas";
+            }
+
+            return;
+        }
+
+        trackingHint.style.display = DisplayStyle.Flex;
+
+        bool isInsideSearchArea =
+            objective.trackingMode == ObjectiveTrackingMode.SearchArea &&
+            QuestCompassIndicator.Instance != null &&
+            QuestCompassIndicator.Instance.IsInsideTrackedArea;
+
+        trackingKeyIcon.style.display = isInsideSearchArea
+            ? DisplayStyle.None
+            : DisplayStyle.Flex;
+
+        trackingHintLabel.text = isInsideSearchArea
+            ? "Currently in tracked location"
+            : "Track current objective";
+    }
+
     private void Refresh(QuestState quest)
     {
+        quest = QuestManager.Instance?.GetDisplayedQuest() ?? quest;
+
         if (quest == null)
         {
             Hide();
@@ -96,6 +168,9 @@ public class ObjectivesUI : MonoBehaviour
         descriptionLabel.text = string.Empty;
         CurrentObjectiveData = null;
 
+        if (trackingHint != null)
+            trackingHint.style.display = DisplayStyle.None;
+
         hudGroup.style.display = DisplayStyle.None;
     }
 
@@ -104,20 +179,21 @@ public class ObjectivesUI : MonoBehaviour
         Hide();
     }
 
+    public void RefreshDisplayedQuest()
+    {
+        Refresh(QuestManager.Instance?.GetDisplayedQuest());
+    }
+
     public void SetObjective(string title, string description)
     {
         if (panel == null)
             return;
 
-        Show();
-
-        titleLabel.text = title;
-        descriptionLabel.text = description;
-        CurrentObjectiveData = null;
-
-        QuestManager.Instance?.RecordObjectiveForJournal(
+        QuestState quest = QuestManager.Instance?.RecordObjectiveForJournal(
             title,
             description);
+
+        Refresh(QuestManager.Instance?.GetDisplayedQuest() ?? quest);
     }
 
     public void SetObjective(
@@ -133,10 +209,7 @@ public class ObjectivesUI : MonoBehaviour
         if (quest == null)
             return;
 
-        Show();
-        titleLabel.text = quest.Title;
-        descriptionLabel.text = quest.CurrentObjectiveText;
-        CurrentObjectiveData = FindCurrentObjectiveData(quest);
+        Refresh(QuestManager.Instance?.GetDisplayedQuest() ?? quest);
     }
 
     private static QuestObjectiveData FindCurrentObjectiveData(QuestState quest)

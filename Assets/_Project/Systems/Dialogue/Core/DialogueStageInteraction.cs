@@ -106,7 +106,15 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
                 stage.progressionFlagOnComplete);
         }
 
-        if (!string.IsNullOrWhiteSpace(stage.objectiveTitleOnComplete) ||
+        if (!string.IsNullOrWhiteSpace(stage.objectiveQuestIDOnComplete) &&
+            !string.IsNullOrWhiteSpace(stage.objectiveIDOnComplete))
+        {
+            ObjectivesUI.Instance?.SetObjective(
+                stage.objectiveQuestIDOnComplete,
+                stage.objectiveIDOnComplete,
+                0);
+        }
+        else if (!string.IsNullOrWhiteSpace(stage.objectiveTitleOnComplete) ||
             !string.IsNullOrWhiteSpace(stage.objectiveDescriptionOnComplete))
         {
             ObjectivesUI.Instance?.SetObjective(

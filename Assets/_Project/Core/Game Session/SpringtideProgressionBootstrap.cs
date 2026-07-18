@@ -49,7 +49,10 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             {
                 progression.SetFlag(
                     GameProgressionFlags.Chapter1ArrivedAtBloombridge);
-                SetObjective("Explore Springtide Meadows.");
+                ObjectivesUI.Instance?.SetObjective(
+                    "chapter1.new_beginnings",
+                    "visit_outer_farmlands",
+                    0);
             }
             return;
         }

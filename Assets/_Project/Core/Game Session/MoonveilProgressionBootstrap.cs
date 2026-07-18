@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MoonveilProgressionBootstrap : MonoBehaviour
 {
     private const string MoonveilSceneName = "Moonveil";
+    private const string NewBeginningsQuestID = "chapter1.new_beginnings";
     private static bool registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -100,9 +101,8 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
                     nextStage = 1,
                     progressionFlagOnComplete =
                         GameProgressionFlags.Chapter1GuideIntroComplete,
-                    objectiveTitleOnComplete = "New Beginnings",
-                    objectiveDescriptionOnComplete =
-                        "Travel to Springtide Meadows."
+                    objectiveQuestIDOnComplete = NewBeginningsQuestID,
+                    objectiveIDOnComplete = "travel_springtide"
                 },
                 new()
                 {
@@ -130,8 +130,9 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
         }
 
         ObjectivesUI.Instance?.SetObjective(
-            "New Beginnings",
-            "Talk to the Guide.");
+            NewBeginningsQuestID,
+            "talk_to_guide",
+            0);
     }
 
     public static void RefreshQuestObjective()

@@ -68,6 +68,17 @@ public class QuestState
 
             foreach (QuestObjectiveData objective in data.objectives)
                 Objectives.Add(new QuestObjective(objective));
+
+            QuestObjectiveData firstObjective = data.objectives[0];
+
+            if (firstObjective != null)
+            {
+                CurrentObjectiveID = firstObjective.objectiveID;
+                Conditions = $"Current: {firstObjective.description}";
+
+                if (!string.IsNullOrWhiteSpace(firstObjective.PossibleAreasText))
+                    Conditions += $"\n{firstObjective.PossibleAreasText}";
+            }
         }
         else if (!string.IsNullOrWhiteSpace(Conditions))
             Objectives.Add(new QuestObjective(Conditions));

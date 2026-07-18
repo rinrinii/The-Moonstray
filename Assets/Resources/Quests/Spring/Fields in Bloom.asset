@@ -12,10 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
   m_Name: Fields in Bloom
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  questID: spring.fields_in_bloom
+  category: 1
   region: 0
   questTitle: Fields in Bloom
   description: Our medicinal stores have nearly run dry... We need fresh Dewbells
     to prepare more remedies soon.
+  objectives:
+  - objectiveID: gather_dewbells
+    description: Gather 8 Dewbells.
+    type: 3
+    requiredAmount: 8
+    targetID: spring_dewbell
+    trackingMode: 0
+    trackingMarkerID:
+    targetScene:
+    possibleScenes:
+    - Bloombridge Path
+    hideInsideArea: 1
+    areaRadius: 10
+  - objectiveID: submit_quest
+    description: Submit the quest through the journal.
+    type: 0
+    requiredAmount: 1
+    targetID:
+    trackingMode: 0
+    trackingMarkerID:
+    targetScene:
+    possibleScenes: []
+    hideInsideArea: 1
+    areaRadius: 10
   requiredItems:
   - item: {fileID: 11400000, guid: 60334587879280d4a94083c9e857bba6, type: 2}
     amount: 8

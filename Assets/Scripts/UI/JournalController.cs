@@ -119,6 +119,9 @@ public class JournalController : MonoBehaviour
         questConditionLabel =
             root.Q<Label>("QuestCondition");
 
+        if (questConditionLabel != null)
+            questConditionLabel.enableRichText = true;
+
         questRewardsHeaderLabel =
             root.Q<Label>("RewardsLabel");
 
@@ -434,7 +437,7 @@ public class JournalController : MonoBehaviour
         if (questConditionLabel != null)
             questConditionLabel.text = string.IsNullOrWhiteSpace(quest.Conditions)
                 ? "Nothing here..."
-                : quest.Conditions;
+                : BoldCurrentObjective(quest.Conditions);
 
         bool isSideQuest =
             quest.Data != null &&
@@ -462,8 +465,14 @@ public class JournalController : MonoBehaviour
 
         if (trackQuestButton != null)
         {
-            trackQuestButton.style.display = DisplayStyle.None;
-            trackQuestButton.SetEnabled(false);
+            bool canTrack = !quest.Completed;
+            trackQuestButton.style.display =
+                canTrack ? DisplayStyle.Flex : DisplayStyle.None;
+            trackQuestButton.SetEnabled(canTrack);
+            trackQuestButton.text =
+                QuestManager.Instance?.TrackedQuestState == quest
+                    ? "Tracked"
+                    : "Track Quest";
         }
 
         if (questDetailsScroll != null)
@@ -516,16 +525,42 @@ public class JournalController : MonoBehaviour
         if (submitQuestButton != null)
             submitQuestButton.style.display = DisplayStyle.None;
 
+        ObjectivesUI.Instance?.RefreshDisplayedQuest();
+
         selectedQuest = null;
         RenderActiveJournalData();
     }
 
     private void TrackSelectedQuest()
     {
-        if (selectedQuest == null)
+        if (selectedQuest == null || QuestManager.Instance == null)
             return;
 
+        QuestManager.Instance.TrackQuest(selectedQuest);
+        ObjectivesUI.Instance?.RefreshDisplayedQuest();
+
+        if (trackQuestButton != null)
+        {
+            trackQuestButton.text = "Tracked";
+            trackQuestButton.SetEnabled(false);
+        }
+
         Debug.Log($"Tracking quest: {selectedQuest.Title}");
+    }
+
+    private static string BoldCurrentObjective(string conditions)
+    {
+        string[] lines = conditions.Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i].TrimEnd('\r');
+
+            if (line.StartsWith("Current:"))
+                lines[i] = $"<b>{line}</b>";
+        }
+
+        return string.Join("\n", lines);
     }
 
     private void SetupScrollView(ScrollView scrollView)

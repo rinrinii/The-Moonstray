@@ -19,6 +19,8 @@ public class QuestCompassIndicator : MonoBehaviour
     private VisualElement minimapContainer;
     private VisualElement compassArrow;
 
+    public bool IsInsideTrackedArea { get; private set; }
+
     private void Awake()
     {
         if (Instance != null &&
@@ -178,6 +180,8 @@ public class QuestCompassIndicator : MonoBehaviour
 
     private void UpdateIndicator()
     {
+        IsInsideTrackedArea = false;
+
         if (minimapContainer == null ||
             compassArrow == null)
         {
@@ -231,6 +235,7 @@ public class QuestCompassIndicator : MonoBehaviour
             direction.sqrMagnitude <=
                 trackedObjective.areaRadius * trackedObjective.areaRadius)
         {
+            IsInsideTrackedArea = true;
             compassArrow.style.display = DisplayStyle.None;
             return;
         }
@@ -279,6 +284,7 @@ public class QuestCompassIndicator : MonoBehaviour
     {
         trackedObjective = null;
         activeQuestTarget = null;
+        IsInsideTrackedArea = false;
 
         if (compassArrow != null)
         {

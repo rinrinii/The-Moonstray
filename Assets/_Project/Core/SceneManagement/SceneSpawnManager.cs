@@ -105,8 +105,9 @@ public class SceneSpawnManager : MonoBehaviour
             FindFirstObjectByType<PlayerHealth>()?.RestoreFullHealth();
 
             ObjectivesUI.Instance?.SetObjective(
-                "New Beginnings",
-                "Talk to the Guide.");
+                "chapter1.new_beginnings",
+                "talk_to_guide",
+                0);
         }
     }
 }

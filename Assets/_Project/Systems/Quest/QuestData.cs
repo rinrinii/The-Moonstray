@@ -238,6 +238,7 @@ public class QuestObjectiveData
     public ObjectiveTrackingMode trackingMode = ObjectiveTrackingMode.None;
     public string trackingMarkerID;
     public string targetScene;
+    public List<string> possibleScenes = new();
     public bool hideInsideArea = true;
     [Min(0f)] public float areaRadius = 10f;
 
@@ -249,6 +250,11 @@ public class QuestObjectiveData
             ? $"{description} ({Mathf.Clamp(currentAmount, 0, required)}/{required})"
             : description;
     }
+
+    public string PossibleAreasText =>
+        possibleScenes != null && possibleScenes.Count > 0
+            ? $"Possible areas: {string.Join(", ", possibleScenes)}"
+            : string.Empty;
 }
 
 public enum ObjectiveTrackingMode

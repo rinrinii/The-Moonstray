@@ -23,21 +23,41 @@ MonoBehaviour:
     type: 2
     requiredAmount: 2
     targetID: snow_courtyard_inspection
+    trackingMode: 2
+    trackingMarkerID: snowCourtyardSearchArea
+    targetScene: Snow Courtyard
+    hideInsideArea: 1
+    areaRadius: 10
   - objectiveID: leave_courtyard
     description: Leave the courtyard.
     type: 1
     requiredAmount: 1
     targetID: snow_courtyard_exit
+    trackingMode: 3
+    trackingMarkerID: 
+    targetScene: Blight Path
+    hideInsideArea: 1
+    areaRadius: 10
   - objectiveID: follow_trail
     description: Continue following the trail.
     type: 1
     requiredAmount: 1
     targetID: blight_path
+    trackingMode: 3
+    trackingMarkerID: 
+    targetScene: Collapsed East Wing
+    hideInsideArea: 1
+    areaRadius: 10
   - objectiveID: investigate_area
     description: Investigate the area.
     type: 2
     requiredAmount: 1
     targetID: east_wing
+    trackingMode: 0
+    trackingMarkerID: 
+    targetScene: 
+    hideInsideArea: 1
+    areaRadius: 10
   trackingSceneName: 
   trackingMarkerID: 
   requirements: []
@@ -47,4 +67,4 @@ MonoBehaviour:
   moonCoinReward: 0
   rewardItems: []
   rewardNotes: []
-  rewardUpgrades: []
+  rewardUpgrades: 

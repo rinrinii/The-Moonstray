@@ -12,11 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ab2c9ebd2eb524085116678d3ee19e, type: 3}
   m_Name: Wings above the Vines
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
+  questID: spring.wings_above_the_vines
+  category: 1
   region: 0
   questTitle: Wings above the Vines
   description: A rare bird once nested atop the tallest vines before the Waning spread.
     Its feathers are said to carry traces of the powerful updrafts surrounding the
     overgrown cliffs.
+  objectives:
+  - objectiveID: recover_wind_feather
+    description: Search the overgrown cliffs for the Wind Feather and gather 5 Dewbells.
+    type: 3
+    requiredAmount: 1
+    targetID: wind_feather
+    trackingMode: 2
+    trackingMarkerID: windFeatherTrackingMarker
+    targetScene: Overgrowth Fields
+    possibleScenes: []
+    hideInsideArea: 1
+    areaRadius: 30
+  - objectiveID: submit_quest
+    description: Submit the quest through the journal.
+    type: 0
+    requiredAmount: 1
+    targetID:
+    trackingMode: 0
+    trackingMarkerID:
+    targetScene:
+    possibleScenes: []
+    hideInsideArea: 1
+    areaRadius: 10
   requiredItems:
   - item: {fileID: 11400000, guid: 12e2c544c6688434cbf108ac811ac330, type: 2}
     amount: 1

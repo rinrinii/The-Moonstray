@@ -23,11 +23,21 @@ MonoBehaviour:
     type: 1
     requiredAmount: 1
     targetID: frostmere_library_exit
+    trackingMode: 3
+    trackingMarkerID: 
+    targetScene: Snow Courtyard
+    hideInsideArea: 1
+    areaRadius: 10
   - objectiveID: travel_moonveil
     description: Travel to Moonveil.
     type: 1
     requiredAmount: 1
     targetID: moonveil
+    trackingMode: 3
+    trackingMarkerID: 
+    targetScene: Moonveil
+    hideInsideArea: 1
+    areaRadius: 10
   trackingSceneName: 
   trackingMarkerID: 
   requirements: []

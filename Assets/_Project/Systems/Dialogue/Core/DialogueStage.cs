@@ -16,4 +16,8 @@ public class DialogueStage
     public string objectiveTitleOnComplete;
 
     public string objectiveDescriptionOnComplete;
+
+    public string objectiveQuestIDOnComplete;
+
+    public string objectiveIDOnComplete;
 }
