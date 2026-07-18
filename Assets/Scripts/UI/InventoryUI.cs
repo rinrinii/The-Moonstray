@@ -118,6 +118,15 @@ public class InventoryUI : MonoBehaviour
             return;
         }
 
+        if (GameplayUIManager.Instance != null &&
+            GameplayUIManager.Instance.IsPuzzleViewActive)
+        {
+            if (isInventoryOpen)
+                CloseInventory();
+
+            return;
+        }
+
         if (DialogueManager.Instance != null &&
             DialogueManager.Instance.IsDialogueActive)
         {
@@ -149,7 +158,9 @@ public class InventoryUI : MonoBehaviour
 
     public void Open()
     {
-        if (!unlocked)
+        if (!unlocked ||
+            (GameplayUIManager.Instance != null &&
+             GameplayUIManager.Instance.IsPuzzleViewActive))
             return;
 
         if (inventoryRoot == null || inventoryWindow == null) return;

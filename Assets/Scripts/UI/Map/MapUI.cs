@@ -154,6 +154,15 @@ public class MapUI : MonoBehaviour
             return;
         }
 
+        if (GameplayUIManager.Instance != null &&
+            GameplayUIManager.Instance.IsPuzzleViewActive)
+        {
+            if (mapOpen)
+                CloseMap();
+
+            return;
+        }
+
         if (hasMap && Input.GetKeyDown(KeyCode.M))
         {
             if (mapOpen)
@@ -206,7 +215,9 @@ public class MapUI : MonoBehaviour
 
     public void OpenMap()
     {
-        if (!hasMap)
+        if (!hasMap ||
+            (GameplayUIManager.Instance != null &&
+             GameplayUIManager.Instance.IsPuzzleViewActive))
             return;
 
         RefreshReferences();

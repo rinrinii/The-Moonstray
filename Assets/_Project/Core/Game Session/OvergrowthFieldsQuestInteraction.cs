@@ -51,12 +51,8 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
         }
 
         GameProgressionManager progression = GameProgressionManager.Instance;
-        if (progression == null ||
-            !progression.HasFlag(
-                GameProgressionFlags.Chapter1VillageIrrigationRestored))
-        {
+        if (progression == null)
             return;
-        }
 
         switch (step)
         {
@@ -121,10 +117,8 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
 
     private void InteractWithGarden(GameProgressionManager progression)
     {
-        if (!progression.HasFlag(
-            GameProgressionFlags.Chapter1OvergrowthCropTwoInspected) ||
-            progression.HasFlag(
-                GameProgressionFlags.Chapter1RuinedGardenRestored))
+        if (progression.HasFlag(
+            GameProgressionFlags.Chapter1RuinedGardenRestored))
         {
             return;
         }
@@ -134,8 +128,13 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
         {
             DialogueManager.Instance.StartDialogue(
                 "chapter1.inspectRuinedGarden",
-                () => progression.SetFlag(
-                    GameProgressionFlags.Chapter1RuinedGardenInspected));
+                () =>
+                {
+                    progression.SetFlag(
+                        GameProgressionFlags.Chapter1RuinedGardenInspected);
+                    SetObjective(
+                        "Gather 3 Lumber Bundles and 3 Stone Piles.");
+                });
             return;
         }
 
@@ -146,7 +145,22 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
             return;
         }
 
-        RestoreGarden(progression);
+        RestorationPuzzleUI puzzle =
+            GameplayUIManager.Instance?.RestorationPuzzle;
+
+        if (puzzle == null)
+        {
+            Debug.LogWarning(
+                "Ruined garden puzzle UI missing; restoring immediately.");
+            RestoreGarden(progression);
+            return;
+        }
+
+        restoring = true;
+        puzzle.Open(
+            Resources.Load<Texture2D>("Puzzles/RuinedGardenRestored"),
+            () => RestoreGarden(progression),
+            () => restoring = false);
     }
 
     private void RestoreGarden(GameProgressionManager progression)

@@ -66,6 +66,9 @@ public class GameplayUIManager : MonoBehaviour
     public NoteUI Note { get; private set; }
     public GameOverUI GameOver { get; private set; }
     public QuestBoardController QuestBoard { get; private set; }
+    public RestorationPuzzleUI RestorationPuzzle { get; private set; }
+    public bool IsPuzzleViewActive =>
+        RestorationPuzzle != null && RestorationPuzzle.IsOpen;
 
     private void Awake()
     {
@@ -120,6 +123,9 @@ public class GameplayUIManager : MonoBehaviour
         Note = GetComponent<NoteUI>();
         GameOver = GetComponent<GameOverUI>();
         QuestBoard = GetComponent<QuestBoardController>();
+        RestorationPuzzle = GetComponent<RestorationPuzzleUI>() ??
+            gameObject.AddComponent<RestorationPuzzleUI>();
+        RestorationPuzzle.Initialize(RootVisualElement);
 
         Prompt = GetComponent<PromptUI>();
         Objectives = GetComponent<ObjectivesUI>();
@@ -181,6 +187,7 @@ public class GameplayUIManager : MonoBehaviour
         if (NotePopupRoot != null) NotePopupRoot.style.display = DisplayStyle.None;
         if (EndingChoiceContainer != null)
             EndingChoiceContainer.style.display = DisplayStyle.None;
+        RestorationPuzzle?.CloseWithoutCallback();
         HideSceneTitle();
     }
 

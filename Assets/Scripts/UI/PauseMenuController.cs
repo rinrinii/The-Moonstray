@@ -115,6 +115,12 @@ public class PauseMenuController : MonoBehaviour
 
     private void Update()
     {
+        if (GameplayUIManager.Instance != null &&
+            GameplayUIManager.Instance.IsPuzzleViewActive)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (settingsOpen)
