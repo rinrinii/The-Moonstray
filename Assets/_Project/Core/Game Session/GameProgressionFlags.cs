@@ -51,6 +51,12 @@ public static class GameProgressionFlags
     public const string Chapter1RestrictedWheelInspected =
         "chapter1.restrictedWheelInspected";
 
+    public const string Chapter1RestrictedWheelCropsActivated =
+        "chapter1.restrictedWheelCropsActivated";
+
+    public const string Chapter1RestrictedWheelSilosActivated =
+        "chapter1.restrictedWheelSilosActivated";
+
     public const string Chapter1VerdantShardObtained =
         "chapter1.verdantShardObtained";
 }

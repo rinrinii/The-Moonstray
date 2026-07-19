@@ -39,8 +39,9 @@ public class SpringtideQuestGate : MonoBehaviour, IInteractionResponse
         {
             progression.SetFlag(completionFlag);
             ObjectivesUI.Instance?.SetObjective(
-                "For Every Garden Buries a Secret",
-                nextObjective);
+                "chapter1.for_every_garden_buries_a_secret",
+                nextObjective,
+                0);
         });
     }
 }
