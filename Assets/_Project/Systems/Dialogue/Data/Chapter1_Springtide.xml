@@ -29,11 +29,11 @@
 	</Dialogue>
 
 	<Dialogue id="chapter1.inspectAbandonedGreenhouse">
-		<Line type="narration">The greenhouse may hold clues about the region's declining harvest. I should search the area for signs of what happened.</Line>
+		<Line type="narration">The greenhouse seems to have been left in ruins for a long time now.</Line>
 	</Dialogue>
 
 	<Dialogue id="chapter1.inspectVillageIrrigation">
-		<Line type="narration">The old irrigation system once carried life throughout the region. Restoring its flow may reveal what has been hidden beneath the land.</Line>
+		<Line type="narration">The old irrigation system once carried life throughout the area. Restoring its flow may reveal what has been hidden beneath the land.</Line>
 		<Line speaker="Serin" portrait="serin-human">If the water flows properly again... maybe the truth will surface with it. I need something to clear this.</Line>
 	</Dialogue>
 
@@ -64,6 +64,34 @@
 
 	<Dialogue id="chapter1.restoreRuinedGarden">
 		<Line speaker="Serin" portrait="serin-human">Looks a lot better now.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.inspectRepairGreenhouse">
+		<Line speaker="Serin" portrait="serin-human">I think I can fix this with the right materials.</Line>
+		<Line type="narration">Requires 2 Lumber Bundles.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.greenhouseMissingMaterials">
+		<Line speaker="Serin" portrait="serin-human">I still need more lumber to repair this.</Line>
+		<Line type="narration">The greenhouse requires 2 Lumber Bundles.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.restoreGreenhouse">
+		<Line speaker="Serin" portrait="serin-human">That should give the greenhouse another chance.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.inspectRepairSilo">
+		<Line speaker="Serin" portrait="serin-human">I think I can fix this with the right materials.</Line>
+		<Line type="narration">Requires 3 Stone Piles.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.siloMissingMaterials">
+		<Line speaker="Serin" portrait="serin-human">I still need more stone to repair this.</Line>
+		<Line type="narration">The silo requires 3 Stone Piles.</Line>
+	</Dialogue>
+
+	<Dialogue id="chapter1.restoreSilo">
+		<Line speaker="Serin" portrait="serin-human">The silo should hold together now.</Line>
 	</Dialogue>
 
 	<Dialogue id="chapter1.viridianIntro">

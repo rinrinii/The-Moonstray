@@ -9,7 +9,8 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
         CropTwo
     }
 
-    private const string QuestTitle = "For Every Garden Buries a Secret";
+    private const string QuestID =
+        "chapter1.for_every_garden_buries_a_secret";
     private Step step;
     private bool configured;
 
@@ -18,6 +19,16 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
     {
         step = configuredStep;
         configured = true;
+
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        bool completed = progression != null &&
+            (step == Step.CropOne
+                ? progression.HasFlag(
+                    GameProgressionFlags.Chapter1OvergrowthCropOneInspected)
+                : progression.HasFlag(
+                    GameProgressionFlags.Chapter1OvergrowthCropTwoInspected));
+        if (completed)
+            GetComponent<ObjectStateHighlightMarker>()?.Hide();
     }
 
     public void OnInteract()
@@ -60,7 +71,8 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
             {
                 progression.SetFlag(
                     GameProgressionFlags.Chapter1OvergrowthCropOneInspected);
-                SetObjective("Inspect the rotting crops. (1/2)");
+                GetComponent<ObjectStateHighlightMarker>()?.Hide();
+                SetObjective("inspect_second_rotting_crop", 0);
             });
     }
 
@@ -86,13 +98,14 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
             {
                 progression.SetFlag(
                     GameProgressionFlags.Chapter1OvergrowthCropTwoInspected);
-                SetObjective(
-                    "Look for the Harvest Steward of Springtide Meadows.");
+                GetComponent<ObjectStateHighlightMarker>()?.Hide();
+                SetObjective("find_harvest_steward", 0);
             });
     }
 
-    private static void SetObjective(string description)
+    private static void SetObjective(string objectiveID, int currentAmount)
     {
-        ObjectivesUI.Instance?.SetObjective(QuestTitle, description);
+        ObjectivesUI.Instance?.SetObjective(
+            QuestID, objectiveID, currentAmount);
     }
 }

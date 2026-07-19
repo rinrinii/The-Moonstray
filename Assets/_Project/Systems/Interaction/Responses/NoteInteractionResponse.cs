@@ -13,8 +13,14 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
     [SerializeField] private bool disableAfterPickup = true;
 
     private bool hasBeenRead;
+    private Action onReadCallback;
 
     public static event Action OnNoteRead;
+
+    public void ConfigureOnRead(Action callback)
+    {
+        onReadCallback = callback;
+    }
 
     private void Start()
     {
@@ -80,6 +86,7 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
     private void NotifyNoteRead()
     {
+        onReadCallback?.Invoke();
         OnNoteRead?.Invoke();
     }
 

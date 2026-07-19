@@ -122,6 +122,10 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             "visit_village_basin");
 
         RestoreCurrentObjective(progression);
+
+        GameObject greenhouse = GameObject.Find("greenhouse-ruins (1)");
+        if (greenhouse != null)
+            ConfigureAreaOfInterestMarker(greenhouse, "repairGreenhouse");
     }
 
     private static void ConfigureViridianEstate(
@@ -142,6 +146,8 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
         if (interaction == null)
             return;
 
+        ConfigureQuestMarker(viridian, "viridianNPC");
+
         int startingStage = progression.HasFlag(
             GameProgressionFlags.Chapter1ViridianIntroComplete) ? 1 : 0;
 
@@ -156,9 +162,8 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
                     nextStage = 1,
                     progressionFlagOnComplete =
                         GameProgressionFlags.Chapter1ViridianIntroComplete,
-                    objectiveTitleOnComplete = QuestTitle,
-                    objectiveDescriptionOnComplete =
-                        "Proceed to the Restricted Farmlands."
+                    objectiveQuestIDOnComplete = QuestID,
+                    objectiveIDOnComplete = "visit_restricted_farmlands"
                 },
                 new()
                 {
@@ -170,9 +175,9 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             true);
 
         if (startingStage == 1)
-            SetObjective("Proceed to the Restricted Farmlands.");
+            SetAssetObjective("visit_restricted_farmlands");
         else
-            SetObjective("Speak with Viridian, the Harvest Steward.");
+            SetAssetObjective("talk_to_viridian");
     }
 
     private static void ConfigureRestrictedFarmlands(
@@ -190,13 +195,32 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
                 FindObjectsSortMode.None);
 
         GameObject water = GameObject.Find("Water");
+        GameObject weatheredNote = GameObject.Find("weatheredNote");
         ItemData verdantShard =
             Resources.Load<ItemData>("Items/Fragments/Verdant Shard");
+
+        if (weatheredNote != null)
+        {
+            ConfigureQuestMarker(weatheredNote, "weatheredNote");
+            NoteInteractionResponse note =
+                weatheredNote.GetComponent<NoteInteractionResponse>();
+            note?.ConfigureOnRead(() =>
+            {
+                progression.SetFlag(
+                    GameProgressionFlags.Chapter1RestrictedWeatheredNoteRead);
+                progression.SetFlag(
+                    GameProgressionFlags.Chapter1RestrictedWheelInspected);
+                SetAssetObjective("solve_irrigation_wheels");
+                MapMarkerController.Instance?.RefreshMarkers();
+            });
+        }
 
         foreach (ObjectStateInteraction stateInteraction in interactions)
         {
             if (stateInteraction.ObjectID != "irrigationWheel")
                 continue;
+
+            ConfigureQuestMarker(stateInteraction.gameObject, "irrigationWheel");
 
             RestrictedFarmlandsQuestInteraction quest =
                 stateInteraction.GetComponent<
@@ -218,14 +242,16 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             waterStateObjectiveComplete();
         }
         else if (progression.HasFlag(
-            GameProgressionFlags.Chapter1RestrictedWheelInspected))
+            GameProgressionFlags.Chapter1RestrictedWeatheredNoteRead))
         {
             RestoreRestrictedFarmlandsWheelObjective(progression);
         }
         else
         {
-            SetObjective("Interact with the irrigation wheel.");
+            SetAssetObjective("inspect_irrigation_wheel");
         }
+
+        MapMarkerController.Instance?.RefreshMarkers();
 
         static void waterStateObjectiveComplete()
         {
@@ -239,18 +265,18 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
         if (progression.HasFlag(
             GameProgressionFlags.Chapter1RestrictedWheelSilosActivated))
         {
-            SetObjective("Turn the irrigation wheels in the correct order. (2/3)");
+            SetRestrictedWheelObjective(2);
             return;
         }
 
         if (progression.HasFlag(
             GameProgressionFlags.Chapter1RestrictedWheelCropsActivated))
         {
-            SetObjective("Turn the irrigation wheels in the correct order. (1/3)");
+            SetRestrictedWheelObjective(1);
             return;
         }
 
-        SetObjective("Turn the irrigation wheels in the correct order. (0/3)");
+        SetRestrictedWheelObjective(0);
     }
 
     private static void ConfigureOvergrowthFields(
@@ -265,12 +291,14 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
         {
             if (stateInteraction.ObjectID == "inspectRottenCrop2")
             {
+                ConfigureQuestMarker(stateInteraction.gameObject, "inspectRottenCrop2");
                 ConfigureOvergrowthInteraction(
                     stateInteraction.gameObject,
                     OvergrowthFieldsQuestInteraction.Step.CropOne);
             }
             else if (stateInteraction.ObjectID == "inspectRottenCrop3")
             {
+                ConfigureQuestMarker(stateInteraction.gameObject, "inspectRottenCrop3");
                 ConfigureOvergrowthInteraction(
                     stateInteraction.gameObject,
                     OvergrowthFieldsQuestInteraction.Step.CropTwo);
@@ -279,6 +307,10 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
 
         if (progression != null)
             RestoreOvergrowthObjective(progression);
+
+        GameObject ruinedGarden = GameObject.Find("ruined-garden 1");
+        if (ruinedGarden != null)
+            ConfigureAreaOfInterestMarker(ruinedGarden, "repairRuinedGarden");
     }
 
     private static void ConfigureOvergrowthInteraction(
@@ -299,17 +331,21 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
         if (progression.HasFlag(
             GameProgressionFlags.Chapter1OvergrowthCropTwoInspected))
         {
-            SetObjective("Look for the Harvest Steward of Springtide Meadows.");
+            SetAssetObjective("find_harvest_steward");
         }
         else if (progression.HasFlag(
             GameProgressionFlags.Chapter1OvergrowthCropOneInspected))
         {
-            SetObjective("Inspect the rotting crops. (1/2)");
+            ObjectivesUI.Instance?.SetObjective(
+                QuestID, "inspect_second_rotting_crop", 0);
         }
         else
         {
-            SetObjective("Inspect the rotting crops. (0/2)");
+            ObjectivesUI.Instance?.SetObjective(
+                QuestID, "inspect_rotting_crops", 0);
         }
+
+        MapMarkerController.Instance?.RefreshMarkers();
     }
 
     private static void ConfigureVillageBasin(
@@ -319,6 +355,24 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             GameProgressionFlags.Chapter1GreenhouseInspected))
         {
             return;
+        }
+
+        // Revisiting Village Basin must not rewind the chapter to its local
+        // irrigation step after the player has progressed into Overgrowth.
+        if (progression.HasFlag(
+            GameProgressionFlags.Chapter1OvergrowthCropTwoInspected))
+        {
+            SetAssetObjective("find_harvest_steward");
+        }
+        else if (progression.HasFlag(
+            GameProgressionFlags.Chapter1OvergrowthCropOneInspected))
+        {
+            SetAssetObjective("inspect_second_rotting_crop");
+        }
+        else if (progression.HasFlag(
+            GameProgressionFlags.Chapter1VillageIrrigationRestored))
+        {
+            SetAssetObjective("investigate_waning");
         }
 
         ObjectStateInteraction[] interactions =
@@ -337,18 +391,100 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
                 continue;
 
             restore.PrepareRuntimeReplacement();
+            ConfigureQuestMarker(
+                stateInteraction.gameObject,
+                "restoreDestroyedIrrigation2");
+            ConfigureAreaOfInterestMarker(
+                stateInteraction.gameObject,
+                "repairIrrigationSystem");
 
-            VillageBasinIrrigationQuest quest =
-                stateInteraction.GetComponent<VillageBasinIrrigationQuest>();
-            if (quest == null)
+            RestorationPuzzleInteraction puzzle =
+                stateInteraction.GetComponent<RestorationPuzzleInteraction>();
+            if (puzzle == null)
             {
-                quest = stateInteraction.gameObject.AddComponent<
-                    VillageBasinIrrigationQuest>();
+                puzzle = stateInteraction.gameObject.AddComponent<
+                    RestorationPuzzleInteraction>();
             }
 
-            quest.Configure(restore, Resources.Load<ItemData>("Items/Shovel"));
+            puzzle.ConfigureSingleMaterial(
+                restore,
+                Resources.Load<Texture2D>("Puzzles/irrigationRestored"),
+                Resources.Load<ItemData>("Items/Shovel"),
+                1,
+                "chapter1.inspectVillageIrrigation",
+                "",
+                "chapter1.restoreVillageIrrigation",
+                GameProgressionFlags.Chapter1VillageIrrigationInspected,
+                GameProgressionFlags.Chapter1VillageIrrigationRestored,
+                QuestID,
+                "obtain_shovel",
+                "restore_irrigation",
+                "investigate_waning",
+                "Restore the Irrigation System",
+                "Rotate each fragment to reconstruct the irrigation system.");
+
+            if (progression.HasFlag(
+                GameProgressionFlags.Chapter1OvergrowthCropTwoInspected))
+            {
+                SetAssetObjective("find_harvest_steward");
+            }
+            else if (progression.HasFlag(
+                GameProgressionFlags.Chapter1OvergrowthCropOneInspected))
+            {
+                SetAssetObjective("inspect_second_rotting_crop");
+            }
+            else if (progression.HasFlag(
+                GameProgressionFlags.Chapter1VillageIrrigationRestored))
+            {
+                SetAssetObjective("investigate_waning");
+            }
+            else if (progression.HasFlag(
+                GameProgressionFlags.Chapter1VillageIrrigationInspected))
+            {
+                if (InventoryContains(Resources.Load<ItemData>("Items/Shovel")))
+                {
+                    progression.SetFlag(
+                        GameProgressionFlags.Chapter1ShovelObtained);
+                    SetAssetObjective("restore_irrigation");
+                }
+                else
+                {
+                    SetAssetObjective("obtain_shovel");
+                }
+            }
+            else
+            {
+                SetAssetObjective("inspect_old_irrigation");
+            }
+
+            MapMarkerController.Instance?.RefreshMarkers();
             break;
         }
+
+        GameObject ruinedSilo = GameObject.Find("silo-ruined");
+        if (ruinedSilo != null)
+            ConfigureAreaOfInterestMarker(ruinedSilo, "repairSilo");
+
+        GameObject shovel = GameObject.Find("shovel");
+        if (shovel != null)
+            ConfigureQuestMarker(shovel, "villageBasinShovel");
+    }
+
+    private static bool InventoryContains(ItemData item)
+    {
+        if (item == null || InventorySystem.Instance == null)
+            return false;
+
+        foreach (InventorySystem.Slot slot in InventorySystem.Instance.slots)
+        {
+            if (slot.amount > 0 && slot.item != null &&
+                (slot.item == item || slot.item.itemID == item.itemID))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void ConfigureFarmer(GameProgressionManager progression)
@@ -443,9 +579,39 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
         marker.Configure(markerID, MapMarkerType.Quest);
     }
 
+    private static void ConfigureAreaOfInterestMarker(
+        GameObject target,
+        string markerID)
+    {
+        MapMarkerTarget marker = null;
+        foreach (MapMarkerTarget candidate in
+            target.GetComponents<MapMarkerTarget>())
+        {
+            if (candidate.MarkerID == markerID)
+            {
+                marker = candidate;
+                break;
+            }
+        }
+
+        if (marker == null)
+            marker = target.AddComponent<MapMarkerTarget>();
+
+        marker.Configure(markerID, MapMarkerType.POI);
+        MapMarkerController.Instance?.RefreshMarkers();
+    }
+
     private static void SetAssetObjective(string objectiveID)
     {
         ObjectivesUI.Instance?.SetObjective(QuestID, objectiveID, 0);
+    }
+
+    private static void SetRestrictedWheelObjective(int currentAmount)
+    {
+        ObjectivesUI.Instance?.SetObjective(
+            QuestID,
+            "solve_irrigation_wheels",
+            currentAmount);
     }
 
     private static void SetObjective(string description)
@@ -457,6 +623,8 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
 public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
     IInteractionResponse
 {
+    private const string QuestID =
+        "chapter1.for_every_garden_buries_a_secret";
     private const string QuestTitle = "For Every Garden Buries a Secret";
     private const string CropsWheelName = "irrigationWheelCrops";
     private const string SilosWheelName = "irrigationWheelSilos";
@@ -482,9 +650,18 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
         if (progression != null && progression.HasFlag(
             GameProgressionFlags.Chapter1VerdantShardObtained))
         {
+            GetComponent<ObjectStateHighlightMarker>()?.Hide();
             water?.SetActive(false);
             ReplaceDarkDirtTerrainLayer();
             AbilityManager.Instance?.UnlockAbility(AbilityType.Dash);
+        }
+        else if (progression != null &&
+            ((wheelName == CropsWheelName && progression.HasFlag(
+                GameProgressionFlags.Chapter1RestrictedWheelCropsActivated)) ||
+             (wheelName == SilosWheelName && progression.HasFlag(
+                GameProgressionFlags.Chapter1RestrictedWheelSilosActivated))))
+        {
+            GetComponent<ObjectStateHighlightMarker>()?.Hide();
         }
     }
 
@@ -499,17 +676,8 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
             progression.HasFlag(GameProgressionFlags.Chapter1VerdantShardObtained))
             return;
         if (!progression.HasFlag(
-            GameProgressionFlags.Chapter1RestrictedWheelInspected))
-        {
-            DialogueManager.Instance.StartDialogue(
-                "chapter1.inspectRestrictedIrrigationWheel", () =>
-                {
-                    progression.SetFlag(
-                        GameProgressionFlags.Chapter1RestrictedWheelInspected);
-                    SetObjective("Turn the irrigation wheels in the correct order. (0/3)");
-                });
+            GameProgressionFlags.Chapter1RestrictedWeatheredNoteRead))
             return;
-        }
 
         HandleWheelSequence(progression);
     }
@@ -525,7 +693,8 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
                     GameProgressionFlags.Chapter1RestrictedWheelCropsActivated);
             }
 
-            SetObjective("Turn the irrigation wheels in the correct order. (1/3)");
+            GetComponent<ObjectStateHighlightMarker>()?.Hide();
+            SetRestrictedWheelObjective(1);
             return;
         }
 
@@ -545,7 +714,8 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
                     GameProgressionFlags.Chapter1RestrictedWheelSilosActivated);
             }
 
-            SetObjective("Turn the irrigation wheels in the correct order. (2/3)");
+            GetComponent<ObjectStateHighlightMarker>()?.Hide();
+            SetRestrictedWheelObjective(2);
             return;
         }
 
@@ -555,6 +725,7 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
             progression.HasFlag(
                 GameProgressionFlags.Chapter1RestrictedWheelSilosActivated))
         {
+            GetComponent<ObjectStateHighlightMarker>()?.Hide();
             RevealTruth(progression);
             return;
         }
@@ -570,7 +741,7 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
         progression.SetFlag(
             GameProgressionFlags.Chapter1RestrictedWheelSilosActivated,
             false);
-        SetObjective("Turn the irrigation wheels in the correct order. (0/3)");
+        SetRestrictedWheelObjective(0);
     }
 
     private void RevealTruth(GameProgressionManager progression)
@@ -609,6 +780,14 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
     private static void SetObjective(string description)
     {
         ObjectivesUI.Instance?.SetObjective(QuestTitle, description);
+    }
+
+    private static void SetRestrictedWheelObjective(int currentAmount)
+    {
+        ObjectivesUI.Instance?.SetObjective(
+            QuestID,
+            "solve_irrigation_wheels",
+            currentAmount);
     }
 
     private static void ReplaceDarkDirtTerrainLayer()

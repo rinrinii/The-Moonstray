@@ -170,6 +170,8 @@ public class QuestManager : MonoBehaviour
             return null;
         }
 
+        RemoveLegacyObjectiveLog(data.DisplayTitle);
+
         QuestState quest = null;
 
         foreach (QuestState candidate in objectiveJournalQuests)
@@ -221,6 +223,26 @@ public class QuestManager : MonoBehaviour
         RaiseUpdated(quest);
 
         return quest;
+    }
+
+    private void RemoveLegacyObjectiveLog(string title)
+    {
+        for (int i = objectiveJournalQuests.Count - 1; i >= 0; i--)
+        {
+            QuestState candidate = objectiveJournalQuests[i];
+            if (candidate == null || candidate.Data != null ||
+                candidate.Title != title)
+            {
+                continue;
+            }
+
+            if (currentObjectiveJournalQuest == candidate)
+                currentObjectiveJournalQuest = null;
+            if (trackedQuestState == candidate)
+                trackedQuestState = null;
+
+            objectiveJournalQuests.RemoveAt(i);
+        }
     }
 
     private QuestData FindQuestData(string questID)
@@ -276,8 +298,9 @@ public class QuestManager : MonoBehaviour
 
         System.Text.StringBuilder history = new();
 
-        foreach (QuestObjective objective in quest.Objectives)
+        for (int i = quest.Objectives.Count - 1; i >= 0; i--)
         {
+            QuestObjective objective = quest.Objectives[i];
             bool isCurrent = objective.ObjectiveID == quest.CurrentObjectiveID;
 
             if (!objective.Completed && !isCurrent)
@@ -377,8 +400,9 @@ public class QuestManager : MonoBehaviour
 
         System.Text.StringBuilder history = new();
 
-        foreach (QuestObjective objective in quest.Objectives)
+        for (int i = quest.Objectives.Count - 1; i >= 0; i--)
         {
+            QuestObjective objective = quest.Objectives[i];
             if (history.Length > 0)
                 history.AppendLine();
 

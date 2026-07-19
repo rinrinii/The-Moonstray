@@ -45,11 +45,26 @@ public static class GameProgressionFlags
     public const string Chapter1RuinedGardenRestored =
         "chapter1.ruinedGardenRestored";
 
+    public const string Chapter1GreenhouseRepairInspected =
+        "chapter1.greenhouseRepairInspected";
+
+    public const string Chapter1GreenhouseRestored =
+        "chapter1.greenhouseRestored";
+
+    public const string Chapter1SiloRepairInspected =
+        "chapter1.siloRepairInspected";
+
+    public const string Chapter1SiloRestored =
+        "chapter1.siloRestored";
+
     public const string Chapter1ViridianIntroComplete =
         "chapter1.viridianIntroComplete";
 
     public const string Chapter1RestrictedWheelInspected =
         "chapter1.restrictedWheelInspected";
+
+    public const string Chapter1RestrictedWeatheredNoteRead =
+        "chapter1.restrictedWeatheredNoteRead";
 
     public const string Chapter1RestrictedWheelCropsActivated =
         "chapter1.restrictedWheelCropsActivated";
