@@ -225,6 +225,43 @@ public class QuestManager : MonoBehaviour
         return quest;
     }
 
+    public void AdvanceTravelObjectiveForDestination(string destinationScene)
+    {
+        QuestState quest = currentObjectiveJournalQuest;
+        QuestData data = quest?.Data;
+
+        if (data?.objectives == null ||
+            string.IsNullOrWhiteSpace(quest.CurrentObjectiveID) ||
+            string.IsNullOrWhiteSpace(destinationScene))
+        {
+            return;
+        }
+
+        for (int i = 0; i < data.objectives.Count; i++)
+        {
+            QuestObjectiveData objective = data.objectives[i];
+
+            if (objective == null ||
+                objective.objectiveID != quest.CurrentObjectiveID ||
+                objective.type != QuestObjectiveType.Travel ||
+                objective.targetScene != destinationScene ||
+                i >= data.objectives.Count - 1)
+            {
+                continue;
+            }
+
+            QuestObjectiveData nextObjective = data.objectives[i + 1];
+            if (nextObjective == null)
+                return;
+
+            ActivateObjective(
+                data.questID,
+                nextObjective.objectiveID,
+                0);
+            return;
+        }
+    }
+
     private void RemoveLegacyObjectiveLog(string title)
     {
         for (int i = objectiveJournalQuests.Count - 1; i >= 0; i--)

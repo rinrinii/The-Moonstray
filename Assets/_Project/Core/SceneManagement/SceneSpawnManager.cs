@@ -56,7 +56,10 @@ public class SceneSpawnManager : MonoBehaviour
     private void UpdatePostLibraryTutorialObjective()
     {
         if (TutorialManager.Instance == null ||
-            TutorialManager.Instance.CurrentState != TutorialState.ReadingWing)
+            TutorialManager.Instance.CurrentState != TutorialState.ReadingWing ||
+            (GameProgressionManager.Instance != null &&
+             GameProgressionManager.Instance.CurrentStage !=
+                 GameProgressionStage.Tutorial))
         {
             return;
         }

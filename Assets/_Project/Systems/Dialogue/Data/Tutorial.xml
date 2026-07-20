@@ -1,8 +1,14 @@
 <GameDialogue>
 	<Dialogue id="tutorial.blockedExit">
 		<Line speaker="..." portrait="serin-current">
-			I need to go somewhere else.
+			(I need to go somewhere else.)
 		</Line>
+	</Dialogue>
+
+	<Dialogue id="intro.pinewatchWake">
+		<Line speaker="..." portrait="serin-wolf">...</Line>
+		<Line speaker="..." portrait="serin-wolf">(...cold.)</Line>
+		<Line speaker="..." portrait="serin-wolf">(I should find shelter.)</Line>
 	</Dialogue>
 
 	<Dialogue id="intro.prologue">
@@ -38,12 +44,12 @@
 	</Dialogue>
 
 	<Dialogue id="intro.serinWake">
-		<Line speaker="Serin" portrait="serin-human">
-			What...?
+		<Line speaker="..." portrait="serin-human">
+			(What...?)
 		</Line>
 
-		<Line speaker="Serin" portrait="serin-human">
-			Where... Who am I...?
+		<Line speaker="..." portrait="serin-human">
+			(Where... Who am I...?)
 		</Line>
 	</Dialogue>
 
@@ -76,13 +82,23 @@
 			Don't worry. You're safe here. I won't tell anyone.
 		</Line>
 
-		<Line speaker="Serin" portrait="serin-human">
+		<Line speaker="..." portrait="serin-human">
 			...
 		</Line>
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">
 			You look a little lost... Do you remember anything about where you came from?
 		</Line>
+
+		<Line speaker="..." portrait="serin-human">...I don't know.</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">Hmm... how about your name?</Line>
+
+		<Line speaker="..." portrait="serin-human">...</Line>
+
+		<Line speaker="Serin" portrait="serin-human">Serin.</Line>
+
+		<Line speaker="Student" portrait="tutorialNPC-portrait">Serin. What a beautiful name.</Line>
 	</Dialogue>
 
 	<Dialogue id="intro.studentInform1">

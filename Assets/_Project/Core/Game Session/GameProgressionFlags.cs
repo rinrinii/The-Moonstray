@@ -74,4 +74,7 @@ public static class GameProgressionFlags
 
     public const string Chapter1VerdantShardObtained =
         "chapter1.verdantShardObtained";
+
+    public const string Chapter1ReturnToMoonveil =
+        "chapter1.returnToMoonveil";
 }

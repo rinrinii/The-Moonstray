@@ -66,7 +66,7 @@ public class DialogueUIDocument : MonoBehaviour
 
             dialogueText.style.unityFontStyleAndWeight =
                 FontStyle.Italic;
-            dialogueText.style.top = 35;
+            dialogueText.style.top = 60;
         }
         else
         {

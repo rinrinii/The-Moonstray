@@ -33,6 +33,7 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
             return;
 
         ConfigureEndingTrigger();
+        CompleteSpringReturnIfNeeded();
         ConfigureGuide();
         ConfigureQuestObjective();
         ConfigureBlocker(
@@ -55,6 +56,19 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
             GameProgressionStage.Chapter4Winter,
             "",
             "progression.blockedExit");
+    }
+
+    private static void CompleteSpringReturnIfNeeded()
+    {
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        if (progression == null ||
+            progression.CurrentStage != GameProgressionStage.Chapter1Spring ||
+            !progression.HasFlag(GameProgressionFlags.Chapter1ReturnToMoonveil))
+        {
+            return;
+        }
+
+        progression.BeginChapterTwo();
     }
 
     private static void ConfigureEndingTrigger()
