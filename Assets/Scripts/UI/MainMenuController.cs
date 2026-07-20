@@ -88,6 +88,10 @@ public class MainMenuController : MonoBehaviour
 
         TutorialManager.Instance.StartTutorial();
 
+        PlayerTransformation.Instance?.ForceWolfForm();
+        PlayerTransformation.Instance?.LockTransformation();
+        PlayerTransformation.Instance?.HoldWolfRestPose();
+
         SceneLoader.LoadScene(
             gamePlayScene,
             "ToPinewatchTrail"

@@ -38,6 +38,14 @@ public class InteractableObject : MonoBehaviour, IInteractable
         {
             Debug.Log($"Executing {response.GetType().Name}");
             response.OnInteract();
+
+            if ((DialogueManager.Instance != null &&
+                 DialogueManager.Instance.IsDialogueActive) ||
+                (GameplayUIManager.Instance != null &&
+                 GameplayUIManager.Instance.IsPuzzleViewActive))
+            {
+                break;
+            }
         }
     }
 }

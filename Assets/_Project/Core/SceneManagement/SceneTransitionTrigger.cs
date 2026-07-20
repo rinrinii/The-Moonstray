@@ -25,6 +25,9 @@ public class SceneTransitionTrigger : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
+        QuestManager.Instance?.AdvanceTravelObjectiveForDestination(
+            targetScene);
+
         SceneLoader.LoadScene(
             targetScene,
             targetSpawnID

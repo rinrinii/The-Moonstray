@@ -66,6 +66,18 @@ public class ObjectStateHighlightMarker : MonoBehaviour
         highlightAnchor.SetActive(shouldShow);
     }
 
+    public void Hide()
+    {
+        if (highlightAnchor != null)
+            highlightAnchor.SetActive(false);
+    }
+
+    public void Show()
+    {
+        if (highlightAnchor != null)
+            highlightAnchor.SetActive(true);
+    }
+
     private void HandleStateChanged(string changedObjectID, int newState)
     {
         Debug.Log($"{name}: Event {changedObjectID} -> {newState}");

@@ -20,6 +20,8 @@ public class RestorationPuzzleUI : MonoBehaviour
     private VisualElement board;
     private Button closeButton;
     private Label completeLabel;
+    private Label titleLabel;
+    private Label instructionsLabel;
     private Action onSolved;
     private Action onCancelled;
     private bool isOpen;
@@ -38,6 +40,8 @@ public class RestorationPuzzleUI : MonoBehaviour
         board = root?.Q<VisualElement>("RestorationPuzzleBoard");
         closeButton = root?.Q<Button>("RestorationPuzzleCloseButton");
         completeLabel = root?.Q<Label>("RestorationPuzzleCompleteLabel");
+        titleLabel = root?.Q<Label>("RestorationPuzzleTitle");
+        instructionsLabel = root?.Q<Label>("RestorationPuzzleInstructions");
 
         if (closeButton != null)
         {
@@ -51,7 +55,9 @@ public class RestorationPuzzleUI : MonoBehaviour
     public void Open(
         Texture2D restoredImage,
         Action solved,
-        Action cancelled = null)
+        Action cancelled = null,
+        string title = "Restore the Ruined Garden",
+        string instructions = "Rotate each fragment to reconstruct the garden.")
     {
         if (root == null || board == null)
         {
@@ -68,6 +74,10 @@ public class RestorationPuzzleUI : MonoBehaviour
 
         onSolved = solved;
         onCancelled = cancelled;
+        if (titleLabel != null)
+            titleLabel.text = title;
+        if (instructionsLabel != null)
+            instructionsLabel.text = instructions;
         completing = false;
         isOpen = true;
 

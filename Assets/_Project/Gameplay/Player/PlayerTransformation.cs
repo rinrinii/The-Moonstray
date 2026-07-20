@@ -79,6 +79,8 @@ public class PlayerTransformation : MonoBehaviour
 
     private CharacterController controller;
     private bool isTransitioning = false;
+    private bool isHoldingWolfRestPose;
+    private float wolfAnimatorSpeedBeforeRest = 1f;
 
     // =========================
     // Unity Events
@@ -115,6 +117,38 @@ public class PlayerTransformation : MonoBehaviour
     public void LockTransformation()
     {
         canTransform = false;
+    }
+
+    public void HoldWolfRestPose()
+    {
+        if (WolfAnimator == null)
+            return;
+
+        if (!isHoldingWolfRestPose)
+        {
+            wolfAnimatorSpeedBeforeRest = WolfAnimator.speed;
+            isHoldingWolfRestPose = true;
+        }
+
+        // Rest has an unconditional exit-time transition in the controller.
+        // Freeze just before that transition so the settled pose remains
+        // authoritative through scene loading and dialogue.
+        WolfAnimator.Play("Rest", 0, 0.9f);
+        WolfAnimator.Update(0f);
+        WolfAnimator.speed = 0f;
+    }
+
+    public void ReleaseWolfRestPose()
+    {
+        if (WolfAnimator == null)
+            return;
+
+        WolfAnimator.speed =
+            wolfAnimatorSpeedBeforeRest > 0f
+                ? wolfAnimatorSpeedBeforeRest
+                : 1f;
+        isHoldingWolfRestPose = false;
+        WolfAnimator.Play("Rest–Reverse", 0, 0f);
     }
 
     private void Start()

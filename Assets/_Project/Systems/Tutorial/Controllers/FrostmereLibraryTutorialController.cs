@@ -226,6 +226,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void PrepareWakeSequence()
     {
+        ResolvePlayerReferences();
+        playerHealth?.RestoreAfterStoryDeath();
+
         DisablePlayerMovement();
 
         GameplayUIManager.Instance.Inventory?.Unlock();

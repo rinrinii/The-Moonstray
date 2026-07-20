@@ -66,6 +66,7 @@ public class DialogueUIDocument : MonoBehaviour
 
             dialogueText.style.unityFontStyleAndWeight =
                 FontStyle.Italic;
+            dialogueText.style.top = 60;
         }
         else
         {
@@ -80,6 +81,7 @@ public class DialogueUIDocument : MonoBehaviour
 
             dialogueText.style.unityFontStyleAndWeight =
                 FontStyle.Normal;
+            dialogueText.style.top = 80;
 
             if (line.portrait != null)
             {

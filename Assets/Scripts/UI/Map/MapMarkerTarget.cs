@@ -20,6 +20,19 @@ public class MapMarkerTarget : MonoBehaviour
         markerActive = value;
     }
 
+    public void Configure(
+        string configuredMarkerID,
+        MapMarkerType configuredMarkerType,
+        bool minimap = true,
+        bool fullMap = true)
+    {
+        markerID = configuredMarkerID;
+        markerType = configuredMarkerType;
+        showOnMinimap = minimap;
+        showOnFullMap = fullMap;
+        markerActive = true;
+    }
+
     public static MapMarkerTarget FindByID(string id)
     {
         if (string.IsNullOrWhiteSpace(id))

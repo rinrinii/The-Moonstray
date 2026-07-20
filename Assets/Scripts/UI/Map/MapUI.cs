@@ -254,9 +254,9 @@ public class MapUI : MonoBehaviour
         if (map != null)
         {
             currentSceneMap = map.mapSprite;
-            currentRegionTitle = string.IsNullOrWhiteSpace(map.regionTitle)
+            currentRegionTitle = string.IsNullOrWhiteSpace(map.sceneName)
                 ? scene
-                : map.regionTitle;
+                : map.sceneName;
 
             showingWorldMap = false;
 

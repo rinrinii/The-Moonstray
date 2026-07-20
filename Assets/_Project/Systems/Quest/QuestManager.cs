@@ -170,6 +170,8 @@ public class QuestManager : MonoBehaviour
             return null;
         }
 
+        RemoveLegacyObjectiveLog(data.DisplayTitle);
+
         QuestState quest = null;
 
         foreach (QuestState candidate in objectiveJournalQuests)
@@ -221,6 +223,63 @@ public class QuestManager : MonoBehaviour
         RaiseUpdated(quest);
 
         return quest;
+    }
+
+    public void AdvanceTravelObjectiveForDestination(string destinationScene)
+    {
+        QuestState quest = currentObjectiveJournalQuest;
+        QuestData data = quest?.Data;
+
+        if (data?.objectives == null ||
+            string.IsNullOrWhiteSpace(quest.CurrentObjectiveID) ||
+            string.IsNullOrWhiteSpace(destinationScene))
+        {
+            return;
+        }
+
+        for (int i = 0; i < data.objectives.Count; i++)
+        {
+            QuestObjectiveData objective = data.objectives[i];
+
+            if (objective == null ||
+                objective.objectiveID != quest.CurrentObjectiveID ||
+                objective.type != QuestObjectiveType.Travel ||
+                objective.targetScene != destinationScene ||
+                i >= data.objectives.Count - 1)
+            {
+                continue;
+            }
+
+            QuestObjectiveData nextObjective = data.objectives[i + 1];
+            if (nextObjective == null)
+                return;
+
+            ActivateObjective(
+                data.questID,
+                nextObjective.objectiveID,
+                0);
+            return;
+        }
+    }
+
+    private void RemoveLegacyObjectiveLog(string title)
+    {
+        for (int i = objectiveJournalQuests.Count - 1; i >= 0; i--)
+        {
+            QuestState candidate = objectiveJournalQuests[i];
+            if (candidate == null || candidate.Data != null ||
+                candidate.Title != title)
+            {
+                continue;
+            }
+
+            if (currentObjectiveJournalQuest == candidate)
+                currentObjectiveJournalQuest = null;
+            if (trackedQuestState == candidate)
+                trackedQuestState = null;
+
+            objectiveJournalQuests.RemoveAt(i);
+        }
     }
 
     private QuestData FindQuestData(string questID)
@@ -276,8 +335,9 @@ public class QuestManager : MonoBehaviour
 
         System.Text.StringBuilder history = new();
 
-        foreach (QuestObjective objective in quest.Objectives)
+        for (int i = quest.Objectives.Count - 1; i >= 0; i--)
         {
+            QuestObjective objective = quest.Objectives[i];
             bool isCurrent = objective.ObjectiveID == quest.CurrentObjectiveID;
 
             if (!objective.Completed && !isCurrent)
@@ -377,8 +437,9 @@ public class QuestManager : MonoBehaviour
 
         System.Text.StringBuilder history = new();
 
-        foreach (QuestObjective objective in quest.Objectives)
+        for (int i = quest.Objectives.Count - 1; i >= 0; i--)
         {
+            QuestObjective objective = quest.Objectives[i];
             if (history.Length > 0)
                 history.AppendLine();
 

@@ -554,6 +554,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2668790876114409425, guid: 5b82a4abef9d9cc4c95603d749b17aef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 30290255}
+    - targetCorrespondingSourceObject: {fileID: 2668790876114409425, guid: 5b82a4abef9d9cc4c95603d749b17aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 30290257}
+    - targetCorrespondingSourceObject: {fileID: 2668790876114409425, guid: 5b82a4abef9d9cc4c95603d749b17aef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 30290256}
   m_SourcePrefab: {fileID: 100100000, guid: 5b82a4abef9d9cc4c95603d749b17aef, type: 3}
 --- !u!4 &30290247 stripped
 Transform:
@@ -580,7 +586,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 357ed8adb1d28a8479acd59c4fbc17c3, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::TargetHighlightBehaviour
   targetRenderer: {fileID: 30290249}
   highlightColor: {r: 1, g: 0.95, b: 0.35, a: 1}
@@ -665,6 +671,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5.081574, y: 4.658442, z: 7.6608267}
   m_Center: {x: 0.055090673, y: 2.3142626, z: 0.5538556}
+--- !u!114 &30290256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30290248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f3210b8ae2147c4a9cd3fb68c4ff712, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RestorationPuzzleInteraction
+  restoreBehaviour: {fileID: 30290257}
+  puzzleImage: {fileID: 2800000, guid: 2502f5c1b12da3a4f90635b3fb7fa8fc, type: 3}
+  puzzleTitle: Restore the Greenhouse
+  puzzleInstructions: Rotate each fragment to reconstruct the greenhouse.
+  requiredMaterials:
+  - item: {fileID: 11400000, guid: 3784b400c895d1a4da93499c1a9533e5, type: 2}
+    amount: 2
+  inspectionDialogueID: chapter1.inspectRepairGreenhouse
+  missingMaterialsDialogueID: chapter1.greenhouseMissingMaterials
+  restoredDialogueID: chapter1.restoreGreenhouse
+  requiredProgressionFlag: chapter1.greenhouseInspected
+  inspectedFlag: chapter1.greenhouseRepairInspected
+  restoredFlag: chapter1.greenhouseRestored
+  objectiveTitle:
+  gatherMaterialsObjective:
+  objectiveQuestID:
+  gatherMaterialsObjectiveID:
+  restoredObjectiveID:
+--- !u!114 &30290257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30290248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f05f567b8c5834f8d99cc38c66a217, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::RestoreBehaviour
+  targetObject: {fileID: 30290248}
+  highlightMarker: {fileID: 550513060}
+  brokenVersion: {fileID: 30290248}
+  fixedVersion: {fileID: 7724989914413563446, guid: 07817184d1cdcda478ea2bd20fe92a9c, type: 3}
+  matchBrokenScale: 0
+  fixedLocalPositionOffset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &31749874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,6 +1322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
   targetScene: Bloombridge Path
   targetSpawnID: ToBloombridgeFromFarmlands
+  compassTarget: {fileID: 0}
 --- !u!65 &80368456
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4689,6 +4744,72 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2200095261510345766, guid: a2348ac4609cc064bac5558b9cb8347f, type: 3}
   m_PrefabInstance: {fileID: 359168535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &359179240
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1050890169}
+    m_Modifications:
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 55.193817
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 60.3609
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 110.19928
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9238798
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.38268274
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069874672475442865, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_Name
+      value: lumberBundle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4229165271216065390, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: instanceID
+      value: 1820d4bf1d314977a564bb0da520b1ed
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+--- !u!4 &359179241 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+  m_PrefabInstance: {fileID: 359179240}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &363091994
 PrefabInstance:
@@ -13874,6 +13995,8 @@ Transform:
   m_Children:
   - {fileID: 1898159693}
   - {fileID: 814001735}
+  - {fileID: 359179241}
+  - {fileID: 1546725073}
   m_Father: {fileID: 1304941171}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1069874665
@@ -18884,6 +19007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
   targetScene: Village Basin
   targetSpawnID: ToVillageBasinFromFarmlands
+  compassTarget: {fileID: 0}
 --- !u!65 &1434193697
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20218,6 +20342,72 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3879109931412539635, guid: 719d61d1a2b35ff4f9f3996565b346c4, type: 3}
   m_PrefabInstance: {fileID: 1545501735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1546725072
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1050890169}
+    m_Modifications:
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 59.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 97.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4069874672475442865, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: m_Name
+      value: lumberBundle (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4229165271216065390, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+      propertyPath: instanceID
+      value: 1820d4bf1d314977a564bb0da520b1ed
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+--- !u!4 &1546725073 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3688670054698865675, guid: 084235124c26fb0498b6e1ffc845ee8a, type: 3}
+  m_PrefabInstance: {fileID: 1546725072}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1547677839
 PrefabInstance:

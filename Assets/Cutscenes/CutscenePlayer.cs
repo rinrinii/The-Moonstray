@@ -6,6 +6,7 @@ public class CutscenePlayer : MonoBehaviour
 {
     [SerializeField] private Canvas cutsceneCanvas;
     [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private bool keepCanvasActiveOnAwake;
 
     [SerializeField]
     private float musicFadeDuration = 0.75f;
@@ -15,7 +16,7 @@ public class CutscenePlayer : MonoBehaviour
 
     private void Awake()
     {
-        if (cutsceneCanvas != null)
+        if (cutsceneCanvas != null && !keepCanvasActiveOnAwake)
         {
             cutsceneCanvas.gameObject.SetActive(false);
         }

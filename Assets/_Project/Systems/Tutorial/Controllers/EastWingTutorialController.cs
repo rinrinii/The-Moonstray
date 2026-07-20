@@ -111,6 +111,8 @@ public class EastWingTutorialController : MonoBehaviour
     {
         yield return new WaitForSeconds(storyDeathDelay);
 
+        playerHealth?.HoldStoryDeathPose();
+
         if (DialogueManager.Instance != null)
         {
             DialogueManager.Instance.StartDialogue(dialogueID);
@@ -124,8 +126,6 @@ public class EastWingTutorialController : MonoBehaviour
 
         // Restore player movement modifiers.
         PlayerTransformation.Instance?.SetSpeedModifier(1f);
-
-        playerHealth?.RestoreAfterStoryDeath();
 
         TutorialManager.Instance?.SetState(TutorialState.WakeInLibrary);
 

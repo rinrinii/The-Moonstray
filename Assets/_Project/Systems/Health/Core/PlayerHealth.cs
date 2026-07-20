@@ -27,6 +27,8 @@ public class PlayerHealth : MonoBehaviour
 
     private bool isDead;
     private bool suppressNextGameOver;
+    private bool isHoldingStoryDeathPose;
+    private float animatorSpeedBeforeStoryDeathPose = 1f;
 
     private HUDController hudController;
 
@@ -119,6 +121,24 @@ public class PlayerHealth : MonoBehaviour
         suppressNextGameOver = true;
     }
 
+    public void HoldStoryDeathPose()
+    {
+        UpdateAnimatorReference();
+
+        if (currentAnimator == null)
+            return;
+
+        if (!isHoldingStoryDeathPose)
+        {
+            animatorSpeedBeforeStoryDeathPose = currentAnimator.speed;
+            isHoldingStoryDeathPose = true;
+        }
+
+        currentAnimator.Play("Die", 0, 0.99f);
+        currentAnimator.Update(0f);
+        currentAnimator.speed = 0f;
+    }
+
     private void Die()
     {
         StartCoroutine(DeathSequence());
@@ -177,6 +197,7 @@ public class PlayerHealth : MonoBehaviour
         suppressNextGameOver = false;
 
         UpdateAnimatorReference();
+        ReleaseStoryDeathAnimatorHold();
 
         if (movement != null)
             movement.enabled = true;
@@ -202,6 +223,7 @@ public class PlayerHealth : MonoBehaviour
         suppressNextGameOver = false;
 
         UpdateAnimatorReference();
+        ReleaseStoryDeathAnimatorHold();
 
         if (movement != null)
             movement.enabled = true;
@@ -217,5 +239,17 @@ public class PlayerHealth : MonoBehaviour
         }
 
         Debug.Log("Player health restored.");
+    }
+
+    private void ReleaseStoryDeathAnimatorHold()
+    {
+        if (!isHoldingStoryDeathPose || currentAnimator == null)
+            return;
+
+        currentAnimator.speed =
+            animatorSpeedBeforeStoryDeathPose > 0f
+                ? animatorSpeedBeforeStoryDeathPose
+                : 1f;
+        isHoldingStoryDeathPose = false;
     }
 }

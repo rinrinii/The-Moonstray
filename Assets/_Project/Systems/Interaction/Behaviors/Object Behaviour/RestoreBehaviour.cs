@@ -10,6 +10,8 @@ public class RestoreBehaviour : MonoBehaviour, IObjectBehaviour
     [Header("State Objects")]
     [SerializeField] private GameObject brokenVersion;
     [SerializeField] private GameObject fixedVersion;
+    [SerializeField] private bool matchBrokenScale = true;
+    [SerializeField] private Vector3 fixedLocalPositionOffset;
 
     private bool runtimeReplacementPrepared;
 
@@ -29,9 +31,10 @@ public class RestoreBehaviour : MonoBehaviour, IObjectBehaviour
             brokenVersion.transform.parent);
         replacement.name = $"{brokenVersion.name} (Restored)";
         replacement.transform.SetLocalPositionAndRotation(
-            brokenVersion.transform.localPosition,
+            brokenVersion.transform.localPosition + fixedLocalPositionOffset,
             brokenVersion.transform.localRotation);
-        replacement.transform.localScale = brokenVersion.transform.localScale;
+        if (matchBrokenScale)
+            replacement.transform.localScale = brokenVersion.transform.localScale;
         replacement.SetActive(false);
 
         fixedVersion = replacement;
