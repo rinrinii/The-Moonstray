@@ -9,6 +9,7 @@ public class RespawnManager : MonoBehaviour
     }
 
     private string currentSpawnID;
+    public string CurrentSpawnID => currentSpawnID;
 
     private void Awake()
     {
@@ -42,6 +43,11 @@ public class RespawnManager : MonoBehaviour
         currentSpawnID = spawnID;
 
         Debug.Log($"Respawn point updated: {spawnID}");
+    }
+
+    public void ClearCurrentSpawn()
+    {
+        currentSpawnID = null;
     }
 
     // =========================================

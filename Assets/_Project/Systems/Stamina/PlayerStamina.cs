@@ -128,14 +128,6 @@ public class PlayerStamina : MonoBehaviour
                 maxStamina
             );
 
-        Debug.Log(
-            "Stamina Used: " +
-            amount.ToString("F3") +
-            " | Remaining: " +
-            currentStamina.ToString("F2") +
-            " / " +
-            maxStamina
-        );
     }
 
     // =========================================
@@ -169,5 +161,11 @@ public class PlayerStamina : MonoBehaviour
     public float GetStaminaPercent()
     {
         return currentStamina / maxStamina;
+    }
+
+    public void RestoreState(float stamina)
+    {
+        currentStamina = Mathf.Clamp(stamina, 0f, maxStamina);
+        canRegenerate = true;
     }
 }

@@ -115,7 +115,7 @@ public class PinewatchTutorialController : MonoBehaviour
 
         yield return new WaitForSeconds(wakingAnimationDuration);
 
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             "tutorial.finding_your_footing",
             "explore_trail",
             0);

@@ -4,6 +4,20 @@ using UnityEngine.UIElements;
 
 public class JournalController : MonoBehaviour
 {
+    [System.Serializable]
+    public sealed class Snapshot
+    {
+        public bool unlocked;
+        public List<NoteRecord> notes = new();
+    }
+
+    [System.Serializable]
+    public sealed class NoteRecord
+    {
+        public string title;
+        public string content;
+    }
+
     public static JournalController Instance;
 
     [SerializeField] private VisualTreeAsset journalEntryTemplate;
@@ -645,6 +659,44 @@ public class JournalController : MonoBehaviour
         unlocked = true;
 
         Debug.Log("Journal unlocked.");
+    }
+
+    public Snapshot CaptureState()
+    {
+        Snapshot snapshot = new() { unlocked = unlocked };
+        foreach (JournalNote note in notes)
+        {
+            snapshot.notes.Add(new NoteRecord
+            {
+                title = note.title,
+                content = note.content
+            });
+        }
+
+        return snapshot;
+    }
+
+    public void RestoreState(Snapshot snapshot)
+    {
+        notes.Clear();
+        unlocked = snapshot != null && snapshot.unlocked;
+        if (snapshot != null)
+        {
+            foreach (NoteRecord note in snapshot.notes ?? new List<NoteRecord>())
+            {
+                if (!string.IsNullOrWhiteSpace(note.title))
+                    notes.Add(new JournalNote(note.title, note.content));
+            }
+        }
+
+        RenderNotes();
+    }
+
+    public void ResetState()
+    {
+        notes.Clear();
+        unlocked = false;
+        RenderNotes();
     }
 
     private class JournalNote

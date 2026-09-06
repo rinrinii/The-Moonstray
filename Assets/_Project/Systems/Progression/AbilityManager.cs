@@ -116,4 +116,18 @@ public class AbilityManager : MonoBehaviour
             "All abilities locked."
         );
     }
+
+    public List<AbilityType> CaptureState()
+    {
+        List<AbilityType> abilities = new(unlockedAbilities);
+        abilities.Sort();
+        return abilities;
+    }
+
+    public void RestoreState(List<AbilityType> abilities)
+    {
+        unlockedAbilities.Clear();
+        if (abilities != null)
+            unlockedAbilities.UnionWith(abilities);
+    }
 }

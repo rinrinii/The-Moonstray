@@ -20,6 +20,7 @@ public class MainMenuController : MonoBehaviour
     private Button settingsBtn;
     private Button exitBtn;
     private Button backBtn;
+    private VisualElement saveSlotOverlay;
 
     private void Awake()
     {
@@ -39,6 +40,8 @@ public class MainMenuController : MonoBehaviour
         if (settingsBtn != null) settingsBtn.clicked += OpenSettings;
         if (exitBtn != null) exitBtn.clicked += CloseGame;
         if (backBtn != null) backBtn.clicked += CloseSettings;
+
+        RefreshContinueButton();
     }
 
     private void OnDisable()
@@ -72,8 +75,22 @@ public class MainMenuController : MonoBehaviour
     {
         AudioManager.Instance?.PlayUI("Button3");
 
-        sessionInitializer.CreateSession();
-        LoadGameplayScene();
+        OpenLoadSlots();
+    }
+
+    private void LoadSlot(int slot)
+    {
+
+        sessionInitializer?.CreateSession();
+
+        if (!SaveGameService.TryLoad(slot, out GameSessionManager.Snapshot snapshot, out string error))
+        {
+            Debug.LogWarning($"Continue failed: {error}");
+            RefreshContinueButton();
+            return;
+        }
+
+        GameSessionManager.RestoreState(snapshot);
     }
 
     private void OnNewGamePressed()
@@ -83,6 +100,7 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("MAIN MENU: New Game");
 
         sessionInitializer.CreateSession();
+        GameSessionManager.ResetProgressForNewGame();
 
         Debug.Log("TutorialManager = " + TutorialManager.Instance);
 
@@ -138,5 +156,25 @@ public class MainMenuController : MonoBehaviour
     private void LoadGameplayScene()
     {
         SceneLoader.LoadScene(gamePlayScene);
+    }
+
+    private void RefreshContinueButton()
+    {
+        bool hasSave = SaveGameService.HasAnyValidSave();
+        continueBtn?.SetEnabled(hasSave);
+        if (continueBtn != null)
+            continueBtn.style.display = hasSave ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    private void OpenLoadSlots()
+    {
+        CloseSaveSlots();
+        saveSlotOverlay = SaveSlotPanel.Open(uiDocument.rootVisualElement, "CONTINUE", false, LoadSlot, CloseSaveSlots);
+    }
+
+    private void CloseSaveSlots()
+    {
+        SaveSlotPanel.Close(saveSlotOverlay);
+        saveSlotOverlay = null;
     }
 }

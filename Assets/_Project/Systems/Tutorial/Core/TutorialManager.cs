@@ -37,6 +37,21 @@ public class TutorialManager : MonoBehaviour
         SetState(TutorialState.PinewatchTrail);
     }
 
+    public void ResetProgress()
+    {
+        SetState(TutorialState.None);
+    }
+
+    public TutorialState CaptureState()
+    {
+        return currentState;
+    }
+
+    public void RestoreState(TutorialState state)
+    {
+        SetState(state);
+    }
+
     public void SetState(TutorialState newState)
     {
         if (currentState == newState)

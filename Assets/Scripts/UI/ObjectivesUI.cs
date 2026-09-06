@@ -13,6 +13,7 @@ public class ObjectivesUI : MonoBehaviour
     private VisualElement trackingHint;
     private VisualElement trackingKeyIcon;
     private Label trackingHintLabel;
+    private QuestManager subscribedQuestManager;
 
     public QuestObjectiveData CurrentObjectiveData { get; private set; }
 
@@ -46,22 +47,36 @@ public class ObjectivesUI : MonoBehaviour
 
         Hide();
 
-        if (QuestManager.Instance != null)
-        {
-            QuestManager.Instance.OnQuestUpdated += Refresh;
-            Refresh(QuestManager.Instance.GetDisplayedQuest());
-        }
+        EnsureQuestSubscription();
     }
 
     private void OnDestroy()
     {
-        if (QuestManager.Instance != null)
-            QuestManager.Instance.OnQuestUpdated -= Refresh;
+        if (subscribedQuestManager != null)
+            subscribedQuestManager.OnQuestUpdated -= Refresh;
     }
 
     private void Update()
     {
+        EnsureQuestSubscription();
         RefreshTrackingHint();
+    }
+
+    private void EnsureQuestSubscription()
+    {
+        QuestManager manager = QuestManager.Instance;
+        if (manager == subscribedQuestManager)
+            return;
+
+        if (subscribedQuestManager != null)
+            subscribedQuestManager.OnQuestUpdated -= Refresh;
+
+        subscribedQuestManager = manager;
+        if (subscribedQuestManager == null)
+            return;
+
+        subscribedQuestManager.OnQuestUpdated += Refresh;
+        Refresh(subscribedQuestManager.GetDisplayedQuest());
     }
 
     private void RefreshTrackingHint()
@@ -182,34 +197,6 @@ public class ObjectivesUI : MonoBehaviour
     public void RefreshDisplayedQuest()
     {
         Refresh(QuestManager.Instance?.GetDisplayedQuest());
-    }
-
-    public void SetObjective(string title, string description)
-    {
-        if (panel == null)
-            return;
-
-        QuestState quest = QuestManager.Instance?.RecordObjectiveForJournal(
-            title,
-            description);
-
-        Refresh(QuestManager.Instance?.GetDisplayedQuest() ?? quest);
-    }
-
-    public void SetObjective(
-        string questID,
-        string objectiveID,
-        int currentAmount)
-    {
-        QuestState quest = QuestManager.Instance?.ActivateObjective(
-            questID,
-            objectiveID,
-            currentAmount);
-
-        if (quest == null)
-            return;
-
-        Refresh(QuestManager.Instance?.GetDisplayedQuest() ?? quest);
     }
 
     private static QuestObjectiveData FindCurrentObjectiveData(QuestState quest)

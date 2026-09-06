@@ -133,4 +133,18 @@ public class UpgradeManager : MonoBehaviour
             "All upgrades locked."
         );
     }
+
+    public List<UpgradeType> CaptureState()
+    {
+        List<UpgradeType> upgrades = new(unlockedUpgrades);
+        upgrades.Sort();
+        return upgrades;
+    }
+
+    public void RestoreState(List<UpgradeType> upgrades)
+    {
+        unlockedUpgrades.Clear();
+        if (upgrades != null)
+            unlockedUpgrades.UnionWith(upgrades);
+    }
 }

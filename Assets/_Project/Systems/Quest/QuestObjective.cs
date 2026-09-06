@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class QuestObjective
@@ -8,6 +9,7 @@ public class QuestObjective
     public string ObjectiveID;
     public int CurrentAmount;
     public int RequiredAmount = 1;
+    public List<string> CompletedStepIDs = new();
 
     public QuestObjective(string text)
     {

@@ -5,6 +5,14 @@ using UnityEngine.UIElements;
 
 public class FrostmereLibraryTutorialController : MonoBehaviour
 {
+    private const string EchoesQuestID = "tutorial.echoes_of_the_past";
+    private const string RestObjectiveID = "rest";
+    private const string ExploreArchivesObjectiveID = "explore_archives";
+    private const string TransformObjectiveID = "transform_human";
+    private const string WaitObjectiveID = "wait_for_student";
+    private const string ArchiveObjectStepID = "archive_object";
+    private const string HumanFormStepID = "human_form";
+
     private bool wakeInitialized;
     private bool searchInitialized;
     private bool revealInitialized;
@@ -50,17 +58,33 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     [SerializeField]
     private GameObject restrictedArchivesExitBlocker;
 
-    private const int requiredArchivesProgress = 3;
-
-    private int archivesProgress;
-    private bool archiveObjectCollected;
-    private int notesRead;
-
-    private bool hasTransformedToHuman;
-
     private bool npcReturning;
     private bool awaitingRestInput;
     private bool restSequenceStarted;
+
+    private int ArchivesProgress =>
+        QuestManager.Instance?.GetObjectiveProgress(
+            EchoesQuestID,
+            ExploreArchivesObjectiveID) ?? 0;
+
+    private bool ArchiveObjectCollected =>
+        QuestManager.Instance?.HasCompletedObjectiveStep(
+            EchoesQuestID,
+            ExploreArchivesObjectiveID,
+            ArchiveObjectStepID) == true;
+
+    private int NotesRead => Mathf.Max(
+        0,
+        (QuestManager.Instance?.GetCompletedObjectiveStepCount(
+            EchoesQuestID,
+            ExploreArchivesObjectiveID) ?? 0) -
+        (ArchiveObjectCollected ? 1 : 0));
+
+    private bool HasTransformedToHuman =>
+        QuestManager.Instance?.HasCompletedObjectiveStep(
+            EchoesQuestID,
+            TransformObjectiveID,
+            HumanFormStepID) == true;
 
     #endregion
 
@@ -146,12 +170,12 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (!searchInitialized)
             return;
 
-        if (archiveObjectCollected && notesRead == 0 &&
+        if (ArchiveObjectCollected && NotesRead == 0 &&
             Input.GetKeyDown(KeyCode.I))
         {
             PromptUI.Instance?.Hide();
         }
-        else if (notesRead == 1 && Input.GetKeyDown(KeyCode.J))
+        else if (NotesRead == 1 && Input.GetKeyDown(KeyCode.J))
         {
             PromptUI.Instance?.Hide();
         }
@@ -300,12 +324,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (searchInitialized)
             return;
 
-        hasTransformedToHuman = false;
         searchInitialized = true;
-
-        archiveObjectCollected = false;
-        notesRead = 0;
-        archivesProgress = 0;
         npcReturning = false;
         awaitingRestInput = false;
         restSequenceStarted = false;
@@ -318,6 +337,22 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         playerTransformation?.LockTransformation();
         PromptUI.Instance?.Hide();
 
+        string currentObjective =
+            QuestManager.Instance?.GetCurrentObjectiveID(EchoesQuestID);
+
+        if (!string.IsNullOrWhiteSpace(currentObjective) &&
+            currentObjective != RestObjectiveID)
+        {
+            playerTransformation?.UnlockTransformation();
+            EnablePlayerMovement();
+
+            if (!ArchiveObjectCollected || NotesRead < 2)
+                UpdateSearchObjective();
+
+            CheckSearchArchivesCompleted();
+            return;
+        }
+
         StartCoroutine(ShowRestPromptAfterDelay());
     }
 
@@ -325,9 +360,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         yield return new WaitForSeconds(restPromptDelay);
 
-        ObjectivesUI.Instance?.SetObjective(
-            "tutorial.echoes_of_the_past",
-            "rest",
+        QuestManager.Instance?.SetObjective(
+            EchoesQuestID,
+            RestObjectiveID,
             0);
 
         PromptUI.Instance?.Show(
@@ -389,10 +424,10 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void UpdateSearchObjective()
     {
-        ObjectivesUI.Instance?.SetObjective(
-            "tutorial.echoes_of_the_past",
-            "explore_archives",
-            archivesProgress);
+        QuestManager.Instance?.SetObjective(
+            EchoesQuestID,
+            ExploreArchivesObjectiveID,
+            ArchivesProgress);
     }
 
     private void EnableSearchHUD()
@@ -425,21 +460,26 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
 
     private void CheckSearchArchivesCompleted()
     {
-        if (!archiveObjectCollected)
+        if (!ArchiveObjectCollected)
             return;
 
-        if (notesRead < 2)
+        if (NotesRead < 2)
             return;
 
-        if (!hasTransformedToHuman)
+        if (!HasTransformedToHuman)
         {
-            ObjectivesUI.Instance?.SetObjective(
-                "tutorial.echoes_of_the_past",
-                "transform_human",
+            QuestManager.Instance?.SetObjective(
+                EchoesQuestID,
+                TransformObjectiveID,
                 0);
 
             return;
         }
+
+        QuestManager.Instance?.SetObjective(
+            EchoesQuestID,
+            TransformObjectiveID,
+            1);
 
         if (npcReturning)
             return;
@@ -448,9 +488,9 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         LockPlayerForReadingSequence();
         PromptUI.Instance?.Hide();
 
-        ObjectivesUI.Instance?.SetObjective(
-            "tutorial.echoes_of_the_past",
-            "wait_for_student",
+        QuestManager.Instance?.SetObjective(
+            EchoesQuestID,
+            WaitObjectiveID,
             0);
 
         CollectBehaviour.OnItemCollected -= HandleItemCollected;
@@ -502,10 +542,13 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (form != PlayerTransformation.FormState.Human)
             return;
 
-        if (hasTransformedToHuman)
+        if (HasTransformedToHuman)
             return;
 
-        hasTransformedToHuman = true;
+        QuestManager.Instance?.CompleteObjectiveStep(
+            EchoesQuestID,
+            TransformObjectiveID,
+            HumanFormStepID);
 
         CheckSearchArchivesCompleted();
     }
@@ -515,15 +558,17 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         if (collectedObject != requiredArchiveObject)
             return;
 
-        if (archiveObjectCollected)
+        if (ArchiveObjectCollected)
             return;
 
-        archiveObjectCollected = true;
-        archivesProgress++;
+        QuestManager.Instance?.CompleteObjectiveStep(
+            EchoesQuestID,
+            ExploreArchivesObjectiveID,
+            ArchiveObjectStepID);
 
         UpdateSearchObjective();
 
-        if (notesRead == 0)
+        if (NotesRead == 0)
         {
             PromptUI.Instance?.Show(
                 "[I] Inventory",
@@ -533,17 +578,22 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
         CheckSearchArchivesCompleted();
     }
 
-    private void HandleNoteRead()
+    private void HandleNoteRead(NoteInteractionResponse note)
     {
-        if (notesRead >= 2)
+        if (note == null || NotesRead >= 2)
             return;
 
-        notesRead++;
-        archivesProgress++;
+        bool added = QuestManager.Instance?.CompleteObjectiveStep(
+            EchoesQuestID,
+            ExploreArchivesObjectiveID,
+            $"note:{note.NoteID}") == true;
+
+        if (!added)
+            return;
 
         UpdateSearchObjective();
 
-        if (notesRead == 1)
+        if (NotesRead == 1)
         {
             PromptUI.Instance?.Show(
                 "[J] Journal",
@@ -806,7 +856,7 @@ public class FrostmereLibraryTutorialController : MonoBehaviour
     {
         readingSequenceMovementLock.Release();
 
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             "tutorial.leaving_the_past_behind",
             "leave_library",
             0);

@@ -87,7 +87,7 @@ public class EastWingTutorialController : MonoBehaviour
 
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             "tutorial.searching_for_clues",
             "investigate_area",
             0);
