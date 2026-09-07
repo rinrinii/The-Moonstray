@@ -161,6 +161,8 @@ public class GameplayUIManager : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateVisibilityForScene(scene);
+        if (scene.name != "LoadingScene" && scene.name != "MainMenu")
+            Objectives?.RefreshDisplayedQuest();
         QueueSceneTitle(scene);
     }
 

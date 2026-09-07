@@ -107,6 +107,48 @@ public static class SaveSlotPanel
         blocker.BringToFront();
     }
 
+    public static void ShowSaveSuccess(
+        VisualElement overlay,
+        int slot,
+        Action dismiss)
+    {
+        if (overlay == null)
+        {
+            dismiss?.Invoke();
+            return;
+        }
+
+        VisualElement existing = overlay.Q<VisualElement>("SaveSuccessConfirmation");
+        existing?.RemoveFromHierarchy();
+
+        VisualElement blocker = new() { name = "SaveSuccessConfirmation" };
+        blocker.AddToClassList("save-confirmation-blocker");
+
+        VisualElement dialog = new();
+        dialog.AddToClassList("save-confirmation-dialog");
+
+        Label title = new("GAME SAVED");
+        title.AddToClassList("save-confirmation-title");
+        dialog.Add(title);
+        dialog.Add(new Label($"Successfully saved file to Slot {slot + 1}."));
+
+        VisualElement actions = new();
+        actions.AddToClassList("save-confirmation-actions");
+
+        Button okay = new(() =>
+        {
+            blocker.RemoveFromHierarchy();
+            dismiss?.Invoke();
+        }) { text = "OK" };
+        okay.AddToClassList("save-confirmation-button");
+        actions.Add(okay);
+        dialog.Add(actions);
+        blocker.Add(dialog);
+        overlay.Add(blocker);
+        blocker.BringToFront();
+        okay.Focus();
+    }
+
     public static void Close(VisualElement overlay)
     {
         if (overlay != null) overlay.style.display = DisplayStyle.None;

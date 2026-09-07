@@ -83,7 +83,30 @@ public class ObjectivesUI : MonoBehaviour
     private void Update()
     {
         EnsureQuestSubscription();
+        RestoreMissingDisplayedText();
         RefreshTrackingHint();
+    }
+
+    private void RestoreMissingDisplayedText()
+    {
+        if (showingObjectiveCompletion || objectiveTransition != null ||
+            titleLabel == null || descriptionLabel == null)
+        {
+            return;
+        }
+
+        QuestState quest = QuestManager.Instance?.GetDisplayedQuest();
+        if (quest == null)
+            return;
+
+        // Loading screens and scene bootstraps can temporarily clear the
+        // persistent HUD after quest state has already been restored. Repair
+        // that presentation drift without modifying quest progress.
+        if (string.IsNullOrWhiteSpace(titleLabel.text) ||
+            string.IsNullOrWhiteSpace(descriptionLabel.text))
+        {
+            Refresh(quest);
+        }
     }
 
     private void EnsureQuestSubscription()

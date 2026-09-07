@@ -224,7 +224,7 @@ public class QuestManager : MonoBehaviour
 
     private QuestState RestoreQuest(QuestRecord record)
     {
-        if (record == null)
+        if (record == null || IsEmptyQuestRecord(record))
             return null;
 
         QuestData data = string.IsNullOrWhiteSpace(record.questID)
@@ -278,11 +278,25 @@ public class QuestManager : MonoBehaviour
         return quest;
     }
 
+    private static bool IsEmptyQuestRecord(QuestRecord record)
+    {
+        return string.IsNullOrWhiteSpace(record.questID) &&
+            string.IsNullOrWhiteSpace(record.title) &&
+            string.IsNullOrWhiteSpace(record.currentObjectiveID) &&
+            (record.objectives == null || record.objectives.Count == 0);
+    }
+
     private QuestState FindRestoredQuest(
         string questID,
         string title,
         IReadOnlyList<QuestState> preferredList = null)
     {
+        if (string.IsNullOrWhiteSpace(questID) &&
+            string.IsNullOrWhiteSpace(title))
+        {
+            return null;
+        }
+
         if (preferredList != null)
             return FindRestoredQuestInList(preferredList, questID, title);
 

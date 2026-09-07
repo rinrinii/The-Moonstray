@@ -221,7 +221,10 @@ public class PauseMenuController : MonoBehaviour
         if (SaveGameService.TrySave(slot, out string error))
         {
             Debug.Log($"Game saved to {SaveGameService.SavePath}");
-            CloseSaveSlots();
+            SaveSlotPanel.ShowSaveSuccess(
+                saveSlotOverlay,
+                slot,
+                CloseSaveSlots);
         }
         else
         {

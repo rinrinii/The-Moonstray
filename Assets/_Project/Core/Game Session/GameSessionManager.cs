@@ -41,6 +41,13 @@ public static class GameSessionManager
 
     private static GameSessionRestoreRunner restoreRunner;
 
+    /// <summary>
+    /// Remains true while a saved gameplay scene is being initialized. Scene
+    /// controllers can use this to restore a stable checkpoint instead of
+    /// replaying one-shot presentation such as an opening cutscene.
+    /// </summary>
+    public static bool IsRestoringSavedSession { get; private set; }
+
     public static Snapshot CaptureState()
     {
         return new Snapshot
@@ -70,6 +77,8 @@ public static class GameSessionManager
             Debug.LogWarning("Game session restore ignored an empty snapshot.");
             return;
         }
+
+        IsRestoringSavedSession = true;
 
         if (snapshot.schemaVersion > CurrentSchemaVersion)
             Debug.LogWarning($"Save schema {snapshot.schemaVersion} is newer than supported schema {CurrentSchemaVersion}.");
@@ -101,6 +110,7 @@ public static class GameSessionManager
 
     public static void ResetProgressForNewGame()
     {
+        IsRestoringSavedSession = false;
         InventorySystem.Instance?.ResetState();
         MoonCoinWallet.Instance?.ResetState();
         JournalController.Instance?.ResetState();
@@ -248,6 +258,11 @@ public static class GameSessionManager
         ObjectivesUI.Instance?.RefreshDisplayedQuest();
     }
 
+    internal static void CompleteSavedSessionRestore()
+    {
+        IsRestoringSavedSession = false;
+    }
+
     private static bool IsFinite(Vector3 value)
     {
         return float.IsFinite(value.x) && float.IsFinite(value.y) && float.IsFinite(value.z);
@@ -296,6 +311,7 @@ public sealed class GameSessionRestoreRunner : MonoBehaviour
         GameSessionManager.ApplyPlayerState(world);
         yield return null;
         ObjectivesUI.Instance?.RefreshDisplayedQuest();
+        GameSessionManager.CompleteSavedSessionRestore();
     }
 
     private void OnDestroy()

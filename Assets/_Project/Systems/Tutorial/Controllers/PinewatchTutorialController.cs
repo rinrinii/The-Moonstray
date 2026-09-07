@@ -68,10 +68,44 @@ public class PinewatchTutorialController : MonoBehaviour
         // Hide unavailable HUD icons
         HUDController.Instance?.SetBottomRightHUDVisible(false);
 
-        if (!openingSequenceStarted)
+        if (GameSessionManager.IsRestoringSavedSession)
+            RestoreOpeningCheckpoint();
+        else if (!openingSequenceStarted)
             StartCoroutine(PlayOpeningSequence());
 
         PromptUI.Instance?.Hide();
+    }
+
+    private void RestoreOpeningCheckpoint()
+    {
+        // Saves made during the opening resume at the first stable gameplay
+        // checkpoint. Cutscenes are presentation rather than quest state, so
+        // replaying them on Continue would also leave early saves without an
+        // authored objective until the entire sequence finished again.
+        openingSequenceStarted = true;
+        openingMovementLock.Release();
+
+        if (startCutscenePlayer == null)
+        {
+            GameObject playerObject = GameObject.Find("StartCutscenePlayer");
+            startCutscenePlayer = playerObject != null
+                ? playerObject.GetComponent<CutscenePlayer>()
+                : null;
+        }
+
+        startCutscenePlayer?.StopAndHide();
+
+        PlayerTransformation transformation = PlayerTransformation.Instance;
+        transformation?.ForceWolfForm();
+        transformation?.LockTransformation();
+        transformation?.ReleaseWolfRestPose();
+
+        QuestManager.Instance?.SetObjective(
+            "tutorial.finding_your_footing",
+            "explore_trail",
+            0);
+
+        ObjectivesUI.Instance?.RefreshDisplayedQuest();
     }
 
     private IEnumerator PlayOpeningSequence()
