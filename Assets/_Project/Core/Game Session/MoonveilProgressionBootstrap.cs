@@ -143,7 +143,7 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
             return;
         }
 
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             NewBeginningsQuestID,
             "talk_to_guide",
             0);

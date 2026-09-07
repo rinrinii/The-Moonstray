@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class MoonCoinWallet : MonoBehaviour
 {
+    public const int StartingMoonCoins = 250;
     public static MoonCoinWallet Instance { get; private set; }
 
     public event Action<int> OnMoonCoinsChanged;
 
     [SerializeField]
-    private int moonCoins = 250;
+    private int moonCoins = StartingMoonCoins;
 
     public int MoonCoins => moonCoins;
 
@@ -64,4 +65,12 @@ public class MoonCoinWallet : MonoBehaviour
         OnMoonCoinsChanged?.Invoke(moonCoins);
         return true;
     }
+
+    public void SetAmount(int amount)
+    {
+        moonCoins = Mathf.Max(0, amount);
+        OnMoonCoinsChanged?.Invoke(moonCoins);
+    }
+
+    public void ResetState() => SetAmount(StartingMoonCoins);
 }

@@ -15,7 +15,9 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
     private bool hasBeenRead;
     private Action onReadCallback;
 
-    public static event Action OnNoteRead;
+    public static event Action<NoteInteractionResponse> OnNoteRead;
+
+    public string NoteID => GetNoteTitle();
 
     public void ConfigureOnRead(Action callback)
     {
@@ -87,7 +89,7 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
     private void NotifyNoteRead()
     {
         onReadCallback?.Invoke();
-        OnNoteRead?.Invoke();
+        OnNoteRead?.Invoke(this);
     }
 
     private void DisableNoteObject()

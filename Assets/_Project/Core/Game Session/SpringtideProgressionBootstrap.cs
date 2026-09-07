@@ -66,7 +66,7 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
             // Always restore the objective when Bloombridge loads. The arrival
             // flag may already be present in a save even though the UI/journal
             // objective was never recorded (or was cleared during scene load).
-            ObjectivesUI.Instance?.SetObjective(
+            QuestManager.Instance?.SetObjective(
                 "chapter1.new_beginnings",
                 "visit_outer_farmlands",
                 0);
@@ -337,12 +337,12 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
         else if (progression.HasFlag(
             GameProgressionFlags.Chapter1OvergrowthCropOneInspected))
         {
-            ObjectivesUI.Instance?.SetObjective(
+            QuestManager.Instance?.SetObjective(
                 QuestID, "inspect_second_rotting_crop", 0);
         }
         else
         {
-            ObjectivesUI.Instance?.SetObjective(
+            QuestManager.Instance?.SetObjective(
                 QuestID, "inspect_rotting_crops", 0);
         }
 
@@ -574,12 +574,12 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
 
     private static void SetAssetObjective(string objectiveID)
     {
-        ObjectivesUI.Instance?.SetObjective(QuestID, objectiveID, 0);
+        QuestManager.Instance?.SetObjective(QuestID, objectiveID, 0);
     }
 
     private static void SetRestrictedWheelObjective(int amount)
     {
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             QuestID,
             "solve_irrigation_wheels",
             amount);
@@ -587,7 +587,7 @@ public class SpringtideProgressionBootstrap : MonoBehaviour
 
     private static void SetObjective(string description)
     {
-        ObjectivesUI.Instance?.SetObjective(QuestTitle, description);
+        QuestManager.Instance?.SetObjective(QuestTitle, description);
     }
 }
 
@@ -762,7 +762,7 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
         void Finish()
         {
             progression.SetFlag(GameProgressionFlags.Chapter1ReturnToMoonveil);
-            ObjectivesUI.Instance?.SetObjective(
+            QuestManager.Instance?.SetObjective(
                 QuestID,
                 "return_to_moonveil",
                 0);
@@ -793,7 +793,7 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
 
     private static void SetWheelObjective(int amount)
     {
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             QuestID,
             "solve_irrigation_wheels",
             amount);

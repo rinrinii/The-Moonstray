@@ -69,7 +69,7 @@ public class SceneSpawnManager : MonoBehaviour
         if (sceneName == "Frostmere Library" || sceneName == "Moonveil")
             return;
 
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             "tutorial.leaving_the_past_behind",
             "travel_moonveil",
             0);
@@ -107,7 +107,7 @@ public class SceneSpawnManager : MonoBehaviour
             TutorialManager.Instance.FinishTutorial();
             FindFirstObjectByType<PlayerHealth>()?.RestoreFullHealth();
 
-            ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                 "chapter1.new_beginnings",
                 "talk_to_guide",
                 0);

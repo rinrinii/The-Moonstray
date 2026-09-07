@@ -49,7 +49,7 @@ public class SpringtideQuestGate : MonoBehaviour, IInteractionResponse
         {
             progression.SetFlag(completionFlag);
             GetComponent<ObjectStateHighlightMarker>()?.Hide();
-            ObjectivesUI.Instance?.SetObjective(
+            QuestManager.Instance?.SetObjective(
                 "chapter1.for_every_garden_buries_a_secret",
                 nextObjective,
                 0);

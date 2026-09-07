@@ -109,7 +109,7 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
         if (!string.IsNullOrWhiteSpace(stage.objectiveQuestIDOnComplete) &&
             !string.IsNullOrWhiteSpace(stage.objectiveIDOnComplete))
         {
-            ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                 stage.objectiveQuestIDOnComplete,
                 stage.objectiveIDOnComplete,
                 0);
@@ -117,7 +117,7 @@ public class DialogueStageInteraction : MonoBehaviour, IInteractionResponse
         else if (!string.IsNullOrWhiteSpace(stage.objectiveTitleOnComplete) ||
             !string.IsNullOrWhiteSpace(stage.objectiveDescriptionOnComplete))
         {
-            ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                 stage.objectiveTitleOnComplete,
                 stage.objectiveDescriptionOnComplete);
         }

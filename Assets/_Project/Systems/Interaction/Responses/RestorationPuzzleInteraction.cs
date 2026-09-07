@@ -199,7 +199,7 @@ public class RestorationPuzzleInteraction : MonoBehaviour,
         if (!string.IsNullOrWhiteSpace(objectiveQuestID) &&
             !string.IsNullOrWhiteSpace(gatherMaterialsObjectiveID))
         {
-            ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                 objectiveQuestID,
                 gatherMaterialsObjectiveID,
                 0);
@@ -209,7 +209,7 @@ public class RestorationPuzzleInteraction : MonoBehaviour,
         if (!string.IsNullOrWhiteSpace(objectiveTitle) &&
             !string.IsNullOrWhiteSpace(gatherMaterialsObjective))
         {
-            ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                 objectiveTitle,
                 gatherMaterialsObjective);
         }
@@ -226,7 +226,7 @@ public class RestorationPuzzleInteraction : MonoBehaviour,
         if (!string.IsNullOrWhiteSpace(objectiveQuestID) &&
             !string.IsNullOrWhiteSpace(materialsReadyObjectiveID))
         {
-            ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                 objectiveQuestID,
                 materialsReadyObjectiveID,
                 0);
@@ -283,7 +283,7 @@ public class RestorationPuzzleInteraction : MonoBehaviour,
                     if (!string.IsNullOrWhiteSpace(objectiveQuestID) &&
                         !string.IsNullOrWhiteSpace(restoredObjectiveID))
                     {
-                        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
                             objectiveQuestID,
                             restoredObjectiveID,
                             0);

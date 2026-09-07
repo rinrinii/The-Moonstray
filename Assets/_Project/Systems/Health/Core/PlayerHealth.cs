@@ -74,8 +74,6 @@ public class PlayerHealth : MonoBehaviour
             maxHealth
         );
 
-        Debug.Log($"Player Health: {currentHealth}");
-
         if (currentHealth <= 0f)
         {
             Die();
@@ -213,6 +211,22 @@ public class PlayerHealth : MonoBehaviour
             // Return to a neutral standing state.
             currentAnimator.Play("Idle", 0, 0f);
         }
+    }
+
+    public void RestoreState(float health)
+    {
+        currentHealth = Mathf.Clamp(health, 0f, maxHealth);
+        isDead = false;
+        suppressNextGameOver = false;
+
+        UpdateAnimatorReference();
+        ReleaseStoryDeathAnimatorHold();
+
+        if (movement != null)
+            movement.enabled = true;
+
+        if (climbing != null)
+            climbing.enabled = true;
     }
 
     public void RestoreFullHealth()

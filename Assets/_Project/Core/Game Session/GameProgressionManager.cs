@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameProgressionManager : MonoBehaviour
 {
+    [Serializable]
+    public sealed class Snapshot
+    {
+        public GameProgressionStage stage = GameProgressionStage.Tutorial;
+        public List<string> flags = new();
+    }
+
     public static GameProgressionManager Instance { get; private set; }
 
     public event Action<GameProgressionStage> OnStageChanged;
@@ -170,6 +177,54 @@ public class GameProgressionManager : MonoBehaviour
 
         Debug.Log($"Game Progression Flag '{flag}' = {value}");
         OnFlagChanged?.Invoke(flag, value);
+        RefreshProgressionBlockers();
+    }
+
+    public Snapshot CaptureState()
+    {
+        Snapshot snapshot = new()
+        {
+            stage = currentStage
+        };
+
+        snapshot.flags.AddRange(progressionFlags);
+        snapshot.flags.Sort(StringComparer.Ordinal);
+        return snapshot;
+    }
+
+    public void RestoreState(Snapshot snapshot)
+    {
+        if (snapshot == null)
+        {
+            Debug.LogWarning("Cannot restore null progression state.");
+            return;
+        }
+
+        progressionFlags.Clear();
+
+        if (snapshot.flags != null)
+        {
+            foreach (string flag in snapshot.flags)
+            {
+                if (!string.IsNullOrWhiteSpace(flag))
+                    progressionFlags.Add(flag);
+            }
+        }
+
+        currentStage = snapshot.stage;
+        OnStageChanged?.Invoke(currentStage);
+
+        foreach (string flag in progressionFlags)
+            OnFlagChanged?.Invoke(flag, true);
+
+        RefreshProgressionBlockers();
+    }
+
+    public void ResetProgress()
+    {
+        progressionFlags.Clear();
+        currentStage = GameProgressionStage.Tutorial;
+        OnStageChanged?.Invoke(currentStage);
         RefreshProgressionBlockers();
     }
 

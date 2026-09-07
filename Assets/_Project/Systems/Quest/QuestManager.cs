@@ -5,9 +5,51 @@ using UnityEngine.SceneManagement;
 
 public class QuestManager : MonoBehaviour
 {
+    [Serializable]
+    public sealed class Snapshot
+    {
+        public QuestRecord currentMainQuest;
+        public List<QuestRecord> sideQuests = new();
+        public List<string> completedSideQuestIDs = new();
+        public List<QuestRecord> objectiveJournalQuests = new();
+        public string trackedQuestID;
+        public string trackedQuestTitle;
+        public string currentObjectiveJournalQuestID;
+        public string currentObjectiveJournalQuestTitle;
+        public int currentObjectiveIndex;
+        public long updateOrder;
+    }
+
+    [Serializable]
+    public sealed class QuestRecord
+    {
+        public string questID;
+        public string title;
+        public string description;
+        public string conditions;
+        public string rewards;
+        public bool completed;
+        public bool isObjectiveLog;
+        public long lastUpdatedOrder;
+        public string currentObjectiveID;
+        public List<ObjectiveRecord> objectives = new();
+    }
+
+    [Serializable]
+    public sealed class ObjectiveRecord
+    {
+        public string objectiveID;
+        public string text;
+        public bool completed;
+        public int currentAmount;
+        public int requiredAmount = 1;
+        public List<string> completedStepIDs = new();
+    }
+
     public static QuestManager Instance { get; private set; }
 
     public event Action<QuestState> OnQuestUpdated;
+    public event Action<string> OnQuestCompleted;
 
     private QuestState currentMainQuest;
 
@@ -30,6 +72,276 @@ public class QuestManager : MonoBehaviour
     public QuestState TrackedQuestState => trackedQuestState;
 
     public int CurrentObjectiveIndex { get; private set; }
+
+    public void ResetProgress()
+    {
+        currentMainQuest = null;
+        sideQuests.Clear();
+        completedSideQuests.Clear();
+        objectiveJournalQuests.Clear();
+        trackedQuestData = null;
+        trackedQuestState = null;
+        currentObjectiveJournalQuest = null;
+        CurrentObjectiveIndex = 0;
+        questUpdateOrder = 0;
+
+        RefreshSceneQuestMarkers();
+        RaiseUpdated();
+    }
+
+    public Snapshot CaptureState()
+    {
+        Snapshot snapshot = new()
+        {
+            currentMainQuest = CaptureQuest(currentMainQuest),
+            trackedQuestID = GetQuestID(trackedQuestState),
+            trackedQuestTitle = trackedQuestState?.Title,
+            currentObjectiveJournalQuestID =
+                GetQuestID(currentObjectiveJournalQuest),
+            currentObjectiveJournalQuestTitle =
+                currentObjectiveJournalQuest?.Title,
+            currentObjectiveIndex = CurrentObjectiveIndex,
+            updateOrder = questUpdateOrder
+        };
+
+        foreach (QuestState quest in sideQuests)
+            snapshot.sideQuests.Add(CaptureQuest(quest));
+
+        foreach (QuestData quest in completedSideQuests)
+        {
+            if (quest != null && !string.IsNullOrWhiteSpace(quest.questID))
+                snapshot.completedSideQuestIDs.Add(quest.questID);
+        }
+
+        snapshot.completedSideQuestIDs.Sort(StringComparer.Ordinal);
+
+        foreach (QuestState quest in objectiveJournalQuests)
+            snapshot.objectiveJournalQuests.Add(CaptureQuest(quest));
+
+        return snapshot;
+    }
+
+    public void RestoreState(Snapshot snapshot)
+    {
+        if (snapshot == null)
+        {
+            Debug.LogWarning("Cannot restore null quest state.");
+            return;
+        }
+
+        currentMainQuest = RestoreQuest(snapshot.currentMainQuest);
+        sideQuests.Clear();
+        completedSideQuests.Clear();
+        objectiveJournalQuests.Clear();
+        trackedQuestData = null;
+        trackedQuestState = null;
+        currentObjectiveJournalQuest = null;
+
+        if (snapshot.sideQuests != null)
+        {
+            foreach (QuestRecord record in snapshot.sideQuests)
+            {
+                QuestState quest = RestoreQuest(record);
+                if (quest != null)
+                    sideQuests.Add(quest);
+            }
+        }
+
+        if (snapshot.completedSideQuestIDs != null)
+        {
+            foreach (string questID in snapshot.completedSideQuestIDs)
+            {
+                QuestData quest = FindQuestData(questID);
+                if (quest != null)
+                    completedSideQuests.Add(quest);
+            }
+        }
+
+        if (snapshot.objectiveJournalQuests != null)
+        {
+            foreach (QuestRecord record in snapshot.objectiveJournalQuests)
+            {
+                QuestState quest = RestoreQuest(record);
+                if (quest != null)
+                    objectiveJournalQuests.Add(quest);
+            }
+        }
+
+        trackedQuestState = FindRestoredQuest(
+            snapshot.trackedQuestID,
+            snapshot.trackedQuestTitle);
+        trackedQuestData = trackedQuestState?.Data?.category == QuestCategory.Side
+            ? trackedQuestState.Data
+            : null;
+
+        currentObjectiveJournalQuest = FindRestoredQuest(
+            snapshot.currentObjectiveJournalQuestID,
+            snapshot.currentObjectiveJournalQuestTitle,
+            objectiveJournalQuests);
+
+        CurrentObjectiveIndex = Mathf.Max(0, snapshot.currentObjectiveIndex);
+        questUpdateOrder = Math.Max(0, snapshot.updateOrder);
+
+        RefreshSceneQuestMarkers();
+        OnQuestUpdated?.Invoke(GetDisplayedQuest());
+    }
+
+    private static QuestRecord CaptureQuest(QuestState quest)
+    {
+        if (quest == null)
+            return null;
+
+        QuestRecord record = new()
+        {
+            questID = GetQuestID(quest),
+            title = quest.Title,
+            description = quest.Description,
+            conditions = quest.Conditions,
+            rewards = quest.Rewards,
+            completed = quest.Completed,
+            isObjectiveLog = quest.IsObjectiveLog,
+            lastUpdatedOrder = quest.LastUpdatedOrder,
+            currentObjectiveID = quest.CurrentObjectiveID
+        };
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            record.objectives.Add(new ObjectiveRecord
+            {
+                objectiveID = objective.ObjectiveID,
+                text = objective.Text,
+                completed = objective.Completed,
+                currentAmount = objective.CurrentAmount,
+                requiredAmount = objective.RequiredAmount,
+                completedStepIDs = objective.CompletedStepIDs != null
+                    ? new List<string>(objective.CompletedStepIDs)
+                    : new List<string>()
+            });
+        }
+
+        return record;
+    }
+
+    private QuestState RestoreQuest(QuestRecord record)
+    {
+        if (record == null || IsEmptyQuestRecord(record))
+            return null;
+
+        QuestData data = string.IsNullOrWhiteSpace(record.questID)
+            ? null
+            : FindQuestData(record.questID);
+
+        if (!string.IsNullOrWhiteSpace(record.questID) && data == null)
+        {
+            Debug.LogWarning(
+                $"Saved quest '{record.questID}' is not available in this build.");
+            return null;
+        }
+
+        QuestState quest = data != null
+            ? new QuestState(data)
+            : new QuestState(record.title);
+
+        quest.Title = record.title;
+        quest.Description = record.description;
+        quest.Conditions = record.conditions;
+        quest.Rewards = record.rewards;
+        quest.Completed = record.completed;
+        quest.IsObjectiveLog = record.isObjectiveLog;
+        quest.LastUpdatedOrder = record.lastUpdatedOrder;
+        quest.CurrentObjectiveID = record.currentObjectiveID;
+        quest.Objectives.Clear();
+
+        if (record.objectives != null)
+        {
+            foreach (ObjectiveRecord objective in record.objectives)
+            {
+                if (objective == null)
+                    continue;
+
+                QuestObjective restoredObjective = new(objective.text)
+                {
+                    ObjectiveID = objective.objectiveID,
+                    Completed = objective.completed,
+                    CurrentAmount = Mathf.Max(0, objective.currentAmount),
+                    RequiredAmount = Mathf.Max(1, objective.requiredAmount)
+                };
+
+                if (objective.completedStepIDs != null)
+                    restoredObjective.CompletedStepIDs.AddRange(
+                        objective.completedStepIDs);
+
+                quest.Objectives.Add(restoredObjective);
+            }
+        }
+
+        return quest;
+    }
+
+    private static bool IsEmptyQuestRecord(QuestRecord record)
+    {
+        return string.IsNullOrWhiteSpace(record.questID) &&
+            string.IsNullOrWhiteSpace(record.title) &&
+            string.IsNullOrWhiteSpace(record.currentObjectiveID) &&
+            (record.objectives == null || record.objectives.Count == 0);
+    }
+
+    private QuestState FindRestoredQuest(
+        string questID,
+        string title,
+        IReadOnlyList<QuestState> preferredList = null)
+    {
+        if (string.IsNullOrWhiteSpace(questID) &&
+            string.IsNullOrWhiteSpace(title))
+        {
+            return null;
+        }
+
+        if (preferredList != null)
+            return FindRestoredQuestInList(preferredList, questID, title);
+
+        if (QuestMatches(currentMainQuest, questID, title))
+            return currentMainQuest;
+
+        QuestState quest = FindRestoredQuestInList(sideQuests, questID, title);
+        return quest ?? FindRestoredQuestInList(
+            objectiveJournalQuests,
+            questID,
+            title);
+    }
+
+    private static QuestState FindRestoredQuestInList(
+        IReadOnlyList<QuestState> quests,
+        string questID,
+        string title)
+    {
+        foreach (QuestState quest in quests)
+        {
+            if (QuestMatches(quest, questID, title))
+                return quest;
+        }
+
+        return null;
+    }
+
+    private static bool QuestMatches(
+        QuestState quest,
+        string questID,
+        string title)
+    {
+        if (quest == null)
+            return false;
+
+        if (!string.IsNullOrWhiteSpace(questID))
+            return GetQuestID(quest) == questID;
+
+        return quest.Title == title;
+    }
+
+    private static string GetQuestID(QuestState quest)
+    {
+        return quest?.Data?.questID ?? string.Empty;
+    }
 
     private void Awake()
     {
@@ -139,6 +451,194 @@ public class QuestManager : MonoBehaviour
         return quest;
     }
 
+    /// <summary>
+    /// Records a legacy, text-only objective. Gameplay code should report
+    /// progression to QuestManager rather than using ObjectivesUI as a command
+    /// surface. The UI observes OnQuestUpdated and only renders the result.
+    /// </summary>
+    public QuestState SetObjective(string title, string description)
+    {
+        return RecordObjectiveForJournal(title, description);
+    }
+
+    /// <summary>
+    /// Activates or updates an authored objective by stable IDs.
+    /// </summary>
+    public QuestState SetObjective(
+        string questID,
+        string objectiveID,
+        int currentAmount = 0)
+    {
+        return ActivateObjective(questID, objectiveID, currentAmount);
+    }
+
+    public int AddObjectiveProgress(
+        string questID,
+        string objectiveID,
+        int amount = 1)
+    {
+        QuestState quest = FindObjectiveJournalQuest(questID) ??
+            ActivateObjective(questID, objectiveID, 0);
+
+        if (quest == null || quest.CurrentObjectiveID != objectiveID)
+            return 0;
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ObjectiveID != objectiveID)
+                continue;
+
+            int required = Mathf.Max(1, objective.RequiredAmount);
+            objective.CurrentAmount = Mathf.Clamp(
+                objective.CurrentAmount + amount,
+                0,
+                required);
+            objective.Completed = objective.CurrentAmount >= required;
+
+            QuestObjectiveData data = FindObjectiveData(
+                quest.Data,
+                objectiveID);
+            if (data != null)
+                objective.Text = data.FormatProgress(objective.CurrentAmount);
+
+            RebuildAssetObjectiveHistory(quest);
+            RaiseUpdated(quest);
+            return objective.CurrentAmount;
+        }
+
+        return 0;
+    }
+
+    public int GetObjectiveProgress(string questID, string objectiveID)
+    {
+        QuestState quest = FindObjectiveJournalQuest(questID);
+        if (quest == null)
+            return 0;
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ObjectiveID == objectiveID)
+                return objective.CurrentAmount;
+        }
+
+        return 0;
+    }
+
+    public bool IsObjectiveComplete(string questID, string objectiveID)
+    {
+        QuestState quest = FindObjectiveJournalQuest(questID);
+        if (quest == null)
+            return false;
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ObjectiveID == objectiveID)
+                return objective.Completed;
+        }
+
+        return false;
+    }
+
+    public string GetCurrentObjectiveID(string questID)
+    {
+        return FindObjectiveJournalQuest(questID)?.CurrentObjectiveID ??
+            string.Empty;
+    }
+
+    public bool CompleteObjectiveStep(
+        string questID,
+        string objectiveID,
+        string stepID)
+    {
+        if (string.IsNullOrWhiteSpace(stepID))
+            return false;
+
+        QuestState quest = FindObjectiveJournalQuest(questID) ??
+            ActivateObjective(questID, objectiveID, 0);
+        if (quest == null)
+            return false;
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ObjectiveID != objectiveID ||
+                objective.CompletedStepIDs.Contains(stepID))
+            {
+                continue;
+            }
+
+            objective.CompletedStepIDs.Add(stepID);
+            objective.CompletedStepIDs.Sort(StringComparer.Ordinal);
+            objective.CurrentAmount = Mathf.Clamp(
+                objective.CompletedStepIDs.Count,
+                0,
+                Mathf.Max(1, objective.RequiredAmount));
+            objective.Completed =
+                quest.CurrentObjectiveID == objectiveID &&
+                objective.CurrentAmount >= Mathf.Max(1, objective.RequiredAmount);
+
+            QuestObjectiveData data = FindObjectiveData(
+                quest.Data,
+                objectiveID);
+            if (data != null)
+                objective.Text = data.FormatProgress(objective.CurrentAmount);
+
+            RebuildAssetObjectiveHistory(quest);
+            RaiseUpdated(quest);
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool HasCompletedObjectiveStep(
+        string questID,
+        string objectiveID,
+        string stepID)
+    {
+        QuestState quest = FindObjectiveJournalQuest(questID);
+        if (quest == null)
+            return false;
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ObjectiveID == objectiveID)
+                return objective.CompletedStepIDs.Contains(stepID);
+        }
+
+        return false;
+    }
+
+    public int GetCompletedObjectiveStepCount(
+        string questID,
+        string objectiveID)
+    {
+        QuestState quest = FindObjectiveJournalQuest(questID);
+        if (quest == null)
+            return 0;
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ObjectiveID == objectiveID)
+                return objective.CompletedStepIDs.Count;
+        }
+
+        return 0;
+    }
+
+    private QuestState FindObjectiveJournalQuest(string questID)
+    {
+        if (string.IsNullOrWhiteSpace(questID))
+            return null;
+
+        foreach (QuestState quest in objectiveJournalQuests)
+        {
+            if (GetQuestID(quest) == questID)
+                return quest;
+        }
+
+        return null;
+    }
+
     public QuestState ActivateObjective(
         string questID,
         string objectiveID,
@@ -152,16 +652,7 @@ public class QuestManager : MonoBehaviour
             return null;
         }
 
-        QuestObjectiveData objectiveData = null;
-
-        foreach (QuestObjectiveData candidate in data.objectives)
-        {
-            if (candidate != null && candidate.objectiveID == objectiveID)
-            {
-                objectiveData = candidate;
-                break;
-            }
-        }
+        QuestObjectiveData objectiveData = FindObjectiveData(data, objectiveID);
 
         if (objectiveData == null)
         {
@@ -189,6 +680,20 @@ public class QuestManager : MonoBehaviour
             objectiveJournalQuests.Add(quest);
         }
 
+        int requestedObjectiveIndex = FindObjectiveIndex(data, objectiveID);
+        int currentObjectiveIndex = FindObjectiveIndex(
+            data,
+            quest.CurrentObjectiveID);
+
+        // Scene bootstraps run whenever an area is loaded. Once an authored
+        // quest has advanced, a stale scene event must not rewind it.
+        if (currentObjectiveIndex >= 0 &&
+            requestedObjectiveIndex >= 0 &&
+            requestedObjectiveIndex < currentObjectiveIndex)
+        {
+            return quest;
+        }
+
         if (currentObjectiveJournalQuest != null &&
             currentObjectiveJournalQuest != quest)
         {
@@ -208,10 +713,15 @@ public class QuestManager : MonoBehaviour
             if (objective.ObjectiveID != objectiveID)
                 continue;
 
-            objective.CurrentAmount = Mathf.Max(0, currentAmount);
             objective.RequiredAmount = Mathf.Max(1, objectiveData.requiredAmount);
-            objective.Text = objectiveData.FormatProgress(currentAmount);
-            objective.Completed = false;
+            objective.CurrentAmount = Mathf.Clamp(
+                Mathf.Max(objective.CurrentAmount, currentAmount),
+                0,
+                objective.RequiredAmount);
+            objective.Text = objectiveData.FormatProgress(
+                objective.CurrentAmount);
+            objective.Completed =
+                objective.CurrentAmount >= objective.RequiredAmount;
             break;
         }
 
@@ -223,6 +733,41 @@ public class QuestManager : MonoBehaviour
         RaiseUpdated(quest);
 
         return quest;
+    }
+
+    private static QuestObjectiveData FindObjectiveData(
+        QuestData data,
+        string objectiveID)
+    {
+        if (data?.objectives == null)
+            return null;
+
+        foreach (QuestObjectiveData candidate in data.objectives)
+        {
+            if (candidate != null && candidate.objectiveID == objectiveID)
+                return candidate;
+        }
+
+        return null;
+    }
+
+    private static int FindObjectiveIndex(
+        QuestData data,
+        string objectiveID)
+    {
+        if (data?.objectives == null ||
+            string.IsNullOrWhiteSpace(objectiveID))
+        {
+            return -1;
+        }
+
+        for (int i = 0; i < data.objectives.Count; i++)
+        {
+            if (data.objectives[i]?.objectiveID == objectiveID)
+                return i;
+        }
+
+        return -1;
     }
 
     public void AdvanceTravelObjectiveForDestination(string destinationScene)
@@ -972,6 +1517,9 @@ public class QuestManager : MonoBehaviour
     private void CompleteSideQuest(
         QuestData questData)
     {
+        string completedTitle = questData != null
+            ? questData.DisplayTitle
+            : "Quest";
         completedSideQuests.Add(questData);
 
         for (int i = sideQuests.Count - 1;
@@ -992,6 +1540,7 @@ public class QuestManager : MonoBehaviour
         }
 
         RefreshSceneQuestMarkers();
+        OnQuestCompleted?.Invoke(completedTitle);
         RaiseUpdated();
     }
 
@@ -1101,9 +1650,11 @@ public class QuestManager : MonoBehaviour
 
     public void FinishQuest()
     {
+        string completedTitle = currentMainQuest?.Title ?? "Quest";
         currentMainQuest = null;
         CurrentObjectiveIndex = 0;
 
+        OnQuestCompleted?.Invoke(completedTitle);
         RaiseUpdated(currentMainQuest);
     }
 

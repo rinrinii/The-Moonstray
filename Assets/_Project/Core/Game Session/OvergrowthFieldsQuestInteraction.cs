@@ -105,7 +105,7 @@ public class OvergrowthFieldsQuestInteraction : MonoBehaviour,
 
     private static void SetObjective(string objectiveID, int currentAmount)
     {
-        ObjectivesUI.Instance?.SetObjective(
+        QuestManager.Instance?.SetObjective(
             QuestID, objectiveID, currentAmount);
     }
 }

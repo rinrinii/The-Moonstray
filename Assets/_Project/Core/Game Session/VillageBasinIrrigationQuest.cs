@@ -181,6 +181,6 @@ public class VillageBasinIrrigationQuest : MonoBehaviour, IInteractionResponse
 
     private static void SetObjective(string description)
     {
-        ObjectivesUI.Instance?.SetObjective(QuestTitle, description);
+        QuestManager.Instance?.SetObjective(QuestTitle, description);
     }
 }

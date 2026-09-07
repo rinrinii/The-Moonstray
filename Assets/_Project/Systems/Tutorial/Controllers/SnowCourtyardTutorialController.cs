@@ -9,11 +9,9 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
     [SerializeField] private GameObject southExitBlocker;
 
-    [SerializeField]
-    private int requiredInspections = 2;
-
-    private int inspectionsCompleted;
-    private bool explorationComplete;
+    private const string QuestID = "tutorial.searching_for_clues";
+    private const string ExploreObjectiveID = "explore_courtyard";
+    private const string LeaveObjectiveID = "leave_courtyard";
 
     public static SnowCourtyardTutorialController Instance { get; private set; }
 
@@ -74,15 +72,22 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
         Debug.Log("Before Objective");
 
-        ObjectivesUI.Instance?.SetObjective(
-            "tutorial.searching_for_clues",
-            "explore_courtyard",
+        bool explorationComplete =
+            QuestManager.Instance?.IsObjectiveComplete(
+                QuestID,
+                ExploreObjectiveID) == true;
+
+        QuestManager.Instance?.SetObjective(
+            QuestID,
+            explorationComplete ? LeaveObjectiveID : ExploreObjectiveID,
             0);
 
-        PromptUI.Instance?.Show(
-            "[E] Interact",
-            "Press E to inspect objects."
-        );
+        if (explorationComplete)
+            PromptUI.Instance?.Hide();
+        else
+            PromptUI.Instance?.Show(
+                "[E] Interact",
+                "Press E to inspect objects.");
 
         Debug.Log("Objective set");
     }
@@ -109,32 +114,29 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
     public void RegisterInspection()
     {
-        if (explorationComplete)
+        if (QuestManager.Instance?.IsObjectiveComplete(
+                QuestID,
+                ExploreObjectiveID) == true)
+        {
             return;
+        }
 
-        inspectionsCompleted++;
+        int inspectionsCompleted =
+            QuestManager.Instance?.AddObjectiveProgress(
+                QuestID,
+                ExploreObjectiveID) ?? 0;
 
         // The interaction prompt has served its purpose once the player
         // successfully inspects an object for the first time.
         if (inspectionsCompleted == 1)
             PromptUI.Instance?.Hide();
 
-        if (inspectionsCompleted < requiredInspections)
-        {
-            ObjectivesUI.Instance?.SetObjective(
-                "tutorial.searching_for_clues",
-                "explore_courtyard",
-                inspectionsCompleted);
-
+        if (QuestManager.Instance?.IsObjectiveComplete(
+                QuestID,
+                ExploreObjectiveID) != true)
             return;
-        }
 
-        explorationComplete = true;
-
-        ObjectivesUI.Instance?.SetObjective(
-            "tutorial.searching_for_clues",
-            "leave_courtyard",
-            0);
+        QuestManager.Instance?.SetObjective(QuestID, LeaveObjectiveID, 0);
 
     }
 }

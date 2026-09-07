@@ -213,6 +213,13 @@ public class MapUI : MonoBehaviour
         Debug.Log($"{nameof(MapUI)} unlocked.");
     }
 
+    public void RestoreUnlockState(bool isUnlocked)
+    {
+        hasMap = isUnlocked;
+        if (worldMapBtn != null)
+            worldMapBtn.style.display = hasMap ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
     public void OpenMap()
     {
         if (!hasMap ||

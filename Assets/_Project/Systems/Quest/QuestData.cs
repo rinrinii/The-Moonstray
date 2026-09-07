@@ -204,6 +204,8 @@ public class QuestData : ScriptableObject
 
     private void OnValidate()
     {
+        ValidateIdentity();
+
         if (requirements == null)
             requirements = new List<QuestRequirement>();
 
@@ -219,6 +221,41 @@ public class QuestData : ScriptableObject
         requirements.AddRange(legacyRequirements);
         requiredItems?.Clear();
         requiredNotes?.Clear();
+    }
+
+    private void ValidateIdentity()
+    {
+        if (string.IsNullOrWhiteSpace(questID))
+        {
+            Debug.LogError($"Quest '{name}' requires a stable questID.", this);
+        }
+
+        if (objectives == null)
+            return;
+
+        HashSet<string> objectiveIDs = new();
+
+        foreach (QuestObjectiveData objective in objectives)
+        {
+            if (objective == null)
+                continue;
+
+            if (string.IsNullOrWhiteSpace(objective.objectiveID))
+            {
+                Debug.LogError(
+                    $"Quest '{name}' contains an objective without an ID.",
+                    this);
+                continue;
+            }
+
+            if (!objectiveIDs.Add(objective.objectiveID))
+            {
+                Debug.LogError(
+                    $"Quest '{name}' contains duplicate objective ID " +
+                    $"'{objective.objectiveID}'.",
+                    this);
+            }
+        }
     }
 }
 

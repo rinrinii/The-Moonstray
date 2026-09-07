@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,6 +18,7 @@ public class PauseMenuController : MonoBehaviour
     private Button settingsBtn;
     private Button exitBtn;
     private Button backBtn;
+    private VisualElement saveSlotOverlay;
 
     private SettingsController settingsController;
 
@@ -92,6 +94,7 @@ public class PauseMenuController : MonoBehaviour
 
     private void OnDestroy()
     {
+        CloseSaveSlots();
         if (Instance == this)
             Instance = null;
 
@@ -123,6 +126,11 @@ public class PauseMenuController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (saveSlotOverlay != null)
+            {
+                CloseSaveSlots();
+                return;
+            }
             if (settingsOpen)
             {
                 CloseOptionsOverlay();
@@ -176,6 +184,7 @@ public class PauseMenuController : MonoBehaviour
 
         isPaused = false;
         settingsOpen = false;
+        CloseSaveSlots();
 
         if (pauseContainer != null)
             pauseContainer.style.display = DisplayStyle.None;
@@ -196,7 +205,31 @@ public class PauseMenuController : MonoBehaviour
     {
         AudioManager.Instance?.PlayUI("Button3");
 
-        Debug.Log("Saving game progress...");
+        CloseSaveSlots();
+        saveSlotOverlay = SaveSlotPanel.Open(
+            GameplayUIManager.Instance.RootVisualElement,
+            "SAVE GAME",
+            true,
+            SaveToSlot,
+            CloseSaveSlots,
+            confirmOccupied: true);
+    }
+
+    private void SaveToSlot(int slot)
+    {
+
+        if (SaveGameService.TrySave(slot, out string error))
+        {
+            Debug.Log($"Game saved to {SaveGameService.SavePath}");
+            SaveSlotPanel.ShowSaveSuccess(
+                saveSlotOverlay,
+                slot,
+                CloseSaveSlots);
+        }
+        else
+        {
+            Debug.LogWarning($"Save failed: {error}");
+        }
     }
 
     private void OpenOptionsOverlay()
@@ -246,5 +279,29 @@ public class PauseMenuController : MonoBehaviour
     public bool IsPaused()
     {
         return isPaused;
+    }
+
+    private void ShowSaveButtonStatus(string text)
+    {
+        if (saveBtn == null)
+            return;
+
+        StopCoroutine(nameof(RestoreSaveButtonText));
+        saveBtn.text = text;
+        StartCoroutine(nameof(RestoreSaveButtonText));
+    }
+
+    private void CloseSaveSlots()
+    {
+        SaveSlotPanel.Close(saveSlotOverlay);
+        saveSlotOverlay = null;
+    }
+
+    private IEnumerator RestoreSaveButtonText()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        if (saveBtn != null)
+            saveBtn.text = "SAVE";
     }
 }

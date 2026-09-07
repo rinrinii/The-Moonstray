@@ -341,6 +341,11 @@ public class InventoryUI : MonoBehaviour
         Debug.Log($"{nameof(InventoryUI)} unlocked.");
     }
 
+    public void RestoreUnlockState(bool isUnlocked)
+    {
+        unlocked = isUnlocked;
+    }
+
     private void SubscribeWallet()
     {
         if (MoonCoinWallet.Instance == null)

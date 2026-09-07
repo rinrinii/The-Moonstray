@@ -64,6 +64,29 @@ public class CutscenePlayer : MonoBehaviour
         Play(finishedCallback);
     }
 
+    /// <summary>
+    /// Dismisses the cutscene presentation without invoking its completion
+    /// callback. Used when loading a save at a checkpoint after the cutscene.
+    /// </summary>
+    public void StopAndHide()
+    {
+        if (videoPlayer != null)
+        {
+            videoPlayer.prepareCompleted -= HandlePrepared;
+            videoPlayer.loopPointReached -= HandleVideoFinished;
+            videoPlayer.Stop();
+        }
+
+        if (cutsceneCanvas != null)
+            cutsceneCanvas.gameObject.SetActive(false);
+
+        if (isPlaying && MusicManager.Instance != null)
+            MusicManager.Instance.FadeInAfterCutscene(musicFadeDuration);
+
+        isPlaying = false;
+        onFinished = null;
+    }
+
     private void HandlePrepared(VideoPlayer vp)
     {
         videoPlayer.prepareCompleted -= HandlePrepared;

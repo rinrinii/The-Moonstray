@@ -1,0 +1,70 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Project/UI/Stylesheets/UIStyle.uss?fileID=7433441132597879392&amp;guid=5ca3eae8c523ede4fba5c0e3a3a2c1ba&amp;type=3#UIStyle"/>
+    <ui:VisualElement name="CreditsRoot" class="credits-root">
+        <ui:Image class="credits-corner credits-corner-tl"/>
+        <ui:Image class="credits-corner credits-corner-tr"/>
+        <ui:Image class="credits-corner credits-corner-bl"/>
+        <ui:Image class="credits-corner credits-corner-br"/>
+        <ui:ScrollView name="CreditsScroll" class="credits-scroll" mode="Vertical">
+            <ui:VisualElement class="credits-section credits-team">
+                <ui:Label text="MEET THE TEAM" class="credits-heading"/>
+                <ui:VisualElement class="credits-card credits-card-lead">
+                    <ui:VisualElement class="credits-portrait credits-portrait-arianne"/>
+                    <ui:Label text="Arianne Fuentes" class="credits-name"/>
+                    <ui:Label text="Project Manager / Art Director" class="credits-role"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="credits-grid">
+                    <ui:VisualElement class="credits-card">
+                        <ui:VisualElement class="credits-portrait credits-portrait-giana"/>
+                        <ui:Label text="Giana Diwa" class="credits-name"/>
+                        <ui:Label text="Game Media / Audio Specialist" class="credits-role"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="credits-card">
+                        <ui:VisualElement class="credits-portrait credits-portrait-marien"/>
+                        <ui:Label text="Marien Garcia" class="credits-name"/>
+                        <ui:Label text="Game Designer / Lead Programmer" class="credits-role"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="credits-card">
+                        <ui:VisualElement class="credits-portrait credits-portrait-shen"/>
+                        <ui:Label text="Shen Mendiola" class="credits-name"/>
+                        <ui:Label text="Quality Tester / Production Support" class="credits-role"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="credits-card">
+                        <ui:VisualElement class="credits-portrait credits-portrait-alyssa"/>
+                        <ui:Label text="Alyssa Torreno" class="credits-name"/>
+                        <ui:Label text="Programmer / Documentation Specialist" class="credits-role"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="credits-section">
+                <ui:VisualElement name="SchoolLogo" class="credits-school-logo"/>
+                <ui:Label text="Far Eastern University – Alabang" class="credits-section-title"/>
+                <ui:Label text="Bachelor of Science in Information Technology" class="credits-role"/>
+                <ui:Label text="Specialization in Animation and Game Development" class="credits-role"/>
+                <ui:Label text="A.Y. 2026–2027" class="credits-role"/>
+                <ui:VisualElement class="credits-advisers">
+                    <ui:VisualElement class="credits-adviser">
+                        <ui:Label text="Armando D. del Mundo, PhD" class="credits-name"/>
+                        <ui:Label text="Course Adviser" class="credits-role"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="credits-adviser">
+                        <ui:Label text="Michael R. Ricafrente, DIT" class="credits-name"/>
+                        <ui:Label text="Capstone Adviser" class="credits-role"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="credits-section credits-closing">
+                <ui:Label text="SPECIAL THANKS" class="credits-heading"/>
+                <ui:VisualElement name="SpecialThanksNames" class="credits-special-thanks"/>
+                <ui:VisualElement class="credits-thank-you-row">
+                    <ui:VisualElement class="credits-dreamsmiths-logo"/>
+                    <ui:Label text="Thank you for&#10;playing!" class="credits-heading credits-thank-you"/>
+                </ui:VisualElement>
+                <ui:Label text="© 2026 Dreamsmiths" class="credits-role credits-copyright"/>
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:Button name="CreditsCloseButton" class="credits-close"/>
+    </ui:VisualElement>
+</ui:UXML>

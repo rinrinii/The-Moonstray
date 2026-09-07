@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
+    [Serializable]
+    public sealed class Snapshot
+    {
+        public int maxSlots;
+        public List<SlotRecord> slots = new();
+    }
+
+    [Serializable]
+    public sealed class SlotRecord
+    {
+        public int itemID;
+        public string itemName;
+        public int amount;
+    }
+
     public static InventorySystem Instance;
     public event Action OnInventoryChanged; 
 
@@ -81,5 +96,58 @@ public class InventorySystem : MonoBehaviour
 
         return !string.IsNullOrWhiteSpace(first.itemName) &&
             first.itemName == second.itemName;
+    }
+
+    public Snapshot CaptureState()
+    {
+        Snapshot snapshot = new() { maxSlots = maxSlots };
+        foreach (Slot slot in slots)
+        {
+            if (slot?.item == null || slot.amount <= 0)
+                continue;
+
+            snapshot.slots.Add(new SlotRecord
+            {
+                itemID = slot.item.itemID,
+                itemName = slot.item.itemName,
+                amount = slot.amount
+            });
+        }
+
+        return snapshot;
+    }
+
+    public void RestoreState(Snapshot snapshot)
+    {
+        slots.Clear();
+        if (snapshot != null)
+        {
+            maxSlots = snapshot.maxSlots > 0 ? snapshot.maxSlots : maxSlots;
+            ItemData[] items = Resources.LoadAll<ItemData>("Items");
+            foreach (SlotRecord record in snapshot.slots ?? new List<SlotRecord>())
+            {
+                ItemData item = Array.Find(items, candidate =>
+                    candidate != null &&
+                    ((record.itemID != 0 && candidate.itemID == record.itemID) ||
+                     (!string.IsNullOrWhiteSpace(record.itemName) && candidate.itemName == record.itemName)));
+
+                if (item == null)
+                {
+                    Debug.LogWarning($"Inventory restore skipped unavailable item '{record.itemName}' ({record.itemID}).");
+                    continue;
+                }
+
+                if (record.amount > 0)
+                    slots.Add(new Slot { item = item, amount = record.amount });
+            }
+        }
+
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void ResetState()
+    {
+        slots.Clear();
+        OnInventoryChanged?.Invoke();
     }
 }
