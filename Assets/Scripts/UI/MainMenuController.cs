@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Xml;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -12,12 +13,16 @@ public class MainMenuController : MonoBehaviour
 
     private VisualElement mainMenuPanel;
     private VisualElement settingsPanel;
+    private VisualElement creditsPanel;
+    private VisualElement specialThanksContainer;
 
     private SettingsController settingsController;
 
     private Button continueBtn;
     private Button newGameBtn;
     private Button settingsBtn;
+    private Button creditsBtn;
+    private Button creditsCloseBtn;
     private Button exitBtn;
     private Button backBtn;
     private VisualElement saveSlotOverlay;
@@ -38,6 +43,8 @@ public class MainMenuController : MonoBehaviour
         if (continueBtn != null) continueBtn.clicked += OnContinuePressed;
         if (newGameBtn != null) newGameBtn.clicked += OnNewGamePressed;
         if (settingsBtn != null) settingsBtn.clicked += OpenSettings;
+        if (creditsBtn != null) creditsBtn.clicked += OpenCredits;
+        if (creditsCloseBtn != null) creditsCloseBtn.clicked += CloseCredits;
         if (exitBtn != null) exitBtn.clicked += CloseGame;
         if (backBtn != null) backBtn.clicked += CloseSettings;
 
@@ -49,6 +56,8 @@ public class MainMenuController : MonoBehaviour
         if (continueBtn != null) continueBtn.clicked -= OnContinuePressed;
         if (newGameBtn != null) newGameBtn.clicked -= OnNewGamePressed;
         if (settingsBtn != null) settingsBtn.clicked -= OpenSettings;
+        if (creditsBtn != null) creditsBtn.clicked -= OpenCredits;
+        if (creditsCloseBtn != null) creditsCloseBtn.clicked -= CloseCredits;
         if (exitBtn != null) exitBtn.clicked -= CloseGame;
         if (backBtn != null) backBtn.clicked -= CloseSettings;
     }
@@ -60,15 +69,24 @@ public class MainMenuController : MonoBehaviour
         mainMenuPanel = root.Q<VisualElement>("MainMenu");
         settingsPanel = root.Q<VisualElement>("SettingsRoot");
 
+        VisualTreeAsset creditsTemplate = Resources.Load<VisualTreeAsset>("UI/CreditsTemplate");
+        creditsTemplate?.CloneTree(root);
+        creditsPanel = root.Q<VisualElement>("CreditsRoot");
+        specialThanksContainer = root.Q<VisualElement>("SpecialThanksNames");
+
         continueBtn = root.Q<Button>("ContinueButton");
         newGameBtn = root.Q<Button>("NewGameButton");
         settingsBtn = root.Q<Button>("SettingsButton");
+        creditsBtn = root.Q<Button>("CreditsButton");
+        creditsCloseBtn = root.Q<Button>("CreditsCloseButton");
         exitBtn = root.Q<Button>("ExitButton");
 
         backBtn = root.Q<Button>("BackButton");
 
         if (backBtn == null)
             backBtn = root.Q<Button>("Back-Button");
+
+        PopulateSpecialThanks();
     }
 
     private void OnContinuePressed()
@@ -156,6 +174,55 @@ public class MainMenuController : MonoBehaviour
     private void LoadGameplayScene()
     {
         SceneLoader.LoadScene(gamePlayScene);
+    }
+
+    private void OpenCredits()
+    {
+        AudioManager.Instance?.PlayUI("Button3");
+        if (mainMenuPanel != null)
+            mainMenuPanel.style.display = DisplayStyle.None;
+        if (creditsPanel != null)
+            creditsPanel.style.display = DisplayStyle.Flex;
+    }
+
+    private void CloseCredits()
+    {
+        AudioManager.Instance?.PlayUI("Button3");
+        if (creditsPanel != null)
+            creditsPanel.style.display = DisplayStyle.None;
+        if (mainMenuPanel != null)
+            mainMenuPanel.style.display = DisplayStyle.Flex;
+    }
+
+    private void PopulateSpecialThanks()
+    {
+        if (specialThanksContainer == null)
+            return;
+
+        specialThanksContainer.Clear();
+        TextAsset creditsData = Resources.Load<TextAsset>("Data/Credits");
+        if (creditsData == null)
+            return;
+
+        try
+        {
+            XmlDocument document = new();
+            document.LoadXml(creditsData.text);
+            XmlNodeList people = document.SelectNodes("/credits/specialThanks/person");
+            if (people == null)
+                return;
+
+            foreach (XmlNode person in people)
+            {
+                string personName = person.Attributes?["name"]?.Value;
+                if (!string.IsNullOrWhiteSpace(personName))
+                    specialThanksContainer.Add(new Label(personName));
+            }
+        }
+        catch (XmlException exception)
+        {
+            Debug.LogWarning($"Credits XML could not be read: {exception.Message}");
+        }
     }
 
     private void RefreshContinueButton()
