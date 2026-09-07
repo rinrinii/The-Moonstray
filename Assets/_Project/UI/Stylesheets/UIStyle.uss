@@ -229,8 +229,15 @@
     background-image: url("project://database/Assets/_Project/UI/Images/Credits/Logos/feuAlabangLogo.png?fileID=2800000&guid=214680fda37149b44a1797b67841dd21&type=3#feuAlabangLogo");
     -unity-background-scale-mode: scale-to-fit;
 }
-.credits-special-thanks { min-height: 180px; align-items: center; margin-top: 35px; }
-.credits-special-thanks Label { margin-bottom: 12px; }
+.credits-special-thanks {
+    width: 80%; min-height: 180px; margin-top: 35px;
+    flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center;
+}
+.credits-special-thanks-name {
+    width: 44%; margin-left: 2%; margin-right: 2%; margin-bottom: 16px;
+    padding-left: 12px; padding-right: 12px;
+    -unity-text-align: middle-center;
+}
 .credits-thank-you-row { width: 96%; min-height: 620px; margin-top: 110px; flex-direction: row; align-items: center; justify-content: space-around; }
 .credits-dreamsmiths-logo {
     width: 50%; height: 460px;

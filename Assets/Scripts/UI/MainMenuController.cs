@@ -216,7 +216,11 @@ public class MainMenuController : MonoBehaviour
             {
                 string personName = person.Attributes?["name"]?.Value;
                 if (!string.IsNullOrWhiteSpace(personName))
-                    specialThanksContainer.Add(new Label(personName));
+                {
+                    Label nameLabel = new(personName);
+                    nameLabel.AddToClassList("credits-special-thanks-name");
+                    specialThanksContainer.Add(nameLabel);
+                }
             }
         }
         catch (XmlException exception)
