@@ -49,6 +49,7 @@ public class QuestManager : MonoBehaviour
     public static QuestManager Instance { get; private set; }
 
     public event Action<QuestState> OnQuestUpdated;
+    public event Action<string> OnQuestCompleted;
 
     private QuestState currentMainQuest;
 
@@ -1502,6 +1503,9 @@ public class QuestManager : MonoBehaviour
     private void CompleteSideQuest(
         QuestData questData)
     {
+        string completedTitle = questData != null
+            ? questData.DisplayTitle
+            : "Quest";
         completedSideQuests.Add(questData);
 
         for (int i = sideQuests.Count - 1;
@@ -1522,6 +1526,7 @@ public class QuestManager : MonoBehaviour
         }
 
         RefreshSceneQuestMarkers();
+        OnQuestCompleted?.Invoke(completedTitle);
         RaiseUpdated();
     }
 
@@ -1631,9 +1636,11 @@ public class QuestManager : MonoBehaviour
 
     public void FinishQuest()
     {
+        string completedTitle = currentMainQuest?.Title ?? "Quest";
         currentMainQuest = null;
         CurrentObjectiveIndex = 0;
 
+        OnQuestCompleted?.Invoke(completedTitle);
         RaiseUpdated(currentMainQuest);
     }
 

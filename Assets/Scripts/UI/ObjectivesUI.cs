@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +16,25 @@ public class ObjectivesUI : MonoBehaviour
     private VisualElement trackingKeyIcon;
     private Label trackingHintLabel;
     private QuestManager subscribedQuestManager;
+    private Coroutine objectiveTransition;
+    private string displayedQuestKey;
+    private string displayedObjectiveID;
+    private bool showingObjectiveCompletion;
+    private readonly Queue<ObjectivePresentation> pendingObjectiveTransitions = new();
+    private readonly Queue<string> pendingQuestCompletions = new();
+    private string completionStatusText = "Completed";
+
+    private readonly struct ObjectivePresentation
+    {
+        public readonly string Title;
+        public readonly string Objective;
+
+        public ObjectivePresentation(string title, string objective)
+        {
+            Title = title;
+            Objective = objective;
+        }
+    }
 
     public QuestObjectiveData CurrentObjectiveData { get; private set; }
 
@@ -53,7 +74,10 @@ public class ObjectivesUI : MonoBehaviour
     private void OnDestroy()
     {
         if (subscribedQuestManager != null)
+        {
             subscribedQuestManager.OnQuestUpdated -= Refresh;
+            subscribedQuestManager.OnQuestCompleted -= HandleQuestCompleted;
+        }
     }
 
     private void Update()
@@ -69,13 +93,17 @@ public class ObjectivesUI : MonoBehaviour
             return;
 
         if (subscribedQuestManager != null)
+        {
             subscribedQuestManager.OnQuestUpdated -= Refresh;
+            subscribedQuestManager.OnQuestCompleted -= HandleQuestCompleted;
+        }
 
         subscribedQuestManager = manager;
         if (subscribedQuestManager == null)
             return;
 
         subscribedQuestManager.OnQuestUpdated += Refresh;
+        subscribedQuestManager.OnQuestCompleted += HandleQuestCompleted;
         Refresh(subscribedQuestManager.GetDisplayedQuest());
     }
 
@@ -83,6 +111,17 @@ public class ObjectivesUI : MonoBehaviour
     {
         if (trackingHint == null)
             return;
+
+        if (showingObjectiveCompletion)
+        {
+            trackingHint.style.display = DisplayStyle.Flex;
+            trackingKeyIcon.style.display = DisplayStyle.None;
+            trackingHintLabel.text = completionStatusText;
+            trackingHintLabel.style.color = new Color(1f, 0.84f, 0.3f, 1f);
+            return;
+        }
+
+        trackingHintLabel.style.color = new Color(1f, 1f, 1f, 0.82f);
 
         QuestObjectiveData objective = CurrentObjectiveData;
 
@@ -103,7 +142,7 @@ public class ObjectivesUI : MonoBehaviour
 
             if (isGeneralCollection)
             {
-                trackingKeyIcon.style.display = DisplayStyle.None;
+                trackingKeyIcon.style.display = DisplayStyle.Flex;
                 bool isInPossibleArea =
                     objective.possibleScenes != null &&
                     objective.possibleScenes.Contains(
@@ -124,9 +163,7 @@ public class ObjectivesUI : MonoBehaviour
             QuestCompassIndicator.Instance != null &&
             QuestCompassIndicator.Instance.IsInsideTrackedArea;
 
-        trackingKeyIcon.style.display = isInsideSearchArea
-            ? DisplayStyle.None
-            : DisplayStyle.Flex;
+        trackingKeyIcon.style.display = DisplayStyle.Flex;
 
         trackingHintLabel.text = isInsideSearchArea
             ? "Currently in tracked location"
@@ -145,16 +182,32 @@ public class ObjectivesUI : MonoBehaviour
 
         Show();
 
-        titleLabel.text = quest.Title;
-
         if (quest.IsObjectiveLog)
         {
-            descriptionLabel.text = quest.CurrentObjectiveText;
             CurrentObjectiveData = FindCurrentObjectiveData(quest);
+            string questKey = GetQuestKey(quest);
+            string objectiveID = quest.CurrentObjectiveID;
+            bool objectiveAdvanced =
+                !string.IsNullOrWhiteSpace(displayedQuestKey) &&
+                displayedQuestKey == questKey &&
+                !string.IsNullOrWhiteSpace(displayedObjectiveID) &&
+                !string.IsNullOrWhiteSpace(objectiveID) &&
+                displayedObjectiveID != objectiveID;
+
+            displayedQuestKey = questKey;
+            displayedObjectiveID = objectiveID;
+
+            if (objectiveAdvanced)
+                BeginObjectiveTransition(quest.Title, quest.CurrentObjectiveText);
+            else
+                SetDisplayedText(quest.Title, quest.CurrentObjectiveText);
+
             return;
         }
 
         CurrentObjectiveData = null;
+        displayedQuestKey = GetQuestKey(quest);
+        displayedObjectiveID = string.Empty;
 
         StringBuilder builder = new();
 
@@ -163,7 +216,7 @@ public class ObjectivesUI : MonoBehaviour
             builder.AppendLine(quest.Objectives[i].Text);
         }
 
-        descriptionLabel.text = builder.ToString();
+        SetDisplayedText(quest.Title, builder.ToString());
     }
 
     public void Show()
@@ -179,9 +232,12 @@ public class ObjectivesUI : MonoBehaviour
         if (panel == null)
             return;
 
+        StopObjectiveTransition();
         titleLabel.text = string.Empty;
         descriptionLabel.text = string.Empty;
         CurrentObjectiveData = null;
+        displayedQuestKey = string.Empty;
+        displayedObjectiveID = string.Empty;
 
         if (trackingHint != null)
             trackingHint.style.display = DisplayStyle.None;
@@ -191,12 +247,179 @@ public class ObjectivesUI : MonoBehaviour
 
     public void Clear()
     {
+        QuestState activeQuest = QuestManager.Instance?.GetDisplayedQuest();
+        if (activeQuest != null)
+        {
+            // Scene and tutorial transitions may request a clear immediately
+            // before reporting the next objective. Keep the last valid state
+            // visible so the HUD never flashes as an empty frame.
+            Show();
+            return;
+        }
+
         Hide();
     }
 
     public void RefreshDisplayedQuest()
     {
         Refresh(QuestManager.Instance?.GetDisplayedQuest());
+    }
+
+    private void BeginObjectiveTransition(string title, string objective)
+    {
+        if (objectiveTransition != null)
+        {
+            pendingObjectiveTransitions.Enqueue(
+                new ObjectivePresentation(title, objective));
+            return;
+        }
+
+        objectiveTransition = StartCoroutine(
+            PlayObjectiveTransition(title, objective));
+    }
+
+    private IEnumerator PlayObjectiveTransition(string title, string objective)
+    {
+        yield return WaitUntilHudAvailable();
+        showingObjectiveCompletion = true;
+        completionStatusText = "Completed";
+        RefreshTrackingHint();
+        descriptionLabel.style.opacity = 1f;
+        descriptionLabel.AddToClassList("objective-complete-glow");
+        yield return new WaitForSecondsRealtime(0.55f);
+
+        const float fadeOutDuration = 0.22f;
+        const float crossfadeFloor = 0.25f;
+        for (float elapsed = 0f; elapsed < fadeOutDuration; elapsed += Time.unscaledDeltaTime)
+        {
+            descriptionLabel.style.opacity = Mathf.Lerp(
+                1f,
+                crossfadeFloor,
+                elapsed / fadeOutDuration);
+            yield return null;
+        }
+
+        descriptionLabel.RemoveFromClassList("objective-complete-glow");
+        titleLabel.text = title;
+        descriptionLabel.text = objective;
+        descriptionLabel.style.opacity = crossfadeFloor;
+
+        const float fadeInDuration = 0.45f;
+        for (float elapsed = 0f; elapsed < fadeInDuration; elapsed += Time.unscaledDeltaTime)
+        {
+            descriptionLabel.style.opacity = Mathf.Lerp(
+                crossfadeFloor,
+                1f,
+                elapsed / fadeInDuration);
+            yield return null;
+        }
+
+        descriptionLabel.style.opacity = 1f;
+        showingObjectiveCompletion = false;
+        RefreshTrackingHint();
+        objectiveTransition = null;
+        PlayNextQueuedPresentation();
+    }
+
+    private void HandleQuestCompleted(string questTitle)
+    {
+        if (objectiveTransition != null)
+        {
+            pendingQuestCompletions.Enqueue(questTitle);
+            return;
+        }
+
+        objectiveTransition = StartCoroutine(
+            PlayQuestCompleteTransition(questTitle));
+    }
+
+    private IEnumerator PlayQuestCompleteTransition(string questTitle)
+    {
+        yield return WaitUntilHudAvailable();
+        Show();
+        titleLabel.text = questTitle;
+        descriptionLabel.style.opacity = 1f;
+        descriptionLabel.AddToClassList("objective-complete-glow");
+        showingObjectiveCompletion = true;
+        completionStatusText = "Quest Complete";
+        RefreshTrackingHint();
+        yield return new WaitForSecondsRealtime(1.1f);
+
+        descriptionLabel.RemoveFromClassList("objective-complete-glow");
+        showingObjectiveCompletion = false;
+        objectiveTransition = null;
+
+        QuestState nextQuest = QuestManager.Instance?.GetDisplayedQuest();
+        if (nextQuest != null)
+            Refresh(nextQuest);
+        else
+            Hide();
+
+        PlayNextQueuedPresentation();
+    }
+
+    private void PlayNextQueuedPresentation()
+    {
+        if (objectiveTransition != null)
+            return;
+
+        if (pendingObjectiveTransitions.Count > 0)
+        {
+            ObjectivePresentation next = pendingObjectiveTransitions.Dequeue();
+            BeginObjectiveTransition(next.Title, next.Objective);
+            return;
+        }
+
+        if (pendingQuestCompletions.Count > 0)
+            HandleQuestCompleted(pendingQuestCompletions.Dequeue());
+    }
+
+    private IEnumerator WaitUntilHudAvailable()
+    {
+        while (GameplayUIManager.Instance?.HudContainer != null &&
+               GameplayUIManager.Instance.HudContainer.resolvedStyle.display ==
+               DisplayStyle.None)
+        {
+            yield return null;
+        }
+    }
+
+    private void SetDisplayedText(string title, string objective)
+    {
+        StopObjectiveTransition();
+        titleLabel.text = title;
+        descriptionLabel.text = objective;
+        descriptionLabel.style.opacity = 1f;
+    }
+
+    private void StopObjectiveTransition()
+    {
+        if (objectiveTransition != null)
+        {
+            StopCoroutine(objectiveTransition);
+            objectiveTransition = null;
+        }
+
+        if (descriptionLabel != null)
+        {
+            descriptionLabel.RemoveFromClassList("objective-complete-glow");
+            descriptionLabel.style.opacity = 1f;
+        }
+
+        showingObjectiveCompletion = false;
+        pendingObjectiveTransitions.Clear();
+        pendingQuestCompletions.Clear();
+        completionStatusText = "Completed";
+        if (trackingHintLabel != null)
+            trackingHintLabel.style.color = new Color(1f, 1f, 1f, 0.82f);
+    }
+
+    private static string GetQuestKey(QuestState quest)
+    {
+        if (!string.IsNullOrWhiteSpace(quest?.Data?.questID))
+            return quest.Data.questID;
+
+        return quest?.Title ?? string.Empty;
     }
 
     private static QuestObjectiveData FindCurrentObjectiveData(QuestState quest)
