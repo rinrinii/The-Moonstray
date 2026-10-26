@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,6 +11,7 @@ public class DialogueUIDocument : MonoBehaviour
     private VisualElement portraitImage;
     private VisualElement nextArrow;
     private VisualElement nameBox;
+    private VisualElement choicesContainer;
 
     // HUD reference
     private VisualElement hudContainer;
@@ -36,6 +39,9 @@ public class DialogueUIDocument : MonoBehaviour
         nameBox =
             root.Q<VisualElement>("name-box");
 
+        choicesContainer =
+            root.Q<VisualElement>("DialogueChoices");
+
         // HUD Container
         hudContainer =
             root.Q<VisualElement>("HUDContainer");
@@ -51,6 +57,8 @@ public class DialogueUIDocument : MonoBehaviour
 
     public void DisplayLine(DialogueLine line)
     {
+        ClearChoices();
+
         dialogueText.text =
             line.text;
 
@@ -91,6 +99,52 @@ public class DialogueUIDocument : MonoBehaviour
         }
     }
 
+    public void DisplayPrompt(
+        string prompt,
+        IReadOnlyList<DialogueChoice> choices,
+        Action<int> onSelected)
+    {
+        dialogueText.text = prompt;
+        dialogueText.style.unityFontStyleAndWeight = FontStyle.BoldAndItalic;
+        dialogueText.style.top = 60;
+
+        speakerName.text = "";
+        nameBox.style.display = DisplayStyle.None;
+        portraitImage.style.display = DisplayStyle.None;
+        nextArrow.style.display = DisplayStyle.None;
+
+        ClearChoices();
+        if (choicesContainer == null || choices == null)
+            return;
+
+        for (int index = 0; index < choices.Count; index++)
+        {
+            int selectedIndex = index;
+            Button button = new(() => onSelected?.Invoke(selectedIndex))
+            {
+                text = choices[index].Text
+            };
+
+            button.AddToClassList("dialogue-choice-button");
+            choicesContainer.Add(button);
+        }
+
+        choicesContainer.style.display = DisplayStyle.Flex;
+        choicesContainer.schedule.Execute(() =>
+        {
+            choicesContainer.Q<Button>()?.Focus();
+        });
+    }
+
+    public void ClearChoices()
+    {
+        if (choicesContainer == null)
+            return;
+
+        choicesContainer.Clear();
+        choicesContainer.style.display = DisplayStyle.None;
+    }
+
     public void ShowDialogueUI()
     {
         // Show dialogue UI
@@ -107,6 +161,8 @@ public class DialogueUIDocument : MonoBehaviour
 
     public void HideDialogueUI()
     {
+        ClearChoices();
+
         // Hide dialogue UI
         dialogueBackground.style.display =
             DisplayStyle.None;

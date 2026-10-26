@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="CutsceneSkipPrompt.uss" />
+    <ui:VisualElement name="CutsceneSkipPrompt" class="cutscene-skip-root">
+        <ui:VisualElement class="cutscene-skip-dialogue-background">
+            <ui:Label text="Skip cutscene?" class="cutscene-skip-question" />
+            <ui:VisualElement class="cutscene-skip-choices">
+                <ui:Button name="SkipYesButton" text="Yes" class="cutscene-skip-button" />
+                <ui:Button name="SkipNoButton" text="No" class="cutscene-skip-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -197,9 +197,13 @@ public class GameProgressionManager : MonoBehaviour
     public void SetStage(GameProgressionStage stage)
     {
         if (currentStage == stage)
+        {
+            EnsureStageAbilityUnlocks();
             return;
+        }
 
         currentStage = stage;
+        EnsureStageAbilityUnlocks();
 
         Debug.Log($"Game Progression Stage = {currentStage}");
         OnStageChanged?.Invoke(currentStage);
@@ -266,12 +270,19 @@ public class GameProgressionManager : MonoBehaviour
         }
 
         currentStage = snapshot.stage;
+        EnsureStageAbilityUnlocks();
         OnStageChanged?.Invoke(currentStage);
 
         foreach (string flag in progressionFlags)
             OnFlagChanged?.Invoke(flag, true);
 
         RefreshProgressionBlockers();
+    }
+
+    private void EnsureStageAbilityUnlocks()
+    {
+        if (currentStage >= GameProgressionStage.Chapter4Winter)
+            AbilityManager.Instance?.UnlockAbility(AbilityType.MoonWeave);
     }
 
     public void ResetProgress()

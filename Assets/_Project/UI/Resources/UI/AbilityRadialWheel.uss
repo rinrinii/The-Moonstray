@@ -1,0 +1,170 @@
+.equipped-ability-hud {
+    position: absolute;
+    right: 28px;
+    bottom: 155px;
+    width: 124px;
+    height: 124px;
+    align-items: center;
+    justify-content: center;
+}
+
+.equipped-ability-orb {
+    width: 112px;
+    height: 112px;
+    align-items: center;
+    justify-content: center;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(225, 202, 92);
+    border-right-color: rgb(225, 202, 92);
+    border-top-color: rgb(225, 202, 92);
+    border-bottom-color: rgb(225, 202, 92);
+    border-top-left-radius: 56px;
+    border-top-right-radius: 56px;
+    border-bottom-left-radius: 56px;
+    border-bottom-right-radius: 56px;
+    background-color: rgba(17, 25, 31, 0.82);
+}
+
+.equipped-ability-key {
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
+    width: 34px;
+    height: 34px;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    border-bottom-left-radius: 17px;
+    border-bottom-right-radius: 17px;
+    background-color: rgb(245, 245, 235);
+    color: rgb(35, 32, 27);
+    font-size: 20px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.equipped-ability-name {
+    color: rgb(255, 255, 255);
+    font-size: 23px;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&guid=1c68df65c086c5e4ab7422383dbcf6f7&type=3#AlegreyaSans-Medium");
+    -unity-font-style: bold-and-italic;
+    -unity-text-align: middle-center;
+}
+
+.ability-hud-hidden {
+    display: none;
+}
+
+.ability-wheel-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.42);
+}
+
+.ability-wheel-ring {
+    width: 500px;
+    height: 500px;
+    border-left-width: 6px;
+    border-right-width: 6px;
+    border-top-width: 6px;
+    border-bottom-width: 6px;
+    border-left-color: rgb(225, 202, 92);
+    border-right-color: rgb(225, 202, 92);
+    border-top-color: rgb(225, 202, 92);
+    border-bottom-color: rgb(225, 202, 92);
+    border-top-left-radius: 250px;
+    border-top-right-radius: 250px;
+    border-bottom-left-radius: 250px;
+    border-bottom-right-radius: 250px;
+    background-color: rgba(18, 28, 35, 0.62);
+    align-items: center;
+    justify-content: center;
+}
+
+.ability-wheel-center {
+    width: 210px;
+    height: 210px;
+    border-top-left-radius: 105px;
+    border-top-right-radius: 105px;
+    border-bottom-left-radius: 105px;
+    border-bottom-right-radius: 105px;
+    background-color: rgba(12, 18, 24, 0.94);
+    align-items: center;
+    justify-content: center;
+}
+
+.ability-wheel-title,
+.ability-wheel-selection,
+.ability-wheel-segment-label {
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&guid=1c68df65c086c5e4ab7422383dbcf6f7&type=3#AlegreyaSans-Medium");
+    -unity-text-align: middle-center;
+}
+
+.ability-wheel-title {
+    font-size: 27px;
+    -unity-font-style: bold-and-italic;
+}
+
+.ability-wheel-selection {
+    margin-top: 8px;
+    color: rgb(225, 202, 92);
+    font-size: 21px;
+}
+
+.ability-wheel-segment {
+    position: absolute;
+    width: 142px;
+    height: 142px;
+    align-items: center;
+    justify-content: center;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgba(255, 255, 255, 0.65);
+    border-right-color: rgba(255, 255, 255, 0.65);
+    border-top-color: rgba(255, 255, 255, 0.65);
+    border-bottom-color: rgba(255, 255, 255, 0.65);
+    border-top-left-radius: 71px;
+    border-top-right-radius: 71px;
+    border-bottom-left-radius: 71px;
+    border-bottom-right-radius: 71px;
+    background-color: rgba(28, 43, 52, 0.92);
+}
+
+.ability-wheel-segment-top {
+    top: 18px;
+    left: 173px;
+}
+
+.ability-wheel-segment-left {
+    left: 18px;
+    top: 173px;
+}
+
+.ability-wheel-segment-right {
+    right: 18px;
+    top: 173px;
+}
+
+.ability-wheel-segment-label {
+    font-size: 24px;
+    -unity-font-style: bold-and-italic;
+}
+
+.ability-segment-selected {
+    scale: 1.12 1.12;
+    background-color: rgba(112, 96, 38, 0.96);
+    border-left-color: rgb(255, 231, 119);
+    border-right-color: rgb(255, 231, 119);
+    border-top-color: rgb(255, 231, 119);
+    border-bottom-color: rgb(255, 231, 119);
+}
