@@ -14,7 +14,10 @@ public class DialogueManager : MonoBehaviour
     private readonly Queue<DialogueLine> lines =
         new();
 
+    private IReadOnlyList<DialogueChoice> activeChoices;
+
     private bool isActive;
+    private bool isChoosing;
     private bool waitForSpaceRelease;
 
     private string currentDialogueID;
@@ -152,6 +155,52 @@ public class DialogueManager : MonoBehaviour
         DisplayNextLine();
     }
 
+    public void ShowPrompt(
+        string prompt,
+        IReadOnlyList<DialogueChoice> choices)
+    {
+        if (isActive)
+        {
+            Debug.LogWarning("Dialogue already active.");
+            return;
+        }
+
+        if (dialogueUI == null)
+            FindDialogueUI();
+
+        if (dialogueUI == null || choices == null || choices.Count == 0)
+        {
+            Debug.LogError("DialogueManager: Cannot show a prompt without UI and choices.");
+            return;
+        }
+
+        currentDialogueID = string.Empty;
+        lines.Clear();
+        activeChoices = choices;
+        isActive = true;
+        isChoosing = true;
+
+        dialogueUI.ShowDialogueUI();
+        dialogueUI.DisplayPrompt(prompt, choices, SelectChoice);
+    }
+
+    private void SelectChoice(int index)
+    {
+        if (!isChoosing)
+            return;
+
+        if (activeChoices == null || index < 0 || index >= activeChoices.Count)
+            return;
+
+        DialogueChoice selectedChoice = activeChoices[index];
+        isChoosing = false;
+        activeChoices = null;
+        EndDialogue();
+
+        // EndDialogue clears UI state before the selected action changes scenes.
+        selectedChoice.Select();
+    }
+
     public void StartDialogue(
     string dialogueID,
     Action onComplete)
@@ -191,6 +240,8 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         isActive = false;
+        isChoosing = false;
+        activeChoices = null;
 
         // Don't let gameplay receive the same Space press
         waitForSpaceRelease = true;
@@ -223,7 +274,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (!isActive)
+        if (!isActive || isChoosing)
             return;
 
         if (PauseMenuController.Instance != null &&

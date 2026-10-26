@@ -767,6 +767,24 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
                 "return_to_moonveil",
                 0);
             transitioning = false;
+
+            bool saved = SaveGameService.TrySave(out string saveError);
+            if (!saved)
+                Debug.LogWarning($"Spring completion autosave failed: {saveError}");
+
+            DialogueManager.Instance?.ShowPrompt(
+                saved
+                    ? "Return to Moonveil?\nYour progress has been saved."
+                    : "Return to Moonveil?\nYour progress could not be saved.",
+                new List<DialogueChoice>
+                {
+                    new(
+                        "Return now",
+                        () => SceneLoader.LoadScene(
+                            "Moonveil",
+                            "CenterMoonveil")),
+                    new("Stay and Explore", () => { })
+                });
         }
 
         void FadeBackIn()

@@ -1,0 +1,66 @@
+.cutscene-skip-root {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.cutscene-skip-dialogue-background {
+    width: 900px;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    background-image: url("project://database/Assets/_Project/UI/Images/Dialogue/dialogue-BG.png?fileID=21300000&guid=bfb0cd7994f70614fa16dcca80ab5c93&type=3#dialogue-BG");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
+.cutscene-skip-question {
+    margin-bottom: 28px;
+    color: rgb(255, 255, 255);
+    font-size: 38px;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&guid=1c68df65c086c5e4ab7422383dbcf6f7&type=3#AlegreyaSans-Medium");
+    -unity-font-style: bold-and-italic;
+    -unity-text-align: middle-center;
+}
+
+.cutscene-skip-choices {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cutscene-skip-button {
+    width: 250px;
+    height: 78px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&guid=1c68df65c086c5e4ab7422383dbcf6f7&type=3#AlegreyaSans-Medium");
+    -unity-font-style: bold-and-italic;
+    -unity-text-align: middle-center;
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url("project://database/Assets/_Project/UI/Images/button-bg.png?fileID=2800000&guid=2464c6cc2deb8d443adbacee7273e331&type=3#button-bg");
+    -unity-background-scale-mode: stretch-to-fill;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    transition-property: scale, -unity-background-image-tint-color;
+    transition-duration: 0.1s;
+}
+
+.cutscene-skip-button:hover,
+.cutscene-skip-button:focus {
+    -unity-background-image-tint-color: rgb(255, 240, 180);
+    scale: 1.03 1.03;
+}
+
+.cutscene-skip-button:active {
+    -unity-background-image-tint-color: rgb(238, 202, 92);
+    scale: 0.99 0.99;
+}

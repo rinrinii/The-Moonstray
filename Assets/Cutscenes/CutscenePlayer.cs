@@ -13,6 +13,11 @@ public class CutscenePlayer : MonoBehaviour
 
     private Action onFinished;
     private bool isPlaying;
+    private bool skipPromptVisible;
+    private int skipPromptShownFrame;
+    private CursorLockMode previousCursorLock;
+    private bool previousCursorVisible;
+    private CutsceneSkipPromptView skipPromptView;
 
     private void Awake()
     {
@@ -20,6 +25,7 @@ public class CutscenePlayer : MonoBehaviour
         {
             cutsceneCanvas.gameObject.SetActive(false);
         }
+
     }
 
     public void Play(Action finishedCallback)
@@ -83,6 +89,7 @@ public class CutscenePlayer : MonoBehaviour
         if (isPlaying && MusicManager.Instance != null)
             MusicManager.Instance.FadeInAfterCutscene(musicFadeDuration);
 
+        HideSkipPrompt();
         isPlaying = false;
         onFinished = null;
     }
@@ -98,6 +105,14 @@ public class CutscenePlayer : MonoBehaviour
     {
         videoPlayer.loopPointReached -= HandleVideoFinished;
 
+        FinishCutscene();
+    }
+
+    private void FinishCutscene()
+    {
+        videoPlayer.prepareCompleted -= HandlePrepared;
+        videoPlayer.loopPointReached -= HandleVideoFinished;
+
         videoPlayer.Stop();
 
         if (MusicManager.Instance != null)
@@ -111,18 +126,76 @@ public class CutscenePlayer : MonoBehaviour
             cutsceneCanvas.gameObject.SetActive(false);
         }
 
+        HideSkipPrompt();
         isPlaying = false;
 
-        onFinished?.Invoke();
+        Action finishedCallback = onFinished;
         onFinished = null;
+        finishedCallback?.Invoke();
     }
 
     private void Update()
     {
+        if (isPlaying && !skipPromptVisible &&
+            videoPlayer != null && videoPlayer.isPlaying &&
+            Input.GetMouseButtonDown(0))
+        {
+            ShowSkipPrompt();
+        }
+
+        if (skipPromptVisible &&
+            Time.frameCount > skipPromptShownFrame + 1 &&
+            !Input.GetMouseButton(0))
+        {
+            skipPromptView?.SetButtonsEnabled(true);
+        }
+
         // Debug shortcut
-        if (Input.GetKeyDown(KeyCode.P))
+        if (!isPlaying && Input.GetKeyDown(KeyCode.P))
         {
             Play(null);
         }
+    }
+
+    private void ShowSkipPrompt()
+    {
+        skipPromptView ??= CutsceneSkipPromptView.Create(transform);
+        if (skipPromptView == null)
+            return;
+
+        skipPromptVisible = true;
+        skipPromptShownFrame = Time.frameCount;
+        videoPlayer.Pause();
+        skipPromptView.Show(FinishCutscene, ResumeCutscene);
+        skipPromptView.SetButtonsEnabled(false);
+
+        previousCursorLock = Cursor.lockState;
+        previousCursorVisible = Cursor.visible;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void HideSkipPrompt()
+    {
+        if (!skipPromptVisible)
+            return;
+
+        skipPromptVisible = false;
+        skipPromptView?.Hide();
+
+        Cursor.lockState = previousCursorLock;
+        Cursor.visible = previousCursorVisible;
+    }
+
+    private void ResumeCutscene()
+    {
+        HideSkipPrompt();
+        videoPlayer.Play();
+    }
+
+    private void OnDestroy()
+    {
+        HideSkipPrompt();
+        skipPromptView?.Dispose();
     }
 }
