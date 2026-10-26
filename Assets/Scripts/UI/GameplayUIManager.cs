@@ -50,6 +50,15 @@ public class GameplayUIManager : MonoBehaviour
     private Label sceneTitleDescription;
     private Coroutine sceneTitleRoutine;
     private bool sceneTitlesUnlocked;
+    private static bool captureHudHidden;
+
+    public static bool IsCaptureHudHidden => captureHudHidden;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetCaptureHudState()
+    {
+        captureHudHidden = false;
+    }
 
     [Header("Scene Title Panel")]
     [SerializeField]
@@ -148,6 +157,14 @@ public class GameplayUIManager : MonoBehaviour
         QueueSceneTitle(SceneManager.GetActiveScene());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F11))
+        {
+            SetCaptureHudHidden(!captureHudHidden);
+        }
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -164,6 +181,7 @@ public class GameplayUIManager : MonoBehaviour
         if (scene.name != "LoadingScene" && scene.name != "MainMenu")
             Objectives?.RefreshDisplayedQuest();
         QueueSceneTitle(scene);
+        ApplyCaptureHudVisibility();
     }
 
     private void UpdateVisibilityForScene(Scene scene)
@@ -195,6 +213,9 @@ public class GameplayUIManager : MonoBehaviour
 
     public void ShowSceneTitle(string header, string description)
     {
+        if (captureHudHidden)
+            return;
+
         RefreshSceneTitleReferences();
 
         if (SceneTitleContainer == null ||
@@ -360,6 +381,28 @@ public class GameplayUIManager : MonoBehaviour
     public void SetGameplayUIVisible(bool visible)
     {
         SetVisible(RootVisualElement, visible);
+    }
+
+    /// <summary>
+    /// Hides non-dialogue gameplay overlays for clean capture footage. The
+    /// dialogue container and modal menus remain available.
+    /// </summary>
+    public void SetCaptureHudHidden(bool hidden)
+    {
+        captureHudHidden = hidden;
+        ApplyCaptureHudVisibility();
+
+        Debug.Log(hidden
+            ? "Capture HUD hidden (F11)."
+            : "Capture HUD visible (F11).");
+    }
+
+    public void ApplyCaptureHudVisibility()
+    {
+        SetVisible(HudContainer, !captureHudHidden);
+
+        if (captureHudHidden)
+            HideSceneTitle();
     }
 
     public void SetObjectivesVisible(bool visible)

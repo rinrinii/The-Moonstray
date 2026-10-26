@@ -23,9 +23,11 @@ public class GameProgressionManager : MonoBehaviour
     private readonly HashSet<string> progressionFlags = new();
     private static bool isCreatingFallback;
     private bool isFallbackInstance;
+    private bool captureStateEnabled;
 
     public GameProgressionStage CurrentStage => currentStage;
     public bool HasStartedMainJourney => currentStage != GameProgressionStage.Tutorial;
+    public bool IsCaptureStateEnabled => captureStateEnabled;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -90,6 +92,30 @@ public class GameProgressionManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F6))
             TeleportToFinalSequence();
+
+        if (Input.GetKeyDown(KeyCode.F12))
+            EnableCaptureState();
+    }
+
+    /// <summary>
+    /// Enables a non-persistent AVP capture state for the current play
+    /// session. This opens progression-gated routes and unlocks traversal
+    /// tools without writing a save file.
+    /// </summary>
+    public void EnableCaptureState()
+    {
+        captureStateEnabled = true;
+
+        TutorialManager.Instance?.FinishTutorial();
+        SetStage(GameProgressionStage.Complete);
+        AbilityManager.Instance?.UnlockAllAbilities();
+        UpgradeManager.Instance?.UnlockAllUpgrades();
+
+        RemoveProgressionBlockers();
+
+        Debug.Log(
+            "AVP capture state enabled (F12): progression gates, " +
+            "abilities, and upgrades unlocked for this play session.");
     }
 
     private void TeleportToFinalSequence()
@@ -102,6 +128,34 @@ public class GameProgressionManager : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         TryCompleteTutorialAtMoonveil(scene.name);
+
+        if (captureStateEnabled)
+            StartCoroutine(ApplyCaptureStateAfterSceneLoad());
+    }
+
+    private System.Collections.IEnumerator ApplyCaptureStateAfterSceneLoad()
+    {
+        // Allow scene controllers to initialize their blockers first.
+        yield return null;
+
+        TutorialManager.Instance?.FinishTutorial();
+        AbilityManager.Instance?.UnlockAllAbilities();
+        UpgradeManager.Instance?.UnlockAllUpgrades();
+        RemoveProgressionBlockers();
+    }
+
+    private static void RemoveProgressionBlockers()
+    {
+        ProgressionExitBlocker[] blockers =
+            FindObjectsByType<ProgressionExitBlocker>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+
+        foreach (ProgressionExitBlocker blocker in blockers)
+        {
+            if (blocker != null)
+                blocker.gameObject.SetActive(false);
+        }
     }
 
     public void CompleteTutorialAndBeginChapterOne()

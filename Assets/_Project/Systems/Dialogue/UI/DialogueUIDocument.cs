@@ -114,8 +114,20 @@ public class DialogueUIDocument : MonoBehaviour
         // Show HUD again
         if (hudContainer != null)
         {
-            hudContainer.style.display =
-                DisplayStyle.Flex;
+            GameplayUIManager gameplayUI =
+                GameplayUIManager.Instance;
+
+            if (gameplayUI != null)
+            {
+                gameplayUI.ApplyCaptureHudVisibility();
+            }
+            else
+            {
+                hudContainer.style.display =
+                    GameplayUIManager.IsCaptureHudHidden
+                        ? DisplayStyle.None
+                        : DisplayStyle.Flex;
+            }
         }
     }
 
