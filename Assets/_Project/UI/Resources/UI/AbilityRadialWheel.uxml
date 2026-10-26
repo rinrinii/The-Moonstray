@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="AbilityRadialWheel.uss" />
+    <ui:VisualElement name="EquippedAbilityHUD" class="equipped-ability-hud">
+        <ui:VisualElement class="equipped-ability-orb">
+            <ui:Label text="R" class="equipped-ability-key" />
+            <ui:Label name="EquippedAbilityName" text="Sense" class="equipped-ability-name" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="AbilityWheelRoot" class="ability-wheel-overlay">
+        <ui:VisualElement class="ability-wheel-ring">
+            <ui:VisualElement name="HowlSegment" class="ability-wheel-segment ability-wheel-segment-top">
+                <ui:Label text="HOWL" class="ability-wheel-segment-label" />
+            </ui:VisualElement>
+            <ui:VisualElement name="SenseSegment" class="ability-wheel-segment ability-wheel-segment-left">
+                <ui:Label text="SENSE" class="ability-wheel-segment-label" />
+            </ui:VisualElement>
+            <ui:VisualElement name="TeleportSegment" class="ability-wheel-segment ability-wheel-segment-right">
+                <ui:Label text="TELEPORT" class="ability-wheel-segment-label" />
+            </ui:VisualElement>
+            <ui:VisualElement class="ability-wheel-center">
+                <ui:Label text="Select Ability" class="ability-wheel-title" />
+                <ui:Label name="WheelSelectionName" text="Release to cancel" class="ability-wheel-selection" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

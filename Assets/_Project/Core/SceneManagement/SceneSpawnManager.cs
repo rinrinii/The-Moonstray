@@ -51,6 +51,7 @@ public class SceneSpawnManager : MonoBehaviour
 
         UpdatePostLibraryTutorialObjective();
         CompleteTutorialIfMoonveilReached();
+        PlayerWeave.CompleteArrivalTransition();
     }
 
     private void UpdatePostLibraryTutorialObjective()

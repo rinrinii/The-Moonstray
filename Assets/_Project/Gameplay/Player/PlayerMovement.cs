@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 currentMoveDirection;
 
-    private PlayerHowl howl;
-
     private CharacterController controller;
     private PlayerTransformation transformation;
 
@@ -23,9 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private float groundedRememberTime = 0.1f;
     private float groundedRemember;
 
-    private PlayerLunarSense lunarSense;
-
     private PlayerDash dash;
+    private PlayerAbilityWheel abilityWheel;
 
     private Animator currentAnim;
     private Transform cam;
@@ -48,14 +45,12 @@ public class PlayerMovement : MonoBehaviour
         stamina =
             GetComponent<PlayerStamina>();
 
-        lunarSense =
-            GetComponent<PlayerLunarSense>();
-
-        howl =
-            GetComponent<PlayerHowl>();
-
         dash =
             GetComponent<PlayerDash>();
+
+        abilityWheel = GetComponent<PlayerAbilityWheel>();
+        if (abilityWheel == null)
+            abilityWheel = gameObject.AddComponent<PlayerAbilityWheel>();
 
         RefreshCameraReference();
 
@@ -229,6 +224,17 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        if (abilityWheel != null && abilityWheel.IsInputCaptured)
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat("Speed", 0, 0.15f, Time.deltaTime);
+            }
+
+            ApplyGravity();
+            return;
+        }
+
         float baseSpeed = transformation.GetSpeed();
 
         bool wantsToSprint =
@@ -376,28 +382,6 @@ public class PlayerMovement : MonoBehaviour
                         );
                     }
                 }
-            }
-        }
-
-        // =========================================
-        // SENSE
-        // =========================================
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (lunarSense != null)
-            {
-                lunarSense.ActivateSense();
-            }
-        }
-
-        // =========================================
-        // HOWL
-        // =========================================
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (howl != null)
-            {
-                howl.ActivateHowl();
             }
         }
 
