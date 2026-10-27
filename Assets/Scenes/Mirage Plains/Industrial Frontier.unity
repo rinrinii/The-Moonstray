@@ -4862,6 +4862,12 @@ MonoBehaviour:
   targetScene: Moonveil
   targetSpawnID: ToMoonveilFromIndustrialFrontier
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 0
+  allowDuringSpecificTutorialState: 0
+  allowedTutorialState: 0
+  allowDuringAdditionalTutorialState: 0
+  additionalAllowedTutorialState: 0
+  blockedDialogueID: tutorial.blockedExit
 --- !u!1 &226227306
 GameObject:
   m_ObjectHideFlags: 0
@@ -14650,7 +14656,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -14671,6 +14677,12 @@ MonoBehaviour:
   targetScene: Production Sector
   targetSpawnID: ToProductionSectorFromFrontier
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 0
+  allowDuringSpecificTutorialState: 0
+  allowedTutorialState: 0
+  allowDuringAdditionalTutorialState: 0
+  additionalAllowedTutorialState: 0
+  blockedDialogueID: tutorial.blockedExit
 --- !u!1 &588830735
 GameObject:
   m_ObjectHideFlags: 0
@@ -30548,6 +30560,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7352829188465115982, guid: 8a5c6b45509778d4d80b72e5d0d54681, type: 3}
   m_PrefabInstance: {fileID: 1205386498}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1209327583
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 73.42255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 54.472862
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 49.763397
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6087605
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.79335415
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 105
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955138335747792705, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768232014335084027, guid: bac525490da005a409cdd975f2add5e2, type: 3}
+      propertyPath: m_Name
+      value: Lunaria-statue-summer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bac525490da005a409cdd975f2add5e2, type: 3}
 --- !u!1 &1209817166
 GameObject:
   m_ObjectHideFlags: 0
@@ -54810,3 +54879,4 @@ SceneRoots:
   - {fileID: 1942140227}
   - {fileID: 1269966251}
   - {fileID: 1590963138}
+  - {fileID: 1209327583}
