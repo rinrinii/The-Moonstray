@@ -25,6 +25,12 @@ public class RespawnManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F2))
+            ReturnToCurrentSpawn();
+    }
+
     // =========================================
     // CURRENT SPAWN
     // =========================================
@@ -117,6 +123,57 @@ public class RespawnManager : MonoBehaviour
 
         Debug.LogWarning(
             $"RespawnManager: Spawn '{currentSpawnID}' not found.");
+    }
+
+    /// <summary>
+    /// Unstuck shortcut: returns the player to the latest recorded spawn
+    /// without healing or clearing gameplay status effects.
+    /// </summary>
+    public void ReturnToCurrentSpawn()
+    {
+        if (string.IsNullOrWhiteSpace(currentSpawnID))
+        {
+            Debug.LogWarning("Unstuck: No spawn point has been recorded yet.");
+            return;
+        }
+
+        SpawnPoint[] spawnPoints =
+            FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
+
+        foreach (SpawnPoint point in spawnPoints)
+        {
+            if (point.SpawnID != currentSpawnID)
+                continue;
+
+            PlayerHealth playerHealth = FindPlayer();
+            if (playerHealth == null)
+            {
+                Debug.LogWarning("Unstuck: Player not found.");
+                return;
+            }
+
+            CharacterController controller =
+                playerHealth.GetComponent<CharacterController>();
+
+            if (controller != null)
+                controller.enabled = false;
+
+            playerHealth.transform.SetPositionAndRotation(
+                point.transform.position,
+                point.transform.rotation);
+
+            if (controller != null)
+                controller.enabled = true;
+
+            ResetPlayerTeleportState(playerHealth.gameObject);
+
+            Debug.Log(
+                $"Unstuck: Returned player to '{currentSpawnID}'.");
+            return;
+        }
+
+        Debug.LogWarning(
+            $"Unstuck: Spawn '{currentSpawnID}' was not found in this scene.");
     }
 
     // =========================================
