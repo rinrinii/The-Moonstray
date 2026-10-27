@@ -257,7 +257,7 @@
 }
 .credits-card-lead { width: 48%; }
 .credits-card:hover { -unity-background-image-tint-color: rgb(255, 240, 170); scale: 1.01 1.01; }
-.credits-portrait { width: 230px; height: 230px; margin-bottom: 18px; background-color: rgba(75, 80, 93, 0.72); -unity-background-scale-mode: scale-and-crop; }
+.credits-portrait { width: 230px; height: 230px; margin-bottom: 18px; background-color: rgba(0, 0, 0, 0); -unity-background-scale-mode: scale-and-crop; }
 .credits-portrait-arianne { background-image: url("project://database/Assets/_Project/UI/Images/Credits/Portraits/arianne-fuentes.png?fileID=2800000&guid=6eaf3018c8232de40b362f0a8be1222a&type=3#arianne-fuentes"); }
 .credits-portrait-giana { background-image: url("project://database/Assets/_Project/UI/Images/Credits/Portraits/giana-diwa.png?fileID=2800000&guid=448f8ca3338adc74fb7fb9a7d0e288cc&type=3#giana-diwa"); }
 .credits-portrait-marien { background-image: url("project://database/Assets/_Project/UI/Images/Credits/Portraits/marien-garcia.png?fileID=2800000&guid=07c407af52e25f444bcead70bdcaa9e3&type=3#marien-garcia"); }
@@ -273,10 +273,10 @@
 }
 .credits-special-thanks {
     width: 80%; min-height: 180px; margin-top: 35px;
-    flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center;
+    flex-direction: column; flex-wrap: nowrap; align-items: center; justify-content: center;
 }
 .credits-special-thanks-name {
-    width: 44%; margin-left: 2%; margin-right: 2%; margin-bottom: 16px;
+    width: 100%; margin-left: 0; margin-right: 0; margin-bottom: 16px;
     padding-left: 12px; padding-right: 12px;
     -unity-text-align: middle-center;
 }

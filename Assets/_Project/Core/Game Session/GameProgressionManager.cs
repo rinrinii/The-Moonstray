@@ -281,8 +281,9 @@ public class GameProgressionManager : MonoBehaviour
 
     private void EnsureStageAbilityUnlocks()
     {
-        if (currentStage >= GameProgressionStage.Chapter4Winter)
-            AbilityManager.Instance?.UnlockAbility(AbilityType.MoonWeave);
+        // Moon Weave is awarded by the Winter quest itself, not merely by
+        // entering the Winter chapter. Until that quest is implemented, F3
+        // provides the development-only unlock in AbilityManager.
     }
 
     public void ResetProgress()
