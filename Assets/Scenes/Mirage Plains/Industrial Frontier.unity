@@ -4861,6 +4861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
   targetScene: Moonveil
   targetSpawnID: ToMoonveilFromIndustrialFrontier
+  compassTarget: {fileID: 0}
 --- !u!1 &226227306
 GameObject:
   m_ObjectHideFlags: 0
@@ -14611,6 +14612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 582078253}
   - component: {fileID: 582078254}
+  - component: {fileID: 582078255}
   m_Layer: 0
   m_Name: Exit_ToProductionSectorFromFrontier
   m_TagString: Untagged
@@ -14648,12 +14650,27 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 3, y: 5, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &582078255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582078252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9084c3ec81b024caa084e11c69ea68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
+  targetScene: Production Sector
+  targetSpawnID: ToProductionSectorFromFrontier
+  compassTarget: {fileID: 0}
 --- !u!1 &588830735
 GameObject:
   m_ObjectHideFlags: 0
@@ -37002,6 +37019,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1519586831}
+  - component: {fileID: 1519586832}
   m_Layer: 0
   m_Name: Spawn_FromProductionSectorToFrontier
   m_TagString: Untagged
@@ -37024,6 +37042,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 715362910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1519586832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519586830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e2be372533253449f3534fa435b40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPoint
+  spawnID: ToFrontierFromProductionSector
 --- !u!1 &1521833323
 GameObject:
   m_ObjectHideFlags: 0

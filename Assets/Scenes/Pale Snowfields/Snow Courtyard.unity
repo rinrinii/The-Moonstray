@@ -3869,6 +3869,10 @@ MonoBehaviour:
   targetScene: Southern Exit Path
   targetSpawnID: ToSouthPathFromCourtyard
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 1
+  allowDuringSpecificTutorialState: 1
+  allowedTutorialState: 8
+  blockedDialogueID: tutorial.blockedExit
 --- !u!65 &518352359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7803,6 +7807,12 @@ MonoBehaviour:
   targetScene: Blight Path
   targetSpawnID: ToBlightPath
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 1
+  allowDuringSpecificTutorialState: 1
+  allowedTutorialState: 2
+  allowDuringAdditionalTutorialState: 1
+  additionalAllowedTutorialState: 3
+  blockedDialogueID: tutorial.blockedExit
 --- !u!65 &1263661064
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10953,6 +10963,10 @@ MonoBehaviour:
   targetScene: Pinewatch Trail
   targetSpawnID: ToCaveDown
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 1
+  allowDuringSpecificTutorialState: 0
+  allowedTutorialState: 0
+  blockedDialogueID: tutorial.blockedExit
 --- !u!65 &1909265226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11350,6 +11364,10 @@ MonoBehaviour:
   targetScene: Frostmere Library
   targetSpawnID: ToMainLibrary
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 1
+  allowDuringSpecificTutorialState: 0
+  allowedTutorialState: 0
+  blockedDialogueID: tutorial.blockedExit
 --- !u!65 &2061993368
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -14,6 +14,25 @@ public class SceneTransitionTrigger : MonoBehaviour
     [SerializeField]
     private Transform compassTarget;
 
+    [Header("Route Gate")]
+    [SerializeField]
+    private bool blockWhileTutorialActive;
+
+    [SerializeField]
+    private bool allowDuringSpecificTutorialState;
+
+    [SerializeField]
+    private TutorialState allowedTutorialState;
+
+    [SerializeField]
+    private bool allowDuringAdditionalTutorialState;
+
+    [SerializeField]
+    private TutorialState additionalAllowedTutorialState;
+
+    [SerializeField]
+    private string blockedDialogueID = "tutorial.blockedExit";
+
     public string TargetScene => targetScene;
     public Transform CompassTarget => compassTarget != null
         ? compassTarget
@@ -25,6 +44,12 @@ public class SceneTransitionTrigger : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
+        if (ShouldBlockTransition())
+        {
+            ShowBlockedDialogue();
+            return;
+        }
+
         QuestManager.Instance?.AdvanceTravelObjectiveForDestination(
             targetScene);
 
@@ -32,6 +57,39 @@ public class SceneTransitionTrigger : MonoBehaviour
             targetScene,
             targetSpawnID
         );
+    }
+
+    private bool ShouldBlockTransition()
+    {
+        if (!blockWhileTutorialActive ||
+            TutorialManager.Instance == null ||
+            !TutorialManager.Instance.IsTutorialActive)
+        {
+            return false;
+        }
+
+        if (!allowDuringSpecificTutorialState)
+            return true;
+
+        TutorialState currentState = TutorialManager.Instance.CurrentState;
+
+        if (currentState == allowedTutorialState)
+            return false;
+
+        return !allowDuringAdditionalTutorialState ||
+            currentState != additionalAllowedTutorialState;
+    }
+
+    private void ShowBlockedDialogue()
+    {
+        if (DialogueManager.Instance == null ||
+            DialogueManager.Instance.IsDialogueActive ||
+            string.IsNullOrWhiteSpace(blockedDialogueID))
+        {
+            return;
+        }
+
+        DialogueManager.Instance.StartDialogue(blockedDialogueID);
     }
 }
 

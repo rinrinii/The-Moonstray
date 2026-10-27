@@ -83,8 +83,15 @@ public class DialogueDatabase : MonoBehaviour
             return result;
         }
 
-        foreach (XmlNode lineNode in dialogueNode.SelectNodes("Line"))
+        foreach (XmlNode lineNode in dialogueNode.ChildNodes)
         {
+            if (lineNode.NodeType != XmlNodeType.Element ||
+                (lineNode.Name != "Line" && lineNode.Name != "Choice"))
+            {
+                continue;
+            }
+
+            bool isChoice = lineNode.Name == "Choice";
             bool isNarration =
                 lineNode.Attributes["type"]?.Value
                 == "narration";
@@ -127,19 +134,43 @@ public class DialogueDatabase : MonoBehaviour
                     speaker =
                         lineNode.Attributes["speaker"]?.Value ?? "",
 
-                    text =
-                        lineNode.InnerText.Trim(),
+                    text = isChoice
+                        ? lineNode.Attributes["prompt"]?.Value ??
+                            "Choose Serin's response."
+                        : lineNode.InnerText.Trim(),
 
                     portrait =
                         portraitSprite,
 
                     isNarration =
-                        isNarration
+                        isNarration,
+
+                    choices = isChoice
+                        ? ParseChoices(lineNode)
+                        : null
                 };
 
-            result.Add(line);
+            if (!isChoice || line.HasChoices)
+                result.Add(line);
+            else
+                Debug.LogWarning(
+                    $"Dialogue '{dialogueID}' contains a Choice with no Option elements.");
         }
 
         return result;
+    }
+
+    private static List<string> ParseChoices(XmlNode choiceNode)
+    {
+        List<string> choices = new();
+
+        foreach (XmlNode optionNode in choiceNode.SelectNodes("Option"))
+        {
+            string option = optionNode.InnerText.Trim();
+            if (!string.IsNullOrWhiteSpace(option))
+                choices.Add(option);
+        }
+
+        return choices;
     }
 }

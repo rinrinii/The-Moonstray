@@ -16,9 +16,10 @@
 			Though I suppose rest isn't what brought you here.
 		</Line>
 
-		<Line speaker="Serin" portrait="serin-human">
-			...I'm looking for answers.
-		</Line>
+		<Choice speaker="Serin" portrait="serin-human" prompt="...">
+			<Option>I'm looking for answers.</Option>
+			<Option>I need to understand.</Option>
+		</Choice>
 
 		<Line speaker="Guide" portrait="guideNPC-portrait">
 			If you intend to travel further, make your way to Springtide Meadows.
@@ -28,9 +29,9 @@
 			It's a quiet farming settlement south of here. The people there have begun seeing strange changes in the land. Nothing they can explain.
 		</Line>
 
-		<Line speaker="Serin" portrait="serin-human">
-			Changes?
-		</Line>
+		<Choice speaker="Serin" portrait="serin-human" prompt="...">
+			<Option>What kind of changes?</Option>
+		</Choice>
 
 		<Line speaker="Guide" portrait="guideNPC-portrait">
 			Crops and fields blooming out of season, animals abandoning places they've called home for generations.
@@ -40,9 +41,9 @@
 			Many dismiss them as unfortunate coincidences, however.
 		</Line>
 
-		<Line speaker="Serin" portrait="serin-human">
-			Do you?
-		</Line>
+		<Choice speaker="Serin" portrait="serin-human" prompt="...">
+			<Option>Do you believe that?</Option>
+		</Choice>
 
 		<Line speaker="Guide" portrait="guideNPC-portrait">
 			I believe the land speaks before disaster arrives... although very few listened to learn.
@@ -120,9 +121,10 @@
 			Moonwell has a habit of looking after new arrivals. Consider it a welcome.
 		</Line>
 
-		<Line speaker="Serin" portrait="serin-human">
-			You're giving these away?
-		</Line>
+		<Choice speaker="Serin" portrait="serin-human" prompt="...">
+			<Option>You're giving these away?</Option>
+			<Option>For free?</Option>
+		</Choice>
 
 		<Line speaker="Merchant" portrait="shopNPC-portrait">
 			Hardly. Well, you can also think of it as an investment. Travelers who survive tend to become returning customers.
