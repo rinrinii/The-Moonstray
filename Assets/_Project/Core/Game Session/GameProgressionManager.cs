@@ -120,8 +120,14 @@ public class GameProgressionManager : MonoBehaviour
 
     private void TeleportToFinalSequence()
     {
+        // Development shortcut: put progression into the exact state required
+        // by EndingTrigger before arriving at Moonveil's center spawn.
         SetFlag(GameProgressionFlags.Chapter1GuideIntroComplete);
         BeginFinalSequence();
+
+        Debug.Log(
+            "Final sequence enabled (F6). Approach the Moonveil tree to choose an ending.");
+
         SceneLoader.LoadScene("Moonveil", "CenterMoonveil");
     }
 

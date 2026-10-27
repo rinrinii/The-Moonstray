@@ -50,6 +50,15 @@ public class EndingTrigger : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
+        GameProgressionManager progression = GameProgressionManager.Instance;
+        if (progression == null ||
+            progression.CurrentStage != GameProgressionStage.FinalSequence)
+        {
+            Debug.Log(
+                "Ending choice ignored: progression has not reached the final sequence.");
+            return;
+        }
+
         triggered = true;
 
         GameplayUIManager ui = GameplayUIManager.Instance;
@@ -174,8 +183,17 @@ public class EndingTrigger : MonoBehaviour
         creditsPanel.BringToFront();
         creditsScroll.scrollOffset = Vector2.zero;
 
+        // The ending sequence owns the scroll position. Ignore pointer,
+        // wheel, scrollbar-drag, and keyboard-focus input while preserving
+        // programmatic updates from AutoScrollCredits.
+        creditsScroll.pickingMode = PickingMode.Ignore;
+        creditsScroll.focusable = false;
+        creditsScroll.verticalScroller.pickingMode = PickingMode.Ignore;
+
+        // Ending credits are intentionally non-skippable. The same template
+        // keeps its close button when opened normally from the main menu.
         if (creditsCloseButton != null)
-            creditsCloseButton.clicked += FinishCredits;
+            creditsCloseButton.style.display = DisplayStyle.None;
 
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         UnityEngine.Cursor.visible = true;
@@ -237,20 +255,12 @@ public class EndingTrigger : MonoBehaviour
             FinishCredits();
     }
 
-    private void Update()
-    {
-        if (creditsPlaying && Input.GetKeyDown(KeyCode.Escape))
-            FinishCredits();
-    }
-
     private void FinishCredits()
     {
         if (!creditsPlaying)
             return;
 
         creditsPlaying = false;
-        if (creditsCloseButton != null)
-            creditsCloseButton.clicked -= FinishCredits;
 
         if (creditsRoutine != null)
         {
@@ -261,17 +271,26 @@ public class EndingTrigger : MonoBehaviour
         if (creditsAudioSource != null)
             creditsAudioSource.Stop();
 
-        // SceneLoader already presents the dedicated loading screen. Leaving
-        // a persistent ScreenFade at full opacity here can cover both the
-        // loading scene and the main menu, so transition immediately.
         ReturnToMainMenu();
     }
 
-    private static void ReturnToMainMenu()
+    private void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
-        PersistentRoot.DestroyPersistentSystems();
+
+        if (ScreenFade.Instance != null)
+            ScreenFade.Instance.FadeOut(LoadMainMenu);
+        else
+            LoadMainMenu();
+    }
+
+    private static void LoadMainMenu()
+    {
+        // Load the camera-backed loading scene before scheduling destruction
+        // of the persistent gameplay camera. This prevents a frame where
+        // Unity has no enabled camera while returning to the title screen.
         SceneLoader.LoadScene("MainMenu");
+        PersistentRoot.DestroyPersistentSystems();
     }
 
     private static void PopulateSpecialThanks(VisualElement root)

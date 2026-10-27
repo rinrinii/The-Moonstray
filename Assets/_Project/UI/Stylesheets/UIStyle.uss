@@ -303,6 +303,70 @@
     background-image: url("project://database/Assets/_Project/UI/Images/x-button.png?fileID=2800000&guid=fb225526320b5534e88c75eedca27d37&type=3#x-button");
 }
 
+.ending-choice-root {
+    position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+    align-items: center; justify-content: center;
+    background-color: rgba(0, 5, 18, 0.78);
+    background-image: url("project://database/Assets/_Project/UI/Images/settings/settings-BG.png?fileID=2800000&guid=2954843c77a0458419c61c73903be7e1&type=3#settings-BG");
+    -unity-background-image-tint-color: rgba(37, 47, 68, 0.74);
+    -unity-background-scale-mode: stretch-to-fill;
+}
+.ending-choice-panel {
+    width: 82%; max-width: 1280px; min-height: 680px;
+    padding: 48px 64px 42px 64px; align-items: center; justify-content: center;
+    background-image: url("project://database/Assets/_Project/UI/Images/Dialogue/dialogue-opaque-BG.png?fileID=2800000&guid=2479d79330b398d4c85f97eb0df8854d&type=3#dialogue-opaque-BG");
+    -unity-background-scale-mode: stretch-to-fill;
+}
+.ending-choice-moon {
+    height: 56px; color: rgb(238, 202, 92); font-size: 48px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-SemiBold.ttf?fileID=12800000&guid=35f65dbe7a372414796dfd6f32de3838&type=3#Quicksand-SemiBold");
+}
+.ending-choice-kicker {
+    margin-top: 4px; color: rgb(238, 202, 92); font-size: 24px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-SemiBold.ttf?fileID=12800000&guid=35f65dbe7a372414796dfd6f32de3838&type=3#Quicksand-SemiBold");
+}
+.ending-choice-title {
+    margin-top: 12px; color: white; font-size: 76px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Solander/solander%20demo.ttf?fileID=12800000&guid=ef76212c595460c43b2f0f7f020c38d2&type=3#solander demo");
+}
+.ending-choice-subtitle, .ending-choice-consequence {
+    color: rgb(219, 222, 231); font-size: 25px; -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-SemiBold.ttf?fileID=12800000&guid=35f65dbe7a372414796dfd6f32de3838&type=3#Quicksand-SemiBold");
+}
+.ending-choice-subtitle { margin-top: 4px; margin-bottom: 34px; }
+.ending-choice-options { width: 100%; align-items: stretch; }
+.ending-choice-option {
+    width: 100%; min-height: 132px; margin-top: 10px; margin-bottom: 10px;
+    padding: 22px 30px 20px 30px; align-items: flex-start; justify-content: center;
+    background-image: url("project://database/Assets/_Project/UI/Images/Dialogue/dialogue-BG.png?fileID=2800000&guid=bfb0cd7994f70614fa16dcca80ab5c93&type=3#dialogue-BG");
+    -unity-background-scale-mode: stretch-to-fill;
+    border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px;
+    border-left-color: rgba(238, 202, 92, 0.45); border-right-color: rgba(238, 202, 92, 0.45);
+    border-top-color: rgba(238, 202, 92, 0.45); border-bottom-color: rgba(238, 202, 92, 0.45);
+    border-top-left-radius: 14px; border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+    transition-property: scale, -unity-background-image-tint-color, border-left-color, border-right-color, border-top-color, border-bottom-color;
+    transition-duration: 0.12s;
+}
+.ending-choice-option:hover, .ending-choice-option:focus {
+    scale: 1.01 1.01; -unity-background-image-tint-color: rgb(255, 241, 181);
+    border-left-color: rgb(238, 202, 92); border-right-color: rgb(238, 202, 92);
+    border-top-color: rgb(238, 202, 92); border-bottom-color: rgb(238, 202, 92);
+}
+.ending-choice-option-title {
+    color: white; font-size: 31px; -unity-text-align: middle-left;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-SemiBold.ttf?fileID=12800000&guid=35f65dbe7a372414796dfd6f32de3838&type=3#Quicksand-SemiBold");
+}
+.ending-choice-option-description {
+    margin-top: 8px; color: rgb(206, 211, 224); font-size: 22px;
+    white-space: normal; -unity-text-align: middle-left;
+    -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/Quicksand/Quicksand-SemiBold.ttf?fileID=12800000&guid=35f65dbe7a372414796dfd6f32de3838&type=3#Quicksand-SemiBold");
+}
+.ending-choice-consequence { margin-top: 28px; color: rgb(238, 202, 92); font-size: 22px; }
+
 .objective-complete-glow {
     color: rgb(255, 222, 112);
     text-shadow: 0 0 18px rgba(255, 205, 72, 0.9);

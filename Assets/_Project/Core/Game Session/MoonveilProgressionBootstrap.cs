@@ -74,11 +74,8 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
     private static void ConfigureEndingTrigger()
     {
         GameProgressionManager progression = GameProgressionManager.Instance;
-        if (progression == null ||
-            !progression.IsAtLeast(GameProgressionStage.FinalSequence))
-        {
-            return;
-        }
+        bool endingAvailable = progression != null &&
+            progression.CurrentStage == GameProgressionStage.FinalSequence;
 
         EndingTrigger[] endingTriggers =
             Object.FindObjectsByType<EndingTrigger>(
@@ -87,7 +84,7 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
 
         foreach (EndingTrigger endingTrigger in endingTriggers)
         {
-            endingTrigger.gameObject.SetActive(true);
+            endingTrigger.gameObject.SetActive(endingAvailable);
             break;
         }
     }
