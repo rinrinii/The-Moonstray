@@ -90,13 +90,16 @@
 			You look a little lost... Do you remember anything about where you came from?
 		</Line>
 
-		<Line speaker="..." portrait="serin-human">...I don't know.</Line>
+		<Choice speaker="..." portrait="serin-human" prompt="...">
+			<Option>I can't remember.</Option>
+			<Option>It's all blank.</Option>
+		</Choice>
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">Hmm... how about your name?</Line>
 
-		<Line speaker="..." portrait="serin-human">...</Line>
-
-		<Line speaker="Serin" portrait="serin-human">Serin.</Line>
+		<Choice speaker="Serin" portrait="serin-human" prompt="...">
+			<Option>...Serin.</Option>
+		</Choice>
 
 		<Line speaker="Student" portrait="tutorialNPC-portrait">Serin. What a beautiful name.</Line>
 	</Dialogue>

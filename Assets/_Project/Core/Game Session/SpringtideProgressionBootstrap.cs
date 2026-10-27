@@ -789,10 +789,25 @@ public class RestrictedFarmlandsQuestInteraction : MonoBehaviour,
 
         void FadeBackIn()
         {
+            void ShowPostCutsceneDialogue()
+            {
+                DialogueManager dialogue = DialogueManager.Instance;
+                if (dialogue != null)
+                {
+                    dialogue.StartDialogue(
+                        "chapter1.springPostCutscene",
+                        Finish);
+                }
+                else
+                {
+                    Finish();
+                }
+            }
+
             if (ScreenFade.Instance != null)
-                ScreenFade.Instance.FadeIn(Finish);
+                ScreenFade.Instance.FadeIn(ShowPostCutsceneDialogue);
             else
-                Finish();
+                ShowPostCutsceneDialogue();
         }
 
         void Play()

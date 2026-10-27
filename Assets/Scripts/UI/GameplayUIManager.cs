@@ -159,6 +159,10 @@ public class GameplayUIManager : MonoBehaviour
 
     private void Update()
     {
+        // Keep the debug feature unlock and its HUD presentation in sync.
+        if (Input.GetKeyDown(KeyCode.F5))
+            SetBottomRightHUDVisible(true);
+
         if (Input.GetKeyDown(KeyCode.F11))
         {
             SetCaptureHudHidden(!captureHudHidden);
@@ -363,6 +367,13 @@ public class GameplayUIManager : MonoBehaviour
 
         if (Note != null && Note != except)
             Note.CloseNote();
+    }
+
+    public bool IsSecondaryPanelActive()
+    {
+        return (Map != null && Map.IsMapActive()) ||
+            (Journal != null && Journal.IsJournalActive()) ||
+            (Inventory != null && Inventory.IsInventoryActive());
     }
 
     // =========================================

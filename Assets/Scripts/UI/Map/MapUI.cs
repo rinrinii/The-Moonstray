@@ -223,6 +223,8 @@ public class MapUI : MonoBehaviour
     public void OpenMap()
     {
         if (!hasMap ||
+            (PauseMenuController.Instance != null &&
+             PauseMenuController.Instance.IsPaused()) ||
             (GameplayUIManager.Instance != null &&
              GameplayUIManager.Instance.IsPuzzleViewActive))
             return;

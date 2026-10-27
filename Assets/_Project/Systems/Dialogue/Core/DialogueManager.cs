@@ -201,6 +201,20 @@ public class DialogueManager : MonoBehaviour
         selectedChoice.Select();
     }
 
+    private void SelectInlineChoice(int index)
+    {
+        if (!isChoosing || activeChoices == null ||
+            index < 0 || index >= activeChoices.Count)
+        {
+            return;
+        }
+
+        isChoosing = false;
+        activeChoices = null;
+        dialogueUI.ClearChoices();
+        DisplayNextLine();
+    }
+
     public void StartDialogue(
     string dialogueID,
     Action onComplete)
@@ -229,6 +243,21 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine line =
             lines.Dequeue();
+
+        if (line.HasChoices)
+        {
+            List<DialogueChoice> choices = new();
+            foreach (string choiceText in line.choices)
+                choices.Add(new DialogueChoice(choiceText, null));
+
+            activeChoices = choices;
+            isChoosing = true;
+            dialogueUI.DisplayInlineChoice(
+                line,
+                choices,
+                SelectInlineChoice);
+            return;
+        }
 
         dialogueUI.DisplayLine(line);
 

@@ -1348,6 +1348,10 @@ MonoBehaviour:
   targetScene: Southern Exit Path
   targetSpawnID: ToSouthPathFromPinewatch
   compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 1
+  allowDuringSpecificTutorialState: 0
+  allowedTutorialState: 0
+  blockedDialogueID: tutorial.blockedExit
 --- !u!65 &340827128
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -77,22 +77,23 @@
     position: absolute;
     right: 5%;
     bottom: 350px;
-    width: 390px;
+    width: 520px;
     align-items: stretch;
     display: none;
 }
 
 .dialogue-choice-button {
-    height: 68px;
+    min-height: 68px;
     margin-top: 6px;
     margin-bottom: 6px;
-    padding-left: 72px;
+    padding-left: 112px;
     padding-right: 28px;
     color: rgb(255, 255, 255);
     font-size: 30px;
     -unity-font-definition: url("project://database/Assets/_Project/UI/Fonts/AlegreyaSans/AlegreyaSans-Medium.ttf?fileID=12800000&guid=1c68df65c086c5e4ab7422383dbcf6f7&type=3#AlegreyaSans-Medium");
     -unity-font-style: bold-and-italic;
     -unity-text-align: middle-left;
+    white-space: normal;
     background-color: rgba(255, 255, 255, 0);
     background-image: url("project://database/Assets/_Project/UI/Images/button-bg.png?fileID=2800000&guid=2464c6cc2deb8d443adbacee7273e331&type=3#button-bg");
     -unity-background-scale-mode: stretch-to-fill;

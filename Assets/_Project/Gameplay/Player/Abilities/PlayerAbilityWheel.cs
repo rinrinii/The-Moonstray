@@ -128,8 +128,8 @@ public sealed class PlayerAbilityWheel : MonoBehaviour
              DialogueManager.Instance.IsGameplayInputBlocked()))
             return false;
 
-        if (InventoryUI.Instance != null &&
-            InventoryUI.Instance.IsInventoryActive())
+        if (GameplayUIManager.Instance != null &&
+            GameplayUIManager.Instance.IsSecondaryPanelActive())
             return false;
 
         if (GameplayUIManager.Instance != null &&

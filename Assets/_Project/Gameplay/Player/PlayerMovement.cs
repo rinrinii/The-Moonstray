@@ -166,6 +166,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // =========================================
+        // MAP / JOURNAL
+        // =========================================
+        GameplayUIManager gameplayUI = GameplayUIManager.Instance;
+        if (gameplayUI != null && gameplayUI.IsSecondaryPanelActive())
+        {
+            if (currentAnim != null)
+            {
+                currentAnim.SetFloat(
+                    "Speed",
+                    0,
+                    0.15f,
+                    Time.deltaTime
+                );
+            }
+
+            ApplyGravity();
+            return;
+        }
+
+        // =========================================
         // GAMEPLAY INPUT LOCK
         // =========================================
         if (DialogueManager.Instance != null &&

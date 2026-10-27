@@ -18,6 +18,7 @@ public sealed class DevelopmentQuestStagePanel : MonoBehaviour
         public readonly string SpawnID;
         public readonly string[] Flags;
         public readonly bool UnlockDash;
+        public readonly TutorialState? TutorialState;
 
         public Checkpoint(
             string name,
@@ -35,6 +36,24 @@ public sealed class DevelopmentQuestStagePanel : MonoBehaviour
             SpawnID = spawnID;
             UnlockDash = unlockDash;
             Flags = flags ?? Array.Empty<string>();
+            TutorialState = null;
+        }
+
+        public Checkpoint(
+            string name,
+            string description,
+            TutorialState tutorialState,
+            string scene,
+            string spawnID)
+        {
+            Name = name;
+            Description = description;
+            Stage = GameProgressionStage.Tutorial;
+            Scene = scene;
+            SpawnID = spawnID;
+            UnlockDash = false;
+            Flags = Array.Empty<string>();
+            TutorialState = tutorialState;
         }
     }
 
@@ -98,6 +117,12 @@ public sealed class DevelopmentQuestStagePanel : MonoBehaviour
 
     private static readonly Checkpoint[] Checkpoints =
     {
+        new(
+            "Tutorial — wake in Frostmere Library",
+            "Starts at the library wake-up and student dialogue sequence.",
+            TutorialState.WakeInLibrary,
+            "Frostmere Library",
+            "ToRestrictedArchivesFromEastWing"),
         new(
             "Spring — talk to the guide",
             "Starts Chapter 1 in Moonveil before the guide introduction.",
@@ -318,7 +343,11 @@ public sealed class DevelopmentQuestStagePanel : MonoBehaviour
         }
 
         QuestManager.Instance?.ResetProgress();
-        TutorialManager.Instance?.FinishTutorial();
+
+        if (checkpoint.TutorialState.HasValue)
+            TutorialManager.Instance?.RestoreState(checkpoint.TutorialState.Value);
+        else
+            TutorialManager.Instance?.FinishTutorial();
 
         progression.RestoreState(new GameProgressionManager.Snapshot
         {

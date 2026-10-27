@@ -232,6 +232,8 @@ public class JournalController : MonoBehaviour
     public void OpenJournal()
     {
         if (!unlocked ||
+            (PauseMenuController.Instance != null &&
+             PauseMenuController.Instance.IsPaused()) ||
             (GameplayUIManager.Instance != null &&
              GameplayUIManager.Instance.IsPuzzleViewActive))
             return;

@@ -169,8 +169,18 @@ public class PlayerTransformation : MonoBehaviour
 
     private void Update()
     {
+        if ((PauseMenuController.Instance != null &&
+             PauseMenuController.Instance.IsPaused()) ||
+            (GameplayUIManager.Instance != null &&
+             (GameplayUIManager.Instance.IsSecondaryPanelActive() ||
+              GameplayUIManager.Instance.IsPuzzleViewActive)))
+        {
+            return;
+        }
+
         if (DialogueManager.Instance != null &&
-            DialogueManager.Instance.IsDialogueActive)
+            (DialogueManager.Instance.IsDialogueActive ||
+             DialogueManager.Instance.IsGameplayInputBlocked()))
         {
             return;
         }

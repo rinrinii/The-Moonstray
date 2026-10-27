@@ -130,10 +130,41 @@ public class DialogueUIDocument : MonoBehaviour
         }
 
         choicesContainer.style.display = DisplayStyle.Flex;
-        choicesContainer.schedule.Execute(() =>
+    }
+
+    public void DisplayInlineChoice(
+        DialogueLine line,
+        IReadOnlyList<DialogueChoice> choices,
+        Action<int> onSelected)
+    {
+        DisplayLine(line);
+        dialogueText.style.unityFontStyleAndWeight = FontStyle.Italic;
+        nextArrow.style.display = DisplayStyle.None;
+
+        PopulateChoices(choices, onSelected);
+    }
+
+    private void PopulateChoices(
+        IReadOnlyList<DialogueChoice> choices,
+        Action<int> onSelected)
+    {
+        ClearChoices();
+        if (choicesContainer == null || choices == null)
+            return;
+
+        for (int index = 0; index < choices.Count; index++)
         {
-            choicesContainer.Q<Button>()?.Focus();
-        });
+            int selectedIndex = index;
+            Button button = new(() => onSelected?.Invoke(selectedIndex))
+            {
+                text = choices[index].Text
+            };
+
+            button.AddToClassList("dialogue-choice-button");
+            choicesContainer.Add(button);
+        }
+
+        choicesContainer.style.display = DisplayStyle.Flex;
     }
 
     public void ClearChoices()

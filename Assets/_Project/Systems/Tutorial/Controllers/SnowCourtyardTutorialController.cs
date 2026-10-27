@@ -44,7 +44,7 @@ public class SnowCourtyardTutorialController : MonoBehaviour
 
     private void HandleStateChanged(TutorialState state)
     {
-        SetExitBlockersActive(state == TutorialState.SnowCourtyard);
+        ConfigureExitBlockers(state);
 
         switch (state)
         {
@@ -100,16 +100,25 @@ public class SnowCourtyardTutorialController : MonoBehaviour
         ObjectivesUI.Instance?.Clear();
     }
 
-    private void SetExitBlockersActive(bool active)
+    private void ConfigureExitBlockers(TutorialState state)
     {
+        // First courtyard visit: only the route toward Blight Path is open.
+        bool isFirstCourtyardVisit = state == TutorialState.SnowCourtyard;
+
+        // After the library/student sequence: only the southern route is open.
+        // Blight Path is blocked by its state-aware SceneTransitionTrigger.
+        bool isPostLibraryReturn = state == TutorialState.ReadingWing;
+
         if (pinewatchExitBlocker != null)
-            pinewatchExitBlocker.SetActive(active);
+            pinewatchExitBlocker.SetActive(
+                isFirstCourtyardVisit || isPostLibraryReturn);
 
         if (libraryExitBlocker != null)
-            libraryExitBlocker.SetActive(active);
+            libraryExitBlocker.SetActive(
+                isFirstCourtyardVisit || isPostLibraryReturn);
 
         if (southExitBlocker != null)
-            southExitBlocker.SetActive(active);
+            southExitBlocker.SetActive(isFirstCourtyardVisit);
     }
 
     public void RegisterInspection()
