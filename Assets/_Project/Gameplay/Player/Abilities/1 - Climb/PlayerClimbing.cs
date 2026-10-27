@@ -71,6 +71,21 @@ public class PlayerClimbing : MonoBehaviour
     {
         DetectClimbable();
 
+        if ((PauseMenuController.Instance != null &&
+             PauseMenuController.Instance.IsPaused()) ||
+            (GameplayUIManager.Instance != null &&
+             (GameplayUIManager.Instance.IsSecondaryPanelActive() ||
+              GameplayUIManager.Instance.IsPuzzleViewActive)) ||
+            (DialogueManager.Instance != null &&
+             (DialogueManager.Instance.IsDialogueActive ||
+              DialogueManager.Instance.IsGameplayInputBlocked())))
+        {
+            if (currentAnim != null && isClimbing)
+                currentAnim.SetFloat("ClimbSpeed", 0f);
+
+            return;
+        }
+
         if (!AbilityManager.Instance.IsUnlocked(AbilityType.Climb))
         {
             return;

@@ -150,11 +150,6 @@ public class CutscenePlayer : MonoBehaviour
             skipPromptView?.SetButtonsEnabled(true);
         }
 
-        // Debug shortcut
-        if (!isPlaying && Input.GetKeyDown(KeyCode.P))
-        {
-            Play(null);
-        }
     }
 
     private void ShowSkipPrompt()

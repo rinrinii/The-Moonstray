@@ -369,6 +369,13 @@ public class GameplayUIManager : MonoBehaviour
             Note.CloseNote();
     }
 
+    public bool IsSecondaryPanelActive()
+    {
+        return (Map != null && Map.IsMapActive()) ||
+            (Journal != null && Journal.IsJournalActive()) ||
+            (Inventory != null && Inventory.IsInventoryActive());
+    }
+
     // =========================================
     // HUD VISIBILITY
     // =========================================

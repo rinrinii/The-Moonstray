@@ -3872,6 +3872,8 @@ MonoBehaviour:
   blockWhileTutorialActive: 1
   allowDuringSpecificTutorialState: 1
   allowedTutorialState: 8
+  allowDuringAdditionalTutorialState: 0
+  additionalAllowedTutorialState: 0
   blockedDialogueID: tutorial.blockedExit
 --- !u!65 &518352359
 BoxCollider:
@@ -5638,7 +5640,7 @@ Transform:
   m_GameObject: {fileID: 789062014}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.7, y: 1, z: 28.7}
+  m_LocalPosition: {x: 5.7, y: 1.2, z: 25.543674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10966,6 +10968,8 @@ MonoBehaviour:
   blockWhileTutorialActive: 1
   allowDuringSpecificTutorialState: 0
   allowedTutorialState: 0
+  allowDuringAdditionalTutorialState: 0
+  additionalAllowedTutorialState: 0
   blockedDialogueID: tutorial.blockedExit
 --- !u!65 &1909265226
 BoxCollider:
@@ -11367,6 +11371,8 @@ MonoBehaviour:
   blockWhileTutorialActive: 1
   allowDuringSpecificTutorialState: 0
   allowedTutorialState: 0
+  allowDuringAdditionalTutorialState: 0
+  additionalAllowedTutorialState: 0
   blockedDialogueID: tutorial.blockedExit
 --- !u!65 &2061993368
 BoxCollider:
@@ -11551,7 +11557,6 @@ MonoBehaviour:
   pinewatchExitBlocker: {fileID: 402227118}
   libraryExitBlocker: {fileID: 981568825}
   southExitBlocker: {fileID: 1774730370}
-  requiredInspections: 2
 --- !u!1 &2103314019
 GameObject:
   m_ObjectHideFlags: 0

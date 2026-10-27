@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
@@ -11,6 +12,10 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
     [SerializeField] private string noteContent;
 
     [SerializeField] private bool disableAfterPickup = true;
+
+    [Header("Presentation")]
+    [SerializeField, Min(0f)]
+    private float previewDelaySeconds = 0.75f;
 
     private bool hasBeenRead;
     private Action onReadCallback;
@@ -43,7 +48,18 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
 
         if (NoteUI.Instance != null)
         {
-            NoteUI.Instance.OpenNote(title, content, NotifyNoteRead);
+            if (previewDelaySeconds > 0f)
+            {
+                StartCoroutine(
+                    OpenNoteAfterDelay(title, content));
+            }
+            else
+            {
+                NoteUI.Instance.OpenNote(
+                    title,
+                    content,
+                    NotifyNoteRead);
+            }
         }
         else
         {
@@ -63,6 +79,25 @@ public class NoteInteractionResponse : MonoBehaviour, IInteractionResponse
         if (disableAfterPickup)
         {
             DisableNoteObject();
+        }
+    }
+
+    private IEnumerator OpenNoteAfterDelay(
+        string title,
+        string content)
+    {
+        yield return new WaitForSeconds(previewDelaySeconds);
+
+        if (NoteUI.Instance != null)
+        {
+            NoteUI.Instance.OpenNote(
+                title,
+                content,
+                NotifyNoteRead);
+        }
+        else
+        {
+            NotifyNoteRead();
         }
     }
 

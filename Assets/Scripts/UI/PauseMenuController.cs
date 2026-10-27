@@ -137,8 +137,7 @@ public class PauseMenuController : MonoBehaviour
                 return;
             }
 
-            if (GameplayUIManager.Instance.Map.IsMapActive() ||
-                GameplayUIManager.Instance.Journal.IsJournalActive())
+            if (IsSecondaryPanelActive())
             {
                 GameplayUIManager.Instance.SuppressSecondaryPanels();
                 return;
@@ -146,6 +145,15 @@ public class PauseMenuController : MonoBehaviour
 
             TogglePause();
         }
+    }
+
+    private static bool IsSecondaryPanelActive()
+    {
+        GameplayUIManager ui = GameplayUIManager.Instance;
+        if (ui == null)
+            return false;
+
+        return ui.IsSecondaryPanelActive();
     }
 
     private void TogglePause()

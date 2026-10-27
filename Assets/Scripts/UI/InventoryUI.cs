@@ -159,6 +159,8 @@ public class InventoryUI : MonoBehaviour
     public void Open()
     {
         if (!unlocked ||
+            (PauseMenuController.Instance != null &&
+             PauseMenuController.Instance.IsPaused()) ||
             (GameplayUIManager.Instance != null &&
              GameplayUIManager.Instance.IsPuzzleViewActive))
             return;

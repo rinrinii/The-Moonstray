@@ -32,6 +32,17 @@ public class PlayerInteraction : MonoBehaviour
             return;
         }
 
+        if ((GameplayUIManager.Instance != null &&
+             (GameplayUIManager.Instance.IsSecondaryPanelActive() ||
+              GameplayUIManager.Instance.IsPuzzleViewActive)) ||
+            (DialogueManager.Instance != null &&
+             (DialogueManager.Instance.IsDialogueActive ||
+              DialogueManager.Instance.IsGameplayInputBlocked())))
+        {
+            ClearCurrent();
+            return;
+        }
+
         UpdateTarget();
 
         // =========================================
