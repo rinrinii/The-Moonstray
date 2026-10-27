@@ -48,6 +48,12 @@ public class AbilityManager : MonoBehaviour
     // that require progression abilities.
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            UnlockAbility(AbilityType.MoonWeave);
+            Debug.Log("Moon Weave debug unlock enabled (F3).");
+        }
+
         if (Input.GetKeyDown(KeyCode.F9))
         {
             UnlockAllAbilities();
@@ -128,6 +134,15 @@ public class AbilityManager : MonoBehaviour
     {
         unlockedAbilities.Clear();
         if (abilities != null)
-            unlockedAbilities.UnionWith(abilities);
+        {
+            foreach (AbilityType ability in abilities)
+            {
+                // Moon Weave was previously granted on entering Chapter 4,
+                // so old saves can contain it before the Winter quest exists.
+                // Ignore that legacy unlock; F3 is the temporary test route.
+                if (ability != AbilityType.MoonWeave)
+                    unlockedAbilities.Add(ability);
+            }
+        }
     }
 }

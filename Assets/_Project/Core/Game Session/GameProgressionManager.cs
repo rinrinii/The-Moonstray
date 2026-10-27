@@ -120,8 +120,14 @@ public class GameProgressionManager : MonoBehaviour
 
     private void TeleportToFinalSequence()
     {
+        // Development shortcut: put progression into the exact state required
+        // by EndingTrigger before arriving at Moonveil's center spawn.
         SetFlag(GameProgressionFlags.Chapter1GuideIntroComplete);
         BeginFinalSequence();
+
+        Debug.Log(
+            "Final sequence enabled (F6). Approach the Moonveil tree to choose an ending.");
+
         SceneLoader.LoadScene("Moonveil", "CenterMoonveil");
     }
 
@@ -281,8 +287,9 @@ public class GameProgressionManager : MonoBehaviour
 
     private void EnsureStageAbilityUnlocks()
     {
-        if (currentStage >= GameProgressionStage.Chapter4Winter)
-            AbilityManager.Instance?.UnlockAbility(AbilityType.MoonWeave);
+        // Moon Weave is awarded by the Winter quest itself, not merely by
+        // entering the Winter chapter. Until that quest is implemented, F3
+        // provides the development-only unlock in AbilityManager.
     }
 
     public void ResetProgress()
