@@ -6,6 +6,7 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
 {
     private const string MoonveilSceneName = "Moonveil";
     private const string NewBeginningsQuestID = "chapter1.new_beginnings";
+    private const string FinalQuestTitle = "For Tomorrow Is Ours to Choose";
     private static bool registered;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -76,6 +77,13 @@ public class MoonveilProgressionBootstrap : MonoBehaviour
         GameProgressionManager progression = GameProgressionManager.Instance;
         bool endingAvailable = progression != null &&
             progression.CurrentStage == GameProgressionStage.FinalSequence;
+
+        if (endingAvailable)
+        {
+            QuestManager.Instance?.SetObjective(
+                FinalQuestTitle,
+                "Reflect on the journey.");
+        }
 
         EndingTrigger[] endingTriggers =
             Object.FindObjectsByType<EndingTrigger>(
