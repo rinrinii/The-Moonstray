@@ -277,9 +277,10 @@ public class PauseMenuController : MonoBehaviour
     {
         AudioManager.Instance?.PlayUI("Button3");
 
+        isPaused = false;
+        settingsOpen = false;
+        CloseSaveSlots();
         Time.timeScale = 1f;
-
-        PersistentRoot.DestroyPersistentSystems();
 
         SceneLoader.LoadScene(mainMenuScene);
     }

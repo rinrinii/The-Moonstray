@@ -12,6 +12,10 @@ public class ScreenFade : MonoBehaviour
 
     private Coroutine fadeRoutine;
 
+    public bool IsFullyBlack =>
+        fadeImage != null && fadeImage.gameObject.activeInHierarchy &&
+        fadeImage.color.a >= 0.999f;
+
     private void Awake()
     {
         if (Instance == null)

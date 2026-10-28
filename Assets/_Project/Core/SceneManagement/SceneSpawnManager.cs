@@ -40,6 +40,7 @@ public class SceneSpawnManager : MonoBehaviour
                     cc.enabled = true;
 
                 ResetPlayerTeleportState(player);
+                FindFirstObjectByType<CameraFollow>()?.SnapToTarget();
 
                 Debug.Log($"Moved player to {player.transform.position}");
             }

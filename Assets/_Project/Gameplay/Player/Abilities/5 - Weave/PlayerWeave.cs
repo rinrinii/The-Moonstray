@@ -28,7 +28,6 @@ public sealed class PlayerWeave : MonoBehaviour
         new("Pale Snowfields", "Frostmere Library", ArrivalSpawnID)
     };
 
-    private static bool arrivalFadePending;
     private static bool isTransitioning;
 
     public static void CompleteArrivalTransition()
@@ -37,14 +36,6 @@ public sealed class PlayerWeave : MonoBehaviour
             return;
 
         isTransitioning = false;
-
-        if (!arrivalFadePending)
-            return;
-
-        arrivalFadePending = false;
-
-        if (ScreenFade.Instance != null)
-            ScreenFade.Instance.FadeIn();
     }
 
     public void OpenDestinationPrompt()
@@ -80,17 +71,6 @@ public sealed class PlayerWeave : MonoBehaviour
 
         isTransitioning = true;
 
-        void LoadDestination()
-        {
-            SceneLoader.LoadScene(destination.Scene, destination.SpawnID);
-        }
-
-        if (ScreenFade.Instance != null)
-        {
-            arrivalFadePending = true;
-            ScreenFade.Instance.FadeOut(LoadDestination);
-        }
-        else
-            LoadDestination();
+        SceneLoader.LoadScene(destination.Scene, destination.SpawnID);
     }
 }
