@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class SceneLoader
@@ -15,9 +16,7 @@ public static class SceneLoader
         PendingScene = sceneName;
         PendingSpawnID = null;
 
-        ClearTransientPlayerEffects();
-        GameplayUIManager.Instance?.SetGameplayUIVisible(false);
-        SceneManager.LoadScene("LoadingScene");
+        BeginTransition(sceneName);
     }
 
     /// <summary>
@@ -29,9 +28,25 @@ public static class SceneLoader
         PendingScene = sceneName;
         PendingSpawnID = spawnID;
 
+        BeginTransition(sceneName);
+    }
+
+    private static void BeginTransition(string sceneName)
+    {
         ClearTransientPlayerEffects();
         GameplayUIManager.Instance?.SetGameplayUIVisible(false);
-        SceneManager.LoadScene("LoadingScene");
+
+        bool leavingMainMenu =
+            SceneManager.GetActiveScene().name == "MainMenu" &&
+            sceneName != "MainMenu";
+
+        if (leavingMainMenu)
+        {
+            SceneManager.LoadScene("LoadingScene");
+            return;
+        }
+
+        SceneTransitionRunner.Begin(sceneName);
     }
 
     private static void ClearTransientPlayerEffects()

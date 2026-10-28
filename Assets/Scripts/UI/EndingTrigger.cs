@@ -507,11 +507,7 @@ public class EndingTrigger : MonoBehaviour
 
     private static void LoadMainMenu()
     {
-        // Load the camera-backed loading scene before scheduling destruction
-        // of the persistent gameplay camera. This prevents a frame where
-        // Unity has no enabled camera while returning to the title screen.
         SceneLoader.LoadScene("MainMenu");
-        PersistentRoot.DestroyPersistentSystems();
     }
 
     private static void PopulateSpecialThanks(VisualElement root)

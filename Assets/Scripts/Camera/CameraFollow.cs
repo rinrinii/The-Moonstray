@@ -19,4 +19,12 @@ public class CameraFollow : MonoBehaviour
             smoothSpeed * Time.deltaTime
         );
     }
+
+    public void SnapToTarget()
+    {
+        if (target == null)
+            return;
+
+        transform.position = target.position + offset;
+    }
 }

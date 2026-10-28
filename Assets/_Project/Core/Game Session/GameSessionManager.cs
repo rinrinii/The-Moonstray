@@ -111,6 +111,16 @@ public static class GameSessionManager
     public static void ResetProgressForNewGame()
     {
         IsRestoringSavedSession = false;
+        PlayerMovement playerMovement =
+            UnityEngine.Object.FindFirstObjectByType<PlayerMovement>(
+                FindObjectsInactive.Include);
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = true;
+            playerMovement.StopImmediately();
+            playerMovement.ResetVerticalVelocity();
+        }
+
         InventorySystem.Instance?.ResetState();
         MoonCoinWallet.Instance?.ResetState();
         JournalController.Instance?.ResetState();
@@ -234,8 +244,16 @@ public static class GameSessionManager
             if (controller != null)
                 controller.enabled = true;
 
-            health.GetComponent<PlayerMovement>()?.ResetVerticalVelocity();
+            PlayerMovement movement = health.GetComponent<PlayerMovement>();
+            if (movement != null)
+            {
+                movement.enabled = true;
+                movement.StopImmediately();
+                movement.ResetVerticalVelocity();
+            }
             health.GetComponent<FallDamage>()?.ResetFallTracking();
+            UnityEngine.Object.FindFirstObjectByType<CameraFollow>()
+                ?.SnapToTarget();
         }
 
         health.RestoreState(world.health);

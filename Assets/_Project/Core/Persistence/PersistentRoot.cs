@@ -55,13 +55,14 @@ public class PersistentRoot : MonoBehaviour
 
     private void ApplySceneMode(Scene scene)
     {
-        bool isMainMenu = scene.name == "MainMenu";
+        bool hideGameplayCamera =
+            scene.name == "MainMenu" || scene.name == "LoadingScene";
 
         if (gameplayCamera != null)
-            gameplayCamera.enabled = !isMainMenu;
+            gameplayCamera.enabled = !hideGameplayCamera;
 
         if (gameplayAudioListener != null)
-            gameplayAudioListener.enabled = !isMainMenu;
+            gameplayAudioListener.enabled = !hideGameplayCamera;
     }
 
     public static void DestroyPersistentSystems()
