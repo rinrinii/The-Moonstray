@@ -184,6 +184,58 @@ public class DialogueManager : MonoBehaviour
         dialogueUI.DisplayPrompt(prompt, choices, SelectChoice);
     }
 
+    public void ShowPrompt(
+        string prompt,
+        string speaker,
+        string portraitName,
+        IReadOnlyList<DialogueChoice> choices)
+    {
+        if (isActive)
+        {
+            Debug.LogWarning("Dialogue already active.");
+            return;
+        }
+
+        if (dialogueUI == null)
+            FindDialogueUI();
+
+        if (dialogueUI == null || choices == null || choices.Count == 0)
+        {
+            Debug.LogError("DialogueManager: Cannot show a prompt without UI and choices.");
+            return;
+        }
+
+        if (portraitName == "serin-current")
+        {
+            portraitName =
+                PlayerTransformation.Instance != null &&
+                PlayerTransformation.Instance.IsWolf
+                    ? "serin-wolf"
+                    : "serin-human";
+        }
+
+        Sprite portrait = string.IsNullOrWhiteSpace(portraitName)
+            ? null
+            : Resources.Load<Sprite>($"Portraits/{portraitName}");
+
+        currentDialogueID = string.Empty;
+        lines.Clear();
+        activeChoices = choices;
+        isActive = true;
+        isChoosing = true;
+
+        dialogueUI.ShowDialogueUI();
+        dialogueUI.DisplayInlineChoice(
+            new DialogueLine
+            {
+                speaker = speaker,
+                text = prompt,
+                portrait = portrait
+            },
+            choices,
+            SelectChoice);
+    }
+
     private void SelectChoice(int index)
     {
         if (!isChoosing)

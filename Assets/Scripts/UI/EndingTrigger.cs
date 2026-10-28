@@ -7,6 +7,28 @@ using UnityEngine.Video;
 [RequireComponent(typeof(BoxCollider))]
 public class EndingTrigger : MonoBehaviour
 {
+    private const string FinalPreludeDialogueID =
+        "final.moonveilReflection.prelude";
+    private const string FinalProtectBranchDialogueID =
+        "final.moonveilReflection.protectBranch";
+    private const string FinalHarmBranchDialogueID =
+        "final.moonveilReflection.harmBranch";
+    private const string FinalContinuationDialogueID =
+        "final.moonveilReflection.continuation";
+    private const string FinalRestoreHopeBranchDialogueID =
+        "final.moonveilReflection.restoreHopeBranch";
+    private const string FinalRestoreDoubtBranchDialogueID =
+        "final.moonveilReflection.restoreDoubtBranch";
+    private const string FinalRestoreConvergenceDialogueID =
+        "final.moonveilReflection.restoreConvergence";
+    private const string FinalDestroyFreedomBranchDialogueID =
+        "final.moonveilReflection.destroyFreedomBranch";
+    private const string FinalDestroyRiskBranchDialogueID =
+        "final.moonveilReflection.destroyRiskBranch";
+    private const string FinalDestroyConvergenceDialogueID =
+        "final.moonveilReflection.destroyConvergence";
+    private const string FinalQuestTitle = "For Tomorrow Is Ours to Choose";
+
     [SerializeField]
     private VideoClip goodEndingClip;
 
@@ -76,11 +98,196 @@ public class EndingTrigger : MonoBehaviour
             ui.DestroyButton.clicked -= PlayBadEnding;
             ui.DestroyButton.clicked += PlayBadEnding;
         }
-        ui.ShowEndingChoice();
-
         playerMovement = other.GetComponent<PlayerMovement>();
         if (playerMovement != null)
+        {
+            playerMovement.StopImmediately();
             playerMovement.enabled = false;
+        }
+
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue != null)
+        {
+            dialogue.StartDialogue(
+                FinalPreludeDialogueID,
+                ShowReflectionChoice);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "Final reflection dialogue could not start because DialogueManager is missing.");
+            ShowFinalDecision();
+        }
+    }
+
+    private void ShowReflectionChoice()
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.ShowPrompt(
+            "...",
+            "Serin",
+            "serin-current",
+            new[]
+            {
+                new DialogueChoice(
+                    "They were trying to protect what they loved.",
+                    () => PlayReflectionBranch(
+                        FinalProtectBranchDialogueID)),
+                new DialogueChoice(
+                    "That doesn't erase the harm they caused.",
+                    () => PlayReflectionBranch(
+                        FinalHarmBranchDialogueID))
+            });
+    }
+
+    private void PlayReflectionBranch(string dialogueID)
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.StartDialogue(
+            dialogueID,
+            PlayReflectionContinuation);
+    }
+
+    private void PlayReflectionContinuation()
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.StartDialogue(
+            FinalContinuationDialogueID,
+            ShowRestoreReflectionChoice);
+    }
+
+    private void ShowRestoreReflectionChoice()
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.ShowPrompt(
+            "...",
+            "Serin",
+            "serin-current",
+            new[]
+            {
+                new DialogueChoice(
+                    "I might be able to bring back the balance that was lost.",
+                    () => PlayRestoreReflectionBranch(
+                        FinalRestoreHopeBranchDialogueID)),
+                new DialogueChoice(
+                    "I might only rebuild the same dependence.",
+                    () => PlayRestoreReflectionBranch(
+                        FinalRestoreDoubtBranchDialogueID))
+            });
+    }
+
+    private void PlayRestoreReflectionBranch(string dialogueID)
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.StartDialogue(
+            dialogueID,
+            PlayRestoreConvergence);
+    }
+
+    private void PlayRestoreConvergence()
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.StartDialogue(
+            FinalRestoreConvergenceDialogueID,
+            ShowDestroyReflectionChoice);
+    }
+
+    private void ShowDestroyReflectionChoice()
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.ShowPrompt(
+            "...",
+            "Serin",
+            "serin-current",
+            new[]
+            {
+                new DialogueChoice(
+                    "The world would have to find its own way forward.",
+                    () => PlayDestroyReflectionBranch(
+                        FinalDestroyFreedomBranchDialogueID)),
+                new DialogueChoice(
+                    "The world might not be ready to lose them.",
+                    () => PlayDestroyReflectionBranch(
+                        FinalDestroyRiskBranchDialogueID))
+            });
+    }
+
+    private void PlayDestroyReflectionBranch(string dialogueID)
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.StartDialogue(
+            dialogueID,
+            PlayDestroyConvergence);
+    }
+
+    private void PlayDestroyConvergence()
+    {
+        DialogueManager dialogue = DialogueManager.Instance;
+        if (dialogue == null)
+        {
+            ShowFinalDecision();
+            return;
+        }
+
+        dialogue.StartDialogue(
+            FinalDestroyConvergenceDialogueID,
+            ShowFinalDecision);
+    }
+
+    private void ShowFinalDecision()
+    {
+        QuestManager.Instance?.SetObjective(
+            FinalQuestTitle,
+            "Choose the artifact's fate.");
+        GameplayUIManager.Instance?.ShowEndingChoice();
     }
 
     private void OnDisable()
@@ -131,7 +338,21 @@ public class EndingTrigger : MonoBehaviour
             return;
         }
 
+        if (ScreenFade.Instance != null)
+        {
+            ScreenFade.Instance.FadeOut(
+                () => StartEndingCutscene(clip));
+        }
+        else
+        {
+            StartEndingCutscene(clip);
+        }
+    }
+
+    private void StartEndingCutscene(VideoClip clip)
+    {
         endingCutscenePlayer.Play(clip, HandleEndingFinished);
+        ScreenFade.Instance?.FadeIn();
     }
 
     private void HandleEndingFinished()

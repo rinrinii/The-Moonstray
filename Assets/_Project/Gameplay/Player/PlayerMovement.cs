@@ -450,6 +450,18 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = 0f;
     }
 
+    public void StopImmediately()
+    {
+        currentMoveDirection = Vector3.zero;
+        turnSmoothVelocity = 0f;
+
+        if (currentAnim == null)
+            UpdateAnimator();
+
+        if (currentAnim != null)
+            currentAnim.SetFloat("Speed", 0f);
+    }
+
     public bool CanUseCoyoteTime()
     {
         return groundedRemember > 0;
