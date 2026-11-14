@@ -68,10 +68,8 @@ public class PlayerTransformation : MonoBehaviour
 
     [Header("VFX")]
     public ParticleSystem transformParticles;
-    public Light transformLight;
-    public GameObject glowSphere;
-    public float maxLightIntensity = 20f;
-    public float maxSphereScale = 3f;
+    public GameObject transformVFX;
+    public Vector3 transformVFXOffset = new Vector3(0f, 0.03f, 0f);
 
     private float currentSpeed;
     private float currentJumpHeight;
@@ -301,6 +299,20 @@ public class PlayerTransformation : MonoBehaviour
         float startTemperature = sunLight ? sunLight.colorTemperature : 6500f;
         float targetTemperature = turningToWolf ? nightTemperature : dayTemperature;
 
+        // Spawn the transformation VFX at the player's feet.
+        // It is parented to the player so it stays in place during the animation.
+        if (transformVFX != null)
+        {
+            GameObject spawnedVFX = Instantiate(
+                transformVFX,
+                transform.position + transformVFXOffset,
+                transform.rotation,
+                transform);
+
+            // Keep the effect for the duration of the transformation.
+            Destroy(spawnedVFX, transitionDuration);
+        }
+
         if (turningToWolf)
         {
             AudioManager.Instance?.PlaySFX("HumanWolf");
@@ -343,28 +355,6 @@ public class PlayerTransformation : MonoBehaviour
             {
                 nightVol.weight =
                     Mathf.Lerp(startNightWeight, turningToWolf ? 1f : 0f, t);
-            }
-
-            float burstCurve = Mathf.Pow(Mathf.Sin(t * Mathf.PI), 10f);
-
-            if (transformLight)
-            {
-                transformLight.intensity =
-                    burstCurve * maxLightIntensity;
-            }
-
-            if (glowSphere)
-            {
-                glowSphere.SetActive(true);
-                glowSphere.transform.localScale =
-                    Vector3.one * (burstCurve * maxSphereScale);
-
-                Material glowMat =
-                    glowSphere.GetComponent<MeshRenderer>().material;
-
-                glowMat.SetColor(
-                    "_EmissionColor",
-                    Color.white * (burstCurve * 50f));
             }
 
             if (!swapped && time >= transitionDuration / 2f)
@@ -413,16 +403,6 @@ public class PlayerTransformation : MonoBehaviour
         {
             sunLight.intensity = targetIntensity;
             sunLight.colorTemperature = targetTemperature;
-        }
-
-        if (transformLight)
-        {
-            transformLight.intensity = 0f;
-        }
-
-        if (glowSphere)
-        {
-            glowSphere.SetActive(false);
         }
 
         HumanAnimator.SetBool("IsTransforming", false);
