@@ -2876,6 +2876,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionTrigger
   targetScene: Overgrowth Fields
   targetSpawnID: ToOvergrowthFieldsFromBloomCavern
+  compassTarget: {fileID: 0}
+  blockWhileTutorialActive: 0
+  allowDuringSpecificTutorialState: 0
+  allowedTutorialState: 0
+  allowDuringAdditionalTutorialState: 0
+  additionalAllowedTutorialState: 0
+  blockedDialogueID: tutorial.blockedExit
 --- !u!1 &1562581130
 GameObject:
   m_ObjectHideFlags: 0
